@@ -1,6 +1,5 @@
 
-import by.epam.pharmasy.ResourceManager;
-import org.apache.logging.log4j.Level;
+import by.epam.task4.ResourceManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
@@ -15,7 +14,7 @@ public class LocaleTest {
     private StringBuffer stringBuffer;
     private static Logger logger = LogManager.getLogger();
     private static final String CORRECT_LINE = "Вітаем!\nСпіс лекаў\n" +
-            "Welcome!\nPharmacy List\n" +
+            "Welcome!\nMedicine List\n" +
             "Добро пожаловать!\nСписок препаратов\n";
 
     @BeforeMethod
@@ -51,7 +50,7 @@ public class LocaleTest {
             Locale current = new Locale(language, country);
             ResourceBundle resourceBundle = ResourceBundle.getBundle("message", current);
             stringBuffer.append(resourceBundle.getString("message.welcomePage") + '\n');
-            stringBuffer.append(resourceBundle.getString("label.header.pharmacyList") + '\n');
+            stringBuffer.append(resourceBundle.getString("label.header.medicineList") + '\n');
         }
         logger.info(stringBuffer.toString());
         String actual = stringBuffer.toString();
@@ -64,13 +63,13 @@ public class LocaleTest {
         ResourceManager manager = ResourceManager.INSTANCE;
         manager.changeResource(new Locale("be", "BY"));
         stringBuffer.append(manager.getString("message.welcomePage") + '\n');
-        stringBuffer.append(manager.getString("label.header.pharmacyList") + '\n');
+        stringBuffer.append(manager.getString("label.header.medicineList") + '\n');
         manager.changeResource(new Locale("en", "US"));
         stringBuffer.append(manager.getString("message.welcomePage") + '\n');
-        stringBuffer.append(manager.getString("label.header.pharmacyList") + '\n');
+        stringBuffer.append(manager.getString("label.header.medicineList") + '\n');
         manager.changeResource(new Locale("ru", "RU"));
         stringBuffer.append(manager.getString("message.welcomePage") + '\n');
-        stringBuffer.append(manager.getString("label.header.pharmacyList") + '\n');
+        stringBuffer.append(manager.getString("label.header.medicineList") + '\n');
         logger.info(stringBuffer.toString());
         String actual = stringBuffer.toString();
         Assert.assertEquals(actual, expected);

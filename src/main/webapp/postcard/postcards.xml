@@ -1,0 +1,69 @@
+<tns:postcards xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xmlns:tns="http://www.epam.by/postcards"
+               xsi:schemaLocation="http://www.epam.by/postcards postcards.xsd">
+
+    <tns:postcard card-type="advertising" sent="true" id="card1">
+        <tns:theme>City Scape</tns:theme>
+        <tns:valuable-postcards-characteristics valuable="historical">
+            <tns:card-type>Advertising</tns:card-type>
+            <tns:country>Belarus</tns:country>
+            <tns:year>1900</tns:year>
+            <tns:author>
+                <tns:name>Johnny</tns:name>
+                <tns:lastname>Flowers</tns:lastname>
+            </tns:author>
+        </tns:valuable-postcards-characteristics>
+    </tns:postcard>
+
+    <tns:postcard card-type="congratulations" sent="false" id="card2">
+        <tns:theme>Nature</tns:theme>
+        <tns:valuable-postcards-characteristics valuable="collection">
+            <tns:card-type>congratulations</tns:card-type>
+            <tns:country>Great Britain</tns:country>
+            <tns:year>1970</tns:year>
+            <tns:author>
+                <tns:name>Tim</tns:name>
+                <tns:lastname>Curry</tns:lastname>
+            </tns:author>
+        </tns:valuable-postcards-characteristics>
+    </tns:postcard>
+
+    <tns:postcard card-type="ordinary" sent="true" id="card3">
+        <tns:theme>People</tns:theme>
+        <tns:valuable-postcards-characteristics valuable="thematic">
+            <tns:card-type>Ordinary</tns:card-type>
+            <tns:country>USA</tns:country>
+            <tns:year>1985</tns:year>
+            <tns:author>
+                <tns:name>Philip</tns:name>
+                <tns:lastname>Dick</tns:lastname>
+            </tns:author>
+        </tns:valuable-postcards-characteristics>
+    </tns:postcard>
+
+    <tns:postcard card-type="congratulations" sent="false" id="card4">
+        <tns:theme>Religion</tns:theme>
+        <tns:valuable-postcards-characteristics valuable="collection">
+            <tns:card-type>Congratulations</tns:card-type>
+            <tns:country>Philippine</tns:country>
+            <tns:year>1989</tns:year>
+            <tns:author>
+                <tns:name>Amy</tns:name>
+                <tns:lastname>Stark</tns:lastname>
+            </tns:author>
+        </tns:valuable-postcards-characteristics>
+    </tns:postcard>
+
+    <tns:postcard card-type="advertising" sent="true" id="card5">
+        <tns:theme>Art</tns:theme>
+        <tns:valuable-postcards-characteristics valuable="thematic">
+            <tns:card-type></tns:card-type>
+            <tns:country>Japan</tns:country>
+            <tns:year>2342</tns:year>
+            <tns:author>
+                <tns:name>Tanaki</tns:name>
+                <tns:lastname>Katzumi</tns:lastname>
+            </tns:author>
+        </tns:valuable-postcards-characteristics>
+    </tns:postcard>
+</tns:postcards>

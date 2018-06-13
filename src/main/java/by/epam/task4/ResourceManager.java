@@ -1,4 +1,4 @@
-package by.epam.pharmasy;
+package by.epam.task4;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
