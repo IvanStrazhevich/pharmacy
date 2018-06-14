@@ -1,5 +1,7 @@
 package by.epam.task4.web;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -9,7 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.*;
 
-@WebServlet(name = "FileUploadingServlet", urlPatterns = {"/WelcomePage", "/UploadPage", "/ResultPage"})
+@WebServlet(name = "FileUploadingServlet",
+        urlPatterns = {"/WelcomePage", "/UploadPage", "/ResultPage"})
 @MultipartConfig(location = ""//The directory location where files will be stored
         , fileSizeThreshold = 1024 * 1024
         , maxFileSize = 1024 * 1024 * 5
@@ -41,14 +44,12 @@ public class FileUploadingServlet extends HttpServlet {
                     if (part.getSubmittedFileName() != null) {
                         part.write(uploadFilePath + File.separator + part.getSubmittedFileName());
                         if (request.getRequestDispatcher("/jsp/ResultPage.jsp") != null) {
-                            request.setAttribute("Result Message", part.getSubmittedFileName() + " upload successfully");
-                            request.setAttribute("action", "To ResultPage");
+                            request.setAttribute("result", part.getSubmittedFileName() + " upload successfully");
                             request.getRequestDispatcher("/jsp/ResultPage.jsp").forward(request, response);
                         }
                     }
                 }
             }
-
         }
     }
 
