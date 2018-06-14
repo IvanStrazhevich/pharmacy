@@ -2,12 +2,14 @@ package by.epam.task4.web;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.*;
 
+@WebServlet(name = "FileUploadingServlet", urlPatterns = {"/WelcomePage", "/UploadPage", "/ResultPage"})
 @MultipartConfig(location = ""//The directory location where files will be stored
         , fileSizeThreshold = 1024 * 1024
         , maxFileSize = 1024 * 1024 * 5
@@ -18,13 +20,13 @@ public class FileUploadingServlet extends HttpServlet {
     private void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=utf-8");
         String action = request.getParameter("action");
-        if (action.equals("UploadPage")) {
+        if (action.equals("WelcomePage")) {
+            if (request.getRequestDispatcher("/jsp/WelcomePage.jsp") != null) {
+                request.getRequestDispatcher("/jsp/WelcomePage.jsp").forward(request, response);
+            }
+        } else if (action.equals("UploadPage")) {
             if (request.getRequestDispatcher("/jsp/UploadPage.jsp") != null) {
                 request.getRequestDispatcher("/jsp/UploadPage.jsp").forward(request, response);
-            }
-        } else if (action.equals("WelcomePage")) {
-            if(request.getRequestDispatcher("/jsp/WelcomePage.jsp")!=null){
-            request.getRequestDispatcher("/jsp/WelcomePage.jsp").forward(request, response);
             }
         } else if (action.equals("ResultPage")) {
             String applicationPath = request.getServletContext().getRealPath("");

@@ -18,7 +18,8 @@ You forgot to choose file. You can fix it here:<hr>
     <input type="hidden" name="action" value="UploadPage">
 </form>
 Or you may switch to: <hr>
-<form action="WelcomePage">
+<form action="WelcomePage"
+      method="post">
     <input type="hidden" name="action" value="WelcomePage">
     <input type="submit" style="color: darkslateblue" value="Welcome Page">
 </form>

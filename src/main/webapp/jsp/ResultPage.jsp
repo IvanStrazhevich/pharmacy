@@ -12,7 +12,8 @@
 </head>
 <body>
 File successfully loaded
-<form action="WelcomePage">
+<form action="WelcomePage"
+      method="post">
     <input type="hidden" name="action" value="WelcomePage">
     <input type="submit" style="color: darkslateblue" value="Welcome Page">
 </form>

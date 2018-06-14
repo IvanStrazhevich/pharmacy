@@ -13,7 +13,8 @@
 <body>
 Smth went wrong <hr>
 You may switch to: <hr>
-<form action="WelcomePage">
+<form action="WelcomePage"
+      method="post">
     <input type="hidden" name="action" value="WelcomePage">
     <input type="submit" style="color: darkslateblue" value="Welcome Page">
 </form>

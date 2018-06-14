@@ -3,8 +3,8 @@
         "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-    <display-name>Archetype Created Web Application</display-name>
-    <servlet>
+    <display-name>XML-Parsing-app</display-name>
+    <!--<servlet>
         <servlet-name>FileUploadingServlet</servlet-name>
         <servlet-class>by.epam.task4.web.FileUploadingServlet</servlet-class>
     </servlet>
@@ -19,7 +19,7 @@
     <servlet-mapping>
         <servlet-name>FileUploadingServlet</servlet-name>
         <url-pattern>/ResultPage</url-pattern>
-    </servlet-mapping>
+    </servlet-mapping>-->
     <welcome-file-list>
         <welcome-file>/jsp/WelcomePage.jsp</welcome-file>
     </welcome-file-list>
