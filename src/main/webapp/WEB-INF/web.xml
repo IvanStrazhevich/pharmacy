@@ -1,7 +1,34 @@
 <!DOCTYPE web-app PUBLIC
- "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
- "http://java.sun.com/dtd/web-app_2_3.dtd" >
+        "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+        "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-  <display-name>Archetype Created Web Application</display-name>
+    <display-name>Archetype Created Web Application</display-name>
+    <servlet>
+        <servlet-name>FileUploadingServlet</servlet-name>
+        <servlet-class>by.epam.task4.web.FileUploadingServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FileUploadingServlet</servlet-name>
+        <url-pattern>/UploadPage</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FileUploadingServlet</servlet-name>
+        <url-pattern>/WelcomePage</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FileUploadingServlet</servlet-name>
+        <url-pattern>/ResultPage</url-pattern>
+    </servlet-mapping>
+    <welcome-file-list>
+        <welcome-file>/jsp/WelcomePage.jsp</welcome-file>
+    </welcome-file-list>
+    <error-page>
+        <exception-type>javax.servlet.ServletException</exception-type>
+        <location>/jsp/ErrorPage.jsp</location>
+    </error-page>
+    <error-page>
+        <exception-type>java.io.IOException</exception-type>
+        <location>/jsp/MissedFilePage.jsp</location>
+    </error-page>
 </web-app>
