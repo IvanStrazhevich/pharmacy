@@ -1,5 +1,5 @@
 
-import by.epam.task4.ResourceManager;
+import by.epam.pharmacy.ResourceManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.Assert;

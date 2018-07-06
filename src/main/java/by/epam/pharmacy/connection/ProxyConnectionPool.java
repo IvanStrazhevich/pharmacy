@@ -1,0 +1,122 @@
+package by.epam.pharmacy.connection;
+
+import by.epam.pharmacy.exception.PharmacyPoolException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Properties;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.locks.ReentrantLock;
+
+public class ProxyConnectionPool {
+    private static final int MAX_CONNECTIONS = 32;
+    private static final int MIN_CONNECTIONS = 10;
+    private static final int NORMALIZATION_LIMIT_FOR_CONNECTIONS = 20;
+    private static Logger logger = LogManager.getLogger();
+    private static ProxyConnectionPool connectionPool;
+    private LinkedBlockingDeque<ProxyConnection> connectionPoolFree = new LinkedBlockingDeque<>();
+    private LinkedBlockingDeque<ProxyConnection> connectionInUse = new LinkedBlockingDeque<>();
+    private Properties properties = new Properties();
+    private static ReentrantLock lock = new ReentrantLock();
+
+    private ProxyConnectionPool() {
+        try {
+            properties.load(getClass().getClassLoader().getResourceAsStream("connection.properties"));
+            String url = properties.getProperty("url");
+            int poolsize = Integer.valueOf(properties.getProperty("poolsize"));
+            for (int i = 0; i < poolsize; i++) {
+                ProxyConnection proxyConnection = new ProxyConnection();
+                proxyConnection.setConnection(DriverManager.getConnection(url, properties));
+                connectionPoolFree.add(proxyConnection);
+            }
+        } catch (IOException e) {
+            logger.error("Property file not found ", e);
+        } catch (SQLException e) {
+            logger.error("Data base is not reachable", e);
+        }
+    }
+
+    public static ProxyConnectionPool getConnectionPool() {
+        if (null == connectionPool) {
+            try {
+                lock.lock();
+                if (null == connectionPool) {
+                    connectionPool = new ProxyConnectionPool();
+                }
+            } finally {
+                lock.unlock();
+            }
+        }
+        return connectionPool;
+    }
+
+    public void closeAll() throws PharmacyPoolException {
+      /*  try {
+            int usedsize=connectionInUse.size();
+            for (int i=0;i<usedsize; i++ ){
+                logger.info(connectionPoolFree.size() + " i: " + i + " opened");
+                connectionInUse.take().getConnection().close();
+            }
+        } catch (SQLException | InterruptedException e) {
+            e.printStackTrace();
+        }*/
+        try {
+            int poolsize = connectionPoolFree.size();
+            for (int i = 0; i < poolsize; i++) {
+                logger.info(connectionPoolFree.size() + " i: " + i + " in pool");
+                connectionPoolFree.take().getConnection().close();
+            }
+        } catch (SQLException | InterruptedException e) {
+            throw new PharmacyPoolException("Closing proxyConnection error", e);
+        }
+    }
+    private void optimizePool() throws PharmacyPoolException{
+        try {
+            while (connectionPoolFree.size() > MIN_CONNECTIONS) {
+                logger.info("Optimisation " + connectionPoolFree.size());
+                connectionPoolFree.take().getConnection().close();
+            }
+        } catch (SQLException | InterruptedException e) {
+            throw new PharmacyPoolException("Closing proxyConnection error", e);
+        }
+    }
+
+    public ProxyConnection getConnection() throws PharmacyPoolException {
+        logger.info("Connections avalable" + connectionPoolFree.size());
+        ProxyConnection proxyConnection = null;
+        try {
+            if (connectionPoolFree.size() == 0 && connectionPoolFree.size() < MAX_CONNECTIONS) {
+                logger.info("Connection adding");
+                String url = properties.getProperty("url");
+                ProxyConnection additionalProxyConnection = new ProxyConnection();
+                additionalProxyConnection.setConnection(DriverManager.getConnection(url, properties));
+                connectionPoolFree.add(additionalProxyConnection);
+            } else if (connectionPoolFree.size() > NORMALIZATION_LIMIT_FOR_CONNECTIONS) {
+                optimizePool();
+            }
+            proxyConnection = connectionPoolFree.take();
+        } catch (InterruptedException e) {
+            throw new PharmacyPoolException("Gettinging proxyConnection error", e);
+        } catch (SQLException e) {
+            throw new PharmacyPoolException("Adding proxyConnection error", e);
+        }
+        logger.info("added" + proxyConnection);
+        logger.info("pool free: " + connectionPoolFree);
+        connectionInUse.add(proxyConnection);
+        logger.info("pool in use: " + connectionInUse);
+
+        return proxyConnection;
+    }
+
+    void releaseConnection(ProxyConnection proxyConnection){
+        logger.info("returning connection to pool");
+        logger.info("Connection " + proxyConnection + " is in " + connectionInUse.contains(proxyConnection) + connectionInUse);
+        connectionInUse.remove(proxyConnection);
+        connectionPoolFree.add(proxyConnection);
+        logger.info("Connection returned to free poll " + connectionPoolFree);
+        logger.info("Connection deleted from in use " + connectionInUse);
+    }
+}
