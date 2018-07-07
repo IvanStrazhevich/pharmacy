@@ -1,4 +1,4 @@
-package by.epam.pharmacy;
+package by.epam.pharmacy.service;
 
 import by.epam.pharmacy.web.PagesEnum;
 import org.apache.logging.log4j.LogManager;
@@ -11,13 +11,13 @@ import javax.servlet.http.Part;
 import java.io.File;
 import java.io.IOException;
 
-public class XmlReadHandler implements RequestHandler {
+public class FileReadHandler implements RequestHandler {
     private static final String UPLOAD_DIR = "uploads";
-    private RequestHandler requestHandler;
     Logger logger = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        WelcomePageHandler.langDefinition(request);
         String applicationPath = request.getServletContext().getRealPath("");//new File("").getAbsolutePath();
         String uploadFilePath = applicationPath + UPLOAD_DIR;
         String filename = null;

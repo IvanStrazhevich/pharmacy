@@ -1,4 +1,4 @@
-package by.epam.pharmacy;
+package by.epam.pharmacy.service;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

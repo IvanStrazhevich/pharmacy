@@ -2,7 +2,7 @@ package by.epam.pharmacy.web;
 
 
 import by.epam.pharmacy.exception.PharmacyServletException;
-import by.epam.pharmacy.RequestHandler;
+import by.epam.pharmacy.service.RequestHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

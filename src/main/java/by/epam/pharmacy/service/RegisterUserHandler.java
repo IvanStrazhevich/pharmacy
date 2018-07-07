@@ -1,6 +1,6 @@
-package by.epam.pharmacy;
+package by.epam.pharmacy.service;
 
-import by.epam.pharmacy.dao.impl.UserDao;
+import by.epam.pharmacy.dao.impl.AuthentificationDao;
 import by.epam.pharmacy.entity.User;
 import by.epam.pharmacy.exception.DaoException;
 import by.epam.pharmacy.exception.EncriptingException;
@@ -12,10 +12,7 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.jstl.core.Config;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class RegisterUserHandler implements RequestHandler {
     private static final String MESSAGE_USER_EXIST = "message.userExist";
@@ -26,8 +23,8 @@ public class RegisterUserHandler implements RequestHandler {
 
     private boolean createUser(User user) throws DaoException {
         boolean flag = false;
-        try (UserDao userDao = new UserDao()) {
-            flag = userDao.create(user);
+        try (AuthentificationDao authentificationDao = new AuthentificationDao()) {
+            flag = authentificationDao.create(user);
 
         } catch (DaoException e) {
             throw new DaoException(e);
@@ -37,8 +34,8 @@ public class RegisterUserHandler implements RequestHandler {
 
     private ArrayList<User> getUserslist() throws DaoException {
         ArrayList<User> users = new ArrayList<>();
-        try (UserDao userDao = new UserDao()) {
-            users = userDao.findAll();
+        try (AuthentificationDao authentificationDao = new AuthentificationDao()) {
+            users = authentificationDao.findAll();
         } catch (DaoException e) {
             throw new DaoException(e);
         }
@@ -46,9 +43,8 @@ public class RegisterUserHandler implements RequestHandler {
     }
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        ResourceManager.INSTANCE.changeResource(new Locale(Config.FMT_LOCALE));
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException{
+        WelcomePageHandler.langDefinition(request);
         String login = request.getParameter("login");
         String password = request.getParameter("password");
         String shalogin = null;
@@ -63,7 +59,7 @@ public class RegisterUserHandler implements RequestHandler {
 
             for (User user : list) {
                 if (request.getSession().getAttribute("Login") == null) {
-                    String loginDB = user.getLogin();
+                    String loginDB = user.getAuLogin();
                     if (shalogin.equals(loginDB)) {
                         request.setAttribute(AttributeEnum.USER_EXIST.getValue(), ResourceManager.INSTANCE.getString(MESSAGE_USER_EXIST));
                         page = PagesEnum.REGISTER_PAGE.getValue();
@@ -74,8 +70,8 @@ public class RegisterUserHandler implements RequestHandler {
             }
             if (!flag) {
                 User user = new User();
-                user.setLogin(shalogin);
-                user.setPassword(shaPassword);
+                user.setAuLogin(shalogin);
+                user.setAuPassword(shaPassword);
                 if (createUser(user)) {
                     request.getSession().setAttribute(AttributeEnum.LOGGED.getValue(), AttributeEnum.LANG.getValue());
                     request.setAttribute(AttributeEnum.USER_REGISTERED.getValue(), ResourceManager.INSTANCE.getString(MESSAGE_USER_REGISTERED));

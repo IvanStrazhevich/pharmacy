@@ -1,6 +1,6 @@
 package by.epam.pharmacy.connection;
 
-import by.epam.pharmacy.exception.PharmacyPoolException;
+import by.epam.pharmacy.exception.ProxyPoolException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -53,7 +53,7 @@ public class ProxyConnectionPool {
         return connectionPool;
     }
 
-    public void closeAll() throws PharmacyPoolException {
+    public void closeAll() throws ProxyPoolException {
       /*  try {
             int usedsize=connectionInUse.size();
             for (int i=0;i<usedsize; i++ ){
@@ -70,21 +70,21 @@ public class ProxyConnectionPool {
                 connectionPoolFree.take().getConnection().close();
             }
         } catch (SQLException | InterruptedException e) {
-            throw new PharmacyPoolException("Closing proxyConnection error", e);
+            throw new ProxyPoolException("Closing proxyConnection error", e);
         }
     }
-    private void optimizePool() throws PharmacyPoolException{
+    private void optimizePool() throws ProxyPoolException {
         try {
             while (connectionPoolFree.size() > MIN_CONNECTIONS) {
                 logger.info("Optimisation " + connectionPoolFree.size());
                 connectionPoolFree.take().getConnection().close();
             }
         } catch (SQLException | InterruptedException e) {
-            throw new PharmacyPoolException("Closing proxyConnection error", e);
+            throw new ProxyPoolException("Closing proxyConnection error", e);
         }
     }
 
-    public ProxyConnection getConnection() throws PharmacyPoolException {
+    public ProxyConnection getConnection() throws ProxyPoolException {
         logger.info("Connections avalable" + connectionPoolFree.size());
         ProxyConnection proxyConnection = null;
         try {
@@ -99,9 +99,9 @@ public class ProxyConnectionPool {
             }
             proxyConnection = connectionPoolFree.take();
         } catch (InterruptedException e) {
-            throw new PharmacyPoolException("Gettinging proxyConnection error", e);
+            throw new ProxyPoolException("Gettinging proxyConnection error", e);
         } catch (SQLException e) {
-            throw new PharmacyPoolException("Adding proxyConnection error", e);
+            throw new ProxyPoolException("Adding proxyConnection error", e);
         }
         logger.info("added" + proxyConnection);
         logger.info("pool free: " + connectionPoolFree);

@@ -1,24 +1,25 @@
-package by.epam.pharmacy;
+package by.epam.pharmacy.service;
 
 import by.epam.pharmacy.web.AttributeEnum;
 import by.epam.pharmacy.web.PagesEnum;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import javax.servlet.ServletException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.jstl.core.Config;
-import java.io.IOException;
-import java.util.Locale;
 
-public class WelcomePageHandler implements RequestHandler {
+public class UploadPageHandler implements RequestHandler {
+    private static Logger logger = LogManager.getLogger();
     private static final String MESSAGE = "message.needLogin";
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        ResourceManager.INSTANCE.changeResource(new Locale(Config.FMT_LOCALE));
+    public String execute(HttpServletRequest request, HttpServletResponse response){
+        logger.info(request.getParameter(AttributeEnum.LANG.getValue()));
+        WelcomePageHandler.langDefinition(request);
         String page = null;
         if (request.getSession().getAttribute(AttributeEnum.LOGGED.getValue()) != null) {
-            page = PagesEnum.WELCOME_PAGE.getValue();
+            page = PagesEnum.UPLOAD_PAGE.getValue();
         } else {
             request.setAttribute(AttributeEnum.NEED_LOGIN.getValue(), ResourceManager.INSTANCE.getString(MESSAGE));
             page = PagesEnum.LOGIN_PAGE.getValue();

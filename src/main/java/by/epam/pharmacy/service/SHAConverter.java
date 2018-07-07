@@ -1,4 +1,4 @@
-package by.epam.pharmacy;
+package by.epam.pharmacy.service;
 
 import by.epam.pharmacy.exception.EncriptingException;
 import org.apache.logging.log4j.LogManager;

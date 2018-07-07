@@ -1,6 +1,5 @@
 package by.epam.pharmacy.web;
 
-import by.epam.pharmacy.*;
 import by.epam.pharmacy.exception.PharmacyServletException;
 import by.epam.pharmacy.service.*;
 
@@ -28,7 +27,7 @@ public class MapCreator {
                     servletMap.put(command.getValue(), new UploadPageHandler());
                     break;
                 case UPLOAD_RESULT_PAGE:
-                    servletMap.put(command.getValue(), new XmlReadHandler());
+                    servletMap.put(command.getValue(), new FileReadHandler());
                     break;
                 case REGISTER_USER:
                     servletMap.put(command.getValue(), new RegisterUserHandler());

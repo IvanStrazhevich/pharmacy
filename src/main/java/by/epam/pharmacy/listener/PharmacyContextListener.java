@@ -1,7 +1,7 @@
 package by.epam.pharmacy.listener;
 
 import by.epam.pharmacy.connection.ProxyConnectionPool;
-import by.epam.pharmacy.exception.PharmacyPoolException;
+import by.epam.pharmacy.exception.ProxyPoolException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -29,7 +29,7 @@ public class PharmacyContextListener implements ServletContextListener {
     public void contextDestroyed(ServletContextEvent sce) {
         try {
             ProxyConnectionPool.getConnectionPool().closeAll();
-        } catch (PharmacyPoolException e) {
+        } catch (ProxyPoolException e) {
             e.printStackTrace();
         } finally {
             DriverManager.drivers().forEach(s -> {

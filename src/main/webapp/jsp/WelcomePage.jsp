@@ -39,9 +39,9 @@ ${greeting}
 method="get">
     <fmt:message key="label.button.language" bundle="${rb}"/>
 <select name="lang" style="background: #38b3cd; color: #616161">
-    <option value="be">be</option>
-    <option value="ru">ru</option>
-    <option value="en">en</option>
+    <option value="be_BY">be</option>
+    <option value="ru_RU">ru</option>
+    <option value="en_US">en</option>
 </select>
    <br>
     <input type="submit" style="color: #616161" value="<fmt:message key="label.button.UploadPage" bundle="${rb}"/>">
