@@ -11,16 +11,16 @@
     <title>Upload Result Page</title>
 </head>
 <style type="text/css">
-    TABLE {
+    table {
         border-collapse: collapse;
     }
 
-    TD, TH {
+    td,th {
         padding: 3px;
         border: 1px solid rgba(30, 66, 84, 0.97);
     }
 
-    TH {
+    th {
         background: #38b3cd; /* Цвет фона */
     }
 
@@ -37,12 +37,12 @@
 <body>
 
 ${result}
-${parser}<br>
+<br>
 
 
 <div>
     <h4>
-        <table style="color: #616161">
+       <%-- <table style="color: #616161">
             <tr>
                 <th><fmt:message key="label.header.PostcardId" bundle="${rb}"/> </th>
                 <th><fmt:message key="label.header.Theme" bundle="${rb}"/></th>
@@ -67,7 +67,7 @@ ${parser}<br>
                 </tr>
             </c:forEach><br>
 
-        </table>
+        </table>--%>
     </h4>
 </div>
 <form action="WelcomePage"

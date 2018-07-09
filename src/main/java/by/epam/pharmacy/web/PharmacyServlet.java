@@ -41,14 +41,17 @@ public class PharmacyServlet extends HttpServlet {
         response.setContentType("text/html;charset=utf-8");
         String action = request.getParameter("action");
         RequestHandler requestHandler = servletMap.get(action);
+        logger.info(action);
         String page = requestHandler.execute(request, response);
         if (page != null) {
             if (request.getRequestDispatcher(page) != null) {
+                //response.sendRedirect(request.getContextPath()+page);
                 request.getRequestDispatcher(page).forward(request, response);
             }
         } else {
             if (request.getRequestDispatcher(PagesEnum.ERROR_PAGE.getValue()) != null) {
-                request.getRequestDispatcher(PagesEnum.ERROR_PAGE.getValue()).forward(request, response);
+                response.sendRedirect(request.getContextPath() + PagesEnum.ERROR_PAGE.getValue());
+                //request.getRequestDispatcher(PagesEnum.ERROR_PAGE.getValue()).forward(request, response);
             }
         }
     }

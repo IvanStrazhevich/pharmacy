@@ -5,9 +5,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class RegisterPageHandler implements RequestHandler {
+    private LanguageSwitchable languageSwitcher = new LanguageSwitcher();
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        WelcomePageHandler.langDefinition(request);
+        languageSwitcher.langSwitch(request);
         return PagesEnum.REGISTER_PAGE.getValue();
+    }
+
+    public void setLanguageSwitcher(LanguageSwitchable languageSwitcher) {
+        this.languageSwitcher = languageSwitcher;
     }
 }

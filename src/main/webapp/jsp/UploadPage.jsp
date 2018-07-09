@@ -43,12 +43,6 @@
     <input type="file" style="color: #616161" name="content"
            value="<fmt:message key="label.button.choosefile" bundle="${rb}"/>">
     <input type="hidden" name="action" value="UploadResultPage">
-    <fmt:message key="message.chooseParser" bundle="${rb}"/>
-    <select name="parser" style="background: #38b3cd; color: #616161">
-        <option value="${dom}">${dom}</option>
-        <option value="${sax}">${sax}</option>
-        <option value="${stax}">${stax}</option>
-    </select>
     <input type="submit" style="color: #616161" value="<fmt:message key="label.button.uploadfile" bundle="${rb}"/>">
 </form>
 <form action="WelcomePage"

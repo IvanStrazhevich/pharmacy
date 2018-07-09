@@ -19,7 +19,8 @@ public class RegisterUserHandler implements RequestHandler {
     private static final String MESSAGE_USER_REGISTERED = "message.userRegistered";
     private static final String MESSAGE_USER_NOT_REGISTERED = "message.userNotRegistered";
     private static Logger logger = LogManager.getLogger();
-    private SHAConverter shaConverter = new SHAConverter();
+    private Encodable encoder = new SHAConverter();
+    private LanguageSwitchable languageSwitcher = new LanguageSwitcher();
 
     private boolean createUser(User user) throws DaoException {
         boolean flag = false;
@@ -44,7 +45,7 @@ public class RegisterUserHandler implements RequestHandler {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException{
-        WelcomePageHandler.langDefinition(request);
+        languageSwitcher.langSwitch(request);
         String login = request.getParameter("login");
         String password = request.getParameter("password");
         String shalogin = null;
@@ -53,8 +54,8 @@ public class RegisterUserHandler implements RequestHandler {
         try {
             ArrayList<User> list = new ArrayList();
             list = getUserslist();
-            shalogin = shaConverter.convertToSHA1(login);
-            shaPassword = shaConverter.convertToSHA1(password);
+            shalogin = encoder.encode(login);
+            shaPassword = encoder.encode(password);
             boolean flag = false;
 
             for (User user : list) {
@@ -86,5 +87,13 @@ public class RegisterUserHandler implements RequestHandler {
             throw new ServletException(e);
         }
         return page;
+    }
+
+    public void setLanguageSwitcher(LanguageSwitchable languageSwitcher) {
+        this.languageSwitcher = languageSwitcher;
+    }
+
+    public void setEncoder(Encodable encoder) {
+        this.encoder = encoder;
     }
 }

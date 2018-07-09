@@ -22,6 +22,7 @@ public class ProxyConnectionPool {
     private Properties properties = new Properties();
     private static ReentrantLock lock = new ReentrantLock();
 
+
     private ProxyConnectionPool() {
         try {
             properties.load(getClass().getClassLoader().getResourceAsStream("connection.properties"));
@@ -73,6 +74,7 @@ public class ProxyConnectionPool {
             throw new ProxyPoolException("Closing proxyConnection error", e);
         }
     }
+
     private void optimizePool() throws ProxyPoolException {
         try {
             while (connectionPoolFree.size() > MIN_CONNECTIONS) {
@@ -111,7 +113,7 @@ public class ProxyConnectionPool {
         return proxyConnection;
     }
 
-    void releaseConnection(ProxyConnection proxyConnection){
+    void releaseConnection(ProxyConnection proxyConnection) {
         logger.info("returning connection to pool");
         logger.info("Connection " + proxyConnection + " is in " + connectionInUse.contains(proxyConnection) + connectionInUse);
         connectionInUse.remove(proxyConnection);

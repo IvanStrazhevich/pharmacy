@@ -1,9 +1,7 @@
 package by.epam.pharmacy.web;
 
 public enum AttributeEnum {
-    LANG("lang"), DOM("dom"), SAX("sax"), STAX("stax"),
-    NEED_LOGIN("needLogin"), SUCCESS("success"),
-    PARSER("parser"), RESULT("result"), POSTCARDS("postcards"),
+    LANG("lang"), NEED_LOGIN("needLogin"),
     LOGIN("login"), PASSWORD("password"),
     LOGGED("logged"),
     USER_EXIST("userExist"), USER_REGISTERED("userRegistered"),

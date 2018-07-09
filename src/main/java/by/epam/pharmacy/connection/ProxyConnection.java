@@ -12,7 +12,7 @@ public class ProxyConnection {
     private Connection connection;
     ProxyConnection(){}
 
-    public void close() throws SQLException {
+    public void close() {
         logger.info("closing proxy connection");
         ProxyConnectionPool.getConnectionPool().releaseConnection(this);
     }

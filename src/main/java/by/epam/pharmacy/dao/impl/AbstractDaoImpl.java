@@ -41,14 +41,9 @@ public abstract class AbstractDaoImpl<T> implements AbstractDao<T> {
 
     public void close() throws DaoException {
         if (proxyConnection != null) {
-            try {
-                logger.info("closing dao");
-                proxyConnection.close();
+            logger.info("closing dao");
+            proxyConnection.close();
 
-            } catch (SQLException e) {
-                throw new DaoException("Exception on closing proxyConnection", e);
-            }
         }
     }
-
 }

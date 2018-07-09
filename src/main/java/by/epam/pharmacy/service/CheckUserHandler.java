@@ -17,11 +17,12 @@ import java.util.ArrayList;
 
 public class CheckUserHandler implements RequestHandler {
     private static Logger logger = LogManager.getLogger();
-    private SHAConverter shaConverter = new SHAConverter();
     private static final String MESSAGE = "message.wrongloginAndPass";
     private static final String MESSAGE_SUCCESS = "message.loginOk";
+    private Encodable encoder = new SHAConverter();
+    private LanguageSwitchable languageSwitcher = new LanguageSwitcher();
 
-    private ArrayList<User> getUserslist() throws DaoException {
+    private ArrayList<User> getUsersList() throws DaoException {
         ArrayList<User> users = new ArrayList<>();
         try (AuthentificationDao authentificationDao = new AuthentificationDao()) {
             users = authentificationDao.findAll();
@@ -34,15 +35,15 @@ public class CheckUserHandler implements RequestHandler {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String page = null;
-        WelcomePageHandler.langDefinition(request);
+        languageSwitcher.langSwitch(request);
         String login = request.getParameter(AttributeEnum.LOGIN.getValue());
         String password = request.getParameter(AttributeEnum.PASSWORD.getValue());
         Boolean logeed = false;
         try {
             ArrayList<User> list = new ArrayList();
-            list = getUserslist();
-            String shaLogin = shaConverter.convertToSHA1(login);
-            String shaPassword = shaConverter.convertToSHA1(password);
+            list = getUsersList();
+            String shaLogin = encoder.encode(login);
+            String shaPassword = encoder.encode(password);
             for (int i = 0; i < list.size() && !logeed; i++) {
                 User user = list.get(i);
                 if (request.getSession().getAttribute(AttributeEnum.LOGGED.getValue()) == null) {
@@ -66,8 +67,12 @@ public class CheckUserHandler implements RequestHandler {
         return page;
     }
 
-    public void setShaConverter(SHAConverter shaConverter) {
-        this.shaConverter = shaConverter;
+    public void setLanguageSwitcher(LanguageSwitchable languageSwitcher) {
+        this.languageSwitcher = languageSwitcher;
+    }
+
+    public void setEncoder(Encodable encoder) {
+        this.encoder = encoder;
     }
 }
 

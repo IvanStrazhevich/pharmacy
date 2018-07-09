@@ -13,11 +13,12 @@ import java.io.IOException;
 
 public class FileReadHandler implements RequestHandler {
     private static final String UPLOAD_DIR = "uploads";
+    LanguageSwitchable languageSwitcher = new LanguageSwitcher();
     Logger logger = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        WelcomePageHandler.langDefinition(request);
+        languageSwitcher.langSwitch(request);
         String applicationPath = request.getServletContext().getRealPath("");//new File("").getAbsolutePath();
         String uploadFilePath = applicationPath + UPLOAD_DIR;
         String filename = null;
@@ -39,6 +40,7 @@ public class FileReadHandler implements RequestHandler {
 
         return PagesEnum.UPLOAD_RESULT_PAGE.getValue();
     }
-
-
+    public void setLanguageSwitcher(LanguageSwitchable languageSwitcher) {
+        this.languageSwitcher = languageSwitcher;
+    }
 }

@@ -11,11 +11,12 @@ import java.io.IOException;
 import java.util.Locale;
 
 public class LoginPageHandler implements RequestHandler {
+    private LanguageSwitchable languageSwitcher = new LanguageSwitcher();
     private static final String MESSAGE = "message.needLogin";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        WelcomePageHandler.langDefinition(request);
+        languageSwitcher.langSwitch(request);
         String page = null;
         ResourceManager.INSTANCE.changeResource(new Locale(request.getSession().getAttribute(AttributeEnum.LANG.getValue()).toString()));
         if (request.getSession().getAttribute(AttributeEnum.LOGGED.getValue()) == null) {
@@ -25,5 +26,9 @@ public class LoginPageHandler implements RequestHandler {
             page = PagesEnum.WELCOME_PAGE.getValue();
         }
         return page;
+    }
+
+    public void setLanguageSwitcher(LanguageSwitchable languageSwitcher) {
+        this.languageSwitcher = languageSwitcher;
     }
 }

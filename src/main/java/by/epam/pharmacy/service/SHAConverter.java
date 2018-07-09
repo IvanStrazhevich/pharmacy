@@ -8,14 +8,15 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class SHAConverter {
+public class SHAConverter implements Encodable{
     private static Logger logger = LogManager.getLogger();
     private static final String ENCODE="SHA-1";
 
     public SHAConverter() {
     }
 
-    public String convertToSHA1(String string) throws EncriptingException {
+    @Override
+    public String encode(String string) throws EncriptingException {
         byte[] digest = null;
         try {
             MessageDigest md = MessageDigest.getInstance(ENCODE);
