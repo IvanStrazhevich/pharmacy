@@ -12,9 +12,9 @@ import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class ProxyConnectionPool {
-    private static final int MAX_CONNECTIONS = 32;
+    private static final int MAX_CONNECTIONS = 20;
     private static final int MIN_CONNECTIONS = 10;
-    private static final int NORMALIZATION_LIMIT_FOR_CONNECTIONS = 20;
+    private static final int NORMALIZATION_LIMIT_FOR_CONNECTIONS = 15;
     private static Logger logger = LogManager.getLogger();
     private static ProxyConnectionPool connectionPool;
     private LinkedBlockingDeque<ProxyConnection> connectionPoolFree = new LinkedBlockingDeque<>();
@@ -55,15 +55,6 @@ public class ProxyConnectionPool {
     }
 
     public void closeAll() throws ProxyPoolException {
-      /*  try {
-            int usedsize=connectionInUse.size();
-            for (int i=0;i<usedsize; i++ ){
-                logger.info(connectionPoolFree.size() + " i: " + i + " opened");
-                connectionInUse.take().getConnection().close();
-            }
-        } catch (SQLException | InterruptedException e) {
-            e.printStackTrace();
-        }*/
         try {
             int poolsize = connectionPoolFree.size();
             for (int i = 0; i < poolsize; i++) {

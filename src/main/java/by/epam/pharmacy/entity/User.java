@@ -1,8 +1,5 @@
 package by.epam.pharmacy.entity;
 
-
-import java.sql.Blob;
-
 public class User extends Entity{
     private static final long serialVersionUID = -5709073289050764193L;
     private int clientClId;
