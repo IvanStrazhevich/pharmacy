@@ -1,8 +1,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<fmt:setLocale value="${be_BY}" scope="session"/>
+<%@ taglib  uri="pharmacyCustomTaglib" prefix="pht" %>
+
 <fmt:setBundle basename="message" var="rb"/>
-<html lang="be">
+<html>
 <head>
     <title><fmt:message key="label.button.WelcomePage" bundle="${rb}"/></title>
 </head>
@@ -32,9 +33,12 @@
     }
 </style>
 <body>
-<fmt:message key="message.welcomePage" bundle="${rb}"/>
+<fmt:setLocale value="${lang}" scope="request"/>
+<%--<fmt:message key="message.welcomePage" bundle="${rb}"/>--%>
 ${userRegistered}
 ${greeting}
+<pht:info-time locale="${lang}"/>
+<pht:hello role="${accessLevel}" login= "${login}"/>
 <form action="UploadPage"
 method="get">
     <fmt:message key="label.button.language" bundle="${rb}"/>
@@ -44,7 +48,7 @@ method="get">
     <option value="en_US">en</option>
 </select>
    <br>
-    <input type="submit" style="color: #616161" value="<fmt:message key="label.button.UploadPage" bundle="${rb}"/>">
+    <input type="submit" value="<fmt:message key="label.button.UploadPage" bundle="${rb}"/>">
     <input type="hidden" name="action" value="UploadPage">
 </form>
 </body>

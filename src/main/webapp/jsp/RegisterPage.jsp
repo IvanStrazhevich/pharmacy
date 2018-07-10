@@ -2,9 +2,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<fmt:setLocale value="${be_BY}" scope="session"/>
 <fmt:setBundle basename="message" var="rb"/>
-<html lang="be">
+<html>
 <head>
     <title><fmt:message key="label.button.RegisterPage" bundle="${rb}"/>
         <hr>
@@ -21,16 +20,23 @@
     }
 </style>
 <body>
+<fmt:setLocale value="${lang}" scope="request"/>
 <hr>
 <fmt:message key="label.button.RegisterPage" bundle="${rb}"/>
 ${userExist}
 ${needLogin}
 <form action="RegisterUser" method=post>
     <p><strong><fmt:message key="message.enterLogin" bundle="${rb}"/> </strong>
-        <input type="text" name="login" size="15">
+        <input type="text" name="login" size="15" title="<fmt:message key="message.enterLogin" bundle="${rb}"/>">
     <p>
     <p><strong><fmt:message key="message.enterPassword" bundle="${rb}"/> </strong>
-        <input type="password" name="password" size="15">
+        <input type="password" name="password" size="15" title="<fmt:message key="message.enterPassword" bundle="${rb}"/>">
+    <p>
+    <p><strong><fmt:message key="message.enterName" bundle="${rb}"/> </strong>
+        <input type="text" name="name" size="15" title="<fmt:message key="message.enterName" bundle="${rb}"/>">
+    <p>
+    <p><strong><fmt:message key="message.enterLastname" bundle="${rb}"/> </strong>
+        <input type="text" name="lastname" size="15" title="<fmt:message key="message.enterLastname" bundle="${rb}"/>">
     <p>
     <p>
         <input type="hidden" size="15" name="action" value="RegisterUser">

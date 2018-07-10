@@ -2,9 +2,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<fmt:setLocale value="${be_BY}" scope="session"/>
 <fmt:setBundle basename="message" var="rb"/>
-<html lang="be">
+<html>
 <head>
     <title><fmt:message key="label.button.LoginPage" bundle="${rb}"/>
         <hr>
@@ -21,6 +20,7 @@
     }
 </style>
 <body>
+<fmt:setLocale value="${lang}" scope="request"/>
 <hr>
 <fmt:message key="label.button.LoginPage" bundle="${rb}"/>
 ${userNotRegistered}

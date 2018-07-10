@@ -1,7 +1,7 @@
 package by.epam.pharmacy.dao.impl;
 
 import by.epam.pharmacy.connection.ProxyConnection;
-import by.epam.pharmacy.entity.User;
+import by.epam.pharmacy.entity.Client;
 import by.epam.pharmacy.exception.DaoException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,57 +10,55 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
-public class AuthentificationDao extends AbstractDaoImpl<User> {
-    private static final String SELECT_ALL_PSTM = "select client_cl_id, au_login, au_password, au_access_level from autentification";
-    private static final String SELECT_BY_ID_PSTM = "client_cl_id, au_login, au_password, au_access_level from autentification where client_cl_id = ?";
-    private static final String INSERT_PSTM = "insert into autentification(client_cl_id, au_login, au_password, au_access_level) values(?,?,?,?)";
-    private static final String DELETE_PSTM = "delete from autentification where client_cl_id = ?";
-    private static final String UPDATE_PSTM = "update user set au_login = ?, au_password = ?, au_access_level = ? where client_cl_id = ?";
+public class ClientDao extends AbstractDaoImpl<Client> {
+    private static final String SELECT_ALL_PSTM = "select cl_id, cl_name, cl_lastname from client";
+    private static final String SELECT_BY_ID_PSTM = "cl_id, cl_name, cl_lastname from client where cl_id = ?";
+    private static final String INSERT_PSTM = "insert into client(cl_name, cl_lastname) values(?,?)";
+    private static final String DELETE_PSTM = "delete from client where cl_id = ?";
+    private static final String UPDATE_PSTM = "update user set cl_name = ?, cl_lastname = ? where cl_id = ?";
     private static Logger logger = LogManager.getLogger();
     private ProxyConnection proxyConnection;
 
-    public AuthentificationDao() throws DaoException {
+    public ClientDao() throws DaoException {
         proxyConnection = super.proxyConnection;
     }
 
     @Override
-    public ArrayList<User> findAll() throws DaoException {
-        ArrayList<User> userList = new ArrayList<>();
+    public List<Client> findAll() throws DaoException {
+        ArrayList<Client> clientList = new ArrayList<>();
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_ALL_PSTM)) {
             preparedStatement.execute();
             ResultSet resultSet = preparedStatement.getResultSet();
             while (resultSet.next()) {
-                User user = new User();
-                user.setClientClId(resultSet.getInt(1));
-                user.setAuLogin(resultSet.getString(2));
-                user.setAuPassword(resultSet.getString(3));
-                user.setAuAccessLevel(resultSet.getString(4));
-                userList.add(user);
+                Client client = new Client();
+                client.setClientId(resultSet.getInt(1));
+                client.setName(resultSet.getString(2));
+                client.setLastname(resultSet.getString(3));
+                clientList.add(client);
             }
         } catch (SQLException e) {
             throw new DaoException("Exception on find all", e);
         }
-        return userList;
+        return clientList;
     }
 
-
     @Override
-    public User findEntityById(int id) throws DaoException {
-        User user = new User();
+    public Client findEntityById(int id) throws DaoException {
+        Client client = new Client();
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_BY_ID_PSTM)) {
             preparedStatement.setInt(1, id);
             preparedStatement.execute();
             ResultSet resultSet = preparedStatement.getResultSet();
             resultSet.next();
-            user.setClientClId(resultSet.getInt(1));
-            user.setAuLogin(resultSet.getString(2));
-            user.setAuPassword(resultSet.getString(3));
-            user.setAuAccessLevel(resultSet.getString(4));
+            client.setClientId(resultSet.getInt(1));
+            client.setName(resultSet.getString(2));
+            client.setLastname(resultSet.getString(3));
         } catch (SQLException e) {
-            throw new DaoException("Exception on find by id", e);
+            throw new DaoException("Exception on find all", e);
         }
-        return user;
+        return client;
     }
 
     @Override
@@ -75,9 +73,9 @@ public class AuthentificationDao extends AbstractDaoImpl<User> {
     }
 
     @Override
-    public boolean delete(User user) throws DaoException {
+    public boolean delete(Client entity) throws DaoException {
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(DELETE_PSTM)) {
-            preparedStatement.setInt(1, user.getClientClId());
+            preparedStatement.setInt(1, entity.getClientId());
             preparedStatement.execute();
             return true;
         } catch (SQLException e) {
@@ -86,12 +84,10 @@ public class AuthentificationDao extends AbstractDaoImpl<User> {
     }
 
     @Override
-    public boolean create(User user) throws DaoException {
+    public boolean create(Client entity) throws DaoException {
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(INSERT_PSTM)) {
-            preparedStatement.setInt(1, user.getClientClId());
-            preparedStatement.setString(2, user.getAuLogin());
-            preparedStatement.setString(3, user.getAuPassword());
-            preparedStatement.setString(4, user.getAuAccessLevel());
+            preparedStatement.setString(1, entity.getName());
+            preparedStatement.setString(2, entity.getLastname());
             preparedStatement.execute();
             return true;
         } catch (SQLException e) {
@@ -100,12 +96,11 @@ public class AuthentificationDao extends AbstractDaoImpl<User> {
     }
 
     @Override
-    public boolean update(User user) throws DaoException {
+    public boolean update(Client entity) throws DaoException {
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(UPDATE_PSTM)) {
-            preparedStatement.setString(1, user.getAuLogin());
-            preparedStatement.setString(2, user.getAuPassword());
-            preparedStatement.setString(3, user.getAuAccessLevel());
-            preparedStatement.setInt(4, user.getClientClId());
+            preparedStatement.setString(1, entity.getName());
+            preparedStatement.setString(2, entity.getLastname());
+            preparedStatement.setInt(4, entity.getClientId());
             preparedStatement.execute();
             return true;
         } catch (SQLException e) {

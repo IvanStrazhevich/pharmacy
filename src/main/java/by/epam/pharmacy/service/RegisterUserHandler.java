@@ -1,6 +1,9 @@
 package by.epam.pharmacy.service;
 
 import by.epam.pharmacy.dao.impl.AuthentificationDao;
+import by.epam.pharmacy.dao.impl.ClientDao;
+import by.epam.pharmacy.entity.AccessLevel;
+import by.epam.pharmacy.entity.Client;
 import by.epam.pharmacy.entity.User;
 import by.epam.pharmacy.exception.DaoException;
 import by.epam.pharmacy.exception.EncriptingException;
@@ -22,15 +25,17 @@ public class RegisterUserHandler implements RequestHandler {
     private Encodable encoder = new SHAConverter();
     private LanguageSwitchable languageSwitcher = new LanguageSwitcher();
 
-    private boolean createUser(User user) throws DaoException {
-        boolean flag = false;
-        try (AuthentificationDao authentificationDao = new AuthentificationDao()) {
-            flag = authentificationDao.create(user);
-
-        } catch (DaoException e) {
-            throw new DaoException(e);
+    private boolean createUser(Client client, User user) throws DaoException {
+        try (ClientDao clientDao = new ClientDao();
+             AuthentificationDao authentificationDao = new AuthentificationDao()) {
+            clientDao.create(client);
+            client.setClientId(clientDao.findLastInsertId());
+            user.setClientClId(client.getClientId());
+            if(null==user.getAuAccessLevel()){
+                user.setAuAccessLevel(AccessLevel.CLIENT.getValue());
+            }
+            return authentificationDao.create(user);
         }
-        return flag;
     }
 
     private ArrayList<User> getUserslist() throws DaoException {
@@ -44,10 +49,14 @@ public class RegisterUserHandler implements RequestHandler {
     }
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException{
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         languageSwitcher.langSwitch(request);
-        String login = request.getParameter("login");
-        String password = request.getParameter("password");
+        String login = request.getParameter(AttributeEnum.LOGIN.getValue());
+        String password = request.getParameter(AttributeEnum.PASSWORD.getValue());
+        String name = request.getParameter(AttributeEnum.NAME.getValue());
+        logger.info(name);
+        String lastname = request.getParameter(AttributeEnum.LASTNAME.getValue());
+        logger.info(lastname);
         String shalogin = null;
         String shaPassword = null;
         String page = null;
@@ -59,7 +68,7 @@ public class RegisterUserHandler implements RequestHandler {
             boolean flag = false;
 
             for (User user : list) {
-                if (request.getSession().getAttribute("Login") == null) {
+                if (request.getSession().getAttribute(AttributeEnum.LOGIN.getValue()) == null) {
                     String loginDB = user.getAuLogin();
                     if (shalogin.equals(loginDB)) {
                         request.setAttribute(AttributeEnum.USER_EXIST.getValue(), ResourceManager.INSTANCE.getString(MESSAGE_USER_EXIST));
@@ -70,20 +79,27 @@ public class RegisterUserHandler implements RequestHandler {
                 }
             }
             if (!flag) {
+                Client client = new Client();
+                client.setName(name);
+                client.setLastname(lastname);
                 User user = new User();
                 user.setAuLogin(shalogin);
                 user.setAuPassword(shaPassword);
-                if (createUser(user)) {
+                if (createUser(client, user)) {
+                    logger.info("registered");
                     request.getSession().setAttribute(AttributeEnum.LOGGED.getValue(), AttributeEnum.LANG.getValue());
                     request.setAttribute(AttributeEnum.USER_REGISTERED.getValue(), ResourceManager.INSTANCE.getString(MESSAGE_USER_REGISTERED));
-                    page=PagesEnum.WELCOME_PAGE.getValue();
+                    request.getSession().setAttribute(AttributeEnum.ACCESS_LEVEL.getValue(), user.getAuAccessLevel());
+                    request.getSession().setAttribute(AttributeEnum.LOGIN.getValue(), login);
+                    page = PagesEnum.WELCOME_PAGE.getValue();
                 } else {
+                    logger.info("not registered");
                     request.setAttribute(AttributeEnum.USER_NOT_REGISTERED.getValue(), ResourceManager.INSTANCE.getString(MESSAGE_USER_NOT_REGISTERED));
-                    page=PagesEnum.REGISTER_PAGE.getValue();
+                    page = PagesEnum.REGISTER_PAGE.getValue();
                 }
             }
         } catch (EncriptingException | DaoException e) {
-            logger.error(e);
+            logger.error(e.getCause());
             throw new ServletException(e);
         }
         return page;

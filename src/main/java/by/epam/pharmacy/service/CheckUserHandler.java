@@ -51,6 +51,8 @@ public class CheckUserHandler implements RequestHandler {
                     String passDB = user.getAuPassword();
                     if (shaLogin.equals(loginDB) && shaPassword.equals(passDB)) {
                         request.getSession().setAttribute(AttributeEnum.LOGGED.getValue(), AttributeEnum.LOGGED.getValue());
+                        request.getSession().setAttribute(AttributeEnum.ACCESS_LEVEL.getValue(), user.getAuAccessLevel());
+                        request.getSession().setAttribute(AttributeEnum.LOGIN.getValue(), login);
                         logeed = true;
                         request.setAttribute(AttributeEnum.GREETING.getValue(), ResourceManager.INSTANCE.getString(MESSAGE_SUCCESS));
                         page = PagesEnum.WELCOME_PAGE.getValue();

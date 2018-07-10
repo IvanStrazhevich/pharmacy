@@ -2,9 +2,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<fmt:setLocale value="${be_BY}" scope="session"/>
+
 <fmt:setBundle basename="message" var="rb"/>
-<html lang="be">
+<html>
 <head>
     <title><fmt:message key="label.button.ErrorPage" bundle="${rb}"/> <hr></title>
 </head>
@@ -19,12 +19,13 @@
     }
 </style>
 <body>
+<fmt:setLocale value="${lang}" scope="request"/>
 <fmt:message key="message.smthwentwrong" bundle="${rb}"/> <hr>
  <hr>
 <form action="WelcomePage"
       method="post">
     <input type="hidden" name="action" value="WelcomePage">
-    <input type="submit" style="color: #616161" value="<fmt:message key="label.button.WelcomePage" bundle="${rb}"/>">
+    <input type="submit" value="<fmt:message key="label.button.WelcomePage" bundle="${rb}"/>">
 </form>
 </body>
 </html>

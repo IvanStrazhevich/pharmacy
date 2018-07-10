@@ -5,7 +5,6 @@ public class Client extends Entity {
     private int clientId;
     private String name;
     private String lastname;
-    private String accessLevel;
 
     public Client() {
     }
@@ -34,35 +33,23 @@ public class Client extends Entity {
         this.lastname = lastname;
     }
 
-    public String getAccessLevel() {
-        return accessLevel;
-    }
-
-    public void setAccessLevel(String accessLevel) {
-        this.accessLevel = accessLevel;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
 
         Client client = (Client) o;
 
         if (clientId != client.clientId) return false;
         if (name != null ? !name.equals(client.name) : client.name != null) return false;
-        if (lastname != null ? !lastname.equals(client.lastname) : client.lastname != null) return false;
-        return accessLevel != null ? accessLevel.equals(client.accessLevel) : client.accessLevel == null;
+        return lastname != null ? lastname.equals(client.lastname) : client.lastname == null;
     }
 
     @Override
     public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + clientId;
+        int result = clientId;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
-        result = 31 * result + (accessLevel != null ? accessLevel.hashCode() : 0);
         return result;
     }
 
@@ -72,7 +59,6 @@ public class Client extends Entity {
                 "clientId=" + clientId +
                 ", name='" + name + '\'' +
                 ", lastname='" + lastname + '\'' +
-                ", accessLevel='" + accessLevel + '\'' +
                 '}';
     }
 }

@@ -19,4 +19,8 @@
         <exception-type>java.io.IOException</exception-type>
         <location>/jsp/MissedFilePage.jsp</location>
     </error-page>
+    <jsp-config> <taglib>
+        <taglib-uri>pharmacyCustomTaglib</taglib-uri>
+        <taglib-location>/WEB-INF/tld/pharmacyCustomTaglib.tld</taglib-location> </taglib>
+    </jsp-config>
 </web-app>
