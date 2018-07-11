@@ -1,7 +1,7 @@
 package by.epam.pharmacy.dao;
 
 import by.epam.pharmacy.connection.ProxyConnectionPool;
-import by.epam.pharmacy.dao.impl.AuthentificationDao;
+import by.epam.pharmacy.dao.impl.UserDao;
 import by.epam.pharmacy.entity.User;
 import by.epam.pharmacy.exception.DaoException;
 import by.epam.pharmacy.exception.ProxyPoolException;
@@ -11,7 +11,7 @@ import org.testng.Assert;
 import org.testng.annotations.*;
 
 public class AuthorDaoTest {
-    private AuthentificationDao authentificationDao;
+    private UserDao userDao;
     private User user;
     private static Logger logger = LogManager.getLogger();
     private ProxyConnectionPool proxyConnectionPool;
@@ -19,8 +19,8 @@ public class AuthorDaoTest {
     @BeforeClass
     public void beforeClass() {
         user = new User();
-        user.setAuLogin("john@gmail.com");
-        user.setAuPassword("pass");
+        user.setLogin("john@gmail.com");
+        user.setPassword("pass");
         proxyConnectionPool = ProxyConnectionPool.getConnectionPool();
 
     }
@@ -34,52 +34,52 @@ public class AuthorDaoTest {
 
     @BeforeMethod
     public void setUp() throws Exception {
-        authentificationDao = new AuthentificationDao();
+        userDao = new UserDao();
 
     }
 
     @AfterMethod
     public void tearDown() throws DaoException {
-        authentificationDao.close();
+        userDao.close();
     }
 
     @Test
     public void testFindAll() throws DaoException {
-        System.out.println(authentificationDao.findAll());
+        System.out.println(userDao.findAll());
 
     }
 
     @Test
     public void testFindEntityById() throws DaoException {
-        authentificationDao.create(user);
-        authentificationDao.findEntityById(authentificationDao.findLastInsertId());
+        userDao.create(user);
+        userDao.findEntityById(userDao.findLastInsertId());
     }
 
     @Test
     public void testDeleteByObject() throws DaoException {
-        authentificationDao.create(user);
-        authentificationDao.delete(user);
+        userDao.create(user);
+        userDao.delete(user);
     }
 
     @Test
     public void testDeleteById() throws DaoException {
-        authentificationDao.create(user);
-        authentificationDao.delete(authentificationDao.findLastInsertId());
+        userDao.create(user);
+        userDao.delete(userDao.findLastInsertId());
     }
 
     @Test
     public void testCreate() throws DaoException {
-        authentificationDao.create(user);
+        userDao.create(user);
     }
 
     @Test
     public void testUpdate() throws DaoException {
-        authentificationDao.create(user);
-        User expected = authentificationDao.findEntityById(authentificationDao.findLastInsertId());
-        expected.setAuLogin("Mike");
-        authentificationDao.update(expected);
+        userDao.create(user);
+        User expected = userDao.findEntityById(userDao.findLastInsertId());
+        expected.setLogin("Mike");
+        userDao.update(expected);
         logger.info("exp: " + expected);
-        User actual = authentificationDao.findEntityById(expected.getClientClId());
+        User actual = userDao.findEntityById(expected.getLogin());
         logger.info("act: " + actual);
         Assert.assertEquals(expected, actual);
     }

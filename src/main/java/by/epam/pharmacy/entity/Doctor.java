@@ -2,20 +2,20 @@ package by.epam.pharmacy.entity;
 
 public class Doctor extends Client {
     private static final long serialVersionUID = -8413097800977296446L;
-    private int clientId;
+    private String userId;
     private int licenseId;
 
     public Doctor() {
     }
 
     @Override
-    public int getClientId() {
-        return clientId;
+    public String getUserId() {
+        return userId;
     }
 
     @Override
-    public void setClientId(int clientId) {
-        this.clientId = clientId;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public int getLicenseId() {
@@ -34,14 +34,14 @@ public class Doctor extends Client {
 
         Doctor doctor = (Doctor) o;
 
-        if (clientId != doctor.clientId) return false;
-        return licenseId == doctor.licenseId;
+        if (licenseId != doctor.licenseId) return false;
+        return userId != null ? userId.equals(doctor.userId) : doctor.userId == null;
     }
 
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + clientId;
+        result = 31 * result + (userId != null ? userId.hashCode() : 0);
         result = 31 * result + licenseId;
         return result;
     }
@@ -49,7 +49,7 @@ public class Doctor extends Client {
     @Override
     public String toString() {
         return "Doctor{" +
-                "clientId=" + clientId +
+                "userId='" + userId + '\'' +
                 ", licenseId=" + licenseId +
                 '}';
     }

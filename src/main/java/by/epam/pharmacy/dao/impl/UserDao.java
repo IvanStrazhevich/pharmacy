@@ -11,16 +11,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class AuthentificationDao extends AbstractDaoImpl<User> {
-    private static final String SELECT_ALL_PSTM = "select client_cl_id, au_login, au_password, au_access_level from autentification";
-    private static final String SELECT_BY_ID_PSTM = "client_cl_id, au_login, au_password, au_access_level from autentification where client_cl_id = ?";
-    private static final String INSERT_PSTM = "insert into autentification(client_cl_id, au_login, au_password, au_access_level) values(?,?,?,?)";
-    private static final String DELETE_PSTM = "delete from autentification where client_cl_id = ?";
-    private static final String UPDATE_PSTM = "update user set au_login = ?, au_password = ?, au_access_level = ? where client_cl_id = ?";
+public class UserDao extends AbstractDaoImpl<User> {
+    private static final String SELECT_ALL_PSTM = "select  user_login, user_password, user_access_level from user";
+    private static final String SELECT_BY_ID_PSTM = "select user_login, user_password, user_access_levelfrom user where client_cl_id = ?";
+    private static final String INSERT_PSTM = "insert into user(user_login, user_password, user_access_level) values(?,?,?)";
+    private static final String DELETE_PSTM = "delete from user where user_login = ?";
+    private static final String UPDATE_PSTM = "update user set user_login = ?, user_password = ?, user_access_level = ? where user_login = ?";
     private static Logger logger = LogManager.getLogger();
     private ProxyConnection proxyConnection;
 
-    public AuthentificationDao() throws DaoException {
+    public UserDao() throws DaoException {
         proxyConnection = super.proxyConnection;
     }
 
@@ -32,10 +32,9 @@ public class AuthentificationDao extends AbstractDaoImpl<User> {
             ResultSet resultSet = preparedStatement.getResultSet();
             while (resultSet.next()) {
                 User user = new User();
-                user.setClientClId(resultSet.getInt(1));
-                user.setAuLogin(resultSet.getString(2));
-                user.setAuPassword(resultSet.getString(3));
-                user.setAuAccessLevel(resultSet.getString(4));
+                user.setLogin(resultSet.getString(1));
+                user.setPassword(resultSet.getString(2));
+                user.setAccessLevel(resultSet.getString(3));
                 userList.add(user);
             }
         } catch (SQLException e) {
@@ -46,17 +45,16 @@ public class AuthentificationDao extends AbstractDaoImpl<User> {
 
 
     @Override
-    public User findEntityById(int id) throws DaoException {
+    public User findEntityById(String id) throws DaoException {
         User user = new User();
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_BY_ID_PSTM)) {
-            preparedStatement.setInt(1, id);
+            preparedStatement.setString(1, id);
             preparedStatement.execute();
             ResultSet resultSet = preparedStatement.getResultSet();
             resultSet.next();
-            user.setClientClId(resultSet.getInt(1));
-            user.setAuLogin(resultSet.getString(2));
-            user.setAuPassword(resultSet.getString(3));
-            user.setAuAccessLevel(resultSet.getString(4));
+            user.setLogin(resultSet.getString(1));
+            user.setPassword(resultSet.getString(2));
+            user.setAccessLevel(resultSet.getString(3));
         } catch (SQLException e) {
             throw new DaoException("Exception on find by id", e);
         }
@@ -64,9 +62,9 @@ public class AuthentificationDao extends AbstractDaoImpl<User> {
     }
 
     @Override
-    public boolean delete(int id) throws DaoException {
+    public boolean delete(String id) throws DaoException {
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(DELETE_PSTM)) {
-            preparedStatement.setInt(1, id);
+            preparedStatement.setString(1, id);
             preparedStatement.execute();
             return true;
         } catch (SQLException e) {
@@ -77,7 +75,7 @@ public class AuthentificationDao extends AbstractDaoImpl<User> {
     @Override
     public boolean delete(User user) throws DaoException {
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(DELETE_PSTM)) {
-            preparedStatement.setInt(1, user.getClientClId());
+            preparedStatement.setString(1, user.getLogin());
             preparedStatement.execute();
             return true;
         } catch (SQLException e) {
@@ -88,10 +86,9 @@ public class AuthentificationDao extends AbstractDaoImpl<User> {
     @Override
     public boolean create(User user) throws DaoException {
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(INSERT_PSTM)) {
-            preparedStatement.setInt(1, user.getClientClId());
-            preparedStatement.setString(2, user.getAuLogin());
-            preparedStatement.setString(3, user.getAuPassword());
-            preparedStatement.setString(4, user.getAuAccessLevel());
+            preparedStatement.setString(1, user.getLogin());
+            preparedStatement.setString(2, user.getPassword());
+            preparedStatement.setString(3, user.getAccessLevel());
             preparedStatement.execute();
             return true;
         } catch (SQLException e) {
@@ -102,10 +99,9 @@ public class AuthentificationDao extends AbstractDaoImpl<User> {
     @Override
     public boolean update(User user) throws DaoException {
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(UPDATE_PSTM)) {
-            preparedStatement.setString(1, user.getAuLogin());
-            preparedStatement.setString(2, user.getAuPassword());
-            preparedStatement.setString(3, user.getAuAccessLevel());
-            preparedStatement.setInt(4, user.getClientClId());
+            preparedStatement.setString(1, user.getPassword());
+            preparedStatement.setString(2, user.getAccessLevel());
+            preparedStatement.setString(3, user.getLogin());
             preparedStatement.execute();
             return true;
         } catch (SQLException e) {

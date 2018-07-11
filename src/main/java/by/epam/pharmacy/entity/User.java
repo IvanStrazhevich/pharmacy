@@ -2,44 +2,35 @@ package by.epam.pharmacy.entity;
 
 public class User extends Entity{
     private static final long serialVersionUID = -5709073289050764193L;
-    private int clientClId;
-    private String auLogin;
-    private String auPassword;
-    private String auAccessLevel;
+    private String login;
+    private String password;
+    private String accessLevel;
 
     public User() {
     }
 
-    public int getClientClId() {
-        return clientClId;
+    public String getLogin() {
+        return login;
     }
 
-    public void setClientClId(int clientClId) {
-        this.clientClId = clientClId;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
-    public String getAuLogin() {
-        return auLogin;
+    public String getPassword() {
+        return password;
     }
 
-    public void setAuLogin(String auLogin) {
-        this.auLogin = auLogin;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public String getAuPassword() {
-        return auPassword;
+    public String getAccessLevel() {
+        return accessLevel;
     }
 
-    public void setAuPassword(String auPassword) {
-        this.auPassword = auPassword;
-    }
-
-    public String getAuAccessLevel() {
-        return auAccessLevel;
-    }
-
-    public void setAuAccessLevel(String auAccessLevel) {
-        this.auAccessLevel = auAccessLevel;
+    public void setAccessLevel(String accessLevel) {
+        this.accessLevel = accessLevel;
     }
 
     @Override
@@ -50,29 +41,26 @@ public class User extends Entity{
 
         User user = (User) o;
 
-        if (clientClId != user.clientClId) return false;
-        if (auLogin != null ? !auLogin.equals(user.auLogin) : user.auLogin != null) return false;
-        if (auPassword != null ? !auPassword.equals(user.auPassword) : user.auPassword != null) return false;
-        return auAccessLevel != null ? auAccessLevel.equals(user.auAccessLevel) : user.auAccessLevel == null;
+        if (login != null ? !login.equals(user.login) : user.login != null) return false;
+        if (password != null ? !password.equals(user.password) : user.password != null) return false;
+        return accessLevel != null ? accessLevel.equals(user.accessLevel) : user.accessLevel == null;
     }
 
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + clientClId;
-        result = 31 * result + (auLogin != null ? auLogin.hashCode() : 0);
-        result = 31 * result + (auPassword != null ? auPassword.hashCode() : 0);
-        result = 31 * result + (auAccessLevel != null ? auAccessLevel.hashCode() : 0);
+        result = 31 * result + (login != null ? login.hashCode() : 0);
+        result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (accessLevel != null ? accessLevel.hashCode() : 0);
         return result;
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "clientClId=" + clientClId +
-                ", auLogin='" + auLogin + '\'' +
-                ", auPassword='" + auPassword + '\'' +
-                ", auAccessLevel=" + auAccessLevel +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", accessLevel=" + accessLevel +
                 '}';
     }
 }

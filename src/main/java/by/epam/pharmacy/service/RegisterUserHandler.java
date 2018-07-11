@@ -1,6 +1,6 @@
 package by.epam.pharmacy.service;
 
-import by.epam.pharmacy.dao.impl.AuthentificationDao;
+import by.epam.pharmacy.dao.impl.UserDao;
 import by.epam.pharmacy.dao.impl.ClientDao;
 import by.epam.pharmacy.entity.AccessLevel;
 import by.epam.pharmacy.entity.Client;
@@ -26,22 +26,21 @@ public class RegisterUserHandler implements RequestHandler {
     private LanguageSwitchable languageSwitcher = new LanguageSwitcher();
 
     private boolean createUser(Client client, User user) throws DaoException {
-        try (ClientDao clientDao = new ClientDao();
-             AuthentificationDao authentificationDao = new AuthentificationDao()) {
-            clientDao.create(client);
-            client.setClientId(clientDao.findLastInsertId());
-            user.setClientClId(client.getClientId());
-            if(null==user.getAuAccessLevel()){
-                user.setAuAccessLevel(AccessLevel.CLIENT.getValue());
+        try (UserDao userDao = new UserDao();
+             ClientDao clientDao = new ClientDao()) {
+            if(null==user.getAccessLevel()){
+                user.setAccessLevel(AccessLevel.CLIENT.getValue());
             }
-            return authentificationDao.create(user);
+            userDao.create(user);
+            client.setUserId(user.getLogin());
+            return clientDao.create(client);
         }
     }
 
     private ArrayList<User> getUserslist() throws DaoException {
         ArrayList<User> users = new ArrayList<>();
-        try (AuthentificationDao authentificationDao = new AuthentificationDao()) {
-            users = authentificationDao.findAll();
+        try (UserDao userDao = new UserDao()) {
+            users = userDao.findAll();
         } catch (DaoException e) {
             throw new DaoException(e);
         }
@@ -54,9 +53,7 @@ public class RegisterUserHandler implements RequestHandler {
         String login = request.getParameter(AttributeEnum.LOGIN.getValue());
         String password = request.getParameter(AttributeEnum.PASSWORD.getValue());
         String name = request.getParameter(AttributeEnum.NAME.getValue());
-        logger.info(name);
         String lastname = request.getParameter(AttributeEnum.LASTNAME.getValue());
-        logger.info(lastname);
         String shalogin = null;
         String shaPassword = null;
         String page = null;
@@ -69,7 +66,7 @@ public class RegisterUserHandler implements RequestHandler {
 
             for (User user : list) {
                 if (request.getSession().getAttribute(AttributeEnum.LOGIN.getValue()) == null) {
-                    String loginDB = user.getAuLogin();
+                    String loginDB = user.getLogin();
                     if (shalogin.equals(loginDB)) {
                         request.setAttribute(AttributeEnum.USER_EXIST.getValue(), ResourceManager.INSTANCE.getString(MESSAGE_USER_EXIST));
                         page = PagesEnum.REGISTER_PAGE.getValue();
@@ -83,17 +80,17 @@ public class RegisterUserHandler implements RequestHandler {
                 client.setName(name);
                 client.setLastname(lastname);
                 User user = new User();
-                user.setAuLogin(shalogin);
-                user.setAuPassword(shaPassword);
+                user.setLogin(shalogin);
+                user.setPassword(shaPassword);
                 if (createUser(client, user)) {
-                    logger.info("registered");
+                    logger.debug("registered");
                     request.getSession().setAttribute(AttributeEnum.LOGGED.getValue(), AttributeEnum.LANG.getValue());
                     request.setAttribute(AttributeEnum.USER_REGISTERED.getValue(), ResourceManager.INSTANCE.getString(MESSAGE_USER_REGISTERED));
-                    request.getSession().setAttribute(AttributeEnum.ACCESS_LEVEL.getValue(), user.getAuAccessLevel());
+                    request.getSession().setAttribute(AttributeEnum.ACCESS_LEVEL.getValue(), user.getAccessLevel());
                     request.getSession().setAttribute(AttributeEnum.LOGIN.getValue(), login);
                     page = PagesEnum.WELCOME_PAGE.getValue();
                 } else {
-                    logger.info("not registered");
+                    logger.debug("not registered");
                     request.setAttribute(AttributeEnum.USER_NOT_REGISTERED.getValue(), ResourceManager.INSTANCE.getString(MESSAGE_USER_NOT_REGISTERED));
                     page = PagesEnum.REGISTER_PAGE.getValue();
                 }

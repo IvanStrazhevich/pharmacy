@@ -26,13 +26,13 @@ public abstract class AbstractDaoImpl<T> implements AbstractDao<T> {
     }
 
     @Override
-    public int findLastInsertId() throws DaoException {
-        int id = 0;
+    public String findLastInsertId() throws DaoException {
+        String id = null;
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_LAST_INSERT_ID_PSTM)) {
             preparedStatement.execute();
             ResultSet resultSet = preparedStatement.getResultSet();
             resultSet.next();
-            id = resultSet.getInt(1);
+            id = String.valueOf(resultSet.getInt(1));
         } catch (SQLException e) {
             throw new DaoException("Exception on find last id", e);
         }

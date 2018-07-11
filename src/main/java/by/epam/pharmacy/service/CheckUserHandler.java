@@ -1,6 +1,6 @@
 package by.epam.pharmacy.service;
 
-import by.epam.pharmacy.dao.impl.AuthentificationDao;
+import by.epam.pharmacy.dao.impl.UserDao;
 import by.epam.pharmacy.entity.User;
 import by.epam.pharmacy.exception.DaoException;
 import by.epam.pharmacy.exception.EncriptingException;
@@ -24,8 +24,8 @@ public class CheckUserHandler implements RequestHandler {
 
     private ArrayList<User> getUsersList() throws DaoException {
         ArrayList<User> users = new ArrayList<>();
-        try (AuthentificationDao authentificationDao = new AuthentificationDao()) {
-            users = authentificationDao.findAll();
+        try (UserDao userDao = new UserDao()) {
+            users = userDao.findAll();
         } catch (DaoException e) {
             throw new DaoException(e);
         }
@@ -47,11 +47,11 @@ public class CheckUserHandler implements RequestHandler {
             for (int i = 0; i < list.size() && !logeed; i++) {
                 User user = list.get(i);
                 if (request.getSession().getAttribute(AttributeEnum.LOGGED.getValue()) == null) {
-                    String loginDB = user.getAuLogin();
-                    String passDB = user.getAuPassword();
+                    String loginDB = user.getLogin();
+                    String passDB = user.getPassword();
                     if (shaLogin.equals(loginDB) && shaPassword.equals(passDB)) {
                         request.getSession().setAttribute(AttributeEnum.LOGGED.getValue(), AttributeEnum.LOGGED.getValue());
-                        request.getSession().setAttribute(AttributeEnum.ACCESS_LEVEL.getValue(), user.getAuAccessLevel());
+                        request.getSession().setAttribute(AttributeEnum.ACCESS_LEVEL.getValue(), user.getAccessLevel());
                         request.getSession().setAttribute(AttributeEnum.LOGIN.getValue(), login);
                         logeed = true;
                         request.setAttribute(AttributeEnum.GREETING.getValue(), ResourceManager.INSTANCE.getString(MESSAGE_SUCCESS));

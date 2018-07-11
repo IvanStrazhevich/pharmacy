@@ -11,9 +11,9 @@ CREATE TABLE online_pharmacy.payment
 CREATE INDEX fk_payment_order1_idx ON online_pharmacy.payment (order_order_id);
 CREATE INDEX fk_payment_order_sum_idx ON online_pharmacy.payment (pmt_ord_sum);
 CREATE INDEX fk_payment_confirmed ON online_pharmacy.payment (pmt_confirmed);
-INSERT INTO online_pharmacy.payment (payment_id, order_order_id, pmt_ord_sum, pmt_confirmed) VALUES (1, 1, 58.57, 1);
-INSERT INTO online_pharmacy.payment (payment_id, order_order_id, pmt_ord_sum, pmt_confirmed) VALUES (2, 2, 4.95, 1);
-INSERT INTO online_pharmacy.payment (payment_id, order_order_id, pmt_ord_sum, pmt_confirmed) VALUES (3, 3, 14.55, 0);
-INSERT INTO online_pharmacy.payment (payment_id, order_order_id, pmt_ord_sum, pmt_confirmed) VALUES (4, 4, 86.50, 1);
-INSERT INTO online_pharmacy.payment (payment_id, order_order_id, pmt_ord_sum, pmt_confirmed) VALUES (5, 5, 55.00, 0);
-INSERT INTO online_pharmacy.payment (payment_id, order_order_id, pmt_ord_sum, pmt_confirmed) VALUES (6, 5, 83.41, 0);
+INSERT INTO online_pharmacy.payment (payment_id, pmt_order_id, pmt_ord_sum, pmt_confirmed) VALUES (1, 1, 58.57, 1);
+INSERT INTO online_pharmacy.payment (payment_id, pmt_order_id, pmt_ord_sum, pmt_confirmed) VALUES (2, 2, 4.95, 1);
+INSERT INTO online_pharmacy.payment (payment_id, pmt_order_id, pmt_ord_sum, pmt_confirmed) VALUES (3, 3, 14.55, 0);
+INSERT INTO online_pharmacy.payment (payment_id, pmt_order_id, pmt_ord_sum, pmt_confirmed) VALUES (4, 4, 86.50, 1);
+INSERT INTO online_pharmacy.payment (payment_id, pmt_order_id, pmt_ord_sum, pmt_confirmed) VALUES (5, 5, 55.00, 0);
+INSERT INTO online_pharmacy.payment (payment_id, pmt_order_id, pmt_ord_sum, pmt_confirmed) VALUES (6, 5, 83.41, 0);
