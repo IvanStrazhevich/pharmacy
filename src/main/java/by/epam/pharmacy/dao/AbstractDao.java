@@ -12,6 +12,8 @@ public interface AbstractDao<T> extends AutoCloseable {
 
     T findEntityById(Integer id) throws DaoException;
 
+    boolean deleteById(Integer id, String statement) throws DaoException;
+
     boolean deleteById(Integer id) throws DaoException;
 
     boolean delete(T entity) throws DaoException;

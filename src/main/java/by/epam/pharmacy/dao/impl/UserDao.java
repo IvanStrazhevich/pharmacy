@@ -63,9 +63,15 @@ public class UserDao extends AbstractDaoImpl<User> {
         return user;
     }
 
+    @Override
     public boolean deleteById(Integer id) throws DaoException {
+        return deleteById(id, DELETE_PSTM);
+    }
+
+    @Override
+    public boolean delete(User entity) throws DaoException {
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(DELETE_PSTM)) {
-            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(1, entity.getUserId());
             preparedStatement.execute();
             return true;
         } catch (SQLException e) {
@@ -74,22 +80,11 @@ public class UserDao extends AbstractDaoImpl<User> {
     }
 
     @Override
-    public boolean delete(User user) throws DaoException {
-        try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(DELETE_PSTM)) {
-            preparedStatement.setInt(1, user.getUserId());
-            preparedStatement.execute();
-            return true;
-        } catch (SQLException e) {
-            throw new DaoException("Exception on deleteById", e);
-        }
-    }
-
-    @Override
-    public boolean create(User user) throws DaoException {
+    public boolean create(User entity) throws DaoException {
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(INSERT_PSTM)) {
-            preparedStatement.setString(1, user.getLogin());
-            preparedStatement.setString(2, user.getPassword());
-            preparedStatement.setString(3, user.getAccessLevel());
+            preparedStatement.setString(1, entity.getLogin());
+            preparedStatement.setString(2, entity.getPassword());
+            preparedStatement.setString(3, entity.getAccessLevel());
             preparedStatement.execute();
             return true;
         } catch (SQLException e) {
@@ -98,12 +93,12 @@ public class UserDao extends AbstractDaoImpl<User> {
     }
 
     @Override
-    public boolean update(User user) throws DaoException {
+    public boolean update(User entity) throws DaoException {
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(UPDATE_PSTM)) {
-            preparedStatement.setString(1, user.getPassword());
-            preparedStatement.setString(2, user.getAccessLevel());
-            preparedStatement.setString(3, user.getLogin());
-            preparedStatement.setInt(4,user.getUserId());
+            preparedStatement.setString(1, entity.getLogin());
+            preparedStatement.setString(2, entity.getPassword());
+            preparedStatement.setString(3, entity.getAccessLevel());
+            preparedStatement.setInt(4, entity.getUserId());
             preparedStatement.execute();
             return true;
         } catch (SQLException e) {

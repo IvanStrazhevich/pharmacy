@@ -2,19 +2,19 @@ package by.epam.pharmacy.entity;
 
 public class Client extends Entity {
     private static final long serialVersionUID = -2234118294156026170L;
-    private int userId;
+    private int clientId;
     private String name;
     private String lastname;
 
     public Client() {
     }
 
-    public int getUserId() {
-        return userId;
+    public int getClientId() {
+        return clientId;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setClientId(int clientId) {
+        this.clientId = clientId;
     }
 
     public String getName() {
@@ -40,14 +40,14 @@ public class Client extends Entity {
 
         Client client = (Client) o;
 
-        if (userId != client.userId) return false;
+        if (clientId != client.clientId) return false;
         if (name != null ? !name.equals(client.name) : client.name != null) return false;
         return lastname != null ? lastname.equals(client.lastname) : client.lastname == null;
     }
 
     @Override
     public int hashCode() {
-        int result = userId;
+        int result = clientId;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
         return result;
@@ -56,7 +56,7 @@ public class Client extends Entity {
     @Override
     public String toString() {
         return "Client{" +
-                "userId=" + userId +
+                "clientId=" + clientId +
                 ", name='" + name + '\'' +
                 ", lastname='" + lastname + '\'' +
                 '}';

@@ -40,24 +40,29 @@ public class PharmacyServlet extends HttpServlet {
     private void handleRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/html;charset=utf-8");
         String action = request.getParameter("action");
-        RequestHandler requestHandler = servletMap.get(action);
-        logger.info(action);
-        String page = requestHandler.execute(request, response);
-        if (page != null) {
-            if (request.getRequestDispatcher(page) != null) {
-                //response.sendRedirect(request.getContextPath()+page);
-                request.getRequestDispatcher(page).forward(request, response);
+        if (null != action) {
+            RequestHandler requestHandler = servletMap.get(action);
+            logger.debug(action);
+            String page = requestHandler.execute(request, response);
+            if (page != null) {
+                if (request.getRequestDispatcher(page) != null) {
+                    //response.sendRedirect(request.getContextPath()+page);
+                    request.getRequestDispatcher(page).forward(request, response);
+                }
+            } else {
+                if (request.getRequestDispatcher(PagesEnum.ERROR_PAGE.getValue()) != null) {
+                    response.sendRedirect(request.getContextPath() + PagesEnum.ERROR_PAGE.getValue());
+                    //request.getRequestDispatcher(PagesEnum.ERROR_PAGE.getValue()).forward(request, response);
+                }
             }
-        } else {
-            if (request.getRequestDispatcher(PagesEnum.ERROR_PAGE.getValue()) != null) {
-                response.sendRedirect(request.getContextPath() + PagesEnum.ERROR_PAGE.getValue());
-                //request.getRequestDispatcher(PagesEnum.ERROR_PAGE.getValue()).forward(request, response);
-            }
+        } else if (request.getRequestDispatcher(PagesEnum.ERROR_PAGE.getValue()) != null) {
+            response.sendRedirect(request.getContextPath() + PagesEnum.ERROR_PAGE.getValue());
         }
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws
+            ServletException, IOException {
         handleRequest(request, response);
     }
 

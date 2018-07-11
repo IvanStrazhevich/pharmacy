@@ -70,6 +70,7 @@ public class UserDaoTest {
     @Test
     public void testCreate() throws DaoException {
         userDao.create(user);
+        userDao.delete(user);
     }
 
     @Test
@@ -82,5 +83,6 @@ public class UserDaoTest {
         User actual = userDao.findEntityById(expected.getUserId());
         logger.info("act: " + actual);
         Assert.assertEquals(expected, actual);
+        userDao.delete(expected);
     }
 }

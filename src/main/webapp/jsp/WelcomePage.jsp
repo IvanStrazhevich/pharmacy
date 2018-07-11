@@ -39,8 +39,7 @@ ${userRegistered}
 ${greeting}
 <pht:info-time locale="${lang}"/>
 <pht:hello role="${accessLevel}" login= "${login}"/>
-<form action="UploadPage"
-method="get">
+<form action="UploadPage" method="post">
     <fmt:message key="label.button.language" bundle="${rb}"/>
 <select name="lang" style="background: #38b3cd; color: #616161">
     <option value="be_BY">be</option>
@@ -50,6 +49,10 @@ method="get">
    <br>
     <input type="submit" value="<fmt:message key="label.button.UploadPage" bundle="${rb}"/>">
     <input type="hidden" name="action" value="UploadPage">
+</form>
+<form action="WelcomePage" method="post">
+    <input type="hidden" name="action" value="InvalidateSession">
+    <input type="submit" value="<fmt:message key="label.button.Logout" bundle="${rb}"/>">
 </form>
 </body>
 </html>

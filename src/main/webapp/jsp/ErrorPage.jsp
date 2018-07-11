@@ -27,5 +27,9 @@
     <input type="hidden" name="action" value="WelcomePage">
     <input type="submit" value="<fmt:message key="label.button.WelcomePage" bundle="${rb}"/>">
 </form>
+<form action="WelcomePage" method="post">
+    <input type="hidden" name="action" value="InvalidateSession">
+    <input type="submit" value="<fmt:message key="label.button.Logout" bundle="${rb}"/>">
+</form>
 </body>
 </html>

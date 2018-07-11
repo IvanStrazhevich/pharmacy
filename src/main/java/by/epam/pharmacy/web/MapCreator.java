@@ -35,6 +35,9 @@ public class MapCreator {
                 case REGISTER_PAGE:
                     servletMap.put(command.getValue(), new RegisterPageHandler());
                     break;
+                case INVALIDATE_SESSION:
+                    servletMap.put(command.getValue(), new InvalidateSessionHandler());
+                    break;
                 default:
                     throw new PharmacyServletException("There is no such command at " + CommandEnum.class + command.getValue());
             }

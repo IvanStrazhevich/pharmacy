@@ -1,9 +1,7 @@
 package by.epam.pharmacy.service;
 
 import by.epam.pharmacy.dao.impl.UserDao;
-import by.epam.pharmacy.dao.impl.ClientDao;
 import by.epam.pharmacy.entity.AccessLevel;
-import by.epam.pharmacy.entity.Client;
 import by.epam.pharmacy.entity.User;
 import by.epam.pharmacy.exception.DaoException;
 import by.epam.pharmacy.exception.EncriptingException;
@@ -25,16 +23,12 @@ public class RegisterUserHandler implements RequestHandler {
     private Encodable encoder = new SHAConverter();
     private LanguageSwitchable languageSwitcher = new LanguageSwitcher();
 
-    private boolean createUser(Client client, User user) throws DaoException {
-        try (UserDao userDao = new UserDao();
-             ClientDao clientDao = new ClientDao()) {
+    private boolean createUser(User user) throws DaoException {
+        try (UserDao userDao = new UserDao()) {
             if(null==user.getAccessLevel()){
                 user.setAccessLevel(AccessLevel.CLIENT.getValue());
             }
-            userDao.create(user);
-            user.setUserId(userDao.findLastInsertId());
-            client.setUserId(user.getUserId());
-            return clientDao.create(client);
+            return userDao.create(user);
         }
     }
 
@@ -53,8 +47,6 @@ public class RegisterUserHandler implements RequestHandler {
         languageSwitcher.langSwitch(request);
         String login = request.getParameter(AttributeEnum.LOGIN.getValue());
         String password = request.getParameter(AttributeEnum.PASSWORD.getValue());
-        String name = request.getParameter(AttributeEnum.NAME.getValue());
-        String lastname = request.getParameter(AttributeEnum.LASTNAME.getValue());
         String shalogin = null;
         String shaPassword = null;
         String page = null;
@@ -78,13 +70,10 @@ public class RegisterUserHandler implements RequestHandler {
                 }
             }
             if (!flag) {
-                Client client = new Client();
-                client.setName(name);
-                client.setLastname(lastname);
                 User user = new User();
                 user.setLogin(shalogin);
                 user.setPassword(shaPassword);
-                if (createUser(client, user)) {
+                if (createUser(user)) {
                     logger.debug("registered");
                     request.getSession().setAttribute(AttributeEnum.LOGGED.getValue(), AttributeEnum.LANG.getValue());
                     request.setAttribute(AttributeEnum.USER_REGISTERED.getValue(), ResourceManager.INSTANCE.getString(MESSAGE_USER_REGISTERED));

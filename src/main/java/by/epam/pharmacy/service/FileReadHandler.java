@@ -36,6 +36,7 @@ public class FileReadHandler implements RequestHandler {
                 }
             }
         }
+
         logger.info("3"+ uploadFilePath + File.separator + filename);
 
         return PagesEnum.UPLOAD_RESULT_PAGE.getValue();
