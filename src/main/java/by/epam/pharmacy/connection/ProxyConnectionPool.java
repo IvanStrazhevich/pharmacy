@@ -13,7 +13,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class ProxyConnectionPool {
     private static final int MAX_CONNECTIONS = 20;
-    private static final int MIN_CONNECTIONS = 10;
+    private static final int MIN_CONNECTIONS = 5;
     private static final int NORMALIZATION_LIMIT_FOR_CONNECTIONS = 15;
     private static Logger logger = LogManager.getLogger();
     private static ProxyConnectionPool connectionPool;
@@ -58,7 +58,7 @@ public class ProxyConnectionPool {
         try {
             int poolsize = connectionPoolFree.size();
             for (int i = 0; i < poolsize; i++) {
-                logger.info(connectionPoolFree.size() + " i: " + i + " in pool");
+                logger.debug(connectionPoolFree.size() + " i: " + i + " in pool");
                 connectionPoolFree.take().getConnection().close();
             }
         } catch (SQLException | InterruptedException e) {
@@ -69,7 +69,7 @@ public class ProxyConnectionPool {
     private void optimizePool() throws ProxyPoolException {
         try {
             while (connectionPoolFree.size() > MIN_CONNECTIONS) {
-                logger.info("Optimisation " + connectionPoolFree.size());
+                logger.debug("Optimisation " + connectionPoolFree.size());
                 connectionPoolFree.take().getConnection().close();
             }
         } catch (SQLException | InterruptedException e) {
@@ -78,10 +78,10 @@ public class ProxyConnectionPool {
     }
 
     public ProxyConnection getConnection() throws ProxyPoolException {
-        logger.info("Connections avalable" + connectionPoolFree.size());
+        logger.debug("Connections avalable" + connectionPoolFree.size());
         ProxyConnection proxyConnection = null;
         try {
-            if (connectionPoolFree.size() == 0 && connectionPoolFree.size() < MAX_CONNECTIONS) {
+            if (connectionPoolFree.size() < MIN_CONNECTIONS && connectionInUse.size() < MAX_CONNECTIONS) {
                 logger.info("Connection adding");
                 String url = properties.getProperty("url");
                 ProxyConnection additionalProxyConnection = new ProxyConnection();
@@ -97,19 +97,19 @@ public class ProxyConnectionPool {
             throw new ProxyPoolException("Adding proxyConnection error", e);
         }
         logger.info("added" + proxyConnection);
-        logger.info("pool free: " + connectionPoolFree);
+        logger.info("pool free: " + connectionPoolFree.size());
         connectionInUse.add(proxyConnection);
-        logger.info("pool in use: " + connectionInUse);
+        logger.info("pool in use: " + connectionInUse.size());
 
         return proxyConnection;
     }
 
     void releaseConnection(ProxyConnection proxyConnection) {
         logger.info("returning connection to pool");
-        logger.info("Connection " + proxyConnection + " is in " + connectionInUse.contains(proxyConnection) + connectionInUse);
+        logger.info("Connection " + proxyConnection + " is in use: " + connectionInUse.contains(proxyConnection) +" in use size "+ connectionInUse.size());
         connectionInUse.remove(proxyConnection);
         connectionPoolFree.add(proxyConnection);
-        logger.info("Connection returned to free poll " + connectionPoolFree);
-        logger.info("Connection deleted from in use " + connectionInUse);
+        logger.info("Connections in free poll " + connectionPoolFree.size());
+        logger.info("Connections in use " + connectionInUse.size());
     }
 }

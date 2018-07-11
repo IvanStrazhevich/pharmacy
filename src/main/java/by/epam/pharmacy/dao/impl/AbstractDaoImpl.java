@@ -38,6 +38,7 @@ public abstract class AbstractDaoImpl<T> implements AbstractDao<T> {
         }
         return id;
     }
+
     @Override
     public boolean deleteById(Integer id, String statement) throws DaoException {
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(statement)) {
@@ -49,7 +50,6 @@ public abstract class AbstractDaoImpl<T> implements AbstractDao<T> {
             throw new DaoException("Exception on deleteById", e);
         }
     }
-
 
     public void close() throws DaoException {
         if (proxyConnection != null) {

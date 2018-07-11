@@ -1,6 +1,6 @@
 package by.epam.pharmacy.entity;
 
-public class Doctor extends Client {
+public class Doctor extends ClientDetail {
     private static final long serialVersionUID = -8413097800977296446L;
     private int licenseId;
 

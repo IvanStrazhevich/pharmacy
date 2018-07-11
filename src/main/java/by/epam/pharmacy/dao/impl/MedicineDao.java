@@ -64,7 +64,7 @@ public class MedicineDao extends AbstractDaoImpl<Medicine> {
             medicine.setPrice(resultSet.getBigDecimal(6));
             medicine.setAvailable(resultSet.getBoolean(7));
         } catch (SQLException e) {
-            throw new DaoException("Exception on find all", e);
+            throw new DaoException("Exception on find bu id", e);
         }
         return medicine;
     }
@@ -114,7 +114,7 @@ public class MedicineDao extends AbstractDaoImpl<Medicine> {
             preparedStatement.execute();
             return true;
         } catch (SQLException e) {
-            throw new DaoException("Exception on create", e);
+            throw new DaoException("Exception on update", e);
         }
     }
 }

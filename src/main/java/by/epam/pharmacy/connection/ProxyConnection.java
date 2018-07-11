@@ -10,7 +10,9 @@ import java.sql.SQLException;
 public class ProxyConnection {
     private static Logger logger = LogManager.getLogger();
     private Connection connection;
-    ProxyConnection(){}
+
+    ProxyConnection() {
+    }
 
     public void close() {
         logger.info("closing proxy connection");
