@@ -10,7 +10,7 @@ import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
-public class AuthorDaoTest {
+public class UserDaoTest {
     private UserDao userDao;
     private User user;
     private static Logger logger = LogManager.getLogger();
@@ -56,7 +56,7 @@ public class AuthorDaoTest {
     }
 
     @Test
-    public void testDeleteByObject() throws DaoException {
+    public void testDelete() throws DaoException {
         userDao.create(user);
         userDao.delete(user);
     }
@@ -64,7 +64,7 @@ public class AuthorDaoTest {
     @Test
     public void testDeleteById() throws DaoException {
         userDao.create(user);
-        userDao.delete(userDao.findLastInsertId());
+        userDao.deleteById(userDao.findLastInsertId());
     }
 
     @Test
@@ -79,7 +79,7 @@ public class AuthorDaoTest {
         expected.setLogin("Mike");
         userDao.update(expected);
         logger.info("exp: " + expected);
-        User actual = userDao.findEntityById(expected.getLogin());
+        User actual = userDao.findEntityById(expected.getUserId());
         logger.info("act: " + actual);
         Assert.assertEquals(expected, actual);
     }

@@ -32,7 +32,8 @@ public class RegisterUserHandler implements RequestHandler {
                 user.setAccessLevel(AccessLevel.CLIENT.getValue());
             }
             userDao.create(user);
-            client.setUserId(user.getLogin());
+            user.setUserId(userDao.findLastInsertId());
+            client.setUserId(user.getUserId());
             return clientDao.create(client);
         }
     }
@@ -67,6 +68,7 @@ public class RegisterUserHandler implements RequestHandler {
             for (User user : list) {
                 if (request.getSession().getAttribute(AttributeEnum.LOGIN.getValue()) == null) {
                     String loginDB = user.getLogin();
+                    logger.info(loginDB+'\n'+shalogin);
                     if (shalogin.equals(loginDB)) {
                         request.setAttribute(AttributeEnum.USER_EXIST.getValue(), ResourceManager.INSTANCE.getString(MESSAGE_USER_EXIST));
                         page = PagesEnum.REGISTER_PAGE.getValue();

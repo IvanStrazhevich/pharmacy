@@ -33,7 +33,7 @@ public class ClientDao extends AbstractDaoImpl<Client> {
             ResultSet resultSet = preparedStatement.getResultSet();
             while (resultSet.next()) {
                 Client client = new Client();
-                client.setUserId(resultSet.getString(1));
+                client.setUserId(resultSet.getInt(1));
                 client.setName(resultSet.getString(2));
                 client.setLastname(resultSet.getString(3));
                 clientList.add(client);
@@ -45,14 +45,14 @@ public class ClientDao extends AbstractDaoImpl<Client> {
     }
 
     @Override
-    public Client findEntityById(String id) throws DaoException {
+    public Client findEntityById(Integer id) throws DaoException {
         Client client = new Client();
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_BY_ID_PSTM)) {
-            preparedStatement.setString(1, id);
+            preparedStatement.setInt(1, id);
             preparedStatement.execute();
             ResultSet resultSet = preparedStatement.getResultSet();
             resultSet.next();
-            client.setUserId(resultSet.getString(1));
+            client.setUserId(resultSet.getInt(1));
             client.setName(resultSet.getString(2));
             client.setLastname(resultSet.getString(3));
         } catch (SQLException e) {
@@ -62,31 +62,31 @@ public class ClientDao extends AbstractDaoImpl<Client> {
     }
 
     @Override
-    public boolean delete(String id) throws DaoException {
+    public boolean deleteById(Integer id) throws DaoException {
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(DELETE_PSTM)) {
-            preparedStatement.setString(1, id);
+            preparedStatement.setInt(1, id);
             preparedStatement.execute();
             return true;
         } catch (SQLException e) {
-            throw new DaoException("Exception on delete", e);
+            throw new DaoException("Exception on deleteById", e);
         }
     }
 
     @Override
     public boolean delete(Client entity) throws DaoException {
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(DELETE_PSTM)) {
-            preparedStatement.setString(1, entity.getUserId());
+            preparedStatement.setInt(1, entity.getUserId());
             preparedStatement.execute();
             return true;
         } catch (SQLException e) {
-            throw new DaoException("Exception on delete", e);
+            throw new DaoException("Exception on deleteById", e);
         }
     }
 
     @Override
     public boolean create(Client entity) throws DaoException {
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(INSERT_PSTM)) {
-            preparedStatement.setString(1, entity.getUserId());
+            preparedStatement.setInt(1, entity.getUserId());
             preparedStatement.setString(2, entity.getName());
             preparedStatement.setString(3, entity.getLastname());
             preparedStatement.execute();
@@ -101,7 +101,7 @@ public class ClientDao extends AbstractDaoImpl<Client> {
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(UPDATE_PSTM)) {
             preparedStatement.setString(1, entity.getName());
             preparedStatement.setString(2, entity.getLastname());
-            preparedStatement.setString(3, entity.getUserId());
+            preparedStatement.setInt(3, entity.getUserId());
             preparedStatement.execute();
             return true;
         } catch (SQLException e) {

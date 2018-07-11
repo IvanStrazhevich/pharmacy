@@ -6,13 +6,13 @@ import java.util.List;
 
 
 public interface AbstractDao<T> extends AutoCloseable {
-    String findLastInsertId() throws DaoException;
+    Integer findLastInsertId() throws DaoException;
 
     List<T> findAll() throws DaoException;
 
-    T findEntityById(String id) throws DaoException;
+    T findEntityById(Integer id) throws DaoException;
 
-    boolean delete(String id) throws DaoException;
+    boolean deleteById(Integer id) throws DaoException;
 
     boolean delete(T entity) throws DaoException;
 
