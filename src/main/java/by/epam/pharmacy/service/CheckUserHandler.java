@@ -21,7 +21,6 @@ public class CheckUserHandler implements RequestHandler {
     private static final String MESSAGE = "message.wrongloginAndPass";
     private static final String MESSAGE_SUCCESS = "message.loginOk";
     private Encodable encoder = new SHAConverter();
-    //private LanguageSwitchable languageSwitcher = new LanguageSwitcher();
 
     private ArrayList<User> getUsersList() throws DaoException {
         ArrayList<User> users = new ArrayList<>();
@@ -34,9 +33,8 @@ public class CheckUserHandler implements RequestHandler {
     }
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException{
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         String page = null;
-        //languageSwitcher.langSwitch(request);
         String login = request.getParameter(AttributeEnum.LOGIN.getValue());
         String password = request.getParameter(AttributeEnum.PASSWORD.getValue());
         Boolean logeed = false;
@@ -70,10 +68,6 @@ public class CheckUserHandler implements RequestHandler {
         return page;
     }
 
-    /*public void setLanguageSwitcher(LanguageSwitchable languageSwitcher) {
-        this.languageSwitcher = languageSwitcher;
-    }
-*/
     public void setEncoder(Encodable encoder) {
         this.encoder = encoder;
     }

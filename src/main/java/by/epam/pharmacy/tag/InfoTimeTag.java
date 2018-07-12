@@ -1,7 +1,5 @@
 package by.epam.pharmacy.tag;
 
-import by.epam.pharmacy.util.LanguageSwitchable;
-import by.epam.pharmacy.util.LanguageSwitcher;
 import by.epam.pharmacy.service.ResourceManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,8 +16,8 @@ public class InfoTimeTag extends TagSupport {
     private static final String MESSAGE_TIME = "message.time";
     private static final String MESSAGE_LOCALE = "message.locale";
     private static Logger logger = LogManager.getLogger();
-    private LanguageSwitchable languageSwitcher = new LanguageSwitcher();
-    private String locale;
+    /*private LanguageSwitchable languageSwitcher = new LanguageSwitcher();
+    */private String locale;
 
     public void setLocale(String locale) {
         this.locale = locale;
@@ -31,8 +29,8 @@ public class InfoTimeTag extends TagSupport {
         if (null != locale) {
             region = ResourceManager.INSTANCE.getString(MESSAGE_LOCALE) + " <b> " + locale + " </b><hr/> ";
         } else {
-            languageSwitcher.langSwitch(pageContext.getRequest());
-            locale = Locale.getDefault().stripExtensions().toString();
+           /* languageSwitcher.langSwitch(pageContext.getRequest());
+           */ locale = Locale.getDefault().stripExtensions().toString();
             region = ResourceManager.INSTANCE.getString(MESSAGE_LOCALE) + " <b> " + locale + " </b><hr/> ";
 
         }
@@ -52,7 +50,7 @@ public class InfoTimeTag extends TagSupport {
         return EVAL_PAGE;
     }
 
-    public void setLanguageSwitcher(LanguageSwitchable languageSwitcher) {
+    /*public void setLanguageSwitcher(LanguageSwitchable languageSwitcher) {
         this.languageSwitcher = languageSwitcher;
     }
-}
+*/}

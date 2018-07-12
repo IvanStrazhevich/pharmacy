@@ -16,6 +16,10 @@
         <location>/jsp/ErrorPage.jsp</location>
     </error-page>
     <error-page>
+        <error-code>500</error-code>
+        <location>/jsp/ErrorPage.jsp</location>
+    </error-page>
+    <error-page>
         <exception-type>java.io.IOException</exception-type>
         <location>/jsp/MissedFilePage.jsp</location>
     </error-page>

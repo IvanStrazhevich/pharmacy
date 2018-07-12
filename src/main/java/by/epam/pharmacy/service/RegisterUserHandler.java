@@ -23,11 +23,10 @@ public class RegisterUserHandler implements RequestHandler {
     private static final String MESSAGE_USER_REGISTERED = "message.userRegistered";
     private static final String MESSAGE_USER_NOT_REGISTERED = "message.userNotRegistered";
     private Encodable encoder = new SHAConverter();
-   // private LanguageSwitchable languageSwitcher = new LanguageSwitcher();
 
     private boolean createUser(User user) throws DaoException {
         try (UserDao userDao = new UserDao()) {
-            if(null==user.getAccessLevel()){
+            if (null == user.getAccessLevel()) {
                 user.setAccessLevel(AccessLevel.CLIENT.getValue());
             }
             return userDao.create(user);
@@ -46,7 +45,6 @@ public class RegisterUserHandler implements RequestHandler {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-        //languageSwitcher.langSwitch(request);
         String login = request.getParameter(AttributeEnum.LOGIN.getValue());
         String password = request.getParameter(AttributeEnum.PASSWORD.getValue());
         String shalogin = null;
@@ -62,7 +60,7 @@ public class RegisterUserHandler implements RequestHandler {
             for (User user : list) {
                 if (request.getSession().getAttribute(AttributeEnum.LOGIN.getValue()) == null) {
                     String loginDB = user.getLogin();
-                    logger.info(loginDB+'\n'+shalogin);
+                    logger.info(loginDB + '\n' + shalogin);
                     if (shalogin.equals(loginDB)) {
                         request.setAttribute(AttributeEnum.USER_EXIST.getValue(), ResourceManager.INSTANCE.getString(MESSAGE_USER_EXIST));
                         page = PagesEnum.REGISTER_PAGE.getValue();
@@ -95,10 +93,6 @@ public class RegisterUserHandler implements RequestHandler {
         return page;
     }
 
-   /* public void setLanguageSwitcher(LanguageSwitchable languageSwitcher) {
-        this.languageSwitcher = languageSwitcher;
-    }
-*/
     public void setEncoder(Encodable encoder) {
         this.encoder = encoder;
     }

@@ -6,21 +6,12 @@
 <fmt:setBundle basename="message"/>
 <html>
 <head>
+    <link rel="stylesheet" type="text/css" href="css/pharmacy.css">
     <title><fmt:message key="label.button.LoginPage"/>
         <hr>
     </title>
 </head>
-<style type="text/css">
-    body {
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-        background-color: #38b3cd;
-        color: #616161;
-    }
-</style>
-<body>
+<body class="body">
 <hr>
 <fmt:message key="label.button.LoginPage"/>
 ${userNotRegistered}
@@ -42,7 +33,7 @@ ${needLogin}
 <form action="RegisterPage"
       method="post">
     <input type="hidden" name="action" value="RegisterPage">
-    <input type="submit" style="color: #616161" value="<fmt:message key="label.button.RegisterPage"/>">
+    <input type="submit" value="<fmt:message key="label.button.RegisterPage"/>">
 </form>
 </body>
 </html>

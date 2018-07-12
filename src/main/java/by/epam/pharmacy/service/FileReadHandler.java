@@ -13,16 +13,13 @@ import java.io.IOException;
 
 public class FileReadHandler implements RequestHandler {
     private static final String UPLOAD_DIR = "uploads";
-   // LanguageSwitchable languageSwitcher = new LanguageSwitcher();
     Logger logger = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //languageSwitcher.langSwitch(request);
-        String applicationPath = request.getServletContext().getRealPath("");//new File("").getAbsolutePath();
+        String applicationPath = request.getServletContext().getRealPath("");
         String uploadFilePath = applicationPath + UPLOAD_DIR;
         String filename = null;
-        logger.info("1"+uploadFilePath + File.separator + filename);
         File fileSaveDir = new File(uploadFilePath);
         if (!fileSaveDir.exists()) {
             fileSaveDir.mkdirs();
@@ -32,15 +29,9 @@ public class FileReadHandler implements RequestHandler {
                 if (null != part.getSubmittedFileName()) {
                     part.write(uploadFilePath + File.separator + part.getSubmittedFileName());
                     filename = part.getSubmittedFileName();
-                    logger.info("2"+ uploadFilePath + File.separator + filename);
                 }
             }
         }
-        logger.info("3"+ uploadFilePath + File.separator + filename);
-
         return PagesEnum.UPLOAD_RESULT_PAGE.getValue();
     }
-    /*public void setLanguageSwitcher(LanguageSwitchable languageSwitcher) {
-        this.languageSwitcher = languageSwitcher;
-    }
-*/}
+}

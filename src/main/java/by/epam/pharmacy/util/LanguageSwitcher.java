@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.jstl.core.Config;
 import java.util.Locale;
 
-public class LanguageSwitcher implements LanguageSwitchable<HttpServletRequest>{
+public class LanguageSwitcher<T> implements LanguageSwitchable<HttpServletRequest>{
     private static Logger logger = LogManager.getLogger();
      private void langDef(String lang, HttpServletRequest request) {
         switch (lang) {

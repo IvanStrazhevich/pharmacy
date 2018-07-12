@@ -38,7 +38,7 @@ public class PharmacyServlet extends HttpServlet {
     }
 
     private void handleRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        response.setContentType("text/html;charset=utf-8");
+        response.setContentType("text/html; charset=utf-8");
         String action = request.getParameter("action");
         if (null != action) {
             RequestHandler requestHandler = servletMap.get(action);
@@ -61,8 +61,8 @@ public class PharmacyServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws
-            ServletException, IOException {
+    protected void doGet(HttpServletRequest request,
+                         HttpServletResponse response) throws ServletException, IOException {
         handleRequest(request, response);
     }
 

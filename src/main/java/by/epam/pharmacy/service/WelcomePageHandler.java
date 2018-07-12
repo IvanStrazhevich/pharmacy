@@ -11,11 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 public class WelcomePageHandler implements RequestHandler {
     private static Logger logger = LogManager.getLogger();
     private static final String MESSAGE = "message.needLogin";
-    //private LanguageSwitchable languageSwitcher = new LanguageSwitcher();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        //languageSwitcher.langSwitch(request);
         String page = null;
         if (request.getSession().getAttribute(AttributeEnum.LOGGED.getValue()) != null) {
             page = PagesEnum.WELCOME_PAGE.getValue();
@@ -25,8 +23,5 @@ public class WelcomePageHandler implements RequestHandler {
         }
         return page;
     }
-    /*public void setLanguageSwitcher(LanguageSwitchable languageSwitcher) {
-        this.languageSwitcher = languageSwitcher;
-    }*/
 }
 
