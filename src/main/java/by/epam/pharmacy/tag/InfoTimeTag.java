@@ -13,11 +13,10 @@ import java.util.Locale;
 
 @SuppressWarnings("serial")
 public class InfoTimeTag extends TagSupport {
+    private static Logger logger = LogManager.getLogger();
     private static final String MESSAGE_TIME = "message.time";
     private static final String MESSAGE_LOCALE = "message.locale";
-    private static Logger logger = LogManager.getLogger();
-    /*private LanguageSwitchable languageSwitcher = new LanguageSwitcher();
-    */private String locale;
+    private String locale;
 
     public void setLocale(String locale) {
         this.locale = locale;
@@ -27,11 +26,10 @@ public class InfoTimeTag extends TagSupport {
     public int doStartTag() throws JspException {
         String region = null;
         if (null != locale) {
-            region = ResourceManager.INSTANCE.getString(MESSAGE_LOCALE) + " <b> " + locale + " </b><hr/> ";
+            region = ResourceManager.INSTANCE.getString(MESSAGE_LOCALE) + " <b> " + locale + " </b> ";
         } else {
-           /* languageSwitcher.langSwitch(pageContext.getRequest());
-           */ locale = Locale.getDefault().stripExtensions().toString();
-            region = ResourceManager.INSTANCE.getString(MESSAGE_LOCALE) + " <b> " + locale + " </b><hr/> ";
+            locale = Locale.getDefault().stripExtensions().toString();
+            region = ResourceManager.INSTANCE.getString(MESSAGE_LOCALE) + " <b> " + locale + " </b> ";
 
         }
         String time = "<hr/>" + ResourceManager.INSTANCE.getString(MESSAGE_TIME) + " <b> "
@@ -49,8 +47,4 @@ public class InfoTimeTag extends TagSupport {
     public int doEndTag() throws JspException {
         return EVAL_PAGE;
     }
-
-    /*public void setLanguageSwitcher(LanguageSwitchable languageSwitcher) {
-        this.languageSwitcher = languageSwitcher;
-    }
-*/}
+}

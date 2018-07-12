@@ -15,7 +15,7 @@ import java.util.List;
 public class OrderDao extends AbstractDaoImpl<Order> {
     private static final String SELECT_ALL_PSTM = "select order_id, ord_user_id, ord_payed, ord_med_sum from order";
     private static final String SELECT_BY_ID_PSTM = "select order_id, ord_user_id, ord_payed, ord_med_sum from order where order_id = ?";
-    private static final String INSERT_PSTM = "insert into order(ord_user_id, ord_payed, ord_med_sum) values(?,?,?)";
+    private static final String INSERT_PSTM = "insert into order (ord_user_id, ord_payed, ord_med_sum) values(?,?,?)";
     private static final String DELETE_PSTM = "delete from order where order_id = ?";
     private static final String UPDATE_PSTM = "update order set ord_user_id=?, ord_payed=?, ord_med_sum=? where order_id = ?";
 
@@ -97,7 +97,7 @@ public class OrderDao extends AbstractDaoImpl<Order> {
 
     @Override
     public boolean update(Order entity) throws DaoException {
-        try (PreparedStatement preparedStatement = secureConnection.prepareStatement(INSERT_PSTM)) {
+        try (PreparedStatement preparedStatement = secureConnection.prepareStatement(UPDATE_PSTM)) {
             preparedStatement.setInt(1, entity.getClientId());
             preparedStatement.setBoolean(2, entity.isPayed());
             preparedStatement.setBigDecimal(3, entity.getMedicineSum());

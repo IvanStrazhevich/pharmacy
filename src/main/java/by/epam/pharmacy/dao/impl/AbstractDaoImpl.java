@@ -43,7 +43,6 @@ public abstract class AbstractDaoImpl<T> implements AbstractDao<T> {
     public boolean deleteById(Integer id, String statement) throws DaoException {
         try (PreparedStatement preparedStatement = secureConnection.prepareStatement(statement)) {
             preparedStatement.setInt(1, id);
-            logger.info("deleting");
             preparedStatement.execute();
             return true;
         } catch (SQLException e) {
