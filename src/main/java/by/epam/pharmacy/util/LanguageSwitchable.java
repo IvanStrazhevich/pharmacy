@@ -1,4 +1,4 @@
-package by.epam.pharmacy.service;
+package by.epam.pharmacy.util;
 
 public interface LanguageSwitchable<T> {
     void langSwitch(T request);

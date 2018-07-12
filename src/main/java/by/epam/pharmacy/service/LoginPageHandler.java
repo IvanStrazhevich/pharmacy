@@ -1,8 +1,8 @@
 package by.epam.pharmacy.service;
 
 
-import by.epam.pharmacy.web.AttributeEnum;
-import by.epam.pharmacy.web.PagesEnum;
+import by.epam.pharmacy.controller.AttributeEnum;
+import by.epam.pharmacy.controller.PagesEnum;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -11,12 +11,12 @@ import java.io.IOException;
 import java.util.Locale;
 
 public class LoginPageHandler implements RequestHandler {
-    private LanguageSwitchable languageSwitcher = new LanguageSwitcher();
+   // private LanguageSwitchable languageSwitcher = new LanguageSwitcher();
     private static final String MESSAGE = "message.needLogin";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        languageSwitcher.langSwitch(request);
+        //languageSwitcher.langSwitch(request);
         String page = null;
         ResourceManager.INSTANCE.changeResource(new Locale(request.getSession().getAttribute(AttributeEnum.LANG.getValue()).toString()));
         if (request.getSession().getAttribute(AttributeEnum.LOGGED.getValue()) == null) {
@@ -27,8 +27,7 @@ public class LoginPageHandler implements RequestHandler {
         }
         return page;
     }
-
-    public void setLanguageSwitcher(LanguageSwitchable languageSwitcher) {
+    /*public void setLanguageSwitcher(LanguageSwitchable languageSwitcher) {
         this.languageSwitcher = languageSwitcher;
     }
-}
+*/}

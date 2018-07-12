@@ -1,6 +1,6 @@
 package by.epam.pharmacy.dao.impl;
 
-import by.epam.pharmacy.connection.ProxyConnection;
+import by.epam.pharmacy.connection.SecureConnection;
 import by.epam.pharmacy.entity.User;
 import by.epam.pharmacy.exception.DaoException;
 import org.apache.logging.log4j.LogManager;
@@ -18,16 +18,16 @@ public class UserDao extends AbstractDaoImpl<User> {
     private static final String DELETE_PSTM = "delete from user where user_id = ?";
     private static final String UPDATE_PSTM = "update user set user_login = ?, user_password = ?, user_access_level = ? where user_id = ?";
     private static Logger logger = LogManager.getLogger();
-    private ProxyConnection proxyConnection;
+    private SecureConnection secureConnection;
 
     public UserDao() throws DaoException {
-        proxyConnection = super.proxyConnection;
+        secureConnection = super.secureConnection;
     }
 
     @Override
     public ArrayList<User> findAll() throws DaoException {
         ArrayList<User> userList = new ArrayList<>();
-        try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_ALL_PSTM)) {
+        try (PreparedStatement preparedStatement = secureConnection.prepareStatement(SELECT_ALL_PSTM)) {
             preparedStatement.execute();
             ResultSet resultSet = preparedStatement.getResultSet();
             while (resultSet.next()) {
@@ -48,7 +48,7 @@ public class UserDao extends AbstractDaoImpl<User> {
     @Override
     public User findEntityById(Integer id) throws DaoException {
         User user = new User();
-        try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_BY_ID_PSTM)) {
+        try (PreparedStatement preparedStatement = secureConnection.prepareStatement(SELECT_BY_ID_PSTM)) {
             preparedStatement.setInt(1, id);
             preparedStatement.execute();
             ResultSet resultSet = preparedStatement.getResultSet();
@@ -70,7 +70,7 @@ public class UserDao extends AbstractDaoImpl<User> {
 
     @Override
     public boolean delete(User entity) throws DaoException {
-        try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(DELETE_PSTM)) {
+        try (PreparedStatement preparedStatement = secureConnection.prepareStatement(DELETE_PSTM)) {
             preparedStatement.setInt(1, entity.getUserId());
             preparedStatement.execute();
             return true;
@@ -81,7 +81,7 @@ public class UserDao extends AbstractDaoImpl<User> {
 
     @Override
     public boolean create(User entity) throws DaoException {
-        try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(INSERT_PSTM)) {
+        try (PreparedStatement preparedStatement = secureConnection.prepareStatement(INSERT_PSTM)) {
             preparedStatement.setString(1, entity.getLogin());
             preparedStatement.setString(2, entity.getPassword());
             preparedStatement.setString(3, entity.getAccessLevel());
@@ -94,7 +94,7 @@ public class UserDao extends AbstractDaoImpl<User> {
 
     @Override
     public boolean update(User entity) throws DaoException {
-        try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(UPDATE_PSTM)) {
+        try (PreparedStatement preparedStatement = secureConnection.prepareStatement(UPDATE_PSTM)) {
             preparedStatement.setString(1, entity.getLogin());
             preparedStatement.setString(2, entity.getPassword());
             preparedStatement.setString(3, entity.getAccessLevel());

@@ -1,6 +1,6 @@
 package by.epam.pharmacy.listener;
 
-import by.epam.pharmacy.connection.ProxyConnectionPool;
+import by.epam.pharmacy.connection.ConnectionPool;
 import by.epam.pharmacy.exception.ProxyPoolException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,19 +16,18 @@ public class PharmacyContextListener implements ServletContextListener {
     private static Logger logger = LogManager.getLogger();
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-
         try {
             DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.debug("Driver not registered",e);
         }
-        ProxyConnectionPool.getConnectionPool();
+        ConnectionPool.getInstance();
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
         try {
-            ProxyConnectionPool.getConnectionPool().closeAll();
+            ConnectionPool.getInstance().closeAll();
         } catch (ProxyPoolException e) {
             e.printStackTrace();
         } finally {
@@ -37,7 +36,7 @@ public class PharmacyContextListener implements ServletContextListener {
                 try {
                     DriverManager.deregisterDriver(s);
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    logger.debug("Driver not de-registered",e);
                 }
             });
         }

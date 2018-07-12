@@ -1,6 +1,6 @@
 package by.epam.pharmacy.dao;
 
-import by.epam.pharmacy.connection.ProxyConnectionPool;
+import by.epam.pharmacy.connection.ConnectionPool;
 import by.epam.pharmacy.dao.impl.UserDao;
 import by.epam.pharmacy.entity.User;
 import by.epam.pharmacy.exception.DaoException;
@@ -14,21 +14,21 @@ public class UserDaoTest {
     private UserDao userDao;
     private User user;
     private static Logger logger = LogManager.getLogger();
-    private ProxyConnectionPool proxyConnectionPool;
+    private ConnectionPool connectionPool;
 
     @BeforeClass
     public void beforeClass() {
         user = new User();
         user.setLogin("john@gmail.com");
         user.setPassword("pass");
-        proxyConnectionPool = ProxyConnectionPool.getConnectionPool();
+        connectionPool = ConnectionPool.getInstance();
 
     }
 
     @AfterClass
     public void afterClass() throws ProxyPoolException {
-        proxyConnectionPool.closeAll();
-        proxyConnectionPool=null;
+        connectionPool.closeAll();
+        connectionPool =null;
 
     }
 

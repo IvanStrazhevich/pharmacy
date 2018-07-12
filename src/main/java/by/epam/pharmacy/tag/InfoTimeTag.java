@@ -1,7 +1,7 @@
 package by.epam.pharmacy.tag;
 
-import by.epam.pharmacy.service.LanguageSwitchable;
-import by.epam.pharmacy.service.LanguageSwitcher;
+import by.epam.pharmacy.util.LanguageSwitchable;
+import by.epam.pharmacy.util.LanguageSwitcher;
 import by.epam.pharmacy.service.ResourceManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

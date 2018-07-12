@@ -1,6 +1,6 @@
 package by.epam.pharmacy.dao.impl;
 
-import by.epam.pharmacy.connection.ProxyConnection;
+import by.epam.pharmacy.connection.SecureConnection;
 import by.epam.pharmacy.entity.Medicine;
 import by.epam.pharmacy.exception.DaoException;
 import org.apache.logging.log4j.LogManager;
@@ -19,16 +19,16 @@ public class MedicineDao extends AbstractDaoImpl<Medicine> {
     private static final String DELETE_PSTM = "delete from medicine where mdc_id = ?";
     private static final String UPDATE_PSTM = "update medicine set mdc_name=?, mdc_description=?, mdc_dosage=?, mdc_recipe_required=?, mdc_price=?, mdc_available=? where mdc_id = ?";
     private static Logger logger = LogManager.getLogger();
-    private ProxyConnection proxyConnection;
+    private SecureConnection secureConnection;
 
     public MedicineDao() throws DaoException {
-        proxyConnection = super.proxyConnection;
+        secureConnection = super.secureConnection;
     }
 
     @Override
     public List<Medicine> findAll() throws DaoException {
         ArrayList<Medicine> medicineList = new ArrayList<>();
-        try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_ALL_PSTM)) {
+        try (PreparedStatement preparedStatement = secureConnection.prepareStatement(SELECT_ALL_PSTM)) {
             preparedStatement.execute();
             ResultSet resultSet = preparedStatement.getResultSet();
             while (resultSet.next()) {
@@ -51,7 +51,7 @@ public class MedicineDao extends AbstractDaoImpl<Medicine> {
     @Override
     public Medicine findEntityById(Integer id) throws DaoException {
         Medicine medicine = new Medicine();
-        try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_BY_ID_PSTM)) {
+        try (PreparedStatement preparedStatement = secureConnection.prepareStatement(SELECT_BY_ID_PSTM)) {
             preparedStatement.setInt(1, id);
             preparedStatement.execute();
             ResultSet resultSet = preparedStatement.getResultSet();
@@ -76,7 +76,7 @@ public class MedicineDao extends AbstractDaoImpl<Medicine> {
 
     @Override
     public boolean delete(Medicine entity) throws DaoException {
-        try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(DELETE_PSTM)) {
+        try (PreparedStatement preparedStatement = secureConnection.prepareStatement(DELETE_PSTM)) {
             preparedStatement.setInt(1, entity.getMedicineId());
             preparedStatement.execute();
             return true;
@@ -87,7 +87,7 @@ public class MedicineDao extends AbstractDaoImpl<Medicine> {
 
     @Override
     public boolean create(Medicine entity) throws DaoException {
-        try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(INSERT_PSTM)) {
+        try (PreparedStatement preparedStatement = secureConnection.prepareStatement(INSERT_PSTM)) {
             preparedStatement.setString(2, entity.getMedicineName());
             preparedStatement.setString(3, entity.getDescription());
             preparedStatement.setBigDecimal(4, entity.getDosage());
@@ -103,7 +103,7 @@ public class MedicineDao extends AbstractDaoImpl<Medicine> {
 
     @Override
     public boolean update(Medicine entity) throws DaoException {
-        try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(UPDATE_PSTM)) {
+        try (PreparedStatement preparedStatement = secureConnection.prepareStatement(UPDATE_PSTM)) {
             preparedStatement.setString(1, entity.getMedicineName());
             preparedStatement.setString(2, entity.getDescription());
             preparedStatement.setBigDecimal(3, entity.getDosage());

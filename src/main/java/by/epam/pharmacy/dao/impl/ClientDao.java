@@ -1,6 +1,6 @@
 package by.epam.pharmacy.dao.impl;
 
-import by.epam.pharmacy.connection.ProxyConnection;
+import by.epam.pharmacy.connection.SecureConnection;
 import by.epam.pharmacy.entity.ClientDetail;
 import by.epam.pharmacy.exception.DaoException;
 import org.apache.logging.log4j.LogManager;
@@ -19,16 +19,16 @@ public class ClientDao extends AbstractDaoImpl<ClientDetail> {
     private static final String DELETE_PSTM = "delete from client_detail where user_id = ?";
     private static final String UPDATE_PSTM = "update client_detail set cl_name = ?, cl_lastname = ? cl_email=?, cl_phone=?, cl_postcode=?, cl_country=?, cl_city=?, cl_address=? where user_id = ?";
     private static Logger logger = LogManager.getLogger();
-    private ProxyConnection proxyConnection;
+    private SecureConnection secureConnection;
 
     public ClientDao() throws DaoException {
-        proxyConnection = super.proxyConnection;
+        secureConnection = super.secureConnection;
     }
 
     @Override
     public List<ClientDetail> findAll() throws DaoException {
         ArrayList<ClientDetail> clientDetailList = new ArrayList<>();
-        try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_ALL_PSTM)) {
+        try (PreparedStatement preparedStatement = secureConnection.prepareStatement(SELECT_ALL_PSTM)) {
             preparedStatement.execute();
             ResultSet resultSet = preparedStatement.getResultSet();
             while (resultSet.next()) {
@@ -53,7 +53,7 @@ public class ClientDao extends AbstractDaoImpl<ClientDetail> {
     @Override
     public ClientDetail findEntityById(Integer id) throws DaoException {
         ClientDetail clientDetail = new ClientDetail();
-        try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_BY_ID_PSTM)) {
+        try (PreparedStatement preparedStatement = secureConnection.prepareStatement(SELECT_BY_ID_PSTM)) {
             preparedStatement.setInt(1, id);
             preparedStatement.execute();
             ResultSet resultSet = preparedStatement.getResultSet();
@@ -80,7 +80,7 @@ public class ClientDao extends AbstractDaoImpl<ClientDetail> {
 
     @Override
     public boolean delete(ClientDetail entity) throws DaoException {
-        try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(DELETE_PSTM)) {
+        try (PreparedStatement preparedStatement = secureConnection.prepareStatement(DELETE_PSTM)) {
             preparedStatement.setInt(1, entity.getClientId());
             preparedStatement.execute();
             return true;
@@ -91,7 +91,7 @@ public class ClientDao extends AbstractDaoImpl<ClientDetail> {
 
     @Override
     public boolean create(ClientDetail entity) throws DaoException {
-        try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(INSERT_PSTM)) {
+        try (PreparedStatement preparedStatement = secureConnection.prepareStatement(INSERT_PSTM)) {
             preparedStatement.setInt(1, entity.getClientId());
             preparedStatement.setString(2, entity.getName());
             preparedStatement.setString(3, entity.getLastname());
@@ -110,7 +110,7 @@ public class ClientDao extends AbstractDaoImpl<ClientDetail> {
 
     @Override
     public boolean update(ClientDetail entity) throws DaoException {
-        try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(UPDATE_PSTM)) {
+        try (PreparedStatement preparedStatement = secureConnection.prepareStatement(UPDATE_PSTM)) {
             preparedStatement.setString(1, entity.getName());
             preparedStatement.setString(2, entity.getLastname());
             preparedStatement.setString(3, entity.getEmail());

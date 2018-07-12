@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
+<fmt:setLocale value="${lang}" scope="session"/>
 <fmt:setBundle basename="message" var="rb"/>
 <html>
 <head>
@@ -33,7 +34,6 @@
     }
 </style>
 <body>
-<fmt:setLocale value="${lang}" scope="request"/>
 <fmt:message key="message.forgotfile" bundle="${rb}"/><hr>
 <form action="UploadPage"
       method="post">

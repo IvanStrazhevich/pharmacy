@@ -1,12 +1,14 @@
 package by.epam.pharmacy.service;
 
+import by.epam.pharmacy.controller.AttributeEnum;
+import by.epam.pharmacy.controller.PagesEnum;
 import by.epam.pharmacy.dao.impl.UserDao;
 import by.epam.pharmacy.entity.AccessLevel;
 import by.epam.pharmacy.entity.User;
 import by.epam.pharmacy.exception.DaoException;
 import by.epam.pharmacy.exception.EncriptingException;
-import by.epam.pharmacy.web.AttributeEnum;
-import by.epam.pharmacy.web.PagesEnum;
+import by.epam.pharmacy.util.Encodable;
+import by.epam.pharmacy.util.SHAConverter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,12 +18,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 
 public class RegisterUserHandler implements RequestHandler {
+    private static Logger logger = LogManager.getLogger();
     private static final String MESSAGE_USER_EXIST = "message.userExist";
     private static final String MESSAGE_USER_REGISTERED = "message.userRegistered";
     private static final String MESSAGE_USER_NOT_REGISTERED = "message.userNotRegistered";
-    private static Logger logger = LogManager.getLogger();
     private Encodable encoder = new SHAConverter();
-    private LanguageSwitchable languageSwitcher = new LanguageSwitcher();
+   // private LanguageSwitchable languageSwitcher = new LanguageSwitcher();
 
     private boolean createUser(User user) throws DaoException {
         try (UserDao userDao = new UserDao()) {
@@ -44,7 +46,7 @@ public class RegisterUserHandler implements RequestHandler {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-        languageSwitcher.langSwitch(request);
+        //languageSwitcher.langSwitch(request);
         String login = request.getParameter(AttributeEnum.LOGIN.getValue());
         String password = request.getParameter(AttributeEnum.PASSWORD.getValue());
         String shalogin = null;
@@ -93,10 +95,10 @@ public class RegisterUserHandler implements RequestHandler {
         return page;
     }
 
-    public void setLanguageSwitcher(LanguageSwitchable languageSwitcher) {
+   /* public void setLanguageSwitcher(LanguageSwitchable languageSwitcher) {
         this.languageSwitcher = languageSwitcher;
     }
-
+*/
     public void setEncoder(Encodable encoder) {
         this.encoder = encoder;
     }

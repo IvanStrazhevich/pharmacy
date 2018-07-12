@@ -1,18 +1,19 @@
 package by.epam.pharmacy.service;
 
+import by.epam.pharmacy.controller.AttributeEnum;
+import by.epam.pharmacy.controller.PagesEnum;
 import by.epam.pharmacy.dao.impl.UserDao;
 import by.epam.pharmacy.entity.User;
 import by.epam.pharmacy.exception.DaoException;
 import by.epam.pharmacy.exception.EncriptingException;
-import by.epam.pharmacy.web.AttributeEnum;
-import by.epam.pharmacy.web.PagesEnum;
+import by.epam.pharmacy.util.Encodable;
+import by.epam.pharmacy.util.SHAConverter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class CheckUserHandler implements RequestHandler {
@@ -20,7 +21,7 @@ public class CheckUserHandler implements RequestHandler {
     private static final String MESSAGE = "message.wrongloginAndPass";
     private static final String MESSAGE_SUCCESS = "message.loginOk";
     private Encodable encoder = new SHAConverter();
-    private LanguageSwitchable languageSwitcher = new LanguageSwitcher();
+    //private LanguageSwitchable languageSwitcher = new LanguageSwitcher();
 
     private ArrayList<User> getUsersList() throws DaoException {
         ArrayList<User> users = new ArrayList<>();
@@ -33,9 +34,9 @@ public class CheckUserHandler implements RequestHandler {
     }
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException{
         String page = null;
-        languageSwitcher.langSwitch(request);
+        //languageSwitcher.langSwitch(request);
         String login = request.getParameter(AttributeEnum.LOGIN.getValue());
         String password = request.getParameter(AttributeEnum.PASSWORD.getValue());
         Boolean logeed = false;
@@ -69,10 +70,10 @@ public class CheckUserHandler implements RequestHandler {
         return page;
     }
 
-    public void setLanguageSwitcher(LanguageSwitchable languageSwitcher) {
+    /*public void setLanguageSwitcher(LanguageSwitchable languageSwitcher) {
         this.languageSwitcher = languageSwitcher;
     }
-
+*/
     public void setEncoder(Encodable encoder) {
         this.encoder = encoder;
     }

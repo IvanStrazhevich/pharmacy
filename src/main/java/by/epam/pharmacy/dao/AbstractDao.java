@@ -22,6 +22,6 @@ public interface AbstractDao<T> extends AutoCloseable {
 
     boolean update(T entity) throws DaoException;
 
-    void close() throws DaoException;
+    void close();
 }
 

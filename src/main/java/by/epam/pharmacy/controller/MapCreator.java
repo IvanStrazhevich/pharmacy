@@ -1,4 +1,4 @@
-package by.epam.pharmacy.web;
+package by.epam.pharmacy.controller;
 
 import by.epam.pharmacy.exception.PharmacyServletException;
 import by.epam.pharmacy.service.*;
@@ -37,6 +37,9 @@ public class MapCreator {
                     break;
                 case INVALIDATE_SESSION:
                     servletMap.put(command.getValue(), new InvalidateSessionHandler());
+                    break;
+                case SET_LOCALE:
+                    servletMap.put(command.getValue(), new LocaleSwitchHandler());
                     break;
                 default:
                     throw new PharmacyServletException("There is no such command at " + CommandEnum.class + command.getValue());

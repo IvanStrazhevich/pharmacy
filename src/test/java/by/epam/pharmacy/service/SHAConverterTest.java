@@ -1,5 +1,6 @@
 package by.epam.pharmacy.service;
 
+import by.epam.pharmacy.util.SHAConverter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.annotations.AfterMethod;

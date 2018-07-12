@@ -1,7 +1,7 @@
 package by.epam.pharmacy.dao.impl;
 
-import by.epam.pharmacy.connection.ProxyConnection;
-import by.epam.pharmacy.connection.ProxyConnectionPool;
+import by.epam.pharmacy.connection.SecureConnection;
+import by.epam.pharmacy.connection.ConnectionPool;
 import by.epam.pharmacy.dao.AbstractDao;
 import by.epam.pharmacy.exception.DaoException;
 import by.epam.pharmacy.exception.ProxyPoolException;
@@ -15,11 +15,11 @@ import java.sql.SQLException;
 public abstract class AbstractDaoImpl<T> implements AbstractDao<T> {
     private static final String SELECT_LAST_INSERT_ID_PSTM = "select last_insert_id()";
     private static Logger logger = LogManager.getLogger();
-    protected ProxyConnection proxyConnection;
+    protected SecureConnection secureConnection;
 
     public AbstractDaoImpl() throws DaoException {
         try {
-            this.proxyConnection = ProxyConnectionPool.getConnectionPool().getConnection();
+            this.secureConnection = ConnectionPool.getInstance().getConnection();
         } catch (ProxyPoolException e) {
             throw new DaoException("There is no free connection", e);
         }
@@ -28,7 +28,7 @@ public abstract class AbstractDaoImpl<T> implements AbstractDao<T> {
     @Override
     public Integer findLastInsertId() throws DaoException {
         int id = 0;
-        try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_LAST_INSERT_ID_PSTM)) {
+        try (PreparedStatement preparedStatement = secureConnection.prepareStatement(SELECT_LAST_INSERT_ID_PSTM)) {
             preparedStatement.execute();
             ResultSet resultSet = preparedStatement.getResultSet();
             resultSet.next();
@@ -41,7 +41,7 @@ public abstract class AbstractDaoImpl<T> implements AbstractDao<T> {
 
     @Override
     public boolean deleteById(Integer id, String statement) throws DaoException {
-        try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(statement)) {
+        try (PreparedStatement preparedStatement = secureConnection.prepareStatement(statement)) {
             preparedStatement.setInt(1, id);
             logger.info("deleting");
             preparedStatement.execute();
@@ -51,10 +51,10 @@ public abstract class AbstractDaoImpl<T> implements AbstractDao<T> {
         }
     }
 
-    public void close() throws DaoException {
-        if (proxyConnection != null) {
+    public void close() {
+        if (secureConnection != null) {
             logger.info("closing dao");
-            proxyConnection.close();
+            secureConnection.close();
 
         }
     }

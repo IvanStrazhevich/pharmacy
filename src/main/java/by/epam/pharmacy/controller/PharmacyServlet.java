@@ -1,4 +1,4 @@
-package by.epam.pharmacy.web;
+package by.epam.pharmacy.controller;
 
 
 import by.epam.pharmacy.exception.PharmacyServletException;
@@ -46,7 +46,7 @@ public class PharmacyServlet extends HttpServlet {
             String page = requestHandler.execute(request, response);
             if (page != null) {
                 if (request.getRequestDispatcher(page) != null) {
-                    //response.sendRedirect(request.getContextPath()+page);
+                    //response.sendRedirect(request.getContextPath() + page);
                     request.getRequestDispatcher(page).forward(request, response);
                 }
             } else {
