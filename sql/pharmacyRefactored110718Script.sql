@@ -253,6 +253,7 @@ CREATE TABLE recipe
   rec_dosage          DECIMAL(5) NOT NULL
   COMMENT 'Dosage of medicine',
   rec_date_valid_till DATETIME   NOT NULL,
+  res_approved        TINYINT(1) NULL,
   CONSTRAINT recipe_doctor_user_id_fk
   FOREIGN KEY (rec_doctor_user_id) REFERENCES doctor (user_id)
     ON UPDATE CASCADE,

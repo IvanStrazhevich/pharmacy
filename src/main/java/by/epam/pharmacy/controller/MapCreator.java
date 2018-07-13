@@ -15,34 +15,34 @@ public class MapCreator {
                 ) {
             switch (command) {
                 case LOGIN_PAGE:
-                    servletMap.put(command.getValue(), new LoginPageHandler());
+                    servletMap.put(command.getCommand(), new LoginPageHandler());
                     break;
                 case CHECK_LOGIN:
-                    servletMap.put(command.getValue(), new CheckUserHandler());
+                    servletMap.put(command.getCommand(), new CheckUserHandler());
                     break;
                 case WELCOME_PAGE:
-                    servletMap.put(command.getValue(), new WelcomePageHandler());
+                    servletMap.put(command.getCommand(), new WelcomePageHandler());
                     break;
                 case UPLOAD_PAGE:
-                    servletMap.put(command.getValue(), new UploadPageHandler());
+                    servletMap.put(command.getCommand(), new UploadPageHandler());
                     break;
                 case UPLOAD_RESULT_PAGE:
-                    servletMap.put(command.getValue(), new FileReadHandler());
+                    servletMap.put(command.getCommand(), new FileReadHandler());
                     break;
                 case REGISTER_USER:
-                    servletMap.put(command.getValue(), new RegisterUserHandler());
+                    servletMap.put(command.getCommand(), new RegisterUserHandler());
                     break;
                 case REGISTER_PAGE:
-                    servletMap.put(command.getValue(), new RegisterPageHandler());
+                    servletMap.put(command.getCommand(), new RegisterPageHandler());
                     break;
                 case INVALIDATE_SESSION:
-                    servletMap.put(command.getValue(), new InvalidateSessionHandler());
+                    servletMap.put(command.getCommand(), new InvalidateSessionHandler());
                     break;
                 case SET_LOCALE:
-                    servletMap.put(command.getValue(), new LocaleSwitchHandler());
+                    servletMap.put(command.getCommand(), new LocaleSwitchHandler());
                     break;
                 default:
-                    throw new PharmacyServletException("There is no such command at " + CommandEnum.class + command.getValue());
+                    throw new PharmacyServletException("There is no such command at " + CommandEnum.class + command.getCommand());
             }
         }
     }

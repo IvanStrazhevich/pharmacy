@@ -12,6 +12,7 @@ public class Recipe extends Entity {
     private int medicineQuantity;
     private BigDecimal dosage;
     private Timestamp validTill;
+    private boolean approved;
 
     public Recipe() {
     }
@@ -64,11 +65,18 @@ public class Recipe extends Entity {
         this.validTill = validTill;
     }
 
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public void setApproved(boolean approved) {
+        this.approved = approved;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
 
         Recipe recipe = (Recipe) o;
 
@@ -76,19 +84,20 @@ public class Recipe extends Entity {
         if (doctorId != recipe.doctorId) return false;
         if (clientId != recipe.clientId) return false;
         if (medicineQuantity != recipe.medicineQuantity) return false;
+        if (approved != recipe.approved) return false;
         if (dosage != null ? !dosage.equals(recipe.dosage) : recipe.dosage != null) return false;
         return validTill != null ? validTill.equals(recipe.validTill) : recipe.validTill == null;
     }
 
     @Override
     public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + recipeId;
+        int result = recipeId;
         result = 31 * result + doctorId;
         result = 31 * result + clientId;
         result = 31 * result + medicineQuantity;
         result = 31 * result + (dosage != null ? dosage.hashCode() : 0);
         result = 31 * result + (validTill != null ? validTill.hashCode() : 0);
+        result = 31 * result + (approved ? 1 : 0);
         return result;
     }
 
@@ -101,6 +110,7 @@ public class Recipe extends Entity {
                 ", medicineQuantity=" + medicineQuantity +
                 ", dosage=" + dosage +
                 ", validTill=" + validTill +
+                ", approved=" + approved +
                 '}';
     }
 }

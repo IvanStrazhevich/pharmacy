@@ -6,12 +6,15 @@
 <fmt:setBundle basename="message" var="rb"/>
 <html>
 <head>
+    <link href="css/bootstrap.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/pharmacy.css">
     <title><fmt:message key="label.button.RegisterPage" bundle="${rb}"/>
         <hr>
     </title>
 </head>
 <body class="body">
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="js/bootstrap.min.js"></script>
 <hr>
 <fmt:message key="label.button.RegisterPage" bundle="${rb}"/>
 ${userExist}

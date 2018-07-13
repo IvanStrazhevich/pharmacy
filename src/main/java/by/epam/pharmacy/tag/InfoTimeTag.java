@@ -24,6 +24,9 @@ public class InfoTimeTag extends TagSupport {
 
     @Override
     public int doStartTag() throws JspException {
+
+        String time = "<hr/>" + ResourceManager.INSTANCE.getString(MESSAGE_TIME) + " <b> "
+                + Calendar.getInstance(Locale.getDefault()).getTime() + " </b><hr/>";
         String region = null;
         if (null != locale) {
             region = ResourceManager.INSTANCE.getString(MESSAGE_LOCALE) + " <b> " + locale + " </b> ";
@@ -32,8 +35,6 @@ public class InfoTimeTag extends TagSupport {
             region = ResourceManager.INSTANCE.getString(MESSAGE_LOCALE) + " <b> " + locale + " </b> ";
 
         }
-        String time = "<hr/>" + ResourceManager.INSTANCE.getString(MESSAGE_TIME) + " <b> "
-                + Calendar.getInstance(Locale.getDefault()).getTime() + " </b><hr/>";
         try {
             JspWriter out = pageContext.getOut();
             out.write(time + region);

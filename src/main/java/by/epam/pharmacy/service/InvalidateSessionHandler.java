@@ -9,6 +9,6 @@ public class InvalidateSessionHandler implements RequestHandler {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         request.getSession().invalidate();
-        return PagesEnum.WELCOME_PAGE.getValue();
+        return PagesEnum.WELCOME_PAGE.getPage();
     }
 }

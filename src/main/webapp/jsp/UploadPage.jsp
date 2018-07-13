@@ -6,17 +6,26 @@
 <fmt:setBundle basename="message"/>
 <html>
 <head>
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href=“css/normalize.css">
     <link rel="stylesheet" type="text/css" href="css/pharmacy.css">
     <title><fmt:message key="label.button.UploadPage"/></title>
 </head>
 <body class="body">
-<form action="UploadResultPage"
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<form action="UploadPage"
       enctype="multipart/form-data"
       method="post">
     <fmt:message key="message.choosefile"/>
     <input type="file" name="content"
            value="<fmt:message key="label.button.choosefile"/>">
-    <input type="hidden" name="action" value="UploadResultPage">
+    <input type="hidden" name="action" value="UploadPhoto">
+    <input type="submit" value="<fmt:message key="label.button.uploadfile"/>">
+</form>
+    <form action="UploadResultPage"
+          method="post">
+    <div><input type="hidden" name="action" value="UploadResultPage">
     <input type="email" name="email" placeholder="<fmt:message key="message.enter.email"/>" maxlength="45">
     <input type="text" name="name" placeholder="<fmt:message key="message.enter.name"/>" maxlength="45">
     <input type="text" name="lasname" placeholder="<fmt:message key="message.enter.lastname"/>" maxlength="45">
@@ -26,6 +35,7 @@
     <input type="text" name="city" placeholder="<fmt:message key="message.enter.city"/>" maxlength="45">
     <input type="text" name="address" placeholder="<fmt:message key="message.enter.address"/>" maxlength="45">
     <input type="submit" value="<fmt:message key="label.button.confirm"/>">
+    </div>
 </form>
 <form action="WelcomePage"
       method="post">

@@ -6,10 +6,13 @@
 <fmt:setBundle basename="message" var="rb"/>
 <html>
 <head>
+    <link href="css/bootstrap.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/pharmacy.css">
     <title><fmt:message key="label.button.ErrorPage" bundle="${rb}"/></title>
 </head>
 <body class="body">
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="js/bootstrap.min.js"></script>
 <fmt:message key="message.forgotfile" bundle="${rb}"/>
 <hr>
 <form action="UploadPage"

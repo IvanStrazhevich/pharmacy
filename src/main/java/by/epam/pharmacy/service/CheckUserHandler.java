@@ -54,10 +54,10 @@ public class CheckUserHandler implements RequestHandler {
                         request.getSession().setAttribute(AttributeEnum.LOGIN.getValue(), login);
                         logeed = true;
                         request.setAttribute(AttributeEnum.GREETING.getValue(), ResourceManager.INSTANCE.getString(MESSAGE_SUCCESS));
-                        page = PagesEnum.WELCOME_PAGE.getValue();
+                        page = PagesEnum.WELCOME_PAGE.getPage();
                     } else {
                         request.getSession().setAttribute(AttributeEnum.NEED_REGISTER.getValue(), ResourceManager.INSTANCE.getString(MESSAGE));
-                        page = PagesEnum.LOGIN_PAGE.getValue();
+                        page = PagesEnum.LOGIN_PAGE.getPage();
                     }
                 }
             }

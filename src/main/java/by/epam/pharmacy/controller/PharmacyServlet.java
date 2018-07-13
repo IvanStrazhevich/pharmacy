@@ -50,13 +50,13 @@ public class PharmacyServlet extends HttpServlet {
                     request.getRequestDispatcher(page).forward(request, response);
                 }
             } else {
-                if (request.getRequestDispatcher(PagesEnum.ERROR_PAGE.getValue()) != null) {
-                    response.sendRedirect(request.getContextPath() + PagesEnum.ERROR_PAGE.getValue());
-                    //request.getRequestDispatcher(PagesEnum.ERROR_PAGE.getValue()).forward(request, response);
+                if (request.getRequestDispatcher(PagesEnum.ERROR_PAGE.getPage()) != null) {
+                    response.sendRedirect(request.getContextPath() + PagesEnum.ERROR_PAGE.getPage());
+                    //request.getRequestDispatcher(PagesEnum.ERROR_PAGE.getPage()).forward(request, response);
                 }
             }
-        } else if (request.getRequestDispatcher(PagesEnum.ERROR_PAGE.getValue()) != null) {
-            response.sendRedirect(request.getContextPath() + PagesEnum.ERROR_PAGE.getValue());
+        } else if (request.getRequestDispatcher(PagesEnum.ERROR_PAGE.getPage()) != null) {
+            response.sendRedirect(request.getContextPath() + PagesEnum.ERROR_PAGE.getPage());
         }
     }
 

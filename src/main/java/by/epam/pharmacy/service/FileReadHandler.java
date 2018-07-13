@@ -32,6 +32,6 @@ public class FileReadHandler implements RequestHandler {
                 }
             }
         }
-        return PagesEnum.UPLOAD_RESULT_PAGE.getValue();
+        return PagesEnum.UPLOAD_RESULT_PAGE.getPage();
     }
 }

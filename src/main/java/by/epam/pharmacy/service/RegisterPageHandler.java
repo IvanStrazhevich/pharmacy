@@ -8,6 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 public class RegisterPageHandler implements RequestHandler {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        return PagesEnum.REGISTER_PAGE.getValue();
+        return PagesEnum.REGISTER_PAGE.getPage();
     }
 }

@@ -63,7 +63,7 @@ public class RegisterUserHandler implements RequestHandler {
                     logger.info(loginDB + '\n' + shalogin);
                     if (shalogin.equals(loginDB)) {
                         request.setAttribute(AttributeEnum.USER_EXIST.getValue(), ResourceManager.INSTANCE.getString(MESSAGE_USER_EXIST));
-                        page = PagesEnum.REGISTER_PAGE.getValue();
+                        page = PagesEnum.REGISTER_PAGE.getPage();
                         flag = true;
                         break;
                     }
@@ -79,11 +79,11 @@ public class RegisterUserHandler implements RequestHandler {
                     request.setAttribute(AttributeEnum.USER_REGISTERED.getValue(), ResourceManager.INSTANCE.getString(MESSAGE_USER_REGISTERED));
                     request.getSession().setAttribute(AttributeEnum.ACCESS_LEVEL.getValue(), user.getAccessLevel());
                     request.getSession().setAttribute(AttributeEnum.LOGIN.getValue(), login);
-                    page = PagesEnum.WELCOME_PAGE.getValue();
+                    page = PagesEnum.WELCOME_PAGE.getPage();
                 } else {
                     logger.debug("not registered");
                     request.setAttribute(AttributeEnum.USER_NOT_REGISTERED.getValue(), ResourceManager.INSTANCE.getString(MESSAGE_USER_NOT_REGISTERED));
-                    page = PagesEnum.REGISTER_PAGE.getValue();
+                    page = PagesEnum.REGISTER_PAGE.getPage();
                 }
             }
         } catch (EncriptingException | DaoException e) {

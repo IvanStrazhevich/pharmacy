@@ -16,10 +16,10 @@ public class UploadPageHandler implements RequestHandler {
     public String execute(HttpServletRequest request, HttpServletResponse response){
         String page = null;
         if (request.getSession().getAttribute(AttributeEnum.LOGGED.getValue()) != null) {
-            page = PagesEnum.UPLOAD_PAGE.getValue();
+            page = PagesEnum.UPLOAD_PAGE.getPage();
         } else {
             request.setAttribute(AttributeEnum.NEED_LOGIN.getValue(), ResourceManager.INSTANCE.getString(MESSAGE));
-            page = PagesEnum.LOGIN_PAGE.getValue();
+            page = PagesEnum.LOGIN_PAGE.getPage();
         }
         return page;
     }

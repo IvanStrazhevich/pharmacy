@@ -17,6 +17,6 @@ public class LocaleSwitchHandler implements RequestHandler{
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         languageSwitcher.langSwitch(request);
-        return PagesEnum.WELCOME_PAGE.getValue();
+        return PagesEnum.WELCOME_PAGE.getPage();
     }
 }

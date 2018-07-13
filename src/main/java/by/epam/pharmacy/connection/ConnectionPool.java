@@ -13,6 +13,7 @@ public class ConnectionPool {
     private static Logger logger = LogManager.getLogger();
     private static final int MAX_CONNECTIONS = 20;
     private static final int MIN_CONNECTIONS = 5;
+    private static final int CONNECTIONS_NORM =10;
     private static final int NORMALIZATION_LIMIT_FOR_CONNECTIONS = 15;
     private static ConnectionPool instance;
     private ConnectionCreator connectionCreator = new ConnectionCreator();
@@ -43,7 +44,7 @@ public class ConnectionPool {
 
     public void closeAll() throws ProxyPoolException {
         try {
-            int poolsize = connectionPoolFree.size();
+            int poolsize = connectionPoolFree.size()+connectionInUse.size();
             for (int i = 0; i < poolsize; i++) {
                 logger.info(connectionPoolFree.size() + " i: " + i + " in pool");
                 connectionPoolFree.take().getConnection().close();
@@ -55,7 +56,7 @@ public class ConnectionPool {
 
     private void optimizePool() throws ProxyPoolException {
         try {
-            while (connectionPoolFree.size() > MIN_CONNECTIONS) {
+            while (connectionPoolFree.size() > CONNECTIONS_NORM) {
                 logger.debug("Optimisation " + connectionPoolFree.size());
                 connectionPoolFree.take().getConnection().close();
             }
@@ -76,7 +77,7 @@ public class ConnectionPool {
             }
             secureConnection = connectionPoolFree.take();
         } catch (InterruptedException e) {
-            throw new ProxyPoolException("Gettinging secureConnection error", e);
+            throw new ProxyPoolException("Getting secureConnection error", e);
         }
         logger.debug("added" + secureConnection + " pool free: " + connectionPoolFree.size());
         connectionInUse.add(secureConnection);

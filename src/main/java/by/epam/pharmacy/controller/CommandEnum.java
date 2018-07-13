@@ -3,19 +3,23 @@ package by.epam.pharmacy.controller;
 public enum CommandEnum {
     UPLOAD_PAGE("UploadPage"), UPLOAD_RESULT_PAGE("UploadResultPage"),
     WELCOME_PAGE("WelcomePage"), LOGIN_PAGE("LoginPage"), CHECK_LOGIN("CheckLogin"),
-    REGISTER_USER("RegisterUser"), INVALIDATE_SESSION("InvalidateSession"),REGISTER_PAGE("RegisterPage"),
-    SET_LOCALE("SetLocale");
-    private String value;
+    REGISTER_USER("RegisterUser"), INVALIDATE_SESSION("InvalidateSession"),
+    REGISTER_PAGE("RegisterPage"), SET_LOCALE("SetLocale"),
+    RECIPE_LIST("RecipeList"), EDIT_RECIPE("EditRecipe"), APPROVE_RECIPE("ApproveRecipe"),
+    MEDICINE_LIST("MedicineList"), EDIT_MEDICINE("EditMedicine"), SAVE_MEDICINE("SaveMedicine"),
+    USER_LIST("UserList"), EDIT_ACCESS_LVL("EditAccessLevel"), SAVE_ACCESS_LVL("SaveAccessLevel"),
+    PAY_ORDER("PayOrder"), REMOVE_MEDICINE_FROM_ORDER("RemoveMedicineFromOrder"), ;
+    private String command;
 
-    CommandEnum(String value) {
-        this.value = value;
+    CommandEnum(String command) {
+        this.command = command;
     }
 
-    public String getValue() {
-        return value;
+    public String getCommand() {
+        return command;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setCommand(String command) {
+        this.command = command;
     }
 }

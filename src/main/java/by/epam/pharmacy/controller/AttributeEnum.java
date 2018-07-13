@@ -8,7 +8,8 @@ public enum AttributeEnum {
     USER_EXIST("userExist"), USER_REGISTERED("userRegistered"),
     USER_NOT_REGISTERED("userNotRegistered"),
     GREETING("greeting"), NEED_REGISTER("needRegister"),
-    ACCESS_LEVEL("accessLevel");
+    ACCESS_LEVEL("accessLevel"),
+    NOT_AUTHORISED("notAuthorised");
 
     private String value;
 
