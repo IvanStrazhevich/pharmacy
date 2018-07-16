@@ -1,4 +1,4 @@
-package by.epam.pharmacy.controller;
+package by.epam.pharmacy.util;
 
 public enum CommandEnum {
     UPLOAD_PAGE("UploadPage"), UPLOAD_RESULT_PAGE("UploadResultPage"),
@@ -8,7 +8,8 @@ public enum CommandEnum {
     RECIPE_LIST("RecipeList"), EDIT_RECIPE("EditRecipe"), APPROVE_RECIPE("ApproveRecipe"),
     MEDICINE_LIST("MedicineList"), EDIT_MEDICINE("EditMedicine"), SAVE_MEDICINE("SaveMedicine"),
     USER_LIST("UserList"), EDIT_ACCESS_LVL("EditAccessLevel"), SAVE_ACCESS_LVL("SaveAccessLevel"),
-    PAY_ORDER("PayOrder"), REMOVE_MEDICINE_FROM_ORDER("RemoveMedicineFromOrder"), ;
+    PAY_ORDER("PayOrder"), REMOVE_MEDICINE_FROM_ORDER("RemoveMedicineFromOrder"),
+    FIND_MEDICINE("FindMedicine"), EDIT_ORDER("EditOrder");
     private String command;
 
     CommandEnum(String command) {

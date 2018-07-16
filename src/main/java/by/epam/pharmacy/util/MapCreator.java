@@ -1,4 +1,4 @@
-package by.epam.pharmacy.controller;
+package by.epam.pharmacy.util;
 
 import by.epam.pharmacy.exception.PharmacyServletException;
 import by.epam.pharmacy.service.*;
@@ -41,6 +41,46 @@ public class MapCreator {
                 case SET_LOCALE:
                     servletMap.put(command.getCommand(), new LocaleSwitchHandler());
                     break;
+                case RECIPE_LIST:
+                    servletMap.put(command.getCommand(), new RecipeListHandler());
+                    break;
+                case EDIT_RECIPE:
+                    servletMap.put(command.getCommand(), new EditRecipeHandler());
+                    break;
+                case APPROVE_RECIPE:
+                    servletMap.put(command.getCommand(), new ApproveRecipeHandler());
+                    break;
+                case MEDICINE_LIST:
+                    servletMap.put(command.getCommand(), new MedicineListHandler());
+                    break;
+                case EDIT_MEDICINE:
+                    servletMap.put(command.getCommand(), new EditMedicineHandler());
+                    break;
+                case SAVE_MEDICINE:
+                    servletMap.put(command.getCommand(), new SaveMedicineHandler());
+                    break;
+                case USER_LIST:
+                    servletMap.put(command.getCommand(), new UserListHandler());
+                    break;
+                case EDIT_ACCESS_LVL:
+                    servletMap.put(command.getCommand(), new EditAccesslevelHandler());
+                    break;
+                case SAVE_ACCESS_LVL:
+                    servletMap.put(command.getCommand(), new SaveAccessLevelHandler());
+                    break;
+                case REMOVE_MEDICINE_FROM_ORDER:
+                    servletMap.put(command.getCommand(), new RemoveMedicineFromOrderHandler());
+                    break;
+                case PAY_ORDER:
+                    servletMap.put(command.getCommand(), new PayOrderHandler());
+                    break;
+                case FIND_MEDICINE:
+                    servletMap.put(command.getCommand(), new FindMedicineHandler());
+                    break;
+                case EDIT_ORDER:
+                    servletMap.put(command.getCommand(), new EditOrderHandler());
+                    break;
+
                 default:
                     throw new PharmacyServletException("There is no such command at " + CommandEnum.class + command.getCommand());
             }

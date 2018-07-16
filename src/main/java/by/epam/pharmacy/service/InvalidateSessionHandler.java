@@ -1,13 +1,11 @@
 package by.epam.pharmacy.service;
 
-import by.epam.pharmacy.controller.PagesEnum;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-public class InvalidateSessionHandler implements RequestHandler {
+
+public class InvalidateSessionHandler implements RequestHandler<HttpServletRequest> {
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request) {
         request.getSession().invalidate();
         return PagesEnum.WELCOME_PAGE.getPage();
     }

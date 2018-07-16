@@ -1,6 +1,6 @@
 package by.epam.pharmacy.tag;
 
-import by.epam.pharmacy.service.ResourceManager;
+import by.epam.pharmacy.util.ResourceManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

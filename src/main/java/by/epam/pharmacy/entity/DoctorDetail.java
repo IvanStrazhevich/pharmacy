@@ -1,10 +1,10 @@
 package by.epam.pharmacy.entity;
 
-public class Pharmacist extends ClientDetail {
-    private static final long serialVersionUID = 5257165600065973373L;
+public class DoctorDetail extends ClientDetail {
+    private static final long serialVersionUID = -8413097800977296446L;
     private int licenseId;
 
-    public Pharmacist() {
+    public DoctorDetail() {
     }
 
     public int getLicenseId() {
@@ -21,9 +21,9 @@ public class Pharmacist extends ClientDetail {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
 
-        Pharmacist that = (Pharmacist) o;
+        DoctorDetail doctorDetail = (DoctorDetail) o;
 
-        return licenseId == that.licenseId;
+        return licenseId == doctorDetail.licenseId;
     }
 
     @Override
@@ -35,7 +35,7 @@ public class Pharmacist extends ClientDetail {
 
     @Override
     public String toString() {
-        return "Pharmacist{" +
+        return "DoctorDetail{" +
                 "licenseId=" + licenseId +
                 '}';
     }

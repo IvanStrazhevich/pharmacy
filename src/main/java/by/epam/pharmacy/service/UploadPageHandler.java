@@ -1,24 +1,22 @@
 package by.epam.pharmacy.service;
 
-import by.epam.pharmacy.controller.AttributeEnum;
-import by.epam.pharmacy.controller.PagesEnum;
+import by.epam.pharmacy.util.SessionRequestContent;
+import by.epam.pharmacy.util.ResourceManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-public class UploadPageHandler implements RequestHandler {
+public class UploadPageHandler implements RequestHandler<SessionRequestContent> {
     private static Logger logger = LogManager.getLogger();
     private static final String MESSAGE = "message.needLogin";
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response){
+    public String execute(SessionRequestContent sessionRequestContent){
         String page = null;
-        if (request.getSession().getAttribute(AttributeEnum.LOGGED.getValue()) != null) {
+        if (sessionRequestContent.getSessionAttributes().get(AttributeEnum.LOGGED.getAttribute()) != null) {
             page = PagesEnum.UPLOAD_PAGE.getPage();
         } else {
-            request.setAttribute(AttributeEnum.NEED_LOGIN.getValue(), ResourceManager.INSTANCE.getString(MESSAGE));
+            sessionRequestContent.getRequestAttributes().put(AttributeEnum.NEED_LOGIN.getAttribute(),
+                    ResourceManager.INSTANCE.getString(MESSAGE));
             page = PagesEnum.LOGIN_PAGE.getPage();
         }
         return page;

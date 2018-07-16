@@ -1,24 +1,22 @@
 package by.epam.pharmacy.service;
 
 
-import by.epam.pharmacy.controller.AttributeEnum;
-import by.epam.pharmacy.controller.PagesEnum;
+import by.epam.pharmacy.util.SessionRequestContent;
+import by.epam.pharmacy.util.ResourceManager;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Locale;
 
-public class LoginPageHandler implements RequestHandler {
+public class LoginPageHandler implements RequestHandler<SessionRequestContent> {
     private static final String MESSAGE = "message.needLogin";
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public String execute(SessionRequestContent sessionRequestContent) throws ServletException, IOException {
         String page = null;
-        ResourceManager.INSTANCE.changeResource(new Locale(request.getSession().getAttribute(AttributeEnum.LANG.getValue()).toString()));
-        if (request.getSession().getAttribute(AttributeEnum.LOGGED.getValue()) == null) {
-            request.setAttribute(AttributeEnum.NEED_LOGIN.getValue(), ResourceManager.INSTANCE.getString(MESSAGE));
+        ResourceManager.INSTANCE.changeResource(new Locale(sessionRequestContent.getSessionAttributes().get(AttributeEnum.LANG.getAttribute()).toString()));
+        if (sessionRequestContent.getSessionAttributes().get(AttributeEnum.LOGGED.getAttribute()) == null) {
+            sessionRequestContent.getRequestAttributes().put(AttributeEnum.NEED_LOGIN.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE));
             page = PagesEnum.LOGIN_PAGE.getPage();
         } else {
             page = PagesEnum.WELCOME_PAGE.getPage();

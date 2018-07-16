@@ -1,75 +1,42 @@
 package by.epam.pharmacy.service;
 
-import by.epam.pharmacy.controller.AttributeEnum;
-import by.epam.pharmacy.controller.PagesEnum;
-import by.epam.pharmacy.dao.impl.UserDao;
-import by.epam.pharmacy.entity.User;
-import by.epam.pharmacy.exception.DaoException;
-import by.epam.pharmacy.exception.EncriptingException;
-import by.epam.pharmacy.util.Encodable;
-import by.epam.pharmacy.util.SHAConverter;
+import by.epam.pharmacy.exception.PharmacyServletException;
+import by.epam.pharmacy.logic.CheckLogin;
+import by.epam.pharmacy.util.ResourceManager;
+import by.epam.pharmacy.util.SessionRequestContent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 
-public class CheckUserHandler implements RequestHandler {
+public class CheckUserHandler implements RequestHandler<SessionRequestContent> {
     private static Logger logger = LogManager.getLogger();
+    CheckLogin checkLogin = new CheckLogin();
     private static final String MESSAGE = "message.wrongloginAndPass";
     private static final String MESSAGE_SUCCESS = "message.loginOk";
-    private Encodable encoder = new SHAConverter();
-
-    private ArrayList<User> getUsersList() throws DaoException {
-        ArrayList<User> users = new ArrayList<>();
-        try (UserDao userDao = new UserDao()) {
-            users = userDao.findAll();
-        } catch (DaoException e) {
-            throw new DaoException(e);
-        }
-        return users;
-    }
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+    public String execute(SessionRequestContent sessionRequestContent) throws ServletException {
         String page = null;
-        String login = request.getParameter(AttributeEnum.LOGIN.getValue());
-        String password = request.getParameter(AttributeEnum.PASSWORD.getValue());
-        Boolean logeed = false;
+        String login = sessionRequestContent.getRequestParameters().get(AttributeEnum.LOGIN.getAttribute());
+        String password = sessionRequestContent.getRequestParameters().get(AttributeEnum.PASSWORD.getAttribute());
         try {
-            ArrayList<User> list = new ArrayList();
-            list = getUsersList();
-            String shaLogin = encoder.encode(login);
-            String shaPassword = encoder.encode(password);
-            for (int i = 0; i < list.size() && !logeed; i++) {
-                User user = list.get(i);
-                if (request.getSession().getAttribute(AttributeEnum.LOGGED.getValue()) == null) {
-                    String loginDB = user.getLogin();
-                    String passDB = user.getPassword();
-                    if (shaLogin.equals(loginDB) && shaPassword.equals(passDB)) {
-                        request.getSession().setAttribute(AttributeEnum.LOGGED.getValue(), AttributeEnum.LOGGED.getValue());
-                        request.getSession().setAttribute(AttributeEnum.ACCESS_LEVEL.getValue(), user.getAccessLevel());
-                        request.getSession().setAttribute(AttributeEnum.LOGIN.getValue(), login);
-                        logeed = true;
-                        request.setAttribute(AttributeEnum.GREETING.getValue(), ResourceManager.INSTANCE.getString(MESSAGE_SUCCESS));
-                        page = PagesEnum.WELCOME_PAGE.getPage();
-                    } else {
-                        request.getSession().setAttribute(AttributeEnum.NEED_REGISTER.getValue(), ResourceManager.INSTANCE.getString(MESSAGE));
-                        page = PagesEnum.LOGIN_PAGE.getPage();
-                    }
-                }
+            if (checkLogin.checkLogin(login, password)) {
+                sessionRequestContent.getSessionAttributes().put(AttributeEnum.LOGGED.getAttribute(), AttributeEnum.LOGGED.getAttribute());
+                sessionRequestContent.getSessionAttributes().put(AttributeEnum.ACCESS_LEVEL.getAttribute(), checkLogin.checkUserAccessLevel(login));
+                sessionRequestContent.getSessionAttributes().put(AttributeEnum.LOGIN.getAttribute(), login);
+                sessionRequestContent.getRequestAttributes().put(AttributeEnum.GREETING.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE_SUCCESS));
+                page = PagesEnum.WELCOME_PAGE.getPage();
+            } else {
+                sessionRequestContent.getSessionAttributes().put(AttributeEnum.NEED_REGISTER.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE));
+                page = PagesEnum.LOGIN_PAGE.getPage();
             }
-        } catch (EncriptingException | DaoException e) {
-            logger.error(e);
+        } catch (PharmacyServletException e) {
             throw new ServletException(e);
         }
+
         return page;
     }
 
-    public void setEncoder(Encodable encoder) {
-        this.encoder = encoder;
-    }
 }
 

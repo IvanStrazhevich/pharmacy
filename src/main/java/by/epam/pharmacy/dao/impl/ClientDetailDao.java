@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClientDao extends AbstractDaoImpl<ClientDetail> {
+public class ClientDetailDao extends AbstractDaoImpl<ClientDetail> {
     private static final String SELECT_ALL_PSTM = "select user_id, cl_name, cl_lastname, cl_email, cl_phone, cl_postcode, cl_country, cl_city, cl_address from client_detail";
     private static final String SELECT_BY_ID_PSTM = "select user_id, cl_name, cl_lastname, cl_email, cl_phone, cl_postcode, cl_country, cl_city, cl_address from client_detail where user_id = ?";
     private static final String INSERT_PSTM = "insert into client_detail(user_id, cl_name, cl_lastname, cl_email, cl_phone, cl_postcode, cl_country, cl_city, cl_address) values(?,?,?,?,?,?,?,?,?)";
@@ -21,7 +21,7 @@ public class ClientDao extends AbstractDaoImpl<ClientDetail> {
     private static Logger logger = LogManager.getLogger();
     private SecureConnection secureConnection;
 
-    public ClientDao() throws DaoException {
+    public ClientDetailDao() throws DaoException {
         secureConnection = super.secureConnection;
     }
 

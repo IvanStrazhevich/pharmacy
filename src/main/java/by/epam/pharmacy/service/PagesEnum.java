@@ -1,4 +1,4 @@
-package by.epam.pharmacy.controller;
+package by.epam.pharmacy.service;
 
 public enum PagesEnum {
     ERROR_PAGE("/jsp/ErrorPage.jsp"),

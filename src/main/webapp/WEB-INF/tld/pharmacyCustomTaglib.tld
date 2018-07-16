@@ -24,7 +24,7 @@
         <tag-class>by.epam.pharmacy.tag.HelloTag</tag-class>
         <body-content>empty</body-content>
         <attribute>
-            <name>role</name>
+            <name>accessLevel</name>
             <required>true</required>
             <rtexprvalue>true</rtexprvalue>
         </attribute>

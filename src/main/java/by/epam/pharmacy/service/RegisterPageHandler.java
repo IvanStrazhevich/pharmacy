@@ -1,13 +1,10 @@
 package by.epam.pharmacy.service;
 
-import by.epam.pharmacy.controller.PagesEnum;
+import by.epam.pharmacy.util.SessionRequestContent;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-public class RegisterPageHandler implements RequestHandler {
+public class RegisterPageHandler implements RequestHandler<SessionRequestContent> {
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(SessionRequestContent sessionRequestContent) {
         return PagesEnum.REGISTER_PAGE.getPage();
     }
 }

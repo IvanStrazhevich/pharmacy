@@ -17,7 +17,7 @@ ${notAuthorised}
 ${userRegistered}
 ${greeting}
 <pht:info-time locale="${lang}"/>
-<pht:hello role="${accessLevel}" login="${login}"/>
+<pht:hello accessLevel="${accessLevel}" login="${login}"/>
 <form class="checkbox" action="WelcomePage" method="post">
     <select class="btn btn-primary" name="lang">
         <option value="be_BY"><fmt:message key="label.button.be"/></option>
