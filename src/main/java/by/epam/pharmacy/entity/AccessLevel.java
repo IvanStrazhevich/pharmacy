@@ -1,7 +1,7 @@
 package by.epam.pharmacy.entity;
 
 public enum AccessLevel {
-    CLIENT("client"), DOCTOR("doctor"), PHARMACIST("pharmscist");
+    CLIENT("client"), DOCTOR("doctor"), PHARMACIST("pharmacist");
     private String value;
 
     AccessLevel(String value) {

@@ -17,7 +17,9 @@ public enum PagesEnum {
     FIND_MEDICINE_PAGE("/jsp/FindMedicinePage.jsp"),
     ORDER_PAGE("/jsp/OrderPage.jsp"),
     HEADER_PAGE("/HeaderPage.jsp"),
-    FOOTER_PAGE("/FooterPage.jsp");
+    FOOTER_PAGE("/FooterPage.jsp"),
+    INDEX_PAGE("/index.jsp");
+
 
     String page;
 
