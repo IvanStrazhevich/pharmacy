@@ -7,7 +7,7 @@ import javax.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
 
 @SuppressWarnings("serial")
-public class HelloTag extends TagSupport {
+public class GreetingTag extends TagSupport {
     private String accessLevel;
     private String login;
     private static final String MESSAGE = "message.welcomePage";

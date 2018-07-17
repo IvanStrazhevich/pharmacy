@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
 
-public class SecureConnection implements Connection{
+public class SecureConnection implements Connection {
     private static Logger logger = LogManager.getLogger();
     private Connection connection;
 

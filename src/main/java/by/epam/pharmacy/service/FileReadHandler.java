@@ -1,5 +1,6 @@
 package by.epam.pharmacy.service;
 
+import by.epam.pharmacy.exception.CommandException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,7 +15,7 @@ public class FileReadHandler implements RequestHandler<HttpServletRequest> {
     Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(HttpServletRequest request) throws ServletException, IOException {
+    public String execute(HttpServletRequest request) throws CommandException {
         String applicationPath = request.getServletContext().getRealPath("");
         String uploadFilePath = applicationPath + UPLOAD_DIR;
         String filename = null;
@@ -22,6 +23,7 @@ public class FileReadHandler implements RequestHandler<HttpServletRequest> {
         if (!fileSaveDir.exists()) {
             fileSaveDir.mkdirs();
         }
+        try{
         if (null != request.getParts()) {
             for (Part part : request.getParts()) {
                 if (null != part.getSubmittedFileName()) {
@@ -29,6 +31,11 @@ public class FileReadHandler implements RequestHandler<HttpServletRequest> {
                     filename = part.getSubmittedFileName();
                 }
             }
+        }
+        } catch (ServletException e) {
+            throw new CommandException("ServletException",e);
+        } catch (IOException e) {
+            throw new CommandException("IOException",e);
         }
         return PagesEnum.UPLOAD_RESULT_PAGE.getPage();
     }

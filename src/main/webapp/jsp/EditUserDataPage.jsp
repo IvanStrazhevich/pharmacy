@@ -14,13 +14,13 @@
 <body class="body">
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="js/bootstrap.min.js"></script>
-<form action="UploadPage"
+<form action="EditUserDataPage"
       enctype="multipart/form-data"
       method="post">
     <fmt:message key="message.choosefile"/>
     <input type="file" name="content"
            value="<fmt:message key="label.button.choosefile"/>">
-    <input type="hidden" name="action" value="UploadPhoto">
+    <input type="hidden" name="action" value="UploadResult">
     <input class="btn btn-success" type="submit" value="<fmt:message key="label.button.uploadfile"/>">
 </form>
 <form action="UploadResultPage"

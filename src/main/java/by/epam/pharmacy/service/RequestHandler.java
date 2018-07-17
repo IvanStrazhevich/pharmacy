@@ -1,8 +1,7 @@
 package by.epam.pharmacy.service;
 
-import javax.servlet.ServletException;
-import java.io.IOException;
+import by.epam.pharmacy.exception.CommandException;
 
 public interface RequestHandler<T> {
-    String execute(T sessionRequestContent) throws ServletException, IOException;
+    String execute(T sessionRequestContent) throws CommandException;
 }

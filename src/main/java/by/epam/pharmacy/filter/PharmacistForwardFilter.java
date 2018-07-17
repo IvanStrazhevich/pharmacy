@@ -26,17 +26,14 @@ public class PharmacistForwardFilter implements Filter {
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
-        HttpServletResponse httpResponse =(HttpServletResponse) response;
+        HttpServletResponse httpResponse = (HttpServletResponse) response;
         logger.info("Pharmacist page filter Works");
         logger.info((httpRequest.getSession().getAttribute(AttributeEnum.ACCESS_LEVEL.getAttribute())));
-        logger.info(AccessLevel.PHARMACIST.getValue());
+        logger.info(AccessLevel.PHARMACIST.getLevel());
         logger.info(httpRequest.getContextPath() + PagesEnum.INDEX_PAGE.getPage());
-        if (httpRequest.getSession().getAttribute(AttributeEnum.ACCESS_LEVEL.getAttribute())==null
+        if (httpRequest.getSession().getAttribute(AttributeEnum.ACCESS_LEVEL.getAttribute()) == null
                 || !httpRequest.getSession().getAttribute(AttributeEnum.ACCESS_LEVEL.getAttribute())
-                .equals(AccessLevel.PHARMACIST.getValue())) {
-            /*httpRequest.setAttribute(AttributeEnum.NOT_AUTHORISED.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE));
-            logger.info(httpRequest.getAttribute(AttributeEnum.NOT_AUTHORISED.getAttribute()));
-            */
+                .equals(AccessLevel.PHARMACIST.getLevel())) {
             httpResponse.sendRedirect(httpRequest.getContextPath() + PagesEnum.INDEX_PAGE.getPage());
         } else {
             chain.doFilter(request, response);

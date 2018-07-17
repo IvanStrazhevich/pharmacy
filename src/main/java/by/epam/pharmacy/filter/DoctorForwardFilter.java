@@ -8,7 +8,6 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
-import javax.servlet.annotation.WebInitParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -17,17 +16,15 @@ import java.io.IOException;
         DispatcherType.FORWARD,
         DispatcherType.REQUEST,
         DispatcherType.INCLUDE
-        }, urlPatterns = {"/jsp/doctor/*"}, initParams = {
-        @WebInitParam(name = "INDEX_PATH", value = "jsp/index.jsp")
-
-})
+}, urlPatterns = {"/jsp/doctor/*"})
 
 public class DoctorForwardFilter implements Filter {
     private static Logger logger = LogManager.getLogger();
     private static final String MESSAGE = "message.not.authorised";
     private String indexPath;
+
     public void init(FilterConfig fConfig) throws ServletException {
-        indexPath = fConfig.getInitParameter("INDEX_PATH");
+
     }
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -35,18 +32,15 @@ public class DoctorForwardFilter implements Filter {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         logger.info("Doctor page filter Works");
         logger.info((httpRequest.getSession().getAttribute(AttributeEnum.ACCESS_LEVEL.getAttribute())));
-        logger.info(AccessLevel.DOCTOR.getValue());
+        logger.info(AccessLevel.DOCTOR.getLevel());
         logger.info(httpRequest.getContextPath() + PagesEnum.INDEX_PAGE.getPage());
-        //logger.info(!httpRequest.getSession().getAttribute(AttributeEnum.ACCESS_LEVEL.getAttribute()).equals(AccessLevel.DOCTOR.getValue()));
-        if (httpRequest.getSession().getAttribute(AttributeEnum.ACCESS_LEVEL.getAttribute())==null ||!httpRequest.getSession().getAttribute(AttributeEnum.ACCESS_LEVEL.getAttribute()).equals(AccessLevel.DOCTOR.getValue())) {
-            /*httpRequest.setAttribute(AttributeEnum.NOT_AUTHORISED.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE));
-            logger.info(httpRequest.getAttribute(AttributeEnum.NOT_AUTHORISED.getAttribute()));
-            */
+        if (httpRequest.getSession().getAttribute(AttributeEnum.ACCESS_LEVEL.getAttribute()) == null || !httpRequest.getSession().getAttribute(AttributeEnum.ACCESS_LEVEL.getAttribute()).equals(AccessLevel.DOCTOR.getLevel())) {
             httpResponse.sendRedirect(httpRequest.getContextPath() + PagesEnum.INDEX_PAGE.getPage());
         } else {
             chain.doFilter(request, response);
         }
     }
+
     public void destroy() {
     }
 }

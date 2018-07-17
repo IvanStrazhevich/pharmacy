@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 public class Recipe extends Entity {
-
     private static final long serialVersionUID = 7502910725723537491L;
     private int recipeId;
     private int doctorId;

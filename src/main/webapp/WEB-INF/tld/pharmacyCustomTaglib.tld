@@ -11,7 +11,7 @@
 
     <tag>
         <name>info-time</name>
-        <tag-class>by.epam.pharmacy.tag.InfoTimeTag</tag-class>
+        <tag-class>by.epam.pharmacy.tag.LocaleTimeTag</tag-class>
         <body-content>empty</body-content>
         <attribute>
             <name>locale</name>
@@ -21,7 +21,7 @@
     </tag>
     <tag>
         <name>hello</name>
-        <tag-class>by.epam.pharmacy.tag.HelloTag</tag-class>
+        <tag-class>by.epam.pharmacy.tag.GreetingTag</tag-class>
         <body-content>empty</body-content>
         <attribute>
             <name>accessLevel</name>

@@ -1,6 +1,7 @@
 package by.epam.pharmacy.dao.impl;
 
 import by.epam.pharmacy.connection.SecureConnection;
+import by.epam.pharmacy.dao.AbstractMedicineDao;
 import by.epam.pharmacy.entity.Medicine;
 import by.epam.pharmacy.exception.DaoException;
 import org.apache.logging.log4j.LogManager;
@@ -12,19 +13,27 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MedicineDao extends AbstractDaoImpl<Medicine> {
+/**
+ * Implementation of AbstractDao for type Medicine
+ */
+public class MedicineDao extends AbstractDaoImpl<Medicine> implements AbstractMedicineDao<Medicine>{
+    private static Logger logger = LogManager.getLogger();
     private static final String SELECT_ALL_PSTM = "select  mdc_id, mdc_name, mdc_description, mdc_dosage, mdc_recipe_required, mdc_price, mdc_available from medicine";
     private static final String SELECT_BY_ID_PSTM = "select mdc_id, mdc_name, mdc_description, mdc_dosage, mdc_recipe_required, mdc_price, mdc_available from medicine where mdc_id = ?";
+    private static final String SELECT_BY_NAME_PSTM = "select mdc_id, mdc_name, mdc_description, mdc_dosage, mdc_recipe_required, mdc_price, mdc_available from medicine where mdc_name = ?";
     private static final String INSERT_PSTM = "insert into medicine( mdc_name, mdc_description, mdc_dosage, mdc_recipe_required, mdc_price, mdc_available) values(?,?,?,?,?,?,?)";
     private static final String DELETE_PSTM = "delete from medicine where mdc_id = ?";
     private static final String UPDATE_PSTM = "update medicine set mdc_name=?, mdc_description=?, mdc_dosage=?, mdc_recipe_required=?, mdc_price=?, mdc_available=? where mdc_id = ?";
-    private static Logger logger = LogManager.getLogger();
     private SecureConnection secureConnection;
 
     public MedicineDao() throws DaoException {
         secureConnection = super.secureConnection;
     }
 
+    /**
+     * @return
+     * @throws DaoException
+     */
     @Override
     public List<Medicine> findAll() throws DaoException {
         ArrayList<Medicine> medicineList = new ArrayList<>();
@@ -48,6 +57,37 @@ public class MedicineDao extends AbstractDaoImpl<Medicine> {
         return medicineList;
     }
 
+    /**
+     * @param name
+     * @return
+     * @throws DaoException
+     */
+    @Override
+    public Medicine findMedicineByName(String name) throws DaoException {
+        Medicine medicine = new Medicine();
+        try (PreparedStatement preparedStatement = secureConnection.prepareStatement(SELECT_BY_NAME_PSTM)) {
+            preparedStatement.setString(1, name);
+            preparedStatement.execute();
+            ResultSet resultSet = preparedStatement.getResultSet();
+            resultSet.next();
+            medicine.setMedicineId(resultSet.getInt(1));
+            medicine.setMedicineName(resultSet.getString(2));
+            medicine.setDescription(resultSet.getString(3));
+            medicine.setDosage(resultSet.getBigDecimal(4));
+            medicine.setRecipeRequired(resultSet.getBoolean(5));
+            medicine.setPrice(resultSet.getBigDecimal(6));
+            medicine.setAvailable(resultSet.getBoolean(7));
+        } catch (SQLException e) {
+            throw new DaoException("Exception on find bu id", e);
+        }
+        return medicine;
+    }
+
+    /**
+     * @param id
+     * @return
+     * @throws DaoException
+     */
     @Override
     public Medicine findEntityById(Integer id) throws DaoException {
         Medicine medicine = new Medicine();
@@ -69,11 +109,21 @@ public class MedicineDao extends AbstractDaoImpl<Medicine> {
         return medicine;
     }
 
+    /**
+     * @param id
+     * @return
+     * @throws DaoException
+     */
     @Override
     public boolean deleteById(Integer id) throws DaoException {
         return deleteById(id, DELETE_PSTM);
     }
 
+    /**
+     * @param entity
+     * @return
+     * @throws DaoException
+     */
     @Override
     public boolean delete(Medicine entity) throws DaoException {
         try (PreparedStatement preparedStatement = secureConnection.prepareStatement(DELETE_PSTM)) {
@@ -85,6 +135,11 @@ public class MedicineDao extends AbstractDaoImpl<Medicine> {
         }
     }
 
+    /**
+     * @param entity
+     * @return
+     * @throws DaoException
+     */
     @Override
     public boolean create(Medicine entity) throws DaoException {
         try (PreparedStatement preparedStatement = secureConnection.prepareStatement(INSERT_PSTM)) {
@@ -101,6 +156,11 @@ public class MedicineDao extends AbstractDaoImpl<Medicine> {
         }
     }
 
+    /**
+     * @param entity
+     * @return
+     * @throws DaoException
+     */
     @Override
     public boolean update(Medicine entity) throws DaoException {
         try (PreparedStatement preparedStatement = secureConnection.prepareStatement(UPDATE_PSTM)) {
@@ -117,4 +177,6 @@ public class MedicineDao extends AbstractDaoImpl<Medicine> {
             throw new DaoException("Exception on update", e);
         }
     }
+
+
 }

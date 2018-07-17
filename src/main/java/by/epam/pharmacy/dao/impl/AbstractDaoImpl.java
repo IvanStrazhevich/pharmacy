@@ -12,9 +12,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * @param <T>
+ */
 public abstract class AbstractDaoImpl<T> implements AbstractDao<T> {
-    private static final String SELECT_LAST_INSERT_ID_PSTM = "select last_insert_id()";
     private static Logger logger = LogManager.getLogger();
+    private static final String SELECT_LAST_INSERT_ID_PSTM = "select last_insert_id()";
     protected SecureConnection secureConnection;
 
     public AbstractDaoImpl() throws DaoException {
@@ -25,6 +28,10 @@ public abstract class AbstractDaoImpl<T> implements AbstractDao<T> {
         }
     }
 
+    /**
+     * @return
+     * @throws DaoException
+     */
     @Override
     public Integer findLastInsertId() throws DaoException {
         int id = 0;
@@ -39,6 +46,12 @@ public abstract class AbstractDaoImpl<T> implements AbstractDao<T> {
         return id;
     }
 
+    /**
+     * @param id
+     * @param statement
+     * @return
+     * @throws DaoException
+     */
     @Override
     public boolean deleteById(Integer id, String statement) throws DaoException {
         try (PreparedStatement preparedStatement = secureConnection.prepareStatement(statement)) {
@@ -50,6 +63,9 @@ public abstract class AbstractDaoImpl<T> implements AbstractDao<T> {
         }
     }
 
+    /**
+     *
+     */
     public void close() {
         if (secureConnection != null) {
             logger.info("closing dao");

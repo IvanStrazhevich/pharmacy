@@ -12,7 +12,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 @SuppressWarnings("serial")
-public class InfoTimeTag extends TagSupport {
+public class LocaleTimeTag extends TagSupport {
     private static Logger logger = LogManager.getLogger();
     private static final String MESSAGE_TIME = "message.time";
     private static final String MESSAGE_LOCALE = "message.locale";

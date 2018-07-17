@@ -1,5 +1,6 @@
 package by.epam.pharmacy.util;
 
+import by.epam.pharmacy.exception.CommandException;
 import by.epam.pharmacy.exception.PharmacyServletException;
 import by.epam.pharmacy.service.AttributeEnum;
 import by.epam.pharmacy.service.PagesEnum;
@@ -33,12 +34,20 @@ public class PageRedirectTypeDefiner {
             logger.info(action);
             String page = null;
             if (action.equals(CommandEnum.INVALIDATE_SESSION.getCommand())) {
-                page = requestHandler.execute(request);
+                try {
+                    page = requestHandler.execute(request);
+                } catch (CommandException e) {
+                   throw new ServletException(e);
+                }
                 if (request.getRequestDispatcher(page) != null) {
                     request.getRequestDispatcher(page).forward(request, response);
                 }
             } else {
-                page = requestHandler.execute(sessionRequestContent);
+                try {
+                    page = requestHandler.execute(sessionRequestContent);
+                } catch (CommandException e) {
+                    throw new ServletException(e);
+                }
                 if (page != null) {
                     sessionRequestContent.insertAttributes(request);
                     if (request.getRequestDispatcher(page) != null) {

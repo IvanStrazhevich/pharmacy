@@ -1,13 +1,11 @@
 package by.epam.pharmacy.service;
 
+import by.epam.pharmacy.exception.CommandException;
 import by.epam.pharmacy.util.SessionRequestContent;
-
-import javax.servlet.ServletException;
-import java.io.IOException;
 
 public class UserListHandler implements RequestHandler<SessionRequestContent> {
     @Override
-    public String execute(SessionRequestContent sessionRequestContent) throws ServletException, IOException {
+    public String execute(SessionRequestContent sessionRequestContent) throws CommandException {
         return null;
     }
 }

@@ -1,6 +1,7 @@
 package by.epam.pharmacy.dao.impl;
 
 import by.epam.pharmacy.connection.SecureConnection;
+import by.epam.pharmacy.dao.AbstractUserDao;
 import by.epam.pharmacy.entity.User;
 import by.epam.pharmacy.exception.DaoException;
 import org.apache.logging.log4j.LogManager;
@@ -11,21 +12,28 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class UserDao extends AbstractDaoImpl<User> {
+/**
+ * Implementation of AbstractDao for type User
+ */
+public class UserDao extends AbstractDaoImpl<User> implements AbstractUserDao<User> {
+    private static Logger logger = LogManager.getLogger();
     private static final String SELECT_ALL_PSTM = "select  user_id, user_login, user_password, user_access_level from user";
     private static final String SELECT_BY_ID_PSTM = "select user_id, user_login, user_password, user_access_level from user where user_id = ?";
     private static final String SELECT_BY_LOGIN_PSTM = "select user_id, user_login, user_password, user_access_level from user where user_login = ?";
-
     private static final String INSERT_PSTM = "insert into user(user_login, user_password, user_access_level) values(?,?,?)";
     private static final String DELETE_PSTM = "delete from user where user_id = ?";
     private static final String UPDATE_PSTM = "update user set user_login = ?, user_password = ?, user_access_level = ? where user_id = ?";
-    private static Logger logger = LogManager.getLogger();
     private SecureConnection secureConnection;
 
     public UserDao() throws DaoException {
         secureConnection = super.secureConnection;
     }
 
+    /**
+     * Finds Users all existed
+     * @return ArrayList<User>
+     * @throws DaoException
+     */
     @Override
     public ArrayList<User> findAll() throws DaoException {
         ArrayList<User> userList = new ArrayList<>();
@@ -47,6 +55,12 @@ public class UserDao extends AbstractDaoImpl<User> {
     }
 
 
+    /**
+     * Finds User by its id
+     * @param id type Integer
+     * @return User
+     * @throws DaoException
+     */
     @Override
     public User findEntityById(Integer id) throws DaoException {
         User user = new User();
@@ -65,6 +79,12 @@ public class UserDao extends AbstractDaoImpl<User> {
         return user;
     }
 
+    /**
+     * Finds User by its login
+     * @param login type String
+     * @return User
+     * @throws DaoException
+     */
     public User findUserByLogin(String login) throws DaoException {
         User user = new User();
         try (PreparedStatement preparedStatement = secureConnection.prepareStatement(SELECT_BY_LOGIN_PSTM)) {
@@ -83,11 +103,21 @@ public class UserDao extends AbstractDaoImpl<User> {
     }
 
 
+    /**
+     * @param id of type Integer
+     * @return true if statement delete item successfully
+     * @throws DaoException
+     */
     @Override
     public boolean deleteById(Integer id) throws DaoException {
         return deleteById(id, DELETE_PSTM);
     }
 
+    /**
+     * @param entity of type User
+     * @return true if statement delete item successfully
+     * @throws DaoException
+     */
     @Override
     public boolean delete(User entity) throws DaoException {
         try (PreparedStatement preparedStatement = secureConnection.prepareStatement(DELETE_PSTM)) {
@@ -99,6 +129,11 @@ public class UserDao extends AbstractDaoImpl<User> {
         }
     }
 
+    /**
+     * @param entity of type User
+     * @return true if statement create item successfully
+     * @throws DaoException
+     */
     @Override
     public boolean create(User entity) throws DaoException {
         try (PreparedStatement preparedStatement = secureConnection.prepareStatement(INSERT_PSTM)) {
@@ -112,6 +147,11 @@ public class UserDao extends AbstractDaoImpl<User> {
         }
     }
 
+    /**
+     * @param entity of type User
+     * @return true if statement update item successfully
+     * @throws DaoException
+     */
     @Override
     public boolean update(User entity) throws DaoException {
         try (PreparedStatement preparedStatement = secureConnection.prepareStatement(UPDATE_PSTM)) {

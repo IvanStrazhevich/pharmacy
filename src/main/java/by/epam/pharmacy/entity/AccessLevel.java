@@ -2,22 +2,22 @@ package by.epam.pharmacy.entity;
 
 public enum AccessLevel {
     CLIENT("client"), DOCTOR("doctor"), PHARMACIST("pharmacist");
-    private String value;
+    private String level;
 
-    AccessLevel(String value) {
-        this.value = value;
+    AccessLevel(String level) {
+        this.level = level;
     }
 
-    public String getValue() {
-        return value;
+    public String getLevel() {
+        return level;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setLevel(String level) {
+        this.level = level;
     }
 
     @Override
     public String toString() {
-        return value;
+        return level;
     }
 }

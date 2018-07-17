@@ -12,19 +12,26 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *
+ */
 public class ClientDetailDao extends AbstractDaoImpl<ClientDetail> {
+    private static Logger logger = LogManager.getLogger();
     private static final String SELECT_ALL_PSTM = "select user_id, cl_name, cl_lastname, cl_email, cl_phone, cl_postcode, cl_country, cl_city, cl_address from client_detail";
     private static final String SELECT_BY_ID_PSTM = "select user_id, cl_name, cl_lastname, cl_email, cl_phone, cl_postcode, cl_country, cl_city, cl_address from client_detail where user_id = ?";
     private static final String INSERT_PSTM = "insert into client_detail(user_id, cl_name, cl_lastname, cl_email, cl_phone, cl_postcode, cl_country, cl_city, cl_address) values(?,?,?,?,?,?,?,?,?)";
     private static final String DELETE_PSTM = "delete from client_detail where user_id = ?";
-    private static final String UPDATE_PSTM = "update client_detail set cl_name = ?, cl_lastname = ? cl_email=?, cl_phone=?, cl_postcode=?, cl_country=?, cl_city=?, cl_address=? where user_id = ?";
-    private static Logger logger = LogManager.getLogger();
+    private static final String UPDATE_PSTM = "update client_detail set cl_name = ?, cl_lastname = ? cl_email = ?, cl_phone = ?, cl_postcode = ?, cl_country = ?, cl_city = ?, cl_address = ? where user_id = ?";
     private SecureConnection secureConnection;
 
     public ClientDetailDao() throws DaoException {
         secureConnection = super.secureConnection;
     }
 
+    /**
+     * @return
+     * @throws DaoException
+     */
     @Override
     public List<ClientDetail> findAll() throws DaoException {
         ArrayList<ClientDetail> clientDetailList = new ArrayList<>();
@@ -50,6 +57,11 @@ public class ClientDetailDao extends AbstractDaoImpl<ClientDetail> {
         return clientDetailList;
     }
 
+    /**
+     * @param id
+     * @return
+     * @throws DaoException
+     */
     @Override
     public ClientDetail findEntityById(Integer id) throws DaoException {
         ClientDetail clientDetail = new ClientDetail();
@@ -73,11 +85,21 @@ public class ClientDetailDao extends AbstractDaoImpl<ClientDetail> {
         return clientDetail;
     }
 
+    /**
+     * @param id
+     * @return
+     * @throws DaoException
+     */
     @Override
     public boolean deleteById(Integer id) throws DaoException {
         return deleteById(id, DELETE_PSTM);
     }
 
+    /**
+     * @param entity
+     * @return
+     * @throws DaoException
+     */
     @Override
     public boolean delete(ClientDetail entity) throws DaoException {
         try (PreparedStatement preparedStatement = secureConnection.prepareStatement(DELETE_PSTM)) {
@@ -89,6 +111,11 @@ public class ClientDetailDao extends AbstractDaoImpl<ClientDetail> {
         }
     }
 
+    /**
+     * @param entity
+     * @return
+     * @throws DaoException
+     */
     @Override
     public boolean create(ClientDetail entity) throws DaoException {
         try (PreparedStatement preparedStatement = secureConnection.prepareStatement(INSERT_PSTM)) {
@@ -108,6 +135,11 @@ public class ClientDetailDao extends AbstractDaoImpl<ClientDetail> {
         }
     }
 
+    /**
+     * @param entity
+     * @return
+     * @throws DaoException
+     */
     @Override
     public boolean update(ClientDetail entity) throws DaoException {
         try (PreparedStatement preparedStatement = secureConnection.prepareStatement(UPDATE_PSTM)) {

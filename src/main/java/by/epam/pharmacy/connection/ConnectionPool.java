@@ -11,15 +11,16 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class ConnectionPool {
     private static Logger logger = LogManager.getLogger();
+    private static ReentrantLock lock = new ReentrantLock();
     private static final int MAX_CONNECTIONS = 20;
     private static final int MIN_CONNECTIONS = 5;
-    private static final int CONNECTIONS_NORM =10;
+    private static final int CONNECTIONS_NORM = 10;
     private static final int NORMALIZATION_LIMIT_FOR_CONNECTIONS = 15;
     private static ConnectionPool instance;
     private ConnectionCreator connectionCreator = new ConnectionCreator();
     private LinkedBlockingDeque<SecureConnection> connectionPoolFree = new LinkedBlockingDeque<>();
     private LinkedList<SecureConnection> connectionInUse = new LinkedList<>();
-    private static ReentrantLock lock = new ReentrantLock();
+
 
     private ConnectionPool() {
         int poolsize = connectionCreator.definePoolsize();
@@ -28,6 +29,7 @@ public class ConnectionPool {
             connectionPoolFree.add(secureConnection);
         }
     }
+
     public static ConnectionPool getInstance() {
         if (null == instance) {
             try {
@@ -44,7 +46,7 @@ public class ConnectionPool {
 
     public void closeAll() throws ProxyPoolException {
         try {
-            int poolsize = connectionPoolFree.size()+connectionInUse.size();
+            int poolsize = connectionPoolFree.size() + connectionInUse.size();
             for (int i = 0; i < poolsize; i++) {
                 logger.info(connectionPoolFree.size() + " i: " + i + " in pool");
                 connectionPoolFree.take().getConnection().close();

@@ -65,5 +65,4 @@ public class SessionRequestContent {
     public HashMap<String, Object> getSessionAttributes() {
         return sessionAttributes;
     }
-    // some methods
 }

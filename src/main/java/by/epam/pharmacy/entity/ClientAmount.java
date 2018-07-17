@@ -3,7 +3,6 @@ package by.epam.pharmacy.entity;
 import java.math.BigDecimal;
 
 public class ClientAmount extends Entity{
-
     private static final long serialVersionUID = 632246434979432068L;
     private int clientId;
     private BigDecimal amountDebit;

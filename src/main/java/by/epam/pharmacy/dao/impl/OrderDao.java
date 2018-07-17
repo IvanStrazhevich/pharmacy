@@ -12,20 +12,26 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *
+ */
 public class OrderDao extends AbstractDaoImpl<Order> {
+    private static Logger logger = LogManager.getLogger();
     private static final String SELECT_ALL_PSTM = "select order_id, ord_user_id, ord_payed, ord_med_sum from order";
     private static final String SELECT_BY_ID_PSTM = "select order_id, ord_user_id, ord_payed, ord_med_sum from order where order_id = ?";
     private static final String INSERT_PSTM = "insert into order (ord_user_id, ord_payed, ord_med_sum) values(?,?,?)";
     private static final String DELETE_PSTM = "delete from order where order_id = ?";
     private static final String UPDATE_PSTM = "update order set ord_user_id=?, ord_payed=?, ord_med_sum=? where order_id = ?";
-
-    private static Logger logger = LogManager.getLogger();
     private SecureConnection secureConnection;
 
     public OrderDao() throws DaoException {
         secureConnection = super.secureConnection;
     }
 
+    /**
+     * @return
+     * @throws DaoException
+     */
     @Override
     public List<Order> findAll() throws DaoException {
         ArrayList<Order> userList = new ArrayList<>();
@@ -47,6 +53,11 @@ public class OrderDao extends AbstractDaoImpl<Order> {
     }
 
 
+    /**
+     * @param id
+     * @return
+     * @throws DaoException
+     */
     @Override
     public Order findEntityById(Integer id) throws DaoException {
         Order order = new Order();
@@ -66,11 +77,21 @@ public class OrderDao extends AbstractDaoImpl<Order> {
     }
 
 
+    /**
+     * @param id
+     * @return
+     * @throws DaoException
+     */
     @Override
     public boolean deleteById(Integer id) throws DaoException {
         return deleteById(id,DELETE_PSTM);
     }
 
+    /**
+     * @param entity
+     * @return
+     * @throws DaoException
+     */
     @Override
     public boolean delete(Order entity) throws DaoException {
         try (PreparedStatement preparedStatement = secureConnection.prepareStatement(DELETE_PSTM)) {
@@ -82,6 +103,11 @@ public class OrderDao extends AbstractDaoImpl<Order> {
         }
     }
 
+    /**
+     * @param entity
+     * @return
+     * @throws DaoException
+     */
     @Override
     public boolean create(Order entity) throws DaoException {
         try (PreparedStatement preparedStatement = secureConnection.prepareStatement(INSERT_PSTM)) {
@@ -95,6 +121,11 @@ public class OrderDao extends AbstractDaoImpl<Order> {
         }
     }
 
+    /**
+     * @param entity
+     * @return
+     * @throws DaoException
+     */
     @Override
     public boolean update(Order entity) throws DaoException {
         try (PreparedStatement preparedStatement = secureConnection.prepareStatement(UPDATE_PSTM)) {
