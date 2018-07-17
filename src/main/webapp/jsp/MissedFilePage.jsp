@@ -14,10 +14,11 @@
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <fmt:message key="message.forgotfile" bundle="${rb}"/>
+<p><img src="img/eddie1.gif" alt="Sorry, we alredy fix this" width="500" height="500"></p>
 <hr>
 <form action="UploadPage"
       method="post">
-    <input type="submit" value="<fmt:message key="label.button.UploadPage" bundle="${rb}"/>">
+    <input type="submit" value="<fmt:message key="label.button.EditUserPage" bundle="${rb}"/>">
     <input type="hidden" name="action" value="UploadPage">
 </form>
 <fmt:message key="message.youcanswitch" bundle="${rb}"/>

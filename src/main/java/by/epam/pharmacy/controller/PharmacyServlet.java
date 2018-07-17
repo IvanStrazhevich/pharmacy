@@ -15,8 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(name = "PharmacyServlet",
-        urlPatterns = {"/WelcomePage", "/UploadPage", "/UploadResultPage", "/LoginPage",
-                "/CheckLogin", "/RegisterUser", "/RegisterPage","/jsp/WelcomePage", "/jsp/UploadPage",
+        urlPatterns = {"/WelcomePage", "/EditUserDataPage", "/UploadResultPage", "/LoginPage",
+                "/CheckLogin", "/RegisterUser", "/RegisterPage","/jsp/WelcomePage", "/jsp/EditUserDataPage",
                 "/jsp/UploadResultPage", "/jsp/LoginPage",
                 "/jsp/CheckLogin", "/jsp/RegisterUser", "/jsp/RegisterPage"})
 @MultipartConfig(location = ""//The directory location where files will be stored

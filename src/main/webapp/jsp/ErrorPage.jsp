@@ -17,14 +17,17 @@
 <script src="js/bootstrap.min.js"></script>
 <fmt:message key="message.smthwentwrong"/>
 <hr>
-<form action="WelcomePage"
-      method="post">
-    <input type="hidden" name="action" value="WelcomePage">
-    <input type="submit" value="<fmt:message key="label.button.WelcomePage"/>">
-</form>
-<form action="WelcomePage" method="post">
-    <input type="hidden" name="action" value="InvalidateSession">
-    <input type="submit" value="<fmt:message key="label.button.Logout"/>">
-</form>
+<p><img src="img/eddie.gif" alt="Sorry, we alredy fix this" width="1000" height="500"></p>
+<div class="floating">
+    <form action="WelcomePage"
+          method="post">
+        <input type="hidden" name="action" value="WelcomePage">
+        <input class="btn btn-primary" type="submit" value="<fmt:message key="label.button.WelcomePage"/>">
+    </form>
+    <form action="WelcomePage" method="post">
+        <input type="hidden" name="action" value="InvalidateSession">
+        <input class="btn btn-danger" type="submit" value="<fmt:message key="label.button.Logout"/>">
+    </form>
+</div>
 </body>
 </html>

@@ -19,6 +19,7 @@ ${userRegistered}
 ${greeting}
 <pht:info-time locale="${lang}"/>
 <pht:hello accessLevel="${accessLevel}" login="${login}"/>
+
 <form class="checkbox" action="WelcomePage" method="post">
     <select class="btn btn-primary" name="lang">
         <option value="be_BY"><fmt:message key="label.button.be"/></option>
@@ -29,13 +30,15 @@ ${greeting}
     <input type="submit" class="btn btn-primary" value="<fmt:message key="label.button.language"/> ">
     <br>
 </form>
-<form action="UploadPage" method="post">
-    <input type="submit" class="btn btn-primary" value="<fmt:message key="label.button.UploadPage"/>">
-    <input type="hidden" name="action" value="UploadPage">
+<div class="floating">
+<form action="EditUserDataPage" method="post">
+    <input type="submit" class="btn btn-primary" value="<fmt:message key="label.button.EditUserPage"/>">
+    <input type="hidden" name="action" value="EditUserDataPage">
 </form>
 <form action="WelcomePage" method="post">
     <input type="hidden" name="action" value="InvalidateSession">
-    <input type="submit" class="btn btn-primary" value="<fmt:message key="label.button.Logout"/>">
+    <input type="submit" class="btn btn-danger" value="<fmt:message key="label.button.Logout"/>">
 </form>
+</div>
 </body>
 </html>

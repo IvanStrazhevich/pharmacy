@@ -1,7 +1,7 @@
 package by.epam.pharmacy.util;
 
 public enum CommandEnum {
-    UPLOAD_PAGE("UploadPage"), UPLOAD_RESULT_PAGE("UploadResultPage"),
+    EDIT_USER_DATA_PAGE("EditUserDataPage"), UPLOAD_RESULT_PAGE("UploadResultPage"),
     WELCOME_PAGE("WelcomePage"), LOGIN_PAGE("LoginPage"), CHECK_LOGIN("CheckLogin"),
     REGISTER_USER("RegisterUser"), INVALIDATE_SESSION("InvalidateSession"),
     REGISTER_PAGE("RegisterPage"), SET_LOCALE("SetLocale"),

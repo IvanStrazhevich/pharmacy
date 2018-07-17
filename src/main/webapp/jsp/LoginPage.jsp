@@ -21,22 +21,30 @@ ${userNotRegistered}
 ${needRegister}
 ${needLogin}
 <form action="CheckLogin" method=post>
-    <p><strong><fmt:message key="message.enterLogin"/> </strong>
-        <input type="text" name="login" size="15">
-    <p>
-    <p><strong><fmt:message key="message.enterPassword"/> </strong>
-        <input type="password" name="password" size="15">
-    <p>
-    <p>
-        <input type="hidden" size="15" name="action" value="CheckLogin">
-        <input type="submit" value="<fmt:message key="label.button.Submit"/>">
-        <input type="reset" value="<fmt:message key="label.button.Reset"/>">
+
+
+    <div class="input-group">
+        <label for="login"><fmt:message key="message.enterLogin"/></label>
+        <div class="form-inline">
+            <input type="text" id="login" name="login" size="45">
+        </div>
+    </div>
+    <div class="input-group">
+        <label for="password"><fmt:message key="message.enterPassword"/></label>
+        <div class="form-inline">
+            <input id="password" type="password" name="password" size="45">
+        </div>
+    </div>
+    <input type="hidden" name="action" value="CheckLogin">
+    <input class="btn btn-success" type="submit" value="<fmt:message key="label.button.Submit"/>">
+    <input class="btn btn-warning" type="reset" value="<fmt:message key="label.button.Reset"/>">
+
 </form>
 <hr>
 <form action="RegisterPage"
       method="post">
     <input type="hidden" name="action" value="RegisterPage">
-    <input type="submit" value="<fmt:message key="label.button.RegisterPage"/>">
+    <input class="btn bg-info" type="submit" value="<fmt:message key="label.button.RegisterPage"/>">
 </form>
 </body>
 </html>

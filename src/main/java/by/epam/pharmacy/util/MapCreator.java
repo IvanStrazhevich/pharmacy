@@ -23,8 +23,8 @@ public class MapCreator {
                 case WELCOME_PAGE:
                     servletMap.put(command.getCommand(), new WelcomePageHandler());
                     break;
-                case UPLOAD_PAGE:
-                    servletMap.put(command.getCommand(), new UploadPageHandler());
+                case EDIT_USER_DATA_PAGE:
+                    servletMap.put(command.getCommand(), new EditUserDataPageHandler());
                     break;
                 case UPLOAD_RESULT_PAGE:
                     servletMap.put(command.getCommand(), new FileReadHandler());
