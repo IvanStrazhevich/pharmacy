@@ -1,14 +1,13 @@
 package by.epam.pharmacy.logic;
 
+import by.epam.pharmacy.command.SessionRequestContent;
 import by.epam.pharmacy.dao.impl.UserDao;
 import by.epam.pharmacy.entity.User;
 import by.epam.pharmacy.exception.DaoException;
-import by.epam.pharmacy.exception.EncriptingException;
 import by.epam.pharmacy.exception.LogicException;
 import by.epam.pharmacy.service.AttributeEnum;
 import by.epam.pharmacy.service.PagesEnum;
 import by.epam.pharmacy.util.ResourceManager;
-import by.epam.pharmacy.command.SessionRequestContent;
 
 import java.util.ArrayList;
 
@@ -43,8 +42,6 @@ public class UserAuthorisation {
             }
         } catch (DaoException e) {
             throw new LogicException("DaoException", e);
-        } catch (EncriptingException e) {
-            throw new LogicException("Encription exception", e);
         }
         return logged;
     }
@@ -55,8 +52,6 @@ public class UserAuthorisation {
             return user.getAccessLevel();
         } catch (DaoException e) {
             throw new LogicException("DaoException", e);
-        } catch (EncriptingException e) {
-            throw new LogicException("Encription exception", e);
         }
     }
     public String logIn(SessionRequestContent sessionRequestContent) throws LogicException{

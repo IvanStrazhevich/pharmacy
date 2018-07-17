@@ -4,7 +4,7 @@ import by.epam.pharmacy.connection.SecureConnection;
 import by.epam.pharmacy.connection.ConnectionPool;
 import by.epam.pharmacy.dao.AbstractDao;
 import by.epam.pharmacy.exception.DaoException;
-import by.epam.pharmacy.exception.ProxyPoolException;
+import by.epam.pharmacy.exception.PoolException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,7 +23,7 @@ public abstract class AbstractDaoImpl<T> implements AbstractDao<T> {
     public AbstractDaoImpl() throws DaoException {
         try {
             this.secureConnection = ConnectionPool.getInstance().getConnection();
-        } catch (ProxyPoolException e) {
+        } catch (PoolException e) {
             throw new DaoException("There is no free connection", e);
         }
     }

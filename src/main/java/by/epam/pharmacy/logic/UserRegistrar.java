@@ -1,15 +1,14 @@
 package by.epam.pharmacy.logic;
 
+import by.epam.pharmacy.command.SessionRequestContent;
 import by.epam.pharmacy.dao.impl.UserDao;
 import by.epam.pharmacy.entity.AccessLevel;
 import by.epam.pharmacy.entity.User;
 import by.epam.pharmacy.exception.DaoException;
-import by.epam.pharmacy.exception.EncriptingException;
 import by.epam.pharmacy.exception.LogicException;
 import by.epam.pharmacy.service.AttributeEnum;
 import by.epam.pharmacy.service.PagesEnum;
 import by.epam.pharmacy.util.ResourceManager;
-import by.epam.pharmacy.command.SessionRequestContent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -35,19 +34,15 @@ public class UserRegistrar {
 
     private boolean checkUserExist(String login) throws LogicException {
         boolean exist = false;
-        try {
-            ArrayList<User> list = new ArrayList();
-            list = getUserslist();
-            String shalogin = encoder.encode(login);
-            for (User user : list) {
-                String loginDB = user.getLogin();
-                logger.info(loginDB + '\n' + shalogin);
-                if (shalogin.equals(loginDB)) {
-                    exist = true;
-                }
+        ArrayList<User> list = new ArrayList();
+        list = getUserslist();
+        String shalogin = encoder.encode(login);
+        for (User user : list) {
+            String loginDB = user.getLogin();
+            logger.info(loginDB + '\n' + shalogin);
+            if (shalogin.equals(loginDB)) {
+                exist = true;
             }
-        } catch (EncriptingException e) {
-            throw new LogicException(e);
         }
         return exist;
     }
@@ -65,8 +60,6 @@ public class UserRegistrar {
             return userDao.create(user);
         } catch (DaoException e) {
             throw new LogicException("DaoException", e);
-        } catch (EncriptingException e) {
-            throw new LogicException("Encription exception", e);
         }
     }
 

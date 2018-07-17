@@ -31,34 +31,31 @@ public class PageRedirectTypeDefiner {
         String action = sessionRequestContent.getRequestParameters().get(AttributeEnum.ACTION.getAttribute());
         if (action != null) {
             RequestHandler requestHandler = servletMap.get(action);
-            logger.info(action);
+            logger.debug(action);
             String page = null;
-            if (action.equals(CommandEnum.INVALIDATE_SESSION.getCommand())) {
-                try {
+            try {
+                if (action.equals(CommandEnum.INVALIDATE_SESSION.getCommand())) {
                     page = requestHandler.execute(request);
-                } catch (CommandException e) {
-                   throw new ServletException(e);
-                }
-                if (request.getRequestDispatcher(page) != null) {
-                    request.getRequestDispatcher(page).forward(request, response);
-                }
-            } else {
-                try {
-                    page = requestHandler.execute(sessionRequestContent);
-                } catch (CommandException e) {
-                    throw new ServletException(e);
-                }
-                if (page != null) {
-                    sessionRequestContent.insertAttributes(request);
                     if (request.getRequestDispatcher(page) != null) {
-                        request.getRequestDispatcher(page).forward(request, response);
+                        response.sendRedirect(request.getContextPath() + page);
+                        //request.getRequestDispatcher(page).forward(request, response);
                     }
                 } else {
-                    if (request.getRequestDispatcher(PagesEnum.ERROR_PAGE.getPage()) != null) {
-                        response.sendRedirect(request.getContextPath() + PagesEnum.ERROR_PAGE.getPage());
+                    page = requestHandler.execute(sessionRequestContent);
+                    if (page != null) {
+                        sessionRequestContent.insertAttributes(request);
+                        if (request.getRequestDispatcher(page) != null) {
+                            request.getRequestDispatcher(page).forward(request, response);
+                        }
+                    } else {
+                        if (request.getRequestDispatcher(PagesEnum.ERROR_PAGE.getPage()) != null) {
+                            response.sendRedirect(request.getContextPath() + PagesEnum.ERROR_PAGE.getPage());
+                        }
                     }
                 }
+            } catch (CommandException e) {
+                throw new ServletException(e);
             }
-
         }
-    }}
+    }
+}

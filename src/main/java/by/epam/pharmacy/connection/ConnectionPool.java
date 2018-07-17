@@ -1,6 +1,6 @@
 package by.epam.pharmacy.connection;
 
-import by.epam.pharmacy.exception.ProxyPoolException;
+import by.epam.pharmacy.exception.PoolException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -44,7 +44,7 @@ public class ConnectionPool {
         return instance;
     }
 
-    public void closeAll() throws ProxyPoolException {
+    public void closeAll() throws PoolException {
         try {
             int poolsize = connectionPoolFree.size() + connectionInUse.size();
             for (int i = 0; i < poolsize; i++) {
@@ -52,22 +52,22 @@ public class ConnectionPool {
                 connectionPoolFree.take().getConnection().close();
             }
         } catch (SQLException | InterruptedException e) {
-            throw new ProxyPoolException("Closing secureConnection error", e);
+            throw new PoolException("Closing secureConnection error", e);
         }
     }
 
-    private void optimizePool() throws ProxyPoolException {
+    private void optimizePool() throws PoolException {
         try {
             while (connectionPoolFree.size() > CONNECTIONS_NORM) {
                 logger.debug("Optimisation " + connectionPoolFree.size());
                 connectionPoolFree.take().getConnection().close();
             }
         } catch (SQLException | InterruptedException e) {
-            throw new ProxyPoolException("Closing secureConnection error", e);
+            throw new PoolException("Closing secureConnection error", e);
         }
     }
 
-    public SecureConnection getConnection() throws ProxyPoolException {
+    public SecureConnection getConnection() throws PoolException {
         logger.debug("Connections avalable" + connectionPoolFree.size());
         SecureConnection secureConnection = null;
         try {
@@ -79,7 +79,7 @@ public class ConnectionPool {
             }
             secureConnection = connectionPoolFree.take();
         } catch (InterruptedException e) {
-            throw new ProxyPoolException("Getting secureConnection error", e);
+            throw new PoolException("Getting secureConnection error", e);
         }
         logger.debug("added" + secureConnection + " pool free: " + connectionPoolFree.size());
         connectionInUse.add(secureConnection);

@@ -4,7 +4,7 @@ import by.epam.pharmacy.connection.ConnectionPool;
 import by.epam.pharmacy.dao.impl.UserDao;
 import by.epam.pharmacy.entity.User;
 import by.epam.pharmacy.exception.DaoException;
-import by.epam.pharmacy.exception.ProxyPoolException;
+import by.epam.pharmacy.exception.PoolException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
@@ -26,7 +26,7 @@ public class UserDaoTest {
     }
 
     @AfterClass
-    public void afterClass() throws ProxyPoolException {
+    public void afterClass() throws PoolException {
         connectionPool.closeAll();
         connectionPool =null;
 
