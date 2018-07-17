@@ -1,6 +1,6 @@
 package by.epam.pharmacy.service;
 
-import by.epam.pharmacy.util.SessionRequestContent;
+import by.epam.pharmacy.command.SessionRequestContent;
 
 public class RegisterPageHandler implements RequestHandler<SessionRequestContent> {
     @Override

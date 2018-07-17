@@ -1,6 +1,6 @@
 package by.epam.pharmacy.service;
 
-import by.epam.pharmacy.util.SessionRequestContent;
+import by.epam.pharmacy.command.SessionRequestContent;
 import by.epam.pharmacy.util.ResourceManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

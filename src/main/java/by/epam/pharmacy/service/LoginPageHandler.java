@@ -2,7 +2,7 @@ package by.epam.pharmacy.service;
 
 
 import by.epam.pharmacy.util.ResourceManager;
-import by.epam.pharmacy.util.SessionRequestContent;
+import by.epam.pharmacy.command.SessionRequestContent;
 
 import java.util.Locale;
 

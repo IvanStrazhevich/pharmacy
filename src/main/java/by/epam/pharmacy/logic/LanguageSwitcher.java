@@ -1,6 +1,7 @@
-package by.epam.pharmacy.util;
+package by.epam.pharmacy.logic;
 
 import by.epam.pharmacy.service.AttributeEnum;
+import by.epam.pharmacy.util.ResourceManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

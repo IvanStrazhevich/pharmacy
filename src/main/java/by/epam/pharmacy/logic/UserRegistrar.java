@@ -8,10 +8,8 @@ import by.epam.pharmacy.exception.EncriptingException;
 import by.epam.pharmacy.exception.LogicException;
 import by.epam.pharmacy.service.AttributeEnum;
 import by.epam.pharmacy.service.PagesEnum;
-import by.epam.pharmacy.util.Encodable;
 import by.epam.pharmacy.util.ResourceManager;
-import by.epam.pharmacy.util.SHAConverter;
-import by.epam.pharmacy.util.SessionRequestContent;
+import by.epam.pharmacy.command.SessionRequestContent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

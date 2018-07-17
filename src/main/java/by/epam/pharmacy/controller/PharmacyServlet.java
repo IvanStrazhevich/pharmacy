@@ -1,8 +1,8 @@
 package by.epam.pharmacy.controller;
 
 
-import by.epam.pharmacy.util.PageRedirectTypeDefiner;
-import by.epam.pharmacy.util.SessionRequestContent;
+import by.epam.pharmacy.command.PageRedirectTypeDefiner;
+import by.epam.pharmacy.command.SessionRequestContent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -26,7 +26,6 @@ import java.io.IOException;
 public class PharmacyServlet extends HttpServlet {
     private static Logger logger = LogManager.getLogger();
     private PageRedirectTypeDefiner pageRedirectTypeDefiner = new PageRedirectTypeDefiner();
-
 
     private void handleRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/html; charset=utf-8");

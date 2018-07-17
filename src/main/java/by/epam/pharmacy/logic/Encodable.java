@@ -1,4 +1,4 @@
-package by.epam.pharmacy.util;
+package by.epam.pharmacy.logic;
 
 import by.epam.pharmacy.exception.EncriptingException;
 

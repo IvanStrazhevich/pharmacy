@@ -1,8 +1,8 @@
 package by.epam.pharmacy.service;
 
-import by.epam.pharmacy.util.SessionRequestContent;
-import by.epam.pharmacy.util.LanguageSwitchable;
-import by.epam.pharmacy.util.LanguageSwitcherUsingContent;
+import by.epam.pharmacy.command.SessionRequestContent;
+import by.epam.pharmacy.logic.LanguageSwitchable;
+import by.epam.pharmacy.logic.LanguageSwitcherUsingContent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

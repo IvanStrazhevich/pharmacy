@@ -1,4 +1,4 @@
-package by.epam.pharmacy.util;
+package by.epam.pharmacy.command;
 
 public enum CommandEnum {
     EDIT_USER_DATA_PAGE("EditUserDataPage"), UPLOAD_RESULT_PAGE("UploadResultPage"),

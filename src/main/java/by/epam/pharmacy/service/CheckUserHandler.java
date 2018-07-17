@@ -3,7 +3,7 @@ package by.epam.pharmacy.service;
 import by.epam.pharmacy.exception.CommandException;
 import by.epam.pharmacy.exception.LogicException;
 import by.epam.pharmacy.logic.UserAuthorisation;
-import by.epam.pharmacy.util.SessionRequestContent;
+import by.epam.pharmacy.command.SessionRequestContent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

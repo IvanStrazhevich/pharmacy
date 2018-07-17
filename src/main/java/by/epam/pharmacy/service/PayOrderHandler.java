@@ -1,7 +1,7 @@
 package by.epam.pharmacy.service;
 
 import by.epam.pharmacy.exception.CommandException;
-import by.epam.pharmacy.util.SessionRequestContent;
+import by.epam.pharmacy.command.SessionRequestContent;
 
 public class PayOrderHandler implements RequestHandler<SessionRequestContent> {
     @Override

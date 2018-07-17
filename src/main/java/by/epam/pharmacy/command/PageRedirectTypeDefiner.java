@@ -1,4 +1,4 @@
-package by.epam.pharmacy.util;
+package by.epam.pharmacy.command;
 
 import by.epam.pharmacy.exception.CommandException;
 import by.epam.pharmacy.exception.PharmacyServletException;
