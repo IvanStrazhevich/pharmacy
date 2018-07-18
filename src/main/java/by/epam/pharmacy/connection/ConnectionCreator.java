@@ -22,12 +22,12 @@ public class ConnectionCreator {
         return Integer.valueOf(properties.getProperty("poolsize"));
     }
 
-    SecureConnection createConnection() {
-        SecureConnection secureConnection = new SecureConnection();
+    ProxyConnection createConnection() {
+        ProxyConnection proxyConnection = new ProxyConnection();
         try {
             properties.load(getClass().getClassLoader().getResourceAsStream("connection.properties"));
             String url = properties.getProperty("url");
-            secureConnection.setConnection(DriverManager.getConnection(url, properties));
+            proxyConnection.setConnection(DriverManager.getConnection(url, properties));
         } catch (SQLException e) {
             logger.error("Data base is not reachable", e);
             throw new RuntimeException("Data base is not reachable", e);
@@ -35,6 +35,6 @@ public class ConnectionCreator {
             logger.error("Property file not found ", e);
             throw new RuntimeException("Property file not found ", e);
         }
-        return secureConnection;
+        return proxyConnection;
     }
 }

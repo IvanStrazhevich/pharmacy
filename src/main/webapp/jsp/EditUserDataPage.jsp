@@ -23,80 +23,92 @@
     <input type="hidden" name="action" value="UploadResult">
     <input class="btn btn-success" type="submit" value="<fmt:message key="label.button.uploadfile"/>">
 </form>
-<form action="UploadResultPage"
-      method="post">
-    <div class="input-group">
+    <form action="UploadResultPage"
+          method="get">
+        <c:set var="us" value="${user}"></c:set>
         <div class="input-group">
-            <label for="email"><fmt:message key="message.enter.email"/></label>
-            <div class="form-inline">
-                <input id="email" type="email" name="email" placeholder="<fmt:message key="message.enter.email"/>"
-                       maxlength="45">
+            <div class="input-group">
+                <label for="email"><fmt:message key="message.enter.email"/></label>
+                <div class="form-inline">
+                    <input id="email" type="email" name="email" value="${us.email}"
+                           placeholder="<fmt:message key="message.enter.email"/>" maxlength="45">
+                </div>
             </div>
-        </div>
-        <div class="input-group">
-            <label for="name"><fmt:message key="message.enter.name"/></label>
-            <div class="form-inline">
-                <input id="name" type="text" name="name" placeholder="<fmt:message key="message.enter.name"/>"
-                       maxlength="45">
+            <div class="input-group">
+                <label for="name"><fmt:message key="message.enter.name"/></label>
+                <div class="form-inline">
+                    <input id="name" type="text" name="name" value="${us.name}"
+                           placeholder="<fmt:message key="message.enter.name"/>"
+                           maxlength="45">
+                </div>
             </div>
-        </div>
-        <div class="input-group">
-            <label for="lastname"><fmt:message key="message.enter.lastname"/></label>
-            <div class="form-inline">
-                <input id="lastname" type="text" name="lasname"
-                       placeholder="<fmt:message key="message.enter.lastname"/>" maxlength="45">
+            <div class="input-group">
+                <label for="lastname"><fmt:message key="message.enter.lastname"/></label>
+                <div class="form-inline">
+                    <input id="lastname" type="text" name="lastname" value="${us.lastname}"
+                           placeholder="<fmt:message key="message.enter.lastname"/>" maxlength="45">
+                </div>
             </div>
-        </div>
-        <div class="input-group">
-            <label for="phone"><fmt:message key="message.enter.phone"/></label>
-            <div class="form-inline">
-                <input id="phone" type="text" name="phone" placeholder="<fmt:message key="message.enter.phone"/>"
-                       maxlength="15">
+            <div class="input-group">
+                <label for="phone"><fmt:message key="message.enter.phone"/></label>
+                <div class="form-inline">
+                    <input id="phone" type="text" name="phone" value="${us.phone}"
+                           placeholder="<fmt:message key="message.enter.phone"/>"
+                           maxlength="15">
+                </div>
             </div>
-        </div>
-        <div class="input-group">
-            <label for="postcode"><fmt:message key="message.enter.postcode"/></label>
-            <div class="form-inline">
-                <input id="postcode" type="text" name="postcode"
-                       placeholder="<fmt:message key="message.enter.postcode"/>" maxlength="10">
+            <div class="input-group">
+                <label for="postcode"><fmt:message key="message.enter.postcode"/></label>
+                <div class="form-inline">
+                    <input id="postcode" type="text" name="postcode" value="${us.postcode}"
+                           placeholder="<fmt:message key="message.enter.postcode"/>" maxlength="10">
+                </div>
             </div>
-        </div>
-        <div class="input-group">
-            <label for="country"><fmt:message key="message.enter.country"/></label>
-            <div class="form-inline">
-                <input id="country" type="text" name="country" placeholder="<fmt:message key="message.enter.country"/>"
-                       maxlength="45">
+            <div class="input-group">
+                <label for="country"><fmt:message key="message.enter.country"/></label>
+                <div class="form-inline">
+                    <input id="country" type="text" name="country" value="${us.country}"
+                           placeholder="<fmt:message key="message.enter.country"/>"
+                           maxlength="45">
+                </div>
             </div>
-        </div>
-        <div class="input-group">
-            <label for="city"><fmt:message key="message.enter.city"/></label>
-            <div class="form-inline">
-                <input id="city" type="text" name="city" placeholder="<fmt:message key="message.enter.city"/>"
-                       maxlength="45">
+            <div class="input-group">
+                <label for="city"><fmt:message key="message.enter.city"/></label>
+                <div class="form-inline">
+                    <input id="city" type="text" name="city" value="${us.city}"
+                           placeholder="<fmt:message key="message.enter.city"/>"
+                           maxlength="45">
+                </div>
             </div>
-        </div>
-        <div class="input-group">
-            <label for="address"><fmt:message key="message.enter.address"/></label>
-            <div class="form-inline">
-                <input id="address" type="text" name="address" placeholder="<fmt:message key="message.enter.address"/>"
-                       maxlength="45">
+            <div class="input-group">
+                <label for="address"><fmt:message key="message.enter.address"/></label>
+                <div class="form-inline">
+                    <input id="address" type="text" name="address" value="${us.address}"
+                           placeholder="<fmt:message key="message.enter.address"/>"
+                           maxlength="45">
+                </div>
             </div>
+            <input type="hidden" name="action" value="UploadResultPage">
+            <input class="btn btn-success" type="submit" value="<fmt:message key="label.button.confirm"/>">
         </div>
-        <input type="hidden" name="action" value="UploadResultPage">
-        <input class="btn bg-success" type="submit" value="<fmt:message key="label.button.confirm"/>">
-    </div>
-</form>
-<div class="floating">
-    <form action="WelcomePage"
-          method="post">
+
+    </form>
+
+<div class="glyphicon-menu-left">
+    <span class="glyphicon">
+        <form action="WelcomePage"
+              method="post">
         <input type="hidden" name="action" value="WelcomePage">
         <input class="btn btn-primary" type="submit" value="<fmt:message key="label.button.WelcomePage"/>">
     </form>
-    <form action="WelcomePage"
-          method="post">
+    </span>
+    <span class="glyphicon">
+        <form action="WelcomePage"
+              method="post">
         <input type="hidden" name="action" value="InvalidateSession">
         <input class="btn btn-danger" type="submit" value="<fmt:message key="label.button.Logout"/>">
     </form>
+    </span>
 </div>
 </body>
 </html>

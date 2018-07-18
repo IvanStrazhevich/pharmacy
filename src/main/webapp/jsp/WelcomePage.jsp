@@ -17,6 +17,8 @@
 ${notAuthorised}
 ${userRegistered}
 ${greeting}
+${needRegister}
+${needLogin}
 <pht:info-time locale="${lang}"/>
 <pht:hello accessLevel="${accessLevel}" login="${login}"/>
 
@@ -30,15 +32,20 @@ ${greeting}
     <input type="submit" class="btn btn-primary" value="<fmt:message key="label.button.language"/> ">
     <br>
 </form>
-<div class="floating">
-<form action="EditUserDataPage" method="post">
-    <input type="submit" class="btn btn-primary" value="<fmt:message key="label.button.EditUserPage"/>">
-    <input type="hidden" name="action" value="EditUserDataPage">
-</form>
-<form action="WelcomePage" method="post">
-    <input type="hidden" name="action" value="InvalidateSession">
-    <input type="submit" class="btn btn-danger" value="<fmt:message key="label.button.Logout"/>">
-</form>
+<div>
+    <form action="EditUserDataPage" method="post">
+        <span><input type="submit" class="btn btn-primary"
+                     value="<fmt:message key="label.button.EditUserPage"/>"></span>
+        <input type="hidden" name="action" value="EditUserDataPage">
+    </form>
+    <form action="LoginPage" method="post">
+        <span><input type="submit" class="btn btn-primary" value="<fmt:message key="label.button.LoginPage"/>"></span>
+        <input type="hidden" name="action" value="LoginPage">
+    </form>
+    <form action="WelcomePage" method="post">
+        <input type="hidden" name="action" value="InvalidateSession">
+        <span><input type="submit" class="btn btn-danger" value="<fmt:message key="label.button.Logout"/>"></span>
+    </form>
 </div>
 </body>
 </html>

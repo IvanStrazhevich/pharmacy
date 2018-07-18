@@ -1,6 +1,6 @@
 package by.epam.pharmacy.dao.impl;
 
-import by.epam.pharmacy.connection.SecureConnection;
+import by.epam.pharmacy.connection.ProxyConnection;
 import by.epam.pharmacy.dao.AbstractOrderHasMedicineDao;
 import by.epam.pharmacy.entity.OrderHasMedicine;
 import by.epam.pharmacy.exception.DaoException;
@@ -24,10 +24,10 @@ public class OrderHasMedicineDao extends AbstractDaoImpl<OrderHasMedicine> imple
     private static final String DELETE_ALL_MEDS_FROM_ORDER_PSTM = "delete from order_has_medicine where order_order_id = ?";
     private static final String DELETE_MEDICINE_FROM_ORDER_PSTM = "delete from order_has_medicine where order_order_id = ? and medicine_mdc_id=?";
     private static final String UPDATE_PSTM = "update order set ohm_med_quantity = ?, ohm_med_sum = ?, recipe_rec_id = ? where order_order_id = ? and medicine_mdc_id = ?";
-    private SecureConnection secureConnection;
+    private ProxyConnection proxyConnection;
 
     public OrderHasMedicineDao() throws DaoException {
-        secureConnection = super.secureConnection;
+        proxyConnection = super.proxyConnection;
     }
 
 
@@ -38,7 +38,7 @@ public class OrderHasMedicineDao extends AbstractDaoImpl<OrderHasMedicine> imple
     @Override
     public List<OrderHasMedicine> findAll() throws DaoException {
         ArrayList<OrderHasMedicine> ordersHasMedicinesList = new ArrayList<>();
-        try (PreparedStatement preparedStatement = secureConnection.prepareStatement(SELECT_ALL_PSTM)) {
+        try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_ALL_PSTM)) {
             preparedStatement.execute();
             ResultSet resultSet = preparedStatement.getResultSet();
             selectMedicinesInOrder(ordersHasMedicinesList, resultSet);
@@ -56,7 +56,7 @@ public class OrderHasMedicineDao extends AbstractDaoImpl<OrderHasMedicine> imple
     @Override
     public List<OrderHasMedicine> findAllMedicinesByOrderId(Integer orderId) throws DaoException {
         ArrayList<OrderHasMedicine> ordersHasMedicinesList = new ArrayList<>();
-        try (PreparedStatement preparedStatement = secureConnection.prepareStatement(SELECT_BY_ORDER_ID_PSTM)) {
+        try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_BY_ORDER_ID_PSTM)) {
             preparedStatement.setInt(1, orderId);
             preparedStatement.execute();
             ResultSet resultSet = preparedStatement.getResultSet();
@@ -75,7 +75,7 @@ public class OrderHasMedicineDao extends AbstractDaoImpl<OrderHasMedicine> imple
      */
     @Override
     public boolean deleteMedicineFromOrder(Integer orderId, Integer medicineId) throws DaoException {
-        try (PreparedStatement preparedStatement = secureConnection.prepareStatement(DELETE_MEDICINE_FROM_ORDER_PSTM)) {
+        try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(DELETE_MEDICINE_FROM_ORDER_PSTM)) {
             preparedStatement.setInt(1, orderId);
             preparedStatement.setInt(2, medicineId);
             preparedStatement.execute();
@@ -92,7 +92,7 @@ public class OrderHasMedicineDao extends AbstractDaoImpl<OrderHasMedicine> imple
      */
     @Override
     public boolean deleteAllMedicineFromOrder(Integer orderId) throws DaoException {
-        try (PreparedStatement preparedStatement = secureConnection.prepareStatement(DELETE_ALL_MEDS_FROM_ORDER_PSTM)) {
+        try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(DELETE_ALL_MEDS_FROM_ORDER_PSTM)) {
             preparedStatement.setInt(1, orderId);
             preparedStatement.execute();
             return true;
@@ -146,7 +146,7 @@ public class OrderHasMedicineDao extends AbstractDaoImpl<OrderHasMedicine> imple
      */
     @Override
     public boolean create(OrderHasMedicine entity) throws DaoException {
-        try (PreparedStatement preparedStatement = secureConnection.prepareStatement(INSERT_MEDICINE_IN_ORDER_PSTM)) {
+        try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(INSERT_MEDICINE_IN_ORDER_PSTM)) {
             preparedStatement.setInt(1, entity.getOrderId());
             preparedStatement.setInt(2, entity.getMedicineId());
             preparedStatement.setInt(3, entity.getMedicineQuantity());
@@ -166,13 +166,13 @@ public class OrderHasMedicineDao extends AbstractDaoImpl<OrderHasMedicine> imple
      */
     @Override
     public boolean update(OrderHasMedicine entity) throws DaoException {
-        try (PreparedStatement preparedStatement = secureConnection.prepareStatement(UPDATE_PSTM)) {
+        try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(UPDATE_PSTM)) {
             preparedStatement.setInt(1, entity.getMedicineQuantity());
             preparedStatement.setBigDecimal(2, entity.getMedicineSum());
             preparedStatement.setInt(3, entity.getRecipeId());
             preparedStatement.setInt(4, entity.getOrderId());
             preparedStatement.setInt(5, entity.getMedicineId());
-            preparedStatement.execute();
+            preparedStatement.executeUpdate();
             return true;
         } catch (SQLException e) {
             throw new DaoException("Exception on create medicine in order", e);

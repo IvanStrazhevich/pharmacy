@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <fmt:setLocale value="${lang}" scope="session"/>
-<fmt:setBundle basename="message" var="rb"/>
+<fmt:setBundle basename="message"/>
 <html>
 
 <head>
@@ -21,42 +21,51 @@ ${result}
 
 <div>
     <h4>
-        <%-- <table style="color: #616161">
-             <tr>
-                 <th><fmt:message key="label.header.PostcardId" bundle="${rb}"/> </th>
-                 <th><fmt:message key="label.header.Theme" bundle="${rb}"/></th>
-                 <th><fmt:message key="label.header.CardType" bundle="${rb}"/></th>
-                 <th><fmt:message key="label.header.Sent" bundle="${rb}"/></th>
-                 <th><fmt:message key="label.header.Country" bundle="${rb}"/></th>
-                 <th><fmt:message key="label.header.Year" bundle="${rb}"/></th>
-                 <th><fmt:message key="label.header.Valuable" bundle="${rb}"/></th>
-                 <th><fmt:message key="label.header.AuthorName" bundle="${rb}"/></th>
-             </tr>
-             <c:forEach items="${postcards}" var="pc">
-                 <tr>
-                     <td>${pc.postcardId}</td>
-                     <td>${pc.theme}</td>
-                     <td>${pc.cardType}</td>
-                     <td>${pc.sent}</td>
-                     <td>${pc.postcardCharachteristics.country}</td>
-                     <td>${pc.postcardCharachteristics.year}</td>
-                     <td>${pc.postcardCharachteristics.valuable}</td>
-                     <td>${pc.postcardCharachteristics.author.authorName} ${pc.postcardCharachteristics.author.authorLastName}
-                     </td>
-                 </tr>
-             </c:forEach><br>
-
-         </table>--%>
+        <table class="table">
+            <tr>
+                <th><fmt:message key="label.header.id"/></th>
+                <th><fmt:message key="label.header.name"/></th>
+                <th><fmt:message key="label.header.lastname"/></th>
+                <th><fmt:message key="label.header.email"/></th>
+                <th><fmt:message key="label.header.phone"/></th>
+                <th><fmt:message key="label.header.postcode"/></th>
+                <th><fmt:message key="label.header.country"/></th>
+                <th><fmt:message key="label.header.city"/></th>
+                <th><fmt:message key="label.header.address"/></th>
+            </tr>
+            <c:set var="us" value="${user}"></c:set>
+            <%--<c:forEach items="${user}" var="us">
+            --%>
+            <tr>
+                <td>${us.clientId}</td>
+                <td>${us.name}</td>
+                <td>${us.lastname}</td>
+                <td>${us.email}</td>
+                <td>${us.phone}</td>
+                <td>${us.postcode}</td>
+                <td>${us.country}</td>
+                <td>${us.city}</td>
+                <td>${us.address}</td>
+                <td>
+                    <form action="EditUserDataPage" method="post">
+        <span><input type="submit" class="btn btn-primary"
+                     value="<fmt:message key="label.button.EditUserPage"/>"></span>
+                        <input type="hidden" name="action" value="EditUserDataPage">
+                    </form>
+                </td>
+            </tr>
+            <%--</c:forEach><br>
+        --%></table>
     </h4>
 </div>
 <form action="WelcomePage"
       method="post">
     <input type="hidden" name="action" value="WelcomePage">
-    <input type="submit" value="<fmt:message key="label.button.WelcomePage" bundle="${rb}"/>">
+    <input type="submit" value="<fmt:message key="label.button.WelcomePage"/>">
 </form>
 <form action="WelcomePage" method="post">
     <input type="hidden" name="action" value="InvalidateSession">
-    <input type="submit" value="<fmt:message key="label.button.Logout" bundle="${rb}"/>">
+    <input type="submit" value="<fmt:message key="label.button.Logout"/>">
 </form>
 </body>
 </html>

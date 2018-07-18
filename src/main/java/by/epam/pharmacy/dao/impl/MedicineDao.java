@@ -1,6 +1,6 @@
 package by.epam.pharmacy.dao.impl;
 
-import by.epam.pharmacy.connection.SecureConnection;
+import by.epam.pharmacy.connection.ProxyConnection;
 import by.epam.pharmacy.dao.AbstractMedicineDao;
 import by.epam.pharmacy.entity.Medicine;
 import by.epam.pharmacy.exception.DaoException;
@@ -24,10 +24,10 @@ public class MedicineDao extends AbstractDaoImpl<Medicine> implements AbstractMe
     private static final String INSERT_PSTM = "insert into medicine( mdc_name, mdc_description, mdc_dosage, mdc_recipe_required, mdc_price, mdc_available) values(?,?,?,?,?,?,?)";
     private static final String DELETE_PSTM = "delete from medicine where mdc_id = ?";
     private static final String UPDATE_PSTM = "update medicine set mdc_name=?, mdc_description=?, mdc_dosage=?, mdc_recipe_required=?, mdc_price=?, mdc_available=? where mdc_id = ?";
-    private SecureConnection secureConnection;
+    private ProxyConnection proxyConnection;
 
     public MedicineDao() throws DaoException {
-        secureConnection = super.secureConnection;
+        proxyConnection = super.proxyConnection;
     }
 
     /**
@@ -37,7 +37,7 @@ public class MedicineDao extends AbstractDaoImpl<Medicine> implements AbstractMe
     @Override
     public List<Medicine> findAll() throws DaoException {
         ArrayList<Medicine> medicineList = new ArrayList<>();
-        try (PreparedStatement preparedStatement = secureConnection.prepareStatement(SELECT_ALL_PSTM)) {
+        try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_ALL_PSTM)) {
             preparedStatement.execute();
             ResultSet resultSet = preparedStatement.getResultSet();
             while (resultSet.next()) {
@@ -65,11 +65,11 @@ public class MedicineDao extends AbstractDaoImpl<Medicine> implements AbstractMe
     @Override
     public Medicine findMedicineByName(String name) throws DaoException {
         Medicine medicine = new Medicine();
-        try (PreparedStatement preparedStatement = secureConnection.prepareStatement(SELECT_BY_NAME_PSTM)) {
+        try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_BY_NAME_PSTM)) {
             preparedStatement.setString(1, name);
             preparedStatement.execute();
             ResultSet resultSet = preparedStatement.getResultSet();
-            resultSet.next();
+            while (resultSet.next()) {
             medicine.setMedicineId(resultSet.getInt(1));
             medicine.setMedicineName(resultSet.getString(2));
             medicine.setDescription(resultSet.getString(3));
@@ -77,6 +77,7 @@ public class MedicineDao extends AbstractDaoImpl<Medicine> implements AbstractMe
             medicine.setRecipeRequired(resultSet.getBoolean(5));
             medicine.setPrice(resultSet.getBigDecimal(6));
             medicine.setAvailable(resultSet.getBoolean(7));
+            }
         } catch (SQLException e) {
             throw new DaoException("Exception on find bu id", e);
         }
@@ -91,7 +92,7 @@ public class MedicineDao extends AbstractDaoImpl<Medicine> implements AbstractMe
     @Override
     public Medicine findEntityById(Integer id) throws DaoException {
         Medicine medicine = new Medicine();
-        try (PreparedStatement preparedStatement = secureConnection.prepareStatement(SELECT_BY_ID_PSTM)) {
+        try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_BY_ID_PSTM)) {
             preparedStatement.setInt(1, id);
             preparedStatement.execute();
             ResultSet resultSet = preparedStatement.getResultSet();
@@ -126,7 +127,7 @@ public class MedicineDao extends AbstractDaoImpl<Medicine> implements AbstractMe
      */
     @Override
     public boolean delete(Medicine entity) throws DaoException {
-        try (PreparedStatement preparedStatement = secureConnection.prepareStatement(DELETE_PSTM)) {
+        try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(DELETE_PSTM)) {
             preparedStatement.setInt(1, entity.getMedicineId());
             preparedStatement.execute();
             return true;
@@ -142,7 +143,7 @@ public class MedicineDao extends AbstractDaoImpl<Medicine> implements AbstractMe
      */
     @Override
     public boolean create(Medicine entity) throws DaoException {
-        try (PreparedStatement preparedStatement = secureConnection.prepareStatement(INSERT_PSTM)) {
+        try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(INSERT_PSTM)) {
             preparedStatement.setString(2, entity.getMedicineName());
             preparedStatement.setString(3, entity.getDescription());
             preparedStatement.setBigDecimal(4, entity.getDosage());
@@ -163,7 +164,7 @@ public class MedicineDao extends AbstractDaoImpl<Medicine> implements AbstractMe
      */
     @Override
     public boolean update(Medicine entity) throws DaoException {
-        try (PreparedStatement preparedStatement = secureConnection.prepareStatement(UPDATE_PSTM)) {
+        try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(UPDATE_PSTM)) {
             preparedStatement.setString(1, entity.getMedicineName());
             preparedStatement.setString(2, entity.getDescription());
             preparedStatement.setBigDecimal(3, entity.getDosage());
@@ -171,7 +172,7 @@ public class MedicineDao extends AbstractDaoImpl<Medicine> implements AbstractMe
             preparedStatement.setBigDecimal(5, entity.getPrice());
             preparedStatement.setBoolean(6, entity.isAvailable());
             preparedStatement.setInt(1, entity.getMedicineId());
-            preparedStatement.execute();
+            preparedStatement.executeUpdate();
             return true;
         } catch (SQLException e) {
             throw new DaoException("Exception on update", e);

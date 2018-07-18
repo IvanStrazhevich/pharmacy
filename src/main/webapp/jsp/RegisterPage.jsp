@@ -13,12 +13,15 @@
     </title>
 </head>
 <body class="body">
+${notAuthorised}
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <hr>
 <fmt:message key="label.button.RegisterPage"/>
 ${userExist}
 ${needLogin}
+${needRegister}
+
 <form action="RegisterUser" method=post>
     <div class="input-group">
         <label for="login"><fmt:message key="message.enterLogin"/></label>

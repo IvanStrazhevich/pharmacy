@@ -18,15 +18,15 @@ public class ConnectionPool {
     private static final int NORMALIZATION_LIMIT_FOR_CONNECTIONS = 15;
     private static ConnectionPool instance;
     private ConnectionCreator connectionCreator = new ConnectionCreator();
-    private LinkedBlockingDeque<SecureConnection> connectionPoolFree = new LinkedBlockingDeque<>();
-    private LinkedList<SecureConnection> connectionInUse = new LinkedList<>();
+    private LinkedBlockingDeque<ProxyConnection> connectionPoolFree = new LinkedBlockingDeque<>();
+    private LinkedList<ProxyConnection> connectionInUse = new LinkedList<>();
 
 
     private ConnectionPool() {
         int poolsize = connectionCreator.definePoolsize();
         for (int i = 0; i < poolsize; i++) {
-            SecureConnection secureConnection = connectionCreator.createConnection();
-            connectionPoolFree.add(secureConnection);
+            ProxyConnection proxyConnection = connectionCreator.createConnection();
+            connectionPoolFree.add(proxyConnection);
         }
     }
 
@@ -52,7 +52,7 @@ public class ConnectionPool {
                 connectionPoolFree.take().getConnection().close();
             }
         } catch (SQLException | InterruptedException e) {
-            throw new PoolException("Closing secureConnection error", e);
+            throw new PoolException("Closing proxyConnection error", e);
         }
     }
 
@@ -63,13 +63,13 @@ public class ConnectionPool {
                 connectionPoolFree.take().getConnection().close();
             }
         } catch (SQLException | InterruptedException e) {
-            throw new PoolException("Closing secureConnection error", e);
+            throw new PoolException("Closing proxyConnection error", e);
         }
     }
 
-    public SecureConnection getConnection() throws PoolException {
+    public ProxyConnection getConnection() throws PoolException {
         logger.debug("Connections avalable" + connectionPoolFree.size());
-        SecureConnection secureConnection = null;
+        ProxyConnection proxyConnection = null;
         try {
             if (connectionPoolFree.size() < MIN_CONNECTIONS && connectionInUse.size() < MAX_CONNECTIONS) {
                 logger.info("Connection adding");
@@ -77,22 +77,22 @@ public class ConnectionPool {
             } else if (connectionPoolFree.size() > NORMALIZATION_LIMIT_FOR_CONNECTIONS) {
                 optimizePool();
             }
-            secureConnection = connectionPoolFree.take();
+            proxyConnection = connectionPoolFree.take();
         } catch (InterruptedException e) {
-            throw new PoolException("Getting secureConnection error", e);
+            throw new PoolException("Getting proxyConnection error", e);
         }
-        logger.debug("added" + secureConnection + " pool free: " + connectionPoolFree.size());
-        connectionInUse.add(secureConnection);
+        logger.debug("added" + proxyConnection + " pool free: " + connectionPoolFree.size());
+        connectionInUse.add(proxyConnection);
         logger.debug("pool in use: " + connectionInUse.size());
 
-        return secureConnection;
+        return proxyConnection;
     }
 
-    void releaseConnection(SecureConnection secureConnection) {
-        logger.debug("Returning connection to pool: Connection " + secureConnection + " is in use: " + connectionInUse.contains(secureConnection) + " in use size " + connectionInUse.size());
-        connectionInUse.remove(secureConnection);
-        logger.debug("Connection returned to pool: Connection " + secureConnection + " is in use: " + connectionInUse.contains(secureConnection) + " in use size " + connectionInUse.size());
-        connectionPoolFree.add(secureConnection);
+    void releaseConnection(ProxyConnection proxyConnection) {
+        logger.debug("Returning connection to pool: Connection " + proxyConnection + " is in use: " + connectionInUse.contains(proxyConnection) + " in use size " + connectionInUse.size());
+        connectionInUse.remove(proxyConnection);
+        logger.debug("Connection returned to pool: Connection " + proxyConnection + " is in use: " + connectionInUse.contains(proxyConnection) + " in use size " + connectionInUse.size());
+        connectionPoolFree.add(proxyConnection);
         logger.debug("Connections in free poll " + connectionPoolFree.size() + "Connections in use " + connectionInUse.size());
     }
 }
