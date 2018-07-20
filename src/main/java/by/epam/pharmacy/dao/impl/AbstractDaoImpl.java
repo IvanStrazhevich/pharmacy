@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
+ * Common Dao methods implementation
  * @param <T>
  */
 public abstract class AbstractDaoImpl<T> implements AbstractDao<T> {
@@ -29,7 +30,7 @@ public abstract class AbstractDaoImpl<T> implements AbstractDao<T> {
     }
 
     /**
-     * @return
+     * @return last autoincrement inserted id of entity
      * @throws DaoException
      */
     @Override
@@ -47,24 +48,26 @@ public abstract class AbstractDaoImpl<T> implements AbstractDao<T> {
     }
 
     /**
+     * Delete entity by it's id
      * @param id
      * @param statement
-     * @return
+     * @return true if deleted, false if exception
      * @throws DaoException
      */
     @Override
     public boolean deleteById(Integer id, String statement) throws DaoException {
+        boolean success = false;
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(statement)) {
             preparedStatement.setInt(1, id);
             preparedStatement.execute();
-            return true;
+            success = true;
         } catch (SQLException e) {
             throw new DaoException("Exception on deleteById", e);
-        }
+        } return success;
     }
 
     /**
-     *
+     * puts proxy connection back to pool
      */
     public void close() {
         if (proxyConnection != null) {

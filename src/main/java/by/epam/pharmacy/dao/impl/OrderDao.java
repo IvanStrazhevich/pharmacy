@@ -10,7 +10,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -33,7 +32,7 @@ public class OrderDao extends AbstractDaoImpl<Order> {
      * @throws DaoException
      */
     @Override
-    public List<Order> findAll() throws DaoException {
+    public ArrayList<Order> findAll() throws DaoException {
         ArrayList<Order> userList = new ArrayList<>();
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_ALL_PSTM)) {
             preparedStatement.execute();

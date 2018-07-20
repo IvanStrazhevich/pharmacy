@@ -5,7 +5,7 @@ import by.epam.pharmacy.command.PagesEnum;
 import by.epam.pharmacy.command.RequestCommand;
 import by.epam.pharmacy.controller.SessionRequestContent;
 import by.epam.pharmacy.exception.CommandException;
-import by.epam.pharmacy.exception.LogicException;
+import by.epam.pharmacy.exception.ServiceException;
 import by.epam.pharmacy.service.UserService;
 import by.epam.pharmacy.service.impl.UserServiceImpl;
 import by.epam.pharmacy.util.ResourceManager;
@@ -36,7 +36,7 @@ public class CheckUserCommand implements RequestCommand<SessionRequestContent> {
                 page = PagesEnum.LOGIN_PAGE.getPage();
             }
             return page;
-        } catch (LogicException e) {
+        } catch (ServiceException e) {
             throw new CommandException(e);
         }
     }

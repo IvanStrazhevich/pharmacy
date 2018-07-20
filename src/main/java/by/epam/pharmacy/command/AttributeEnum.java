@@ -6,12 +6,13 @@ public enum AttributeEnum {
     USER_EXIST("userExist"), USER_REGISTERED("userRegistered"),
     USER_NOT_REGISTERED("userNotRegistered"),
     GREETING("greeting"),
-    USER_LIST("userList"),LOGIN("login"), PASSWORD("password"),ACCESS_LEVEL("accessLevel"),
+    USERS("users"),LOGIN("login"), PASSWORD("password"),ACCESS_LEVEL("accessLevel"),
     NAME("name"), LASTNAME("lastname"), EMAIL("email"), PHONE("phone"), POSTCODE("postcode"),
     COUNTRY("country"), CITY("city"), ADDRESS("address"),
-    MEDICINE_LIST("medicineList"),
+    MEDICINES("medicines"),
     ORDER("order"),
-    RECIPE_LIST("recipeList"), LOGOUT("logout");
+    RECIPES("recipes"), LOGOUT("logout"),MEDICINE_ID("medicineId"), MEDICINE_NAME("medicineName"), DESCRIPTION("description"), DOSAGE("dosage"), RECIPE_REQ("recipeRequired"), PRICE("price"), AVAILABLE("available"),
+    MEDICINE("medicine"), QUANTITY_AT_STORAGE("quantityAtStorage");
 
 
 

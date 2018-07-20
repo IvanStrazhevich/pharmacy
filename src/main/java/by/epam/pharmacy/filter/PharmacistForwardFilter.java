@@ -16,7 +16,8 @@ import java.io.IOException;
 @WebFilter(dispatcherTypes = {
         DispatcherType.FORWARD,
         DispatcherType.REQUEST,
-        DispatcherType.INCLUDE}, urlPatterns = {"/jsp/pharmacist/*"})
+        DispatcherType.INCLUDE}, urlPatterns = {"/jsp/pharmacist/*", "/MedicineListPage",
+        "/EditMedicinePage", "/EditUserAccessLevel", "/UserListPage"})
 
 public class PharmacistForwardFilter implements Filter {
     private static Logger logger = LogManager.getLogger();
@@ -35,8 +36,9 @@ public class PharmacistForwardFilter implements Filter {
             ((HttpServletRequest) request).getSession().setAttribute(AttributeEnum.NOT_AUTHORISED.getAttribute(),
                     ResourceManager.INSTANCE.getString(MESSAGE));
             httpResponse.sendRedirect(httpRequest.getContextPath() + PagesEnum.INDEX_PAGE.getPage());
+        } else {
+            chain.doFilter(request, response);
         }
-        chain.doFilter(request, response);
     }
 
     public void destroy() {

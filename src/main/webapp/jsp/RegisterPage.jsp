@@ -7,22 +7,22 @@
 <html>
 <head>
     <link href="css/bootstrap.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="css/pharmacy.css">
     <title><fmt:message key="label.button.RegisterPage"/>
         <hr>
     </title>
 </head>
-<body class="body">
+<body>
+<c:import url="/WEB-INF/HeaderPage.jsp"/>
+<hr>
 ${notAuthorised}
-<script src="http://code.jquery.com/jquery-latest.js"></script>
-<script src="js/bootstrap.min.js"></script>
+
 <hr>
 <fmt:message key="label.button.RegisterPage"/>
 ${userExist}
 ${needLogin}
 ${needRegister}
 
-<form action="RegisterUser" method=post>
+<form accept-charset="utf-8" action="RegisterUser" method=post>
     <div class="input-group">
         <label for="login"><fmt:message key="message.enterLogin"/></label>
         <div class="form-inline">
@@ -42,10 +42,8 @@ ${needRegister}
     <input class="btn btn-warning" type="reset" value="<fmt:message key="label.button.Reset"/>">
 </form>
 <hr>
-<form action="WelcomePage"
-      method="post">
-    <input type="hidden" name="action" value="WelcomePage">
-    <input class="btn btn-primary" type="submit" value="<fmt:message key="label.button.WelcomePage"/>">
-</form>
+<div style="float: bottom"><c:import url="/WEB-INF/FooterPage.jsp"/></div>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="js/bootstrap.min.js"></script>
 </body>
 </html>

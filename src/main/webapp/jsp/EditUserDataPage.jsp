@@ -7,13 +7,11 @@
 <html>
 <head>
     <link href="css/bootstrap.css" rel="stylesheet">
-    <link rel="stylesheet" href=“css/normalize.css">
-    <link rel="stylesheet" type="text/css" href="css/pharmacy.css">
     <title><fmt:message key="label.button.EditUserPage"/></title>
 </head>
-<body class="body">
-<script src="http://code.jquery.com/jquery-latest.js"></script>
-<script src="js/bootstrap.min.js"></script>
+<body>
+<c:import url="/WEB-INF/HeaderPage.jsp"/>
+
 <form action="EditUserDataPage"
       enctype="multipart/form-data"
       method="post">
@@ -23,8 +21,8 @@
     <input type="hidden" name="action" value="UploadResult">
     <input class="btn btn-success" type="submit" value="<fmt:message key="label.button.uploadfile"/>">
 </form>
-    <form action="UploadResultPage"
-          method="get">
+    <form accept-charset="utf-8" action="UploadResultPage"
+          method="post">
         <c:set var="us" value="${user}"></c:set>
         <div class="input-group">
             <div class="input-group">
@@ -93,22 +91,16 @@
         </div>
 
     </form>
-
-<div class="glyphicon-menu-left">
-    <span class="glyphicon">
+    <span>
         <form action="WelcomePage"
               method="post">
         <input type="hidden" name="action" value="WelcomePage">
         <input class="btn btn-primary" type="submit" value="<fmt:message key="label.button.WelcomePage"/>">
     </form>
     </span>
-    <span class="glyphicon">
-        <form action="WelcomePage"
-              method="post">
-        <input type="hidden" name="action" value="InvalidateSession">
-        <input class="btn btn-danger" type="submit" value="<fmt:message key="label.button.Logout"/>">
-    </form>
-    </span>
-</div>
+    <span>
+        <div style="float: bottom"><c:import url="/WEB-INF/FooterPage.jsp"/></div>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="js/bootstrap.min.js"></script>
 </body>
 </html>

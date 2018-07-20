@@ -1,7 +1,7 @@
 package by.epam.pharmacy.service;
 
-import by.epam.pharmacy.exception.LogicException;
+import by.epam.pharmacy.exception.ServiceException;
 
 public interface Encodable {
-    String encode(String value) throws LogicException;
+    String encode(String value) throws ServiceException;
 }

@@ -17,7 +17,7 @@
 <script src="js/bootstrap.min.js"></script>
 <fmt:message key="message.smthwentwrong"/>
 <hr>
-<p><img src="img/eddie.gif" alt="Sorry, we alredy fix this" width="1000" height="500"></p>
+<p><img src="img/eddie1.gif" alt="Sorry, we alredy fix this" width="1000" height="500"></p>
 <div class="floating">
     <form action="WelcomePage"
           method="post">

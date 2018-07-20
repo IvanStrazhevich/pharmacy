@@ -7,7 +7,7 @@ import by.epam.pharmacy.dao.impl.UserDao;
 import by.epam.pharmacy.entity.ClientDetail;
 import by.epam.pharmacy.entity.User;
 import by.epam.pharmacy.exception.DaoException;
-import by.epam.pharmacy.exception.LogicException;
+import by.epam.pharmacy.exception.ServiceException;
 import by.epam.pharmacy.service.ClientService;
 import by.epam.pharmacy.service.Encodable;
 import org.apache.logging.log4j.LogManager;
@@ -20,29 +20,32 @@ public class ClientServiceImpl implements ClientService {
     private Encodable encoder = new SHAConverter();
 
 
-    private int findClientId(String login) throws LogicException {
+    private int findClientId(String login) throws ServiceException {
         try (UserDao userDao = new UserDao()) {
             String shaLogin = encoder.encode(login);
             User user = userDao.findUserByLogin(shaLogin);
             logger.info("User id is " + user.getUserId());
             return user.getUserId();
         } catch (DaoException e) {
-            throw new LogicException(e);
-        }
-    }
-    public void findClientDetail(SessionRequestContent sessionRequestContent) throws LogicException {
-        try (ClientDetailDao clientDetailDao = new ClientDetailDao()){
-            int clientId = findClientId(sessionRequestContent.getSessionAttributes().get(AttributeEnum.LOGIN.getAttribute()).toString());
-            ClientDetail clientDetail = clientDetailDao.findEntityById(clientId);
-            logger.info(clientDetail);
-            sessionRequestContent.getRequestAttributes().put(AttributeEnum.USER.getAttribute(),
-                    clientDetail);
-        } catch (DaoException e) {
-            throw new LogicException(e);
+            throw new ServiceException(e);
         }
     }
 
-    public void createClientDetail(SessionRequestContent sessionRequestContent) throws LogicException {
+    public void findClientDetail(SessionRequestContent sessionRequestContent) throws ServiceException {
+        try (ClientDetailDao clientDetailDao = new ClientDetailDao()) {
+            if (sessionRequestContent.getSessionAttributes().get(AttributeEnum.LOGIN.getAttribute())!= null) {
+                int clientId = findClientId(sessionRequestContent.getSessionAttributes().get(AttributeEnum.LOGIN.getAttribute()).toString());
+                ClientDetail clientDetail = clientDetailDao.findEntityById(clientId);
+                logger.info(clientDetail);
+                sessionRequestContent.getRequestAttributes().put(AttributeEnum.USER.getAttribute(),
+                        clientDetail);
+            }
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    public void createClientDetail(SessionRequestContent sessionRequestContent) throws ServiceException {
         try (ClientDetailDao clientDetailDao = new ClientDetailDao()) {
             ArrayList<ClientDetail> details = new ArrayList<>();
             ClientDetail clientDetail = new ClientDetail();
@@ -71,7 +74,7 @@ public class ClientServiceImpl implements ClientService {
             sessionRequestContent.getRequestAttributes().put(AttributeEnum.USER.getAttribute(),
                     clientDetailDao.findEntityById(clientDetail.getClientId()));
         } catch (DaoException e) {
-            throw new LogicException(e);
+            throw new ServiceException(e);
         }
     }
 }

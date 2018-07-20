@@ -4,7 +4,7 @@ import by.epam.pharmacy.dao.impl.UserDao;
 import by.epam.pharmacy.entity.AccessLevel;
 import by.epam.pharmacy.entity.User;
 import by.epam.pharmacy.exception.DaoException;
-import by.epam.pharmacy.exception.LogicException;
+import by.epam.pharmacy.exception.ServiceException;
 import by.epam.pharmacy.service.Encodable;
 import by.epam.pharmacy.service.UserService;
 import org.apache.logging.log4j.LogManager;
@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
         return users;
     }
 
-    public boolean checkLogin(String login, String password) throws LogicException {
+    public boolean checkLogin(String login, String password) throws ServiceException {
         Boolean logged = false;
         try {
             ArrayList<User> list = getUsersList();
@@ -41,23 +41,23 @@ public class UserServiceImpl implements UserService {
                 }
             }
         } catch (DaoException e) {
-            throw new LogicException("DaoException", e);
+            throw new ServiceException("DaoException", e);
         }
         return logged;
     }
 
-    public String checkUserAccessLevel(String login) throws LogicException {
+    public String checkUserAccessLevel(String login) throws ServiceException {
         try (UserDao userDao = new UserDao()) {
             String shaLogin = encoder.encode(login);
             User user = userDao.findUserByLogin(shaLogin);
             return user.getAccessLevel();
         } catch (DaoException e) {
-            throw new LogicException("DaoException", e);
+            throw new ServiceException("DaoException", e);
         }
     }
 
 
-    public boolean checkUserExist(String login) throws LogicException {
+    public boolean checkUserExist(String login) throws ServiceException {
         boolean exist = false;
         ArrayList<User> list = new ArrayList();
         try {
@@ -72,12 +72,12 @@ public class UserServiceImpl implements UserService {
                 }
             }
         } catch (DaoException e) {
-            throw new LogicException("DaoException", e);
+            throw new ServiceException("DaoException", e);
         }
         return exist;
     }
 
-    public boolean createUser(String login, String password) throws LogicException {
+    public boolean createUser(String login, String password) throws ServiceException {
         String shalogin = null;
         String shaPassword = null;
         try (UserDao userDao = new UserDao()) {
@@ -89,7 +89,7 @@ public class UserServiceImpl implements UserService {
             user.setAccessLevel(AccessLevel.CLIENT.getLevel());
             return userDao.create(user);
         } catch (DaoException e) {
-            throw new LogicException("DaoException", e);
+            throw new ServiceException("DaoException", e);
         }
     }
 }

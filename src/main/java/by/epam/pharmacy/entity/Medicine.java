@@ -12,6 +12,7 @@ public class Medicine extends Entity{
     private boolean recipeRequired;
     private BigDecimal price;
     private boolean available;
+    private int quantityAtStorage;
     private ArrayList<Integer> orderIdList;
 
     public Medicine() {
@@ -73,6 +74,14 @@ public class Medicine extends Entity{
         this.available = available;
     }
 
+    public int getQuantityAtStorage() {
+        return quantityAtStorage;
+    }
+
+    public void setQuantityAtStorage(int quantityAtStorage) {
+        this.quantityAtStorage = quantityAtStorage;
+    }
+
     public ArrayList<Integer> getOrderIdList() {
         return orderIdList;
     }
@@ -85,13 +94,13 @@ public class Medicine extends Entity{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
 
         Medicine medicine = (Medicine) o;
 
         if (medicineId != medicine.medicineId) return false;
         if (recipeRequired != medicine.recipeRequired) return false;
         if (available != medicine.available) return false;
+        if (quantityAtStorage != medicine.quantityAtStorage) return false;
         if (medicineName != null ? !medicineName.equals(medicine.medicineName) : medicine.medicineName != null)
             return false;
         if (description != null ? !description.equals(medicine.description) : medicine.description != null)
@@ -103,14 +112,14 @@ public class Medicine extends Entity{
 
     @Override
     public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + medicineId;
+        int result = medicineId;
         result = 31 * result + (medicineName != null ? medicineName.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (dosage != null ? dosage.hashCode() : 0);
         result = 31 * result + (recipeRequired ? 1 : 0);
         result = 31 * result + (price != null ? price.hashCode() : 0);
         result = 31 * result + (available ? 1 : 0);
+        result = 31 * result + quantityAtStorage;
         result = 31 * result + (orderIdList != null ? orderIdList.hashCode() : 0);
         return result;
     }
@@ -125,6 +134,7 @@ public class Medicine extends Entity{
                 ", recipeRequired=" + recipeRequired +
                 ", price=" + price +
                 ", available=" + available +
+                ", quantityAtStorage=" + quantityAtStorage +
                 ", orderIdList=" + orderIdList +
                 '}';
     }

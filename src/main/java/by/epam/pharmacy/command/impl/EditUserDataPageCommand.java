@@ -4,7 +4,7 @@ import by.epam.pharmacy.command.PagesEnum;
 import by.epam.pharmacy.command.RequestCommand;
 import by.epam.pharmacy.controller.SessionRequestContent;
 import by.epam.pharmacy.exception.CommandException;
-import by.epam.pharmacy.exception.LogicException;
+import by.epam.pharmacy.exception.ServiceException;
 import by.epam.pharmacy.service.ClientService;
 import by.epam.pharmacy.service.impl.ClientServiceImpl;
 import org.apache.logging.log4j.LogManager;
@@ -19,7 +19,7 @@ public class EditUserDataPageCommand implements RequestCommand<SessionRequestCon
     public String execute(SessionRequestContent sessionRequestContent) throws CommandException {
         try {
             clientService.findClientDetail(sessionRequestContent);
-        } catch (LogicException e) {
+        } catch (ServiceException e) {
             throw new CommandException(e);
         }
         return PagesEnum.EDIT_USER_DATA_PAGE.getPage();

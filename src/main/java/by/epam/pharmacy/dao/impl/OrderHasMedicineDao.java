@@ -36,7 +36,7 @@ public class OrderHasMedicineDao extends AbstractDaoImpl<OrderHasMedicine> imple
      * @throws DaoException
      */
     @Override
-    public List<OrderHasMedicine> findAll() throws DaoException {
+    public ArrayList<OrderHasMedicine> findAll() throws DaoException {
         ArrayList<OrderHasMedicine> ordersHasMedicinesList = new ArrayList<>();
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_ALL_PSTM)) {
             preparedStatement.execute();

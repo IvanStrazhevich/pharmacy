@@ -5,7 +5,7 @@ import by.epam.pharmacy.command.PagesEnum;
 import by.epam.pharmacy.command.RequestCommand;
 import by.epam.pharmacy.controller.SessionRequestContent;
 import by.epam.pharmacy.exception.CommandException;
-import by.epam.pharmacy.exception.LogicException;
+import by.epam.pharmacy.exception.ServiceException;
 import by.epam.pharmacy.service.UserService;
 import by.epam.pharmacy.service.impl.UserServiceImpl;
 import by.epam.pharmacy.util.ResourceManager;
@@ -41,7 +41,7 @@ public class RegisterUserCommand implements RequestCommand<SessionRequestContent
                 sessionRequestContent.getRequestAttributes().put(AttributeEnum.USER_NOT_REGISTERED.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE_USER_NOT_REGISTERED));
                 page = PagesEnum.REGISTER_PAGE.getPage();
             }
-        } catch (LogicException e) {
+        } catch (ServiceException e) {
             throw new CommandException(e);
         }
         return page;

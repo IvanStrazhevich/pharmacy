@@ -32,12 +32,15 @@ public class DoctorForwardFilter implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         logger.info("Doctor page filter Works");
-        if (httpRequest.getSession().getAttribute(AttributeEnum.ACCESS_LEVEL.getAttribute()) == null || !httpRequest.getSession().getAttribute(AttributeEnum.ACCESS_LEVEL.getAttribute()).equals(AccessLevel.DOCTOR.getLevel())) {
+        if (httpRequest.getSession().getAttribute(AttributeEnum.ACCESS_LEVEL.getAttribute()) == null
+                || !httpRequest.getSession().getAttribute(AttributeEnum.ACCESS_LEVEL.getAttribute())
+                .equals(AccessLevel.DOCTOR.getLevel())) {
             ((HttpServletRequest) request).getSession().setAttribute(AttributeEnum.NOT_AUTHORISED.getAttribute(),
                     ResourceManager.INSTANCE.getString(MESSAGE));
             httpResponse.sendRedirect(httpRequest.getContextPath() + PagesEnum.INDEX_PAGE.getPage());
+        } else {
+            chain.doFilter(request, response);
         }
-        chain.doFilter(request, response);
     }
 
     public void destroy() {

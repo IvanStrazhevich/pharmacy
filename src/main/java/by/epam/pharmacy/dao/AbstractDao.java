@@ -2,13 +2,13 @@ package by.epam.pharmacy.dao;
 
 import by.epam.pharmacy.exception.DaoException;
 
-import java.util.List;
+import java.util.ArrayList;
 
 
 public interface AbstractDao<T> extends AutoCloseable {
     Integer findLastInsertId() throws DaoException;
 
-    List<T> findAll() throws DaoException;
+    ArrayList<T> findAll() throws DaoException;
 
     T findEntityById(Integer id) throws DaoException;
 

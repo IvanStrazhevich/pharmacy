@@ -11,6 +11,8 @@
     <title><fmt:message key="label.button.FooterPage"/></title>
 </head>
 <body>
+
+<span style="float: top"> <pht:info-time locale="${lang}"/></span>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="js/bootstrap.min.js"></script>
 

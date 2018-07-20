@@ -1,6 +1,6 @@
 package by.epam.pharmacy.service.impl;
 
-import by.epam.pharmacy.exception.LogicException;
+import by.epam.pharmacy.exception.ServiceException;
 import by.epam.pharmacy.service.Encodable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,7 +17,7 @@ public class SHAConverter implements Encodable {
     }
 
     @Override
-    public String encode(String string) throws LogicException {
+    public String encode(String string) throws ServiceException {
         byte[] digest = null;
         try {
             MessageDigest md = MessageDigest.getInstance(ENCODE);
@@ -25,7 +25,7 @@ public class SHAConverter implements Encodable {
             md.update(string.getBytes());
             digest = md.digest();
         } catch (NoSuchAlgorithmException e) {
-            throw new LogicException(e);
+            throw new ServiceException(e);
         }
         BigInteger bigInt = new BigInteger(1, digest);
         String SHA1Hex = bigInt.toString(16);

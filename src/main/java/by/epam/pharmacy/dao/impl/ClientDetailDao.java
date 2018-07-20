@@ -10,10 +10,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
- *
+ * ClientDetail implementations for AbstractDao
  */
 public class ClientDetailDao extends AbstractDaoImpl<ClientDetail> {
     private static Logger logger = LogManager.getLogger();
@@ -29,11 +28,12 @@ public class ClientDetailDao extends AbstractDaoImpl<ClientDetail> {
     }
 
     /**
-     * @return
+     * Finds all entries of ClientDetails in database
+     * @return ArrayList of ClientDetail
      * @throws DaoException
      */
     @Override
-    public List<ClientDetail> findAll() throws DaoException {
+    public ArrayList<ClientDetail> findAll() throws DaoException {
         ArrayList<ClientDetail> clientDetailList = new ArrayList<>();
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_ALL_PSTM)) {
             preparedStatement.execute();
@@ -58,8 +58,9 @@ public class ClientDetailDao extends AbstractDaoImpl<ClientDetail> {
     }
 
     /**
+     * Finds entity by it's exact id
      * @param id
-     * @return
+     * @return exact entity
      * @throws DaoException
      */
     @Override
@@ -87,8 +88,9 @@ public class ClientDetailDao extends AbstractDaoImpl<ClientDetail> {
     }
 
     /**
+     * Delete entity by given id
      * @param id
-     * @return
+     * @return true if deleted
      * @throws DaoException
      */
     @Override
@@ -97,28 +99,33 @@ public class ClientDetailDao extends AbstractDaoImpl<ClientDetail> {
     }
 
     /**
+     * Delete given entity
      * @param entity
-     * @return
+     * @return true if deleted
      * @throws DaoException
      */
     @Override
     public boolean delete(ClientDetail entity) throws DaoException {
+       boolean success = false;
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(DELETE_PSTM)) {
             preparedStatement.setInt(1, entity.getClientId());
             preparedStatement.execute();
-            return true;
+            success = true;
         } catch (SQLException e) {
             throw new DaoException("Exception on deleteById", e);
         }
+        return success;
     }
 
     /**
+     * Put entity into database
      * @param entity
-     * @return
+     * @return true if inserted
      * @throws DaoException
      */
     @Override
     public boolean create(ClientDetail entity) throws DaoException {
+        boolean success = false;
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(INSERT_PSTM)) {
             preparedStatement.setInt(1, entity.getClientId());
             preparedStatement.setString(2, entity.getName());
@@ -130,19 +137,22 @@ public class ClientDetailDao extends AbstractDaoImpl<ClientDetail> {
             preparedStatement.setString(8, entity.getCity());
             preparedStatement.setString(9, entity.getAddress());
             preparedStatement.execute();
-            return true;
+            success = true;
         } catch (SQLException e) {
             throw new DaoException("Exception on create", e);
         }
+        return success;
     }
 
     /**
+     * Update entity in database
      * @param entity
-     * @return
+     * @return true if updated
      * @throws DaoException
      */
     @Override
     public boolean update(ClientDetail entity) throws DaoException {
+        boolean success = false;
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(UPDATE_PSTM)) {
             preparedStatement.setString(1, entity.getName());
             preparedStatement.setString(2, entity.getLastname());
@@ -154,9 +164,10 @@ public class ClientDetailDao extends AbstractDaoImpl<ClientDetail> {
             preparedStatement.setString(8, entity.getAddress());
             preparedStatement.setInt(9, entity.getClientId());
             preparedStatement.executeUpdate();
-            return true;
+            success = true;
         } catch (SQLException e) {
             throw new DaoException("Exception on update", e);
         }
+        return success;
     }
 }

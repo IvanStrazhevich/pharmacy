@@ -5,23 +5,18 @@
 <fmt:setLocale value="${lang}" scope="session"/>
 <fmt:setBundle basename="message"/>
 <html>
-
 <head>
     <link href="css/bootstrap.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="css/pharmacy.css">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Upload Result Page</title>
 </head>
-<body class="body">
-<script src="http://code.jquery.com/jquery-latest.js"></script>
-<script src="js/bootstrap.min.js"></script>
+<body>
+<c:import url="/WEB-INF/HeaderPage.jsp"/>
+<hr>
 ${result}
 <br>
-
-
 <div>
-    <h4>
-        <table class="table">
+    <h6>
+        <table class="table table-striped table-hover table-bordered tableUpdated">
             <tr>
                 <th><fmt:message key="label.header.id"/></th>
                 <th><fmt:message key="label.header.name"/></th>
@@ -32,6 +27,7 @@ ${result}
                 <th><fmt:message key="label.header.country"/></th>
                 <th><fmt:message key="label.header.city"/></th>
                 <th><fmt:message key="label.header.address"/></th>
+                <th></th>
             </tr>
             <c:set var="us" value="${user}"></c:set>
             <%--<c:forEach items="${user}" var="us">
@@ -48,24 +44,18 @@ ${result}
                 <td>${us.address}</td>
                 <td>
                     <form action="EditUserDataPage" method="post">
-        <span><input type="submit" class="btn btn-primary"
-                     value="<fmt:message key="label.button.EditUserPage"/>"></span>
+                        <input type="submit" class="btn btn-primary"
+                               value="<fmt:message key="label.button.EditUserPage"/>">
                         <input type="hidden" name="action" value="EditUserDataPage">
                     </form>
                 </td>
             </tr>
             <%--</c:forEach><br>
         --%></table>
-    </h4>
+    </h6>
 </div>
-<form action="WelcomePage"
-      method="post">
-    <input type="hidden" name="action" value="WelcomePage">
-    <input type="submit" value="<fmt:message key="label.button.WelcomePage"/>">
-</form>
-<form action="WelcomePage" method="post">
-    <input type="hidden" name="action" value="InvalidateSession">
-    <input type="submit" value="<fmt:message key="label.button.Logout"/>">
-</form>
+<div style="float: bottom"><c:import url="/WEB-INF/FooterPage.jsp"/></div>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="js/bootstrap.min.js"></script>
 </body>
 </html>

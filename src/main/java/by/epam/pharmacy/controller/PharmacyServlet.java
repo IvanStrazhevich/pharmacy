@@ -13,10 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(name = "PharmacyServlet",
-        urlPatterns = {"/WelcomePage", "/EditUserDataPage", "/UploadResultPage", "/LoginPage",
-                "/CheckLogin", "/RegisterUser", "/RegisterPage", "/jsp/WelcomePage", "/jsp/EditUserDataPage",
+        urlPatterns = {"/WelcomePage", "/EditUserDataPage", "/UploadResultPage", "/LoginPage", "/MedicineListPage",
+                "/EditMedicinePage",
+                "/CheckLogin", "/RegisterUser", "/RegisterPage", /*"/jsp/WelcomePage", "/jsp/EditUserDataPage",
                 "/jsp/UploadResultPage", "/jsp/LoginPage",
-                "/jsp/CheckLogin", "/jsp/RegisterUser", "/jsp/RegisterPage"})
+                "/jsp/CheckLogin", "/jsp/RegisterUser", "/jsp/RegisterPage"*/})
 @MultipartConfig(location = ""//The directory location where files will be stored
         , fileSizeThreshold = 1024 * 1024
         , maxFileSize = 1024 * 1024 * 5
@@ -27,6 +28,7 @@ public class PharmacyServlet extends HttpServlet {
 
     private void handleRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/html; charset=utf-8");
+        request.setCharacterEncoding("utf-8");
         SessionRequestContent sessionRequestContent = new SessionRequestContent();
         sessionRequestContent.extractValues(request);
         pageRedirectTypeDefiner.redirectToPage(request, response, sessionRequestContent);

@@ -26,13 +26,13 @@ public class LocaleTimeTag extends TagSupport {
     public int doStartTag() throws JspException {
 
         String time = "<hr/>" + ResourceManager.INSTANCE.getString(MESSAGE_TIME) + " <b> "
-                + Calendar.getInstance(Locale.getDefault()).getTime() + " </b><hr/>";
+                + Calendar.getInstance(Locale.getDefault()).getTime() + " " + "</b>";
         String region = null;
         if (null != locale) {
-            region = ResourceManager.INSTANCE.getString(MESSAGE_LOCALE) + " <b> " + locale + " </b> ";
+            region = ResourceManager.INSTANCE.getString(MESSAGE_LOCALE) + " " + "<b> " + locale + " " + " </b> ";
         } else {
             locale = Locale.getDefault().stripExtensions().toString();
-            region = ResourceManager.INSTANCE.getString(MESSAGE_LOCALE) + " <b> " + locale + " </b> ";
+            region = ResourceManager.INSTANCE.getString(MESSAGE_LOCALE) + " " + "<b> " + locale + " " + " </b> ";
 
         }
         try {

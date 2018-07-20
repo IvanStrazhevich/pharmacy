@@ -120,13 +120,15 @@ public class UserDao extends AbstractDaoImpl<User> implements AbstractUserDao<Us
      */
     @Override
     public boolean delete(User entity) throws DaoException {
+        boolean success = false;
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(DELETE_PSTM)) {
             preparedStatement.setInt(1, entity.getUserId());
             preparedStatement.execute();
-            return true;
+            success = true;
         } catch (SQLException e) {
             throw new DaoException("Exception on deleteById", e);
         }
+        return success;
     }
 
     /**
@@ -136,15 +138,17 @@ public class UserDao extends AbstractDaoImpl<User> implements AbstractUserDao<Us
      */
     @Override
     public boolean create(User entity) throws DaoException {
+        boolean success = false;
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(INSERT_PSTM)) {
             preparedStatement.setString(1, entity.getLogin());
             preparedStatement.setString(2, entity.getPassword());
             preparedStatement.setString(3, entity.getAccessLevel());
             preparedStatement.execute();
-            return true;
+            success = true;
         } catch (SQLException e) {
             throw new DaoException("Exception on create", e);
         }
+        return success;
     }
 
     /**
@@ -154,15 +158,17 @@ public class UserDao extends AbstractDaoImpl<User> implements AbstractUserDao<Us
      */
     @Override
     public boolean update(User entity) throws DaoException {
+        boolean success = false;
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(UPDATE_PSTM)) {
             preparedStatement.setString(1, entity.getLogin());
             preparedStatement.setString(2, entity.getPassword());
             preparedStatement.setString(3, entity.getAccessLevel());
             preparedStatement.setInt(4, entity.getUserId());
             preparedStatement.executeUpdate();
-            return true;
+            success = true;
         } catch (SQLException e) {
             throw new DaoException("Exception on update", e);
         }
+        return success;
     }
 }

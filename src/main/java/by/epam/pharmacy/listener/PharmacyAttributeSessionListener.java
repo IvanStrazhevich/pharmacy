@@ -9,13 +9,13 @@ import javax.servlet.http.HttpSessionAttributeListener;
 import javax.servlet.http.HttpSessionBindingEvent;
 
 @WebListener
-public class PharmacyAttributeSessionListener implements HttpSessionAttributeListener{
+public class PharmacyAttributeSessionListener implements HttpSessionAttributeListener {
     Logger logger = LogManager.getLogger();
 
     @Override
     public void attributeAdded(HttpSessionBindingEvent event) {
-        logger.info("Added worked");
-        if(event.getSession().getAttribute(AttributeEnum.LOGGED.getAttribute())!=null && event.getSession().getAttribute(AttributeEnum.LOGGED.getAttribute()).equals(AttributeEnum.LOGGED.getAttribute())){
+        logger.debug("Added worked");
+        if (event.getSession().getAttribute(AttributeEnum.LOGGED.getAttribute()) != null && event.getSession().getAttribute(AttributeEnum.LOGGED.getAttribute()).equals(AttributeEnum.LOGGED.getAttribute())) {
             logger.info(AttributeEnum.LOGGED.getAttribute());
             logger.info(event.getSession().getAttribute(AttributeEnum.NEED_LOGIN.getAttribute()));
             event.getSession().removeAttribute(AttributeEnum.NEED_LOGIN.getAttribute());
@@ -24,16 +24,18 @@ public class PharmacyAttributeSessionListener implements HttpSessionAttributeLis
             event.getSession().removeAttribute(AttributeEnum.NEED_REGISTER.getAttribute());
             logger.info(event.getSession().getAttribute(AttributeEnum.NEED_REGISTER.getAttribute()));
         }
+
     }
 
     @Override
     public void attributeRemoved(HttpSessionBindingEvent event) {
-        logger.info("Removed worked");
+        logger.debug("Removed worked");
     }
 
     @Override
     public void attributeReplaced(HttpSessionBindingEvent event) {
-        logger.info("Replased worked");
+
+        logger.debug("Replased worked");
 
     }
 }

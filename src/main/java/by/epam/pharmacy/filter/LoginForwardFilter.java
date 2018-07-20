@@ -30,7 +30,7 @@ public class LoginForwardFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
-        logger.info("Check Login page filter Works");
+        logger.info("Check Login filter Works");
         String path = ((HttpServletRequest) request).getRequestURI();
         if (path.startsWith(httpRequest.getContextPath() + PagesEnum.LOGIN_PAGE.getPage())
                 || path.startsWith(httpRequest.getContextPath() + PagesEnum.REGISTER_PAGE.getPage())
@@ -42,8 +42,9 @@ public class LoginForwardFilter implements Filter {
                 ((HttpServletRequest) request).getSession().setAttribute(AttributeEnum.NEED_LOGIN.getAttribute(),
                         ResourceManager.INSTANCE.getString(MESSAGE));
                 httpResponse.sendRedirect(httpRequest.getContextPath() + PagesEnum.INDEX_PAGE.getPage());
+            } else {
+                chain.doFilter(request, response);
             }
-            chain.doFilter(request, response);
         }
     }
 
