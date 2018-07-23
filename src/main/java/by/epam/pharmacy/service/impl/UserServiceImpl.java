@@ -1,7 +1,10 @@
 package by.epam.pharmacy.service.impl;
 
+import by.epam.pharmacy.command.AttributeEnum;
+import by.epam.pharmacy.controller.SessionRequestContent;
 import by.epam.pharmacy.dao.impl.UserDao;
 import by.epam.pharmacy.entity.AccessLevel;
+import by.epam.pharmacy.entity.ClientDetail;
 import by.epam.pharmacy.entity.User;
 import by.epam.pharmacy.exception.DaoException;
 import by.epam.pharmacy.exception.ServiceException;
@@ -11,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class UserServiceImpl implements UserService {
     private static Logger logger = LogManager.getLogger();
@@ -90,6 +94,50 @@ public class UserServiceImpl implements UserService {
             return userDao.create(user);
         } catch (DaoException e) {
             throw new ServiceException("DaoException", e);
+        }
+    }
+
+    public void showUsersAndAccess(SessionRequestContent sessionRequestContent) throws ServiceException {
+        try (UserDao userDao = new UserDao()) {
+            HashMap<User, ClientDetail> map = userDao.findUserWithNames();
+            ArrayList<User> users = new ArrayList<>();
+            ArrayList<ClientDetail> details = new ArrayList<>();
+            users.addAll(map.keySet());
+            logger.info(users);
+            sessionRequestContent.getRequestAttributes().put(AttributeEnum.USERS.getAttribute(), users);
+            details.addAll(map.values());
+            logger.info(details);
+            sessionRequestContent.getRequestAttributes().put(AttributeEnum.CLIENT_DETAILS.getAttribute(), details);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public void showUserAccessLvl(SessionRequestContent sessionRequestContent) throws ServiceException {
+        int id = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeEnum.USER_ID.getAttribute()));
+        logger.info(id);
+        try (UserDao userDao = new UserDao()) {
+            User user = userDao.findEntityById(id);
+            logger.info(user);
+            sessionRequestContent.getRequestAttributes().put(AttributeEnum.USER.getAttribute(), user);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public void saveAccessLvl(SessionRequestContent sessionRequestContent) throws ServiceException {
+        int id = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeEnum.USER_ID.getAttribute()));
+        logger.info(id);
+        try (UserDao userDao = new UserDao()) {
+            User user = userDao.findEntityById(id);
+            logger.info("from base: "+ user);
+            user.setAccessLevel(sessionRequestContent.getRequestParameters().get(AttributeEnum.ACCESS_LEVEL.getAttribute()));
+            userDao.update(user);
+            logger.info(user);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
         }
     }
 }

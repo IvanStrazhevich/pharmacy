@@ -8,4 +8,5 @@ public interface MedicineService {
     void findMedicinesByName(SessionRequestContent sessionRequestContent) throws ServiceException;
     void createOrUpdateMedicine(SessionRequestContent sessionRequestContent) throws ServiceException;
     void findMedicineById(SessionRequestContent sessionRequestContent) throws ServiceException;
+    void removeMedicineFromDtaBase(SessionRequestContent sessionRequestContent) throws ServiceException;
 }

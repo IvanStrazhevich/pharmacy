@@ -14,7 +14,7 @@ import java.io.IOException;
 
 @WebServlet(name = "PharmacyServlet",
         urlPatterns = {"/WelcomePage", "/EditUserDataPage", "/UploadResultPage", "/LoginPage", "/MedicineListPage",
-                "/EditMedicinePage",
+                "/EditMedicinePage", "/UserListPage","/EditAccessLevelPage",
                 "/CheckLogin", "/RegisterUser", "/RegisterPage", /*"/jsp/WelcomePage", "/jsp/EditUserDataPage",
                 "/jsp/UploadResultPage", "/jsp/LoginPage",
                 "/jsp/CheckLogin", "/jsp/RegisterUser", "/jsp/RegisterPage"*/})

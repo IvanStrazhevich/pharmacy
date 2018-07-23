@@ -82,7 +82,9 @@ public class MapCreator {
                 case EDIT_ORDER:
                     servletMap.put(command.getCommand(), new EditOrderCommand());
                     break;
-
+                case REMOVE_MEDICINE_FROM_BASE:
+                    servletMap.put(command.getCommand(), new RemoveFromDataBaseCommand());
+                    break;
                 default:
                     throw new PharmacyServletException("There is no such command at " + CommandEnum.class + command.getCommand());
             }

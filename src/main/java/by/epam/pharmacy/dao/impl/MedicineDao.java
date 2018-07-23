@@ -20,7 +20,7 @@ public class MedicineDao extends AbstractDaoImpl<Medicine> implements AbstractMe
     private static final String SELECT_ALL_PSTM = "select  mdc_id, mdc_name, mdc_description, mdc_dosage, mdc_recipe_required, mdc_price, mdc_available, mdc_quantity from medicine";
     private static final String SELECT_BY_ID_PSTM = "select mdc_id, mdc_name, mdc_description, mdc_dosage, mdc_recipe_required, mdc_price, mdc_available, mdc_quantity from medicine where mdc_id = ?";
     private static final String SELECT_BY_NAME_PSTM = "select mdc_id, mdc_name, mdc_description, mdc_dosage, mdc_recipe_required, mdc_price, mdc_available, mdc_quantity from medicine where mdc_name = ?";
-    private static final String INSERT_PSTM = "insert into medicine( mdc_name, mdc_description, mdc_dosage, mdc_recipe_required, mdc_price, mdc_available, mdc_quantity) values(?,?,?,?,?,?,?,?)";
+    private static final String INSERT_PSTM = "insert into medicine( mdc_name, mdc_description, mdc_dosage, mdc_recipe_required, mdc_price, mdc_available, mdc_quantity) values(?,?,?,?,?,?,?)";
     private static final String UPDATE_MEDICINE_SET_MDC_AVAILABLE = "update medicine set mdc_available=?where mdc_id = ?";
     private static final String UPDATE_PSTM = "update medicine set mdc_name=?, mdc_description=?, mdc_dosage=?, mdc_recipe_required=?, mdc_price=?, mdc_available=?, mdc_quantity=? where mdc_id = ?";
     private static final String DELETE_PSTM = "delete FROM medicine where mdc_id=?";
@@ -186,13 +186,13 @@ public class MedicineDao extends AbstractDaoImpl<Medicine> implements AbstractMe
     public boolean create(Medicine entity) throws DaoException {
         boolean success = false;
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(INSERT_PSTM)) {
-            preparedStatement.setString(2, entity.getMedicineName());
-            preparedStatement.setString(3, entity.getDescription());
-            preparedStatement.setBigDecimal(4, entity.getDosage());
-            preparedStatement.setBoolean(5, entity.isRecipeRequired());
-            preparedStatement.setBigDecimal(6, entity.getPrice());
-            preparedStatement.setBoolean(7, entity.isAvailable());
-            preparedStatement.setInt(8, entity.getQuantityAtStorage());
+            preparedStatement.setString(1, entity.getMedicineName());
+            preparedStatement.setString(2, entity.getDescription());
+            preparedStatement.setBigDecimal(3, entity.getDosage());
+            preparedStatement.setBoolean(4, entity.isRecipeRequired());
+            preparedStatement.setBigDecimal(5, entity.getPrice());
+            preparedStatement.setBoolean(6, entity.isAvailable());
+            preparedStatement.setInt(7, entity.getQuantityAtStorage());
             preparedStatement.execute();
             success = true;
         } catch (SQLException e) {

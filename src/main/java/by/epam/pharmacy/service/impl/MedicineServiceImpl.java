@@ -18,6 +18,7 @@ public class MedicineServiceImpl implements MedicineService {
 
     /**
      * Finds all entries put ArrayList result in request
+     *
      * @param sessionRequestContent
      * @throws ServiceException
      */
@@ -33,6 +34,7 @@ public class MedicineServiceImpl implements MedicineService {
 
     /**
      * Finds entries by name put ArrayList result in request
+     *
      * @param sessionRequestContent
      * @throws ServiceException
      */
@@ -52,6 +54,7 @@ public class MedicineServiceImpl implements MedicineService {
 
     /**
      * Finds entry by id put in result in request
+     *
      * @param sessionRequestContent
      * @throws ServiceException
      */
@@ -69,43 +72,61 @@ public class MedicineServiceImpl implements MedicineService {
         }
     }
 
-
     /**
-     * Creates or updates entry
+     * Removes entry from database forever by its id
      * @param sessionRequestContent
      * @throws ServiceException
      */
     @Override
-    public void createOrUpdateMedicine(SessionRequestContent sessionRequestContent) throws ServiceException {
+    public void removeMedicineFromDtaBase(SessionRequestContent sessionRequestContent) throws ServiceException {
         try (MedicineDao medicineDao = new MedicineDao()) {
-            ArrayList<Medicine> medicines = new ArrayList<>();
-            Medicine medicine = new Medicine();
-            medicine.setMedicineId(Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeEnum.MEDICINE_ID.getAttribute())));
-            medicine.setMedicineName(sessionRequestContent.getRequestParameters().get(AttributeEnum.MEDICINE_NAME.getAttribute()));
-            medicine.setDescription(sessionRequestContent.getRequestParameters().get(AttributeEnum.DESCRIPTION.getAttribute()));
-            medicine.setDosage(BigDecimal.valueOf(Double.valueOf(sessionRequestContent.getRequestParameters().get(AttributeEnum.DOSAGE.getAttribute()))));
-            medicine.setRecipeRequired(Boolean.parseBoolean(sessionRequestContent.getRequestParameters().get(AttributeEnum.RECIPE_REQ.getAttribute())));
-            medicine.setPrice(BigDecimal.valueOf(Double.valueOf(sessionRequestContent.getRequestParameters().get(AttributeEnum.PRICE.getAttribute()))));
-            medicine.setAvailable(Boolean.parseBoolean(sessionRequestContent.getRequestParameters().get(AttributeEnum.AVAILABLE.getAttribute())));
-            medicine.setQuantityAtStorage(Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeEnum.QUANTITY_AT_STORAGE.getAttribute())));
-            logger.info("Medicine: " + medicine);
-            int id = medicine.getMedicineId();
-            logger.info("if exist: " + medicineDao.findEntityById(medicine.getMedicineId()));
-            if (medicineDao.findEntityById(id).getMedicineId() == 0) {
-                logger.info("not exist, do create");
-                medicineDao.create(medicine);
-            } else {
-                logger.info("exist, do update");
-                medicineDao.update(medicine);
+            if (sessionRequestContent.getRequestParameters().get(AttributeEnum.MEDICINE_ID.getAttribute()) != null) {
+                int medId = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeEnum.MEDICINE_ID.getAttribute()).toString());
+                medicineDao.deleteById(medId);
             }
-            medicines.addAll(medicineDao.findAll());
-            logger.info("Output list: " + medicines);
-            sessionRequestContent.getRequestAttributes().put(AttributeEnum.MEDICINES.getAttribute(),
-                    medicines);
         } catch (DaoException e) {
-            throw new ServiceException(e);
+            e.printStackTrace();
         }
     }
 
+        /**
+         * Creates or updates entry
+         * @param sessionRequestContent
+         * @throws ServiceException
+         */
+        @Override
+        public void createOrUpdateMedicine(SessionRequestContent sessionRequestContent) throws ServiceException {
+            try (MedicineDao medicineDao = new MedicineDao()) {
+                ArrayList<Medicine> medicines = new ArrayList<>();
+                Medicine medicine = new Medicine();
+                if(sessionRequestContent.getRequestParameters().get(AttributeEnum.MEDICINE_ID.getAttribute())!=null){
+                medicine.setMedicineId(Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeEnum.MEDICINE_ID.getAttribute())));
+                }
+                medicine.setMedicineName(sessionRequestContent.getRequestParameters().get(AttributeEnum.MEDICINE_NAME.getAttribute()));
+                medicine.setDescription(sessionRequestContent.getRequestParameters().get(AttributeEnum.DESCRIPTION.getAttribute()));
+                medicine.setDosage(BigDecimal.valueOf(Double.valueOf(sessionRequestContent.getRequestParameters().get(AttributeEnum.DOSAGE.getAttribute()))));
+                medicine.setRecipeRequired(Boolean.parseBoolean(sessionRequestContent.getRequestParameters().get(AttributeEnum.RECIPE_REQ.getAttribute())));
+                medicine.setPrice(BigDecimal.valueOf(Double.valueOf(sessionRequestContent.getRequestParameters().get(AttributeEnum.PRICE.getAttribute()))));
+                medicine.setAvailable(Boolean.parseBoolean(sessionRequestContent.getRequestParameters().get(AttributeEnum.AVAILABLE.getAttribute())));
+                medicine.setQuantityAtStorage(Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeEnum.QUANTITY_AT_STORAGE.getAttribute())));
+                logger.info("Medicine: " + medicine);
+                int id = medicine.getMedicineId();
+                logger.info(id);
+                if (id == 0) {
+                    logger.info("not exist, do create");
+                    medicineDao.create(medicine);
+                } else {
+                    logger.info("exist, do update");
+                    medicineDao.update(medicine);
+                }
+                medicines.addAll(medicineDao.findAll());
+                logger.info("Output list: " + medicines);
+                sessionRequestContent.getRequestAttributes().put(AttributeEnum.MEDICINES.getAttribute(),
+                        medicines);
+            } catch (DaoException e) {
+                throw new ServiceException(e);
+            }
+        }
 
-}
+
+    }

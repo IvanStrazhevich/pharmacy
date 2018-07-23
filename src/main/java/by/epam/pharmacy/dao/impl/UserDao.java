@@ -2,6 +2,7 @@ package by.epam.pharmacy.dao.impl;
 
 import by.epam.pharmacy.connection.ProxyConnection;
 import by.epam.pharmacy.dao.AbstractUserDao;
+import by.epam.pharmacy.entity.ClientDetail;
 import by.epam.pharmacy.entity.User;
 import by.epam.pharmacy.exception.DaoException;
 import org.apache.logging.log4j.LogManager;
@@ -11,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Implementation of AbstractDao for type User
@@ -23,6 +25,8 @@ public class UserDao extends AbstractDaoImpl<User> implements AbstractUserDao<Us
     private static final String INSERT_PSTM = "insert into user(user_login, user_password, user_access_level) values(?,?,?)";
     private static final String DELETE_PSTM = "delete from user where user_id = ?";
     private static final String UPDATE_PSTM = "update user set user_login = ?, user_password = ?, user_access_level = ? where user_id = ?";
+    private static final String FIND_ALL_WITH_NAMES
+            = "select u.user_id, u.user_access_level, cd.cl_name, cd.cl_lastname  FROM client_detail as cd LEFT OUTER JOIN `user` as u ON cd.user_id = u.user_id";
     private ProxyConnection proxyConnection;
 
     public UserDao() throws DaoException {
@@ -31,6 +35,7 @@ public class UserDao extends AbstractDaoImpl<User> implements AbstractUserDao<Us
 
     /**
      * Finds Users all existed
+     *
      * @return ArrayList<User>
      * @throws DaoException
      */
@@ -57,6 +62,7 @@ public class UserDao extends AbstractDaoImpl<User> implements AbstractUserDao<Us
 
     /**
      * Finds User by its id
+     *
      * @param id type Integer
      * @return User
      * @throws DaoException
@@ -81,6 +87,7 @@ public class UserDao extends AbstractDaoImpl<User> implements AbstractUserDao<Us
 
     /**
      * Finds User by its login
+     *
      * @param login type String
      * @return User
      * @throws DaoException
@@ -101,7 +108,6 @@ public class UserDao extends AbstractDaoImpl<User> implements AbstractUserDao<Us
         }
         return user;
     }
-
 
     /**
      * @param id of type Integer
@@ -170,5 +176,26 @@ public class UserDao extends AbstractDaoImpl<User> implements AbstractUserDao<Us
             throw new DaoException("Exception on update", e);
         }
         return success;
+    }
+
+    @Override
+    public HashMap<User, ClientDetail> findUserWithNames() throws DaoException {
+        HashMap<User, ClientDetail> map = new HashMap<>();
+        try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(FIND_ALL_WITH_NAMES)) {
+            preparedStatement.execute();
+            ResultSet resultSet = preparedStatement.getResultSet();
+            while (resultSet.next()) {
+                User user = new User();
+                ClientDetail clientDetail = new ClientDetail();
+                user.setUserId(resultSet.getInt(1));
+                user.setAccessLevel(resultSet.getString(2));
+                clientDetail.setName(resultSet.getString(3));
+                clientDetail.setLastname(resultSet.getString(4));
+                map.put(user, clientDetail);
+            }
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
+        return map;
     }
 }

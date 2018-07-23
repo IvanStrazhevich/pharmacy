@@ -13,45 +13,65 @@
 <c:import url="/WEB-INF/HeaderPage.jsp"/>
 <div>
     <h6>
-        <table class="table table-striped table-hover table-bordered tableUpdated">
+        <table style="display: inline">
             <tr>
-                <th><fmt:message key="label.header.id"/></th>
-                <th><fmt:message key="label.header.name"/></th>
-                <th><fmt:message key="label.header.lastname"/></th>
-                <th><fmt:message key="label.header.email"/></th>
-                <th><fmt:message key="label.header.phone"/></th>
-                <th><fmt:message key="label.header.postcode"/></th>
-                <th><fmt:message key="label.header.country"/></th>
-                <th><fmt:message key="label.header.city"/></th>
-                <th><fmt:message key="label.header.address"/></th>
-                <th></th>
-            </tr>
-            <%--<c:set var="us" value="${user}"></c:set>
-            --%><c:forEach items="${users}" var="us">
-
-            <tr>
-                <td>${us.clientId}</td>
-                <td>${us.name}</td>
-                <td>${us.lastname}</td>
-                <td>${us.email}</td>
-                <td>${us.phone}</td>
-                <td>${us.postcode}</td>
-                <td>${us.country}</td>
-                <td>${us.city}</td>
-                <td>${us.address}</td>
                 <td>
-                    <form action="EditUserDataPage" method="post">
-                        <input type="submit" class="btn btn-primary"
-                               value="<fmt:message key="label.button.EditUserPage"/>">
-                        <input type="hidden" name="action" value="EditUserDataPage">
-                    </form>
+                    <table>
+                        <tr>
+                            <td>
+                                <table class="table table-striped table-hover table-bordered tableUpdated">
+                                    <tr style="alignment: inherit">
+                                        <th><fmt:message key="label.header.name"/></th>
+                                        <th><fmt:message key="label.header.lastname"/></th>
+                                    </tr>
+                                    <c:forEach items="${clientDetails}" var="dt">
+                                        <tr>
+                                            <td>${dt.name}</td>
+                                            <td>${dt.lastname}</td>
+                                        </tr>
+                                    </c:forEach>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+
+                <td>
+                    <table>
+                        <tr>
+                            <td>
+                                <table class="table table-striped table-hover table-bordered tableUpdated">
+                                    <tr style="alignment: inherit">
+                                        <th><fmt:message key="label.header.id"/></th>
+                                        <th><fmt:message key="label.header.accessLevel"/></th>
+                                        <th></th>
+                                    </tr>
+                                    <c:forEach items="${users}" var="us">
+                                        <tr>
+                                            <td>${us.userId}</td>
+                                            <td>${us.accessLevel}</td>
+                                            <td>
+                                                <form action="EditAccessLevelPage" method="post">
+                                                    <input type="submit" class="btn btn-primary"
+                                                           value="<fmt:message key="label.button.EditUserAccessLevel"/>">
+                                                    <input type="hidden" name="action" value="EditAccessLevel">
+                                                    <input type="hidden" value="${us.userId}" name="userId">
+                                                </form>
+                                            </td>
+
+                                        </tr>
+                                    </c:forEach><br>
+
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
                 </td>
             </tr>
-            </c:forEach><br>
         </table>
     </h6>
 </div>
-<div style="float: bottom"><c:import url="/WEB-INF/FooterPage.jsp"/></div>
+<div><c:import url="/WEB-INF/FooterPage.jsp"/></div>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="js/bootstrap.min.js"></script>
 </body>
