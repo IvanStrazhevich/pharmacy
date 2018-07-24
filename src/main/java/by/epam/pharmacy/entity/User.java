@@ -6,6 +6,7 @@ public class User extends Entity{
     private String login;
     private String password;
     private String accessLevel;
+    private ClientDetail clientDetail;
 
     public User() {
     }
@@ -42,6 +43,14 @@ public class User extends Entity{
         this.accessLevel = accessLevel;
     }
 
+    public ClientDetail getClientDetail() {
+        return clientDetail;
+    }
+
+    public void setClientDetail(ClientDetail clientDetail) {
+        this.clientDetail = clientDetail;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -52,7 +61,8 @@ public class User extends Entity{
         if (userId != user.userId) return false;
         if (login != null ? !login.equals(user.login) : user.login != null) return false;
         if (password != null ? !password.equals(user.password) : user.password != null) return false;
-        return accessLevel != null ? accessLevel.equals(user.accessLevel) : user.accessLevel == null;
+        if (accessLevel != null ? !accessLevel.equals(user.accessLevel) : user.accessLevel != null) return false;
+        return clientDetail != null ? clientDetail.equals(user.clientDetail) : user.clientDetail == null;
     }
 
     @Override
@@ -61,6 +71,7 @@ public class User extends Entity{
         result = 31 * result + (login != null ? login.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (accessLevel != null ? accessLevel.hashCode() : 0);
+        result = 31 * result + (clientDetail != null ? clientDetail.hashCode() : 0);
         return result;
     }
 
@@ -71,6 +82,7 @@ public class User extends Entity{
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", accessLevel='" + accessLevel + '\'' +
+                ", clientDetail=" + clientDetail +
                 '}';
     }
 }

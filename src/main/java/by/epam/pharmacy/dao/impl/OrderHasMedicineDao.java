@@ -11,7 +11,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -20,10 +19,12 @@ public class OrderHasMedicineDao extends AbstractDaoImpl<OrderHasMedicine> imple
     private static Logger logger = LogManager.getLogger();
     private static final String SELECT_ALL_PSTM = "select order_order_id, medicine_mdc_id, ohm_med_quantity, ohm_med_sum, recipe_rec_id from order_has_medicine";
     private static final String SELECT_BY_ORDER_ID_PSTM = "select order_order_id, medicine_mdc_id, ohm_med_quantity, ohm_med_sum, recipe_rec_id from order_has_medicine where order_order_id = ?";
-    private static final String INSERT_MEDICINE_IN_ORDER_PSTM = "insert into order_has_medicine(order_order_id, medicine_mdc_id, ohm_med_quantity, ohm_med_sum, recipe_rec_id ) values(?,?,?,?,?)";
+    private static final String SELECT_BY_MEDICINE_ID_PSTM = "select order_order_id, medicine_mdc_id, ohm_med_quantity, ohm_med_sum, recipe_rec_id from order_has_medicine where medicine_mdc_id = ?";
+
+    private static final String INSERT_MEDICINE_IN_ORDER_PSTM = "insert into order_has_medicine(order_order_id, medicine_mdc_id, ohm_med_quantity, ohm_med_sum ) values(?,?,?,?)";
     private static final String DELETE_ALL_MEDS_FROM_ORDER_PSTM = "delete from order_has_medicine where order_order_id = ?";
     private static final String DELETE_MEDICINE_FROM_ORDER_PSTM = "delete from order_has_medicine where order_order_id = ? and medicine_mdc_id=?";
-    private static final String UPDATE_PSTM = "update order set ohm_med_quantity = ?, ohm_med_sum = ?, recipe_rec_id = ? where order_order_id = ? and medicine_mdc_id = ?";
+    private static final String UPDATE_PSTM = "update `order_has_medicine` set ohm_med_quantity = ?, ohm_med_sum = ? where order_order_id = ? and medicine_mdc_id = ?";
     private ProxyConnection proxyConnection;
 
     public OrderHasMedicineDao() throws DaoException {
@@ -41,7 +42,7 @@ public class OrderHasMedicineDao extends AbstractDaoImpl<OrderHasMedicine> imple
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_ALL_PSTM)) {
             preparedStatement.execute();
             ResultSet resultSet = preparedStatement.getResultSet();
-            selectMedicinesInOrder(ordersHasMedicinesList, resultSet);
+            fillMedicinesInOrder(ordersHasMedicinesList, resultSet);
         } catch (SQLException e) {
             throw new DaoException("Exception on find all", e);
         }
@@ -54,17 +55,39 @@ public class OrderHasMedicineDao extends AbstractDaoImpl<OrderHasMedicine> imple
      * @throws DaoException
      */
     @Override
-    public List<OrderHasMedicine> findAllMedicinesByOrderId(Integer orderId) throws DaoException {
+    public ArrayList<OrderHasMedicine> findAllMedicinesByOrderId(Integer orderId) throws DaoException {
         ArrayList<OrderHasMedicine> ordersHasMedicinesList = new ArrayList<>();
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_BY_ORDER_ID_PSTM)) {
             preparedStatement.setInt(1, orderId);
             preparedStatement.execute();
             ResultSet resultSet = preparedStatement.getResultSet();
-            selectMedicinesInOrder(ordersHasMedicinesList, resultSet);
+            fillMedicinesInOrder(ordersHasMedicinesList, resultSet);
         } catch (SQLException e) {
             throw new DaoException("Exception on find all", e);
         }
         return ordersHasMedicinesList;
+    }
+
+    @Override
+    public OrderHasMedicine findOrderHasMedicineByMedicineId(Integer medicineId) throws DaoException {
+        OrderHasMedicine orderHasMedicine = new OrderHasMedicine();
+        try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_BY_MEDICINE_ID_PSTM)) {
+            preparedStatement.setInt(1, medicineId);
+            preparedStatement.execute();
+            logger.info(preparedStatement);
+            ResultSet resultSet = preparedStatement.getResultSet();
+            while (resultSet.next()){
+            orderHasMedicine.setOrderId(resultSet.getInt(1));
+            orderHasMedicine.setMedicineId(resultSet.getInt(2));
+            orderHasMedicine.setMedicineQuantity(resultSet.getInt(3));
+            orderHasMedicine.setMedicineSum(resultSet.getBigDecimal(4));
+            orderHasMedicine.setRecipeId(resultSet.getInt(5));
+            logger.info(orderHasMedicine);
+            }
+        } catch (SQLException e) {
+            throw new DaoException("Exception on  findOrderHasMedicineByMedicineId() ", e);
+        }
+        return orderHasMedicine;
     }
 
     /**
@@ -75,14 +98,16 @@ public class OrderHasMedicineDao extends AbstractDaoImpl<OrderHasMedicine> imple
      */
     @Override
     public boolean deleteMedicineFromOrder(Integer orderId, Integer medicineId) throws DaoException {
+        boolean success = false;
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(DELETE_MEDICINE_FROM_ORDER_PSTM)) {
             preparedStatement.setInt(1, orderId);
             preparedStatement.setInt(2, medicineId);
             preparedStatement.execute();
-            return true;
+            success = true;
         } catch (SQLException e) {
             throw new DaoException("Exception on delete all", e);
         }
+        return success;
     }
 
     /**
@@ -92,13 +117,15 @@ public class OrderHasMedicineDao extends AbstractDaoImpl<OrderHasMedicine> imple
      */
     @Override
     public boolean deleteAllMedicineFromOrder(Integer orderId) throws DaoException {
+        boolean success = false;
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(DELETE_ALL_MEDS_FROM_ORDER_PSTM)) {
             preparedStatement.setInt(1, orderId);
             preparedStatement.execute();
-            return true;
+            success = true;
         } catch (SQLException e) {
             throw new DaoException("Exception on delete all", e);
         }
+        return success;
     }
 
     /**
@@ -106,7 +133,7 @@ public class OrderHasMedicineDao extends AbstractDaoImpl<OrderHasMedicine> imple
      * @param resultSet
      * @throws SQLException
      */
-    private void selectMedicinesInOrder(ArrayList<OrderHasMedicine> ordersHasMedicinesList, ResultSet resultSet) throws
+    private void fillMedicinesInOrder(ArrayList<OrderHasMedicine> ordersHasMedicinesList, ResultSet resultSet) throws
             SQLException {
         while (resultSet.next()) {
             OrderHasMedicine orderHasMedicine = new OrderHasMedicine();
@@ -146,17 +173,19 @@ public class OrderHasMedicineDao extends AbstractDaoImpl<OrderHasMedicine> imple
      */
     @Override
     public boolean create(OrderHasMedicine entity) throws DaoException {
+        boolean success = false;
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(INSERT_MEDICINE_IN_ORDER_PSTM)) {
             preparedStatement.setInt(1, entity.getOrderId());
             preparedStatement.setInt(2, entity.getMedicineId());
             preparedStatement.setInt(3, entity.getMedicineQuantity());
             preparedStatement.setBigDecimal(4, entity.getMedicineSum());
-            preparedStatement.setInt(5, entity.getRecipeId());
+            logger.info(preparedStatement);
             preparedStatement.execute();
-            return true;
+            success = true;
         } catch (SQLException e) {
             throw new DaoException("Exception on create medicine in order", e);
         }
+        return success;
     }
 
     /**
@@ -166,17 +195,18 @@ public class OrderHasMedicineDao extends AbstractDaoImpl<OrderHasMedicine> imple
      */
     @Override
     public boolean update(OrderHasMedicine entity) throws DaoException {
+        boolean success = false;
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(UPDATE_PSTM)) {
             preparedStatement.setInt(1, entity.getMedicineQuantity());
             preparedStatement.setBigDecimal(2, entity.getMedicineSum());
-            preparedStatement.setInt(3, entity.getRecipeId());
-            preparedStatement.setInt(4, entity.getOrderId());
-            preparedStatement.setInt(5, entity.getMedicineId());
+            preparedStatement.setInt(3, entity.getOrderId());
+            preparedStatement.setInt(4, entity.getMedicineId());
             preparedStatement.executeUpdate();
-            return true;
+            success = true;
         } catch (SQLException e) {
             throw new DaoException("Exception on create medicine in order", e);
         }
+        return success;
     }
 
 

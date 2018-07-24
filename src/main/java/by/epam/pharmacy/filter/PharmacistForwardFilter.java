@@ -16,7 +16,7 @@ import java.io.IOException;
 @WebFilter(dispatcherTypes = {
         DispatcherType.FORWARD,
         DispatcherType.REQUEST,
-        DispatcherType.INCLUDE}, urlPatterns = {"/jsp/pharmacist/*", "/MedicineListPage",
+        DispatcherType.INCLUDE}, urlPatterns = {"/jsp/pharmacist/*",
         "/EditMedicinePage", "/EditUserAccessLevel", "/UserListPage"})
 
 public class PharmacistForwardFilter implements Filter {

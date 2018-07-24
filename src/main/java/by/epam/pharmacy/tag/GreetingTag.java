@@ -26,7 +26,7 @@ public class GreetingTag extends TagSupport {
         try {
             String greeting = ResourceManager.INSTANCE.getString(MESSAGE) + login + " "
                     + ResourceManager.INSTANCE.getString(MESSAGE_TO_USER) + " " + accessLevel;
-            pageContext.getOut().write("<hr/>" + greeting + "<hr/>");
+            pageContext.getOut().write(greeting + "<hr/>");
         } catch (IOException e) {
             throw new JspException(e.getMessage());
         }

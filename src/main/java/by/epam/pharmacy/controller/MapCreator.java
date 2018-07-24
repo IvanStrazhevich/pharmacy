@@ -79,6 +79,9 @@ public class MapCreator {
                 case FIND_MEDICINE:
                     servletMap.put(command.getCommand(), new FindMedicineCommand());
                     break;
+                case ADD_MEDICINE_TO_ORDER:
+                    servletMap.put(command.getCommand(), new AddMedicineToOrder());
+                    break;
                 case EDIT_ORDER:
                     servletMap.put(command.getCommand(), new EditOrderCommand());
                     break;

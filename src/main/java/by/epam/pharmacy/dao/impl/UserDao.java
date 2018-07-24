@@ -12,7 +12,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Implementation of AbstractDao for type User
@@ -179,8 +178,8 @@ public class UserDao extends AbstractDaoImpl<User> implements AbstractUserDao<Us
     }
 
     @Override
-    public HashMap<User, ClientDetail> findUserWithNames() throws DaoException {
-        HashMap<User, ClientDetail> map = new HashMap<>();
+    public ArrayList<User> findUserWithNames() throws DaoException {
+        ArrayList<User> users = new ArrayList<>();
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(FIND_ALL_WITH_NAMES)) {
             preparedStatement.execute();
             ResultSet resultSet = preparedStatement.getResultSet();
@@ -191,11 +190,12 @@ public class UserDao extends AbstractDaoImpl<User> implements AbstractUserDao<Us
                 user.setAccessLevel(resultSet.getString(2));
                 clientDetail.setName(resultSet.getString(3));
                 clientDetail.setLastname(resultSet.getString(4));
-                map.put(user, clientDetail);
+                user.setClientDetail(clientDetail);
+                users.add(user);
             }
         } catch (SQLException e) {
             throw new DaoException(e);
         }
-        return map;
+        return users;
     }
 }

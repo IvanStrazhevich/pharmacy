@@ -10,7 +10,7 @@
     <title><fmt:message key="label.button.HeaderPage"/></title>
 </head>
 <body>
-<nav class="navbar navbar-dark btn-success">
+<nav class="navbar navbar-dark" style="background: #5cb85c">
     <span style="float: left">
     <form action="WelcomePage"
           method="post">
@@ -53,7 +53,7 @@
         <input class="btn btn-danger" type="submit" value="<fmt:message key="label.button.Logout"/>">
     </form>
     </span>
-    <c:if test="${accessLevel=='pharmacist'}">
+    <c:if test="${sessionScope.accessLevel=='pharmacist'}">
     <span style="float: left">
     <form action="EditMedicinePage" method="post">
         <input type="submit" class="btn btn-primary"
@@ -61,23 +61,6 @@
         <input type="hidden" name="action" value="EditMedicine">
     </form>
     </span>
-        </span>
-        <span style="float: left">
-    <form action="MedicineListPage"
-          method="post">
-        <input type="hidden" name="action" value="MedicineList">
-        <input class="btn btn-success" type="submit"
-               value="<fmt:message key="label.button.MedicineListPage"/>">
-    </form>
-    </span>
-        <span style="float: left">
-    <form action="EditUserAccessLevelPage" method="post">
-        <input type="submit" class="btn btn-primary"
-               value="<fmt:message key="label.button.EditUserPage"/>">
-        <input type="hidden" name="action" value="EditAccessLevel">
-    </form>
-    </span>
-        </span>
         <span style="float: left">
     <form action="UserListPage"
           method="post">
@@ -87,7 +70,15 @@
     </form>
     </span>
     </c:if>
-    <c:if test="${accessLevel=='doctor'}">
+    <span style="float: left">
+    <form action="MedicineListPage"
+          method="post">
+        <input type="hidden" name="action" value="MedicineList">
+        <input class="btn btn-success" type="submit"
+               value="<fmt:message key="label.button.MedicineListPage"/>">
+    </form>
+    </span>
+    <c:if test="${sessionScope.accessLevel=='doctor'}">
     <span style="float: left">
     <form action="RecipeApprovalPage" method="post">
         <input type="submit" class="btn btn-primary"
@@ -119,9 +110,9 @@
         </span>
     </form>
 </nav>
-<br>
 
-<span> <pht:hello accessLevel="${accessLevel}" login="${login}"/> </span>
+<span> <c:if test="${logged!=null}"> <pht:hello accessLevel="${sessionScope.accessLevel}" login="${login}"/>
+</c:if></span>
 
 
 <script src="http://code.jquery.com/jquery-latest.js"></script>

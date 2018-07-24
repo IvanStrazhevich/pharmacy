@@ -3,7 +3,7 @@ package by.epam.pharmacy.entity;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
-public class Order extends Entity{
+public class Order extends Entity {
     private static final long serialVersionUID = -7808138802635242837L;
     private int orderId;
     private int clientId;
@@ -47,10 +47,14 @@ public class Order extends Entity{
     }
 
     public ArrayList<Integer> getMedicineIdList() {
+        if (this.medicineIdList == null) {
+            this.medicineIdList = new ArrayList<>();
+        }
         return medicineIdList;
     }
 
     public void setMedicineIdList(ArrayList<Integer> medicineIdList) {
+
         this.medicineIdList = medicineIdList;
     }
 

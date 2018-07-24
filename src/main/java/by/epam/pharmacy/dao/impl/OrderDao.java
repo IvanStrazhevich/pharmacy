@@ -1,6 +1,7 @@
 package by.epam.pharmacy.dao.impl;
 
 import by.epam.pharmacy.connection.ProxyConnection;
+import by.epam.pharmacy.dao.AbstractOrderDao;
 import by.epam.pharmacy.entity.Order;
 import by.epam.pharmacy.exception.DaoException;
 import org.apache.logging.log4j.LogManager;
@@ -14,13 +15,15 @@ import java.util.ArrayList;
 /**
  *
  */
-public class OrderDao extends AbstractDaoImpl<Order> {
+public class OrderDao extends AbstractDaoImpl<Order> implements AbstractOrderDao<Order>{
     private static Logger logger = LogManager.getLogger();
-    private static final String SELECT_ALL_PSTM = "select order_id, ord_user_id, ord_payed, ord_med_sum from order";
-    private static final String SELECT_BY_ID_PSTM = "select order_id, ord_user_id, ord_payed, ord_med_sum from order where order_id = ?";
-    private static final String INSERT_PSTM = "insert into order (ord_user_id, ord_payed, ord_med_sum) values(?,?,?)";
-    private static final String DELETE_PSTM = "delete from order where order_id = ?";
-    private static final String UPDATE_PSTM = "update order set ord_user_id=?, ord_payed=?, ord_med_sum=? where order_id = ?";
+    private static final String SELECT_ALL_PSTM = "select order_id, ord_user_id, ord_payed, ord_med_sum from `order`";
+    private static final String SELECT_BY_ID_PSTM = "select order_id, ord_user_id, ord_payed, ord_med_sum from `order` where order_id = ?";
+    private static final String SELECT_BY_USER_PSTM = "select order_id, ord_user_id, ord_payed, ord_med_sum from `order` where ord_user_id = ?";
+
+    private static final String INSERT_PSTM = "insert into `order` (ord_user_id, ord_payed, ord_med_sum) values(?,?,?)";
+    private static final String DELETE_PSTM = "delete from `order` where order_id = ?";
+    private static final String UPDATE_PSTM = "update `order` set ord_user_id=?, ord_payed=?, ord_med_sum=? where order_id = ?";
     private ProxyConnection proxyConnection;
 
     public OrderDao() throws DaoException {
@@ -46,7 +49,7 @@ public class OrderDao extends AbstractDaoImpl<Order> {
                 userList.add(order);
             }
         } catch (SQLException e) {
-            throw new DaoException("Exception on find all", e);
+            throw new DaoException("Exception on find all Order", e);
         }
         return userList;
     }
@@ -64,14 +67,9 @@ public class OrderDao extends AbstractDaoImpl<Order> {
             preparedStatement.setInt(1, id);
             preparedStatement.execute();
             ResultSet resultSet = preparedStatement.getResultSet();
-            while (resultSet.next()) {
-            order.setOrderId(resultSet.getInt(1));
-            order.setClientId(resultSet.getInt(2));
-            order.setPayed(resultSet.getBoolean(3));
-            order.setMedicineSum(resultSet.getBigDecimal(4));
-            }
+            fillOrder(order, resultSet);
         } catch (SQLException e) {
-            throw new DaoException("Exception on find by id", e);
+            throw new DaoException("Exception on Order find by id", e);
         }
         return order;
     }
@@ -84,7 +82,7 @@ public class OrderDao extends AbstractDaoImpl<Order> {
      */
     @Override
     public boolean deleteById(Integer id) throws DaoException {
-        return deleteById(id,DELETE_PSTM);
+        return deleteById(id, DELETE_PSTM);
     }
 
     /**
@@ -94,13 +92,15 @@ public class OrderDao extends AbstractDaoImpl<Order> {
      */
     @Override
     public boolean delete(Order entity) throws DaoException {
+        boolean success = false;
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(DELETE_PSTM)) {
             preparedStatement.setInt(1, entity.getOrderId());
             preparedStatement.execute();
-            return true;
+            success = true;
         } catch (SQLException e) {
-            throw new DaoException("Exception on deleteById", e);
+            throw new DaoException("Exception on Order deleteById", e);
         }
+        return success;
     }
 
     /**
@@ -110,15 +110,20 @@ public class OrderDao extends AbstractDaoImpl<Order> {
      */
     @Override
     public boolean create(Order entity) throws DaoException {
+        boolean success = false;
+        logger.info(entity);
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(INSERT_PSTM)) {
             preparedStatement.setInt(1, entity.getClientId());
             preparedStatement.setBoolean(2, entity.isPayed());
             preparedStatement.setBigDecimal(3, entity.getMedicineSum());
-            preparedStatement.executeUpdate();
-            return true;
+            logger.info(preparedStatement);
+            logger.info(entity);
+            preparedStatement.execute();
+            success = true;
         } catch (SQLException e) {
-            throw new DaoException("Exception on create", e);
+            throw new DaoException("Exception on Order create", e);
         }
+        return success;
     }
 
     /**
@@ -128,15 +133,42 @@ public class OrderDao extends AbstractDaoImpl<Order> {
      */
     @Override
     public boolean update(Order entity) throws DaoException {
+        boolean success = false;
+        logger.info(entity);
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(UPDATE_PSTM)) {
             preparedStatement.setInt(1, entity.getClientId());
             preparedStatement.setBoolean(2, entity.isPayed());
             preparedStatement.setBigDecimal(3, entity.getMedicineSum());
-            preparedStatement.setInt(4,entity.getOrderId());
-            preparedStatement.execute();
-            return true;
+            preparedStatement.setInt(4, entity.getOrderId());
+            preparedStatement.executeUpdate();
+            success = true;
         } catch (SQLException e) {
-            throw new DaoException("Exception on update", e);
+            throw new DaoException("Exception on Order update", e);
+        }
+        return success;
+    }
+
+    @Override
+    public Order findCurrentOrderByUserId(int id) throws DaoException {
+        Order order = new Order();
+        try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_BY_USER_PSTM)) {
+            preparedStatement.setInt(1, id);
+            preparedStatement.execute();
+            ResultSet resultSet = preparedStatement.getResultSet();
+            fillOrder(order, resultSet);
+        } catch (SQLException e) {
+            throw new DaoException("Exception on Order find by User", e);
+        }
+        return order;
+    }
+
+    private void fillOrder(Order order, ResultSet resultSet) throws SQLException {
+        while (resultSet.next()) {
+            order.setOrderId(resultSet.getInt(1));
+            order.setClientId(resultSet.getInt(2));
+            order.setPayed(resultSet.getBoolean(3));
+            order.setMedicineSum(resultSet.getBigDecimal(4));
         }
     }
 }
+

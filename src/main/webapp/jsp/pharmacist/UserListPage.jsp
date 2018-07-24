@@ -13,61 +13,30 @@
 <c:import url="/WEB-INF/HeaderPage.jsp"/>
 <div>
     <h6>
-        <table style="display: inline">
+        <table class="table table-hover table-bordered tableUpdated">
             <tr>
-                <td>
-                    <table>
-                        <tr>
-                            <td>
-                                <table class="table table-striped table-hover table-bordered tableUpdated">
-                                    <tr style="alignment: inherit">
-                                        <th><fmt:message key="label.header.name"/></th>
-                                        <th><fmt:message key="label.header.lastname"/></th>
-                                    </tr>
-                                    <c:forEach items="${clientDetails}" var="dt">
-                                        <tr>
-                                            <td>${dt.name}</td>
-                                            <td>${dt.lastname}</td>
-                                        </tr>
-                                    </c:forEach>
-                                </table>
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-
-                <td>
-                    <table>
-                        <tr>
-                            <td>
-                                <table class="table table-striped table-hover table-bordered tableUpdated">
-                                    <tr style="alignment: inherit">
-                                        <th><fmt:message key="label.header.id"/></th>
-                                        <th><fmt:message key="label.header.accessLevel"/></th>
-                                        <th></th>
-                                    </tr>
-                                    <c:forEach items="${users}" var="us">
-                                        <tr>
-                                            <td>${us.userId}</td>
-                                            <td>${us.accessLevel}</td>
-                                            <td>
-                                                <form action="EditAccessLevelPage" method="post">
-                                                    <input type="submit" class="btn btn-primary"
-                                                           value="<fmt:message key="label.button.EditUserAccessLevel"/>">
-                                                    <input type="hidden" name="action" value="EditAccessLevel">
-                                                    <input type="hidden" value="${us.userId}" name="userId">
-                                                </form>
-                                            </td>
-
-                                        </tr>
-                                    </c:forEach><br>
-
-                                </table>
-                            </td>
-                        </tr>
-                    </table>
-                </td>
+                <th><fmt:message key="label.header.id"/></th>
+                <th><fmt:message key="label.header.accessLevel"/></th>
+                <th><fmt:message key="label.header.name"/></th>
+                <th><fmt:message key="label.header.lastname"/></th>
+                <th></th>
             </tr>
+            <c:forEach items="${users}" var="us">
+                <tr>
+                    <td>${us.userId}</td>
+                    <td>${us.accessLevel}</td>
+                    <td>${us.clientDetail.name}</td>
+                    <td>${us.clientDetail.lastname}</td>
+                    <td>
+                        <form action="EditAccessLevelPage" method="post">
+                            <input type="submit" class="btn btn-primary"
+                                   value="<fmt:message key="label.button.EditUserAccessLevel"/>">
+                            <input type="hidden" name="action" value="EditAccessLevel">
+                            <input type="hidden" value="${us.userId}" name="userId">
+                        </form>
+                    </td>
+                </tr>
+            </c:forEach><br>
         </table>
     </h6>
 </div>

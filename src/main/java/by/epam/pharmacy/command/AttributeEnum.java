@@ -15,7 +15,7 @@ public enum AttributeEnum {
     DESCRIPTION("description"), DOSAGE("dosage"), RECIPE_REQ("recipeRequired"), PRICE("price"),
     AVAILABLE("available"),
     MEDICINE("medicine"), QUANTITY_AT_STORAGE("quantityAtStorage"), CLIENT_DETAIL("clientDetail"),
-    CLIENT_DETAILS("clientDetails");
+    CLIENT_DETAILS("clientDetails"), MEDICINE_QUANTITY("medicineQuantity"), MEDICINE_ADDED("medicineAdded");
 
 
 
