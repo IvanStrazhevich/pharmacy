@@ -10,6 +10,8 @@ public class Order extends Entity {
     private boolean payed;
     private BigDecimal medicineSum;
     private ArrayList<Integer> medicineIdList;
+    private ArrayList<Medicine> medicines;
+    private ArrayList<OrderHasMedicine> orderHasMedicines;
 
     public Order() {
     }
@@ -54,15 +56,35 @@ public class Order extends Entity {
     }
 
     public void setMedicineIdList(ArrayList<Integer> medicineIdList) {
-
         this.medicineIdList = medicineIdList;
+    }
+
+    public ArrayList<Medicine> getMedicines() {
+        if (this.medicines == null) {
+            this.medicines = new ArrayList<>();
+        }
+        return medicines;
+    }
+
+    public void setMedicines(ArrayList<Medicine> medicines) {
+        this.medicines = medicines;
+    }
+
+    public ArrayList<OrderHasMedicine> getOrderHasMedicines() {
+        if (this.orderHasMedicines == null) {
+            this.orderHasMedicines = new ArrayList<>();
+        }
+        return orderHasMedicines;
+    }
+
+    public void setOrderHasMedicines(ArrayList<OrderHasMedicine> orderHasMedicines) {
+        this.orderHasMedicines = orderHasMedicines;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
 
         Order order = (Order) o;
 
@@ -70,17 +92,21 @@ public class Order extends Entity {
         if (clientId != order.clientId) return false;
         if (payed != order.payed) return false;
         if (medicineSum != null ? !medicineSum.equals(order.medicineSum) : order.medicineSum != null) return false;
-        return medicineIdList != null ? medicineIdList.equals(order.medicineIdList) : order.medicineIdList == null;
+        if (medicineIdList != null ? !medicineIdList.equals(order.medicineIdList) : order.medicineIdList != null)
+            return false;
+        if (medicines != null ? !medicines.equals(order.medicines) : order.medicines != null) return false;
+        return orderHasMedicines != null ? orderHasMedicines.equals(order.orderHasMedicines) : order.orderHasMedicines == null;
     }
 
     @Override
     public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + orderId;
+        int result = orderId;
         result = 31 * result + clientId;
         result = 31 * result + (payed ? 1 : 0);
         result = 31 * result + (medicineSum != null ? medicineSum.hashCode() : 0);
         result = 31 * result + (medicineIdList != null ? medicineIdList.hashCode() : 0);
+        result = 31 * result + (medicines != null ? medicines.hashCode() : 0);
+        result = 31 * result + (orderHasMedicines != null ? orderHasMedicines.hashCode() : 0);
         return result;
     }
 
@@ -92,6 +118,8 @@ public class Order extends Entity {
                 ", payed=" + payed +
                 ", medicineSum=" + medicineSum +
                 ", medicineIdList=" + medicineIdList +
+                ", medicines=" + medicines +
+                ", orderHasMedicines=" + orderHasMedicines +
                 '}';
     }
 }

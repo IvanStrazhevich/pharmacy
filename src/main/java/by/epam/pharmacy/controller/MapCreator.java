@@ -73,6 +73,12 @@ public class MapCreator {
                 case REMOVE_MEDICINE_FROM_ORDER:
                     servletMap.put(command.getCommand(), new RemoveMedicineFromOrderCommand());
                     break;
+                case DEMAND_RECIPE:
+                    servletMap.put(command.getCommand(), new DemandRecipeCommand());
+                    break;
+                case CHANGE_QUANTITY:
+                    servletMap.put(command.getCommand(), new ChangeQuantity());
+                    break;
                 case PAY_ORDER:
                     servletMap.put(command.getCommand(), new PayOrderCommand());
                     break;
@@ -88,6 +94,7 @@ public class MapCreator {
                 case REMOVE_MEDICINE_FROM_BASE:
                     servletMap.put(command.getCommand(), new RemoveFromDataBaseCommand());
                     break;
+
                 default:
                     throw new PharmacyServletException("There is no such command at " + CommandEnum.class + command.getCommand());
             }

@@ -21,6 +21,7 @@ public class UserDao extends AbstractDaoImpl<User> implements AbstractUserDao<Us
     private static final String SELECT_ALL_PSTM = "select  user_id, user_login, user_password, user_access_level from user";
     private static final String SELECT_BY_ID_PSTM = "select user_id, user_login, user_password, user_access_level from user where user_id = ?";
     private static final String SELECT_BY_LOGIN_PSTM = "select user_id, user_login, user_password, user_access_level from user where user_login = ?";
+    private static final String SELECT_BY_ACCESS_PSTM = "select user_id, user_login, user_password, user_access_level from user where user_access_level = ?";
     private static final String INSERT_PSTM = "insert into user(user_login, user_password, user_access_level) values(?,?,?)";
     private static final String DELETE_PSTM = "delete from user where user_id = ?";
     private static final String UPDATE_PSTM = "update user set user_login = ?, user_password = ?, user_access_level = ? where user_id = ?";
@@ -44,14 +45,7 @@ public class UserDao extends AbstractDaoImpl<User> implements AbstractUserDao<Us
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_ALL_PSTM)) {
             preparedStatement.execute();
             ResultSet resultSet = preparedStatement.getResultSet();
-            while (resultSet.next()) {
-                User user = new User();
-                user.setUserId(resultSet.getInt(1));
-                user.setLogin(resultSet.getString(2));
-                user.setPassword(resultSet.getString(3));
-                user.setAccessLevel(resultSet.getString(4));
-                userList.add(user);
-            }
+            fillUsers(userList, resultSet);
         } catch (SQLException e) {
             throw new DaoException("Exception on find all", e);
         }
@@ -66,6 +60,7 @@ public class UserDao extends AbstractDaoImpl<User> implements AbstractUserDao<Us
      * @return User
      * @throws DaoException
      */
+
     @Override
     public User findEntityById(Integer id) throws DaoException {
         User user = new User();
@@ -73,16 +68,13 @@ public class UserDao extends AbstractDaoImpl<User> implements AbstractUserDao<Us
             preparedStatement.setInt(1, id);
             preparedStatement.execute();
             ResultSet resultSet = preparedStatement.getResultSet();
-            resultSet.next();
-            user.setUserId(resultSet.getInt(1));
-            user.setLogin(resultSet.getString(2));
-            user.setPassword(resultSet.getString(3));
-            user.setAccessLevel(resultSet.getString(4));
+            fillUser(user, resultSet);
         } catch (SQLException e) {
             throw new DaoException("Exception on find by id", e);
         }
         return user;
     }
+
 
     /**
      * Finds User by its login
@@ -97,11 +89,7 @@ public class UserDao extends AbstractDaoImpl<User> implements AbstractUserDao<Us
             preparedStatement.setString(1, login);
             preparedStatement.execute();
             ResultSet resultSet = preparedStatement.getResultSet();
-            resultSet.next();
-            user.setUserId(resultSet.getInt(1));
-            user.setLogin(resultSet.getString(2));
-            user.setPassword(resultSet.getString(3));
-            user.setAccessLevel(resultSet.getString(4));
+            fillUser(user, resultSet);
         } catch (SQLException e) {
             throw new DaoException("Exception on find by login", e);
         }
@@ -197,5 +185,39 @@ public class UserDao extends AbstractDaoImpl<User> implements AbstractUserDao<Us
             throw new DaoException(e);
         }
         return users;
+    }
+
+    @Override
+    public ArrayList<User> findUsersByAccessLevel(String accessLevel) throws DaoException {
+        ArrayList<User> users = new ArrayList<>();
+        try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_BY_ACCESS_PSTM)) {
+            preparedStatement.setString(1, accessLevel);
+            preparedStatement.execute();
+            ResultSet resultSet = preparedStatement.getResultSet();
+            fillUsers(users, resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+
+    private void fillUsers(ArrayList<User> users, ResultSet resultSet) throws SQLException {
+        while (resultSet.next()) {
+            User user = new User();
+            user.setUserId(resultSet.getInt(1));
+            user.setLogin(resultSet.getString(2));
+            user.setPassword(resultSet.getString(3));
+            user.setAccessLevel(resultSet.getString(4));
+            users.add(user);
+        }
+    }
+
+    private void fillUser(User user, ResultSet resultSet) throws SQLException {
+        while (resultSet.next()) {
+            user.setUserId(resultSet.getInt(1));
+            user.setLogin(resultSet.getString(2));
+            user.setPassword(resultSet.getString(3));
+            user.setAccessLevel(resultSet.getString(4));
+        }
     }
 }

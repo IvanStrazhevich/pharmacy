@@ -27,6 +27,76 @@ public class OrderServiceImpl implements OrderService {
     private Encodable encodable = new SHAConverter();
 
 
+    @Override
+    public void addMedicineToOrder(SessionRequestContent sessionRequestContent) throws ServiceException {
+        int medicineId = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeEnum.MEDICINE_ID.getAttribute()));
+        int medicineQuantity = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeEnum.MEDICINE_QUANTITY.getAttribute()));
+        String clientLogin = sessionRequestContent.getSessionAttributes().get(AttributeEnum.LOGIN.getAttribute()).toString();
+        int userId = findUserId(clientLogin);
+        logger.info(userId);
+        int orderId = createOrder(userId, medicineId);
+        logger.info("adding medicine to order" + orderId);
+        createOrUpdateMedicineInOrder(medicineId, orderId, medicineQuantity);
+        sessionRequestContent.getRequestAttributes().put(AttributeEnum.MEDICINE_ADDED.getAttribute(),
+                ResourceManager.INSTANCE.getString(MESSAGE_ADDED));
+    }
+
+    @Override
+    public void showOrder(SessionRequestContent sessionRequestContent) throws ServiceException {
+        String clientLogin = sessionRequestContent.getSessionAttributes().get(AttributeEnum.LOGIN.getAttribute()).toString();
+        int userId = findUserId(clientLogin);
+        try (OrderDao orderDao = new OrderDao()) {
+            int orderId = orderDao.findCurrentOrderByUserId(userId).getOrderId();
+            Order order = orderDao.showOrderWithMedicineByOrderId(orderId);
+            logger.info(order);
+            sessionRequestContent.getRequestAttributes().put(AttributeEnum.ORDER.getAttribute(), order);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public void changeQuantity(SessionRequestContent sessionRequestContent) throws ServiceException {
+        int medicineId = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeEnum.MEDICINE_ID.getAttribute()));
+        int orderId = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeEnum.ORDER_ID.getAttribute()));
+        int medicineQuantity = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeEnum.MEDICINE_QUANTITY.getAttribute()));
+        try (OrderHasMedicineDao orderHasMedicineDao = new OrderHasMedicineDao()) {
+            OrderHasMedicine orderHasMedicine = orderHasMedicineDao.findOrderHasMedicineByOrderIdMedicineId(orderId, medicineId);
+            orderHasMedicine.setMedicineQuantity(medicineQuantity);
+            updateQuantity(orderHasMedicine);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+
+    }
+
+    private boolean updateQuantity(OrderHasMedicine orderHasMedicine) throws ServiceException {
+        boolean success = false;
+        try (OrderHasMedicineDao orderHasMedicineDao = new OrderHasMedicineDao()) {
+            OrderHasMedicine orderHasMedicineDB = orderHasMedicineDao.findOrderHasMedicineByOrderIdMedicineId(orderHasMedicine.getOrderId(), orderHasMedicine.getMedicineId());
+            orderHasMedicine.setMedicineSum(countMedicineSum(orderHasMedicine.getMedicineQuantity(), orderHasMedicine.getMedicineId()));
+            logger.info(orderHasMedicine);
+            if (orderHasMedicineDao.update(orderHasMedicine)) {
+                recountStorageQuantity(orderHasMedicine.getMedicineId(), orderHasMedicine.getMedicineQuantity(), orderHasMedicineDB.getMedicineQuantity());
+                success = true;
+            }
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return success;
+    }
+
+    private void recountStorageQuantity(int medicineId, int medicineQuantity, int medicineQuantityDB) throws ServiceException {
+        try (MedicineDao medicineDao = new MedicineDao()) {
+            Medicine medicine = new Medicine();
+            medicine = medicineDao.findEntityById(medicineId);
+            medicine.setQuantityAtStorage(medicine.getQuantityAtStorage() + medicineQuantityDB - medicineQuantity);
+            medicineDao.update(medicine);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
     private BigDecimal countMedicineSum(int quantity, int medicineId) throws ServiceException {
         try (MedicineDao medicineDao = new MedicineDao()) {
             BigDecimal price = medicineDao.findEntityById(medicineId).getPrice();
@@ -58,6 +128,7 @@ public class OrderServiceImpl implements OrderService {
         }
         medicineIds.add(medicineId);
         order.setMedicineIdList(medicineIds);
+        logger.info("Creating order");
         logger.info(medicineId);
         logger.info(order);
         int orderId = createOrUpdateOrder(order);
@@ -67,13 +138,14 @@ public class OrderServiceImpl implements OrderService {
 
     private Integer createOrUpdateOrder(Order order) throws ServiceException {
         try (OrderDao orderDao = new OrderDao()) {
-            if (orderDao.findCurrentOrderByUserId(order.getClientId()) != null
+            if (orderDao.findCurrentOrderByUserId(order.getClientId()).getOrderId() != 0
                     && !orderDao.findCurrentOrderByUserId(order.getClientId()).isPayed()) {
+                logger.info("order updated");
                 orderDao.update(order);
                 order.setOrderId(orderDao.findCurrentOrderByUserId(order.getClientId()).getOrderId());
             } else {
-                if (!orderDao.create(order)) {
-                    logger.info("created");
+                if (orderDao.create(order)) {
+                    logger.info(" order created");
                     order.setOrderId(orderDao.findLastInsertId());
                     logger.info(order.getOrderId());
                 }
@@ -93,12 +165,15 @@ public class OrderServiceImpl implements OrderService {
             orderHasMedicine.setMedicineQuantity(medicineQuantity);
             orderHasMedicine.setMedicineSum(countMedicineSum(medicineQuantity, medicineId));
             logger.info(orderHasMedicine);
-            if (orderHasMedicineDao.findOrderHasMedicineByMedicineId(medicineId).getMedicineId() == medicineId) {
+            if (orderHasMedicineDao.findOrderHasMedicineByMedicineId(medicineId).getMedicineId() == medicineId
+                    && orderHasMedicineDao.findOrderHasMedicineByMedicineId(medicineId).getOrderId() == orderId) {
                 logger.info("updates cause id = " + medicineId + " " + orderHasMedicineDao.findOrderHasMedicineByMedicineId(medicineId).getMedicineId());
                 OrderHasMedicine orderHasMedicineFromDB
                         = orderHasMedicineDao.findOrderHasMedicineByMedicineId(medicineId);
                 orderHasMedicine.setMedicineQuantity(orderHasMedicine.getMedicineQuantity()
                         + orderHasMedicineFromDB.getMedicineQuantity());
+                orderHasMedicine.setMedicineSum(orderHasMedicine.getMedicineSum()
+                        .add(orderHasMedicineFromDB.getMedicineSum()));
                 if (orderHasMedicineDao.update(orderHasMedicine)) {
                     updateStorageQuantity(medicineId, medicineQuantity);
                     success = true;
@@ -121,33 +196,6 @@ public class OrderServiceImpl implements OrderService {
         clientLogin = encodable.encode(clientLogin);
         try (UserDao userDao = new UserDao()) {
             return userDao.findUserByLogin(clientLogin).getUserId();
-        } catch (DaoException e) {
-            throw new ServiceException(e);
-        }
-    }
-
-    @Override
-    public void addMedicineToOrder(SessionRequestContent sessionRequestContent) throws ServiceException {
-        int medicineId = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeEnum.MEDICINE_ID.getAttribute()));
-        int medicineQuantity = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeEnum.MEDICINE_QUANTITY.getAttribute()));
-        String clientLogin = sessionRequestContent.getSessionAttributes().get(AttributeEnum.LOGIN.getAttribute()).toString();
-        int userId = findUserId(clientLogin);
-        logger.info(userId);
-        int orderId = createOrder(userId, medicineId);
-        createOrUpdateMedicineInOrder(medicineId, orderId, medicineQuantity);
-        sessionRequestContent.getRequestAttributes().put(AttributeEnum.MEDICINE_ADDED.getAttribute(),
-                ResourceManager.INSTANCE.getString(MESSAGE_ADDED));
-    }
-
-    @Override
-    public void showOrder(SessionRequestContent sessionRequestContent) throws ServiceException {
-        String clientLogin = sessionRequestContent.getSessionAttributes().get(AttributeEnum.LOGIN.getAttribute()).toString();
-        int userId = findUserId(clientLogin);
-        try (OrderHasMedicineDao orderHasMedicineDao = new OrderHasMedicineDao();
-             OrderDao orderDao = new OrderDao()) {
-            int orderId = orderDao.findCurrentOrderByUserId(userId).getOrderId();
-            ArrayList<OrderHasMedicine> medicines=orderHasMedicineDao.findAllMedicinesByOrderId(orderId);
-            sessionRequestContent.getRequestAttributes().put(AttributeEnum.MEDICINES.getAttribute(),medicines);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

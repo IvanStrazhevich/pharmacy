@@ -10,7 +10,8 @@ public enum CommandEnum {
     USER_LIST("UserList"), EDIT_ACCESS_LVL("EditAccessLevel"), SAVE_ACCESS_LVL("SaveAccessLevel"),
     PAY_ORDER("PayOrder"), REMOVE_MEDICINE_FROM_ORDER("RemoveMedicineFromOrder"),
     REMOVE_MEDICINE_FROM_BASE("RemoveMedicineFromBase"),
-    FIND_MEDICINE("FindMedicine"), EDIT_ORDER("EditOrder"), ADD_MEDICINE_TO_ORDER("addMedicineToOrder");
+    FIND_MEDICINE("FindMedicine"), EDIT_ORDER("EditOrder"), ADD_MEDICINE_TO_ORDER("addMedicineToOrder"),
+    CHANGE_QUANTITY("ChangeQuantity"), DEMAND_RECIPE("DemandRecipe");
     private String command;
 
     CommandEnum(String command) {

@@ -2,7 +2,9 @@ package by.epam.pharmacy.dao.impl;
 
 import by.epam.pharmacy.connection.ProxyConnection;
 import by.epam.pharmacy.dao.AbstractOrderDao;
+import by.epam.pharmacy.entity.Medicine;
 import by.epam.pharmacy.entity.Order;
+import by.epam.pharmacy.entity.OrderHasMedicine;
 import by.epam.pharmacy.exception.DaoException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,6 +22,7 @@ public class OrderDao extends AbstractDaoImpl<Order> implements AbstractOrderDao
     private static final String SELECT_ALL_PSTM = "select order_id, ord_user_id, ord_payed, ord_med_sum from `order`";
     private static final String SELECT_BY_ID_PSTM = "select order_id, ord_user_id, ord_payed, ord_med_sum from `order` where order_id = ?";
     private static final String SELECT_BY_USER_PSTM = "select order_id, ord_user_id, ord_payed, ord_med_sum from `order` where ord_user_id = ?";
+    private static final String SELECT_BY_ORDER_ID_PSTM = "select ohm.order_order_id, m.mdc_name, ohm.ohm_med_quantity, ohm.ohm_med_sum, ohm.recipe_rec_id, m.mdc_dosage, m.mdc_recipe_required, m.mdc_id, m.mdc_price, ohm.ohm_med_sum from order_has_medicine as ohm LEFT JOIN `medicine` as m on medicine_mdc_id=mdc_id where ohm.order_order_id = ?";
 
     private static final String INSERT_PSTM = "insert into `order` (ord_user_id, ord_payed, ord_med_sum) values(?,?,?)";
     private static final String DELETE_PSTM = "delete from `order` where order_id = ?";
@@ -152,12 +155,43 @@ public class OrderDao extends AbstractDaoImpl<Order> implements AbstractOrderDao
     public Order findCurrentOrderByUserId(int id) throws DaoException {
         Order order = new Order();
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_BY_USER_PSTM)) {
+            logger.info(id);
             preparedStatement.setInt(1, id);
             preparedStatement.execute();
             ResultSet resultSet = preparedStatement.getResultSet();
             fillOrder(order, resultSet);
+            logger.info(order);
         } catch (SQLException e) {
             throw new DaoException("Exception on Order find by User", e);
+        }
+        return order;
+    }
+    @Override
+    public Order showOrderWithMedicineByOrderId(Integer orderId) throws DaoException {
+        Order order = new Order();
+        try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_BY_ORDER_ID_PSTM)) {
+            preparedStatement.setInt(1, orderId);
+            preparedStatement.execute();
+            ResultSet resultSet = preparedStatement.getResultSet();
+            while (resultSet.next()){
+                Medicine medicine = new Medicine();
+                OrderHasMedicine orderHasMedicine = new OrderHasMedicine();
+                order.setOrderId(resultSet.getInt(1));
+                medicine.setMedicineName(resultSet.getString(2));
+                orderHasMedicine.setMedicineQuantity(resultSet.getInt(3));
+                orderHasMedicine.setMedicineSum(resultSet.getBigDecimal(4));
+                orderHasMedicine.setRecipeId(resultSet.getInt(5));
+                medicine.setDosage(resultSet.getBigDecimal(6));
+                medicine.setRecipeRequired(resultSet.getBoolean(7));
+                orderHasMedicine.setMedicineId(resultSet.getInt(8));
+                medicine.setMedicineId(resultSet.getInt(8));
+                medicine.setPrice(resultSet.getBigDecimal(9));
+                orderHasMedicine.setMedicineSum(resultSet.getBigDecimal(10));
+                order.getMedicines().add(medicine);
+                order.getOrderHasMedicines().add(orderHasMedicine);
+            }
+        } catch (SQLException e) {
+            throw new DaoException("Exception on OrderDao show Order With Medicine", e);
         }
         return order;
     }

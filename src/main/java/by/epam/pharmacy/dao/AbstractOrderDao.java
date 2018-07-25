@@ -4,4 +4,5 @@ import by.epam.pharmacy.exception.DaoException;
 
 public interface AbstractOrderDao<T> extends AbstractDao<T>{
     T findCurrentOrderByUserId(int id) throws DaoException;
+    T showOrderWithMedicineByOrderId(Integer orderId) throws DaoException;
 }

@@ -19,8 +19,9 @@ public class OrderHasMedicineDao extends AbstractDaoImpl<OrderHasMedicine> imple
     private static Logger logger = LogManager.getLogger();
     private static final String SELECT_ALL_PSTM = "select order_order_id, medicine_mdc_id, ohm_med_quantity, ohm_med_sum, recipe_rec_id from order_has_medicine";
     private static final String SELECT_BY_ORDER_ID_PSTM = "select order_order_id, medicine_mdc_id, ohm_med_quantity, ohm_med_sum, recipe_rec_id from order_has_medicine where order_order_id = ?";
-    private static final String SELECT_BY_MEDICINE_ID_PSTM = "select order_order_id, medicine_mdc_id, ohm_med_quantity, ohm_med_sum, recipe_rec_id from order_has_medicine where medicine_mdc_id = ?";
+    private static final String SELECT_BY_ORDER_MEDICINE_PSTM = "select order_order_id, medicine_mdc_id, ohm_med_quantity, ohm_med_sum, recipe_rec_id from order_has_medicine where order_order_id = ? and medicine_mdc_id=?";
 
+    private static final String SELECT_BY_MEDICINE_ID_PSTM = "select order_order_id, medicine_mdc_id, ohm_med_quantity, ohm_med_sum, recipe_rec_id from order_has_medicine where medicine_mdc_id = ?";
     private static final String INSERT_MEDICINE_IN_ORDER_PSTM = "insert into order_has_medicine(order_order_id, medicine_mdc_id, ohm_med_quantity, ohm_med_sum ) values(?,?,?,?)";
     private static final String DELETE_ALL_MEDS_FROM_ORDER_PSTM = "delete from order_has_medicine where order_order_id = ?";
     private static final String DELETE_MEDICINE_FROM_ORDER_PSTM = "delete from order_has_medicine where order_order_id = ? and medicine_mdc_id=?";
@@ -31,6 +32,26 @@ public class OrderHasMedicineDao extends AbstractDaoImpl<OrderHasMedicine> imple
         proxyConnection = super.proxyConnection;
     }
 
+    @Override
+    public OrderHasMedicine findOrderHasMedicineByOrderIdMedicineId(Integer orderId, Integer medicineId) throws DaoException {
+        OrderHasMedicine orderHasMedicine=new OrderHasMedicine();
+        try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_BY_ORDER_MEDICINE_PSTM)) {
+            preparedStatement.setInt(1, orderId);
+            preparedStatement.setInt(2, medicineId);
+            preparedStatement.execute();
+            ResultSet resultSet = preparedStatement.getResultSet();
+            while (resultSet.next()) {
+                orderHasMedicine.setOrderId(resultSet.getInt(1));
+                orderHasMedicine.setMedicineId(resultSet.getInt(2));
+                orderHasMedicine.setMedicineQuantity(resultSet.getInt(3));
+                orderHasMedicine.setMedicineSum(resultSet.getBigDecimal(4));
+                orderHasMedicine.setRecipeId(resultSet.getInt(5));
+            }
+            } catch (SQLException e) {
+            throw new DaoException(e);
+        }
+        return orderHasMedicine;
+    }
 
     /**
      * @return

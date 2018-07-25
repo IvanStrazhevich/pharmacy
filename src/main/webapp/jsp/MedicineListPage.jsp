@@ -10,8 +10,9 @@
     <title><fmt:message key="label.button.MedicineListPage"/></title>
 </head>
 <body>
-${medicineAdded}
 <c:import url="/WEB-INF/HeaderPage.jsp"/>
+
+${medicineAdded}
 <div>
     <h6>
         <table class="table table-striped table-hover table-bordered tableUpdated table-responsive">
@@ -39,7 +40,6 @@ ${medicineAdded}
                     <td>${meds.quantityAtStorage}</td>
                     <c:choose>
                         <c:when test="${sessionScope.accessLevel!='pharmacist'}">
-
                             <form action="MedicineListPage" method="post">
                                 <td>
                                     <input type="number" name="medicineQuantity" min="1"
@@ -50,17 +50,8 @@ ${medicineAdded}
                                            value="<fmt:message key="label.button.addMedicine"/>">
                                     <input type="hidden" name="medicineId" value="${meds.medicineId}">
                                     <input type="hidden" name="action" value="addMedicineToOrder">
-
                                 </td>
                             </form>
-                            <td>
-                                <form action="EditOrderPage" method="post">
-                                    <input type="submit" class="btn btn-primary"
-                                           value="<fmt:message key="label.button.EditOrderPage"/>">
-                                    <input type="hidden" name="action" value="EditOrder">
-                                </form>
-                            </td>
-
                         </c:when>
                         <c:otherwise>
                             <td>

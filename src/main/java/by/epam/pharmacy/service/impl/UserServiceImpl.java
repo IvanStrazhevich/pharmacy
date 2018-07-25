@@ -20,32 +20,18 @@ public class UserServiceImpl implements UserService {
     private static Logger logger = LogManager.getLogger();
     private Encodable encoder = new SHAConverter();
 
-    private ArrayList<User> getUsersList() throws DaoException {
-        ArrayList<User> users = new ArrayList<>();
-        try (UserDao userDao = new UserDao()) {
-            users = userDao.findAll();
-        } catch (DaoException e) {
-            throw new DaoException(e);
-        }
-        return users;
-    }
-
     public boolean checkLogin(String login, String password) throws ServiceException {
         Boolean logged = false;
-        try {
-            ArrayList<User> list = getUsersList();
-            String shaLogin = encoder.encode(login);
-            String shaPassword = encoder.encode(password);
-            for (int i = 0; i < list.size() && !logged; i++) {
-                User user = list.get(i);
-                String loginDB = user.getLogin();
-                String passDB = user.getPassword();
-                if (shaLogin.equals(loginDB) && shaPassword.equals(passDB)) {
-                    logged = true;
-                }
+        ArrayList<User> list = getUsersList();
+        String shaLogin = encoder.encode(login);
+        String shaPassword = encoder.encode(password);
+        for (int i = 0; i < list.size() && !logged; i++) {
+            User user = list.get(i);
+            String loginDB = user.getLogin();
+            String passDB = user.getPassword();
+            if (shaLogin.equals(loginDB) && shaPassword.equals(passDB)) {
+                logged = true;
             }
-        } catch (DaoException e) {
-            throw new ServiceException("DaoException", e);
         }
         return logged;
     }
@@ -64,19 +50,15 @@ public class UserServiceImpl implements UserService {
     public boolean checkUserExist(String login) throws ServiceException {
         boolean exist = false;
         ArrayList<User> list = new ArrayList();
-        try {
-            list = getUsersList();
+        list = getUsersList();
 
-            String shalogin = encoder.encode(login);
-            for (User user : list) {
-                String loginDB = user.getLogin();
-                logger.info(loginDB + '\n' + shalogin);
-                if (shalogin.equals(loginDB)) {
-                    exist = true;
-                }
+        String shalogin = encoder.encode(login);
+        for (User user : list) {
+            String loginDB = user.getLogin();
+            logger.info(loginDB + '\n' + shalogin);
+            if (shalogin.equals(loginDB)) {
+                exist = true;
             }
-        } catch (DaoException e) {
-            throw new ServiceException("DaoException", e);
         }
         return exist;
     }
@@ -99,10 +81,10 @@ public class UserServiceImpl implements UserService {
 
     public void showUsersAndAccess(SessionRequestContent sessionRequestContent) throws ServiceException {
         try (UserDao userDao = new UserDao()) {
-            ArrayList<User> users= userDao.findUserWithNames();
+            ArrayList<User> users = userDao.findUserWithNames();
             logger.info(users);
             sessionRequestContent.getRequestAttributes().put(AttributeEnum.USERS.getAttribute(), users);
-            } catch (DaoException e) {
+        } catch (DaoException e) {
             throw new ServiceException(e);
         }
     }
@@ -129,12 +111,33 @@ public class UserServiceImpl implements UserService {
         logger.info(id);
         try (UserDao userDao = new UserDao()) {
             User user = userDao.findEntityById(id);
-            logger.info("from base: "+ user);
+            logger.info("from base: " + user);
             user.setAccessLevel(sessionRequestContent.getRequestParameters().get(AttributeEnum.ACCESS_LEVEL.getAttribute()));
             userDao.update(user);
             logger.info(user);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
+    }
+
+    public User findDefaultDoctor() throws ServiceException {
+        User user = new User();
+        try (UserDao userDao = new UserDao()){
+            ArrayList<User> doctors = userDao.findUsersByAccessLevel(AccessLevel.DOCTOR.getLevel());
+             user = doctors.get(0);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return user;
+    }
+
+    private ArrayList<User> getUsersList() throws ServiceException {
+        ArrayList<User> users = new ArrayList<>();
+        try (UserDao userDao = new UserDao()) {
+            users = userDao.findAll();
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return users;
     }
 }

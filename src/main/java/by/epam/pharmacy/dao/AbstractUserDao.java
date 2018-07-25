@@ -9,4 +9,5 @@ public interface AbstractUserDao<T> extends AbstractDao<T> {
 
     T findUserByLogin(String login) throws DaoException;
     ArrayList<User> findUserWithNames() throws DaoException;
+    ArrayList<User> findUsersByAccessLevel(String accessLevel) throws DaoException;
 }

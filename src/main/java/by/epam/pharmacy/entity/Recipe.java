@@ -7,6 +7,7 @@ public class Recipe extends Entity {
     private static final long serialVersionUID = 7502910725723537491L;
     private int recipeId;
     private int doctorId;
+    private int medicineId;
     private int clientId;
     private int medicineQuantity;
     private BigDecimal dosage;
@@ -30,6 +31,14 @@ public class Recipe extends Entity {
 
     public void setDoctorId(int doctorId) {
         this.doctorId = doctorId;
+    }
+
+    public int getMedicineId() {
+        return medicineId;
+    }
+
+    public void setMedicineId(int medicineId) {
+        this.medicineId = medicineId;
     }
 
     public int getClientId() {
@@ -81,6 +90,7 @@ public class Recipe extends Entity {
 
         if (recipeId != recipe.recipeId) return false;
         if (doctorId != recipe.doctorId) return false;
+        if (medicineId != recipe.medicineId) return false;
         if (clientId != recipe.clientId) return false;
         if (medicineQuantity != recipe.medicineQuantity) return false;
         if (approved != recipe.approved) return false;
@@ -92,6 +102,7 @@ public class Recipe extends Entity {
     public int hashCode() {
         int result = recipeId;
         result = 31 * result + doctorId;
+        result = 31 * result + medicineId;
         result = 31 * result + clientId;
         result = 31 * result + medicineQuantity;
         result = 31 * result + (dosage != null ? dosage.hashCode() : 0);
@@ -105,6 +116,7 @@ public class Recipe extends Entity {
         return "Recipe{" +
                 "recipeId=" + recipeId +
                 ", doctorId=" + doctorId +
+                ", medicineId=" + medicineId +
                 ", clientId=" + clientId +
                 ", medicineQuantity=" + medicineQuantity +
                 ", dosage=" + dosage +

@@ -27,6 +27,13 @@
                value="<fmt:message key="label.button.EditUserPage"/>">
     </form>
     </span>
+        <span style="float: left">
+        <form action="EditOrderPage" method="post">
+            <input type="submit" class="btn btn-primary"
+                   value="<fmt:message key="label.button.EditOrderPage"/>">
+            <input type="hidden" name="action" value="EditOrder">
+        </form>
+    </span>
     </c:if>
     <c:if test="${logged==null}">
     <span style="float: left">
@@ -78,6 +85,7 @@
                value="<fmt:message key="label.button.MedicineListPage"/>">
     </form>
     </span>
+
     <c:if test="${sessionScope.accessLevel=='doctor'}">
     <span style="float: left">
     <form action="RecipeApprovalPage" method="post">
