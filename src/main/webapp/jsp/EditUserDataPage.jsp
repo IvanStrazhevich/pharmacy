@@ -11,95 +11,102 @@
 </head>
 <body>
 <c:import url="/WEB-INF/HeaderPage.jsp"/>
+<div class="container container-table">
+    <div class="row vertical-center-row">
+        <div class="col-md-4 col-md-offset-4">
+            <form action="EditUserDataPage"
+                  enctype="multipart/form-data"
+                  method="post">
+                <fmt:message key="message.choosefile"/>
+                <div class="form-group input-group input-group-lg">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-camera"></span></span>
 
-<form action="EditUserDataPage"
-      enctype="multipart/form-data"
-      method="post">
-    <fmt:message key="message.choosefile"/>
-    <input type="file" name="content"
-           value="<fmt:message key="label.button.choosefile"/>">
-    <input type="hidden" name="action" value="UploadResult">
-    <input class="btn btn-success" type="submit" value="<fmt:message key="label.button.uploadfile"/>">
-</form>
-    <form accept-charset="utf-8" action="UploadResultPage"
-          method="post">
-        <c:set var="us" value="${user}"></c:set>
-        <div class="input-group">
-            <div class="input-group">
-                <label for="email"><fmt:message key="message.enter.email"/></label>
-                <div class="form-inline">
-                    <input id="email" type="email" name="email" value="${us.email}"
+                    <input class="form-control" type="file" name="content"
+                           value="<fmt:message key="label.button.choosefile"/>">
+                </div>
+                <div class="form-group input-group input-group-lg col-md-8 col-md-offset-2 col-xs-12">
+
+                    <input type="hidden" name="action" value="UploadResult">
+                    <input class="form-control btn btn-success" type="submit"
+                           value="<fmt:message key="label.button.uploadfile"/>">
+                </div>
+            </form>
+            <form accept-charset="utf-8" action="UploadResultPage"
+                  method="post">
+                <c:set var="us" value="${user}"></c:set>
+                <div class="form-group input-group input-group-lg">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-inbox"></span></span>
+
+                    <input class="form-control" id="email" type="email" name="email" value="${us.email}"
                            placeholder="<fmt:message key="message.enter.email"/>" maxlength="45">
                 </div>
-            </div>
-            <div class="input-group">
-                <label for="name"><fmt:message key="message.enter.name"/></label>
-                <div class="form-inline">
-                    <input id="name" type="text" name="name" value="${us.name}"
+                <div class="form-group input-group input-group-lg">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+
+                    <input class="form-control" id="name" type="text" name="name" value="${us.name}"
                            placeholder="<fmt:message key="message.enter.name"/>"
                            maxlength="45">
                 </div>
-            </div>
-            <div class="input-group">
-                <label for="lastname"><fmt:message key="message.enter.lastname"/></label>
-                <div class="form-inline">
-                    <input id="lastname" type="text" name="lastname" value="${us.lastname}"
+                <div class="form-group input-group input-group-lg">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+
+                    <input class="form-control" id="lastname" type="text" name="lastname" value="${us.lastname}"
                            placeholder="<fmt:message key="message.enter.lastname"/>" maxlength="45">
                 </div>
-            </div>
-            <div class="input-group">
-                <label for="phone"><fmt:message key="message.enter.phone"/></label>
-                <div class="form-inline">
-                    <input id="phone" type="text" name="phone" value="${us.phone}"
+                <div class="form-group input-group input-group-lg">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-phone"></span></span>
+
+                    <input class="form-control" id="phone" type="text" name="phone" value="${us.phone}"
                            placeholder="<fmt:message key="message.enter.phone"/>"
                            maxlength="15">
                 </div>
-            </div>
-            <div class="input-group">
-                <label for="postcode"><fmt:message key="message.enter.postcode"/></label>
-                <div class="form-inline">
-                    <input id="postcode" type="text" name="postcode" value="${us.postcode}"
+                <div class="form-group input-group input-group-lg">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-home"></span></span>
+
+                    <input class="form-control" id="postcode" type="text" name="postcode" value="${us.postcode}"
                            placeholder="<fmt:message key="message.enter.postcode"/>" maxlength="10">
                 </div>
-            </div>
-            <div class="input-group">
-                <label for="country"><fmt:message key="message.enter.country"/></label>
-                <div class="form-inline">
-                    <input id="country" type="text" name="country" value="${us.country}"
+                <div class="form-group input-group input-group-lg">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-home"></span></span>
+
+                    <input class="form-control" id="country" type="text" name="country" value="${us.country}"
                            placeholder="<fmt:message key="message.enter.country"/>"
                            maxlength="45">
                 </div>
-            </div>
-            <div class="input-group">
-                <label for="city"><fmt:message key="message.enter.city"/></label>
-                <div class="form-inline">
-                    <input id="city" type="text" name="city" value="${us.city}"
+                <div class="form-group input-group input-group-lg">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-home"></span></span>
+
+                    <input class="form-control" id="city" type="text" name="city" value="${us.city}"
                            placeholder="<fmt:message key="message.enter.city"/>"
                            maxlength="45">
+
                 </div>
-            </div>
-            <div class="input-group">
-                <label for="address"><fmt:message key="message.enter.address"/></label>
-                <div class="form-inline">
-                    <input id="address" type="text" name="address" value="${us.address}"
+                <div class="form-group input-group input-group-lg">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-home"></span></span>
+
+                    <input class="form-control" id="address" type="text" name="address" value="${us.address}"
                            placeholder="<fmt:message key="message.enter.address"/>"
                            maxlength="45">
                 </div>
-            </div>
-            <input type="hidden" name="action" value="UploadResultPage">
-            <input class="btn btn-success" type="submit" value="<fmt:message key="label.button.confirm"/>">
-        </div>
+                <div class="form-group input-group input-group-lg col-md-8 col-md-offset-2 col-xs-12">
+                    <input type="hidden" name="action" value="UploadResultPage">
+                    <input class="form-control btn btn-success" type="submit"
+                           value="<fmt:message key="label.button.confirm"/>"/>
+                </div>
 
-    </form>
-    <span>
-        <form action="WelcomePage"
-              method="post">
-        <input type="hidden" name="action" value="WelcomePage">
-        <input class="btn btn-primary" type="submit" value="<fmt:message key="label.button.WelcomePage"/>">
-    </form>
-    </span>
-    <span>
-        <div style="float: bottom"><c:import url="/WEB-INF/FooterPage.jsp"/></div>
+            </form>
+            <form action="WelcomePage" method="post">
+                <div class="form-group input-group input-group-lg col-md-8 col-md-offset-2 col-xs-12">
+                    <input type="hidden" name="action" value="WelcomePage">
+                    <input class="form-control btn btn-primary" type="submit"
+                           value="<fmt:message key="label.button.WelcomePage"/>"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div style="float: bottom"><c:import url="/WEB-INF/FooterPage.jsp"/></div>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="js/bootstrap.min.js"></script>
 </body>

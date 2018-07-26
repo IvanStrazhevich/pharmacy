@@ -15,4 +15,6 @@ public interface AbstractOrderHasMedicineDao<T> extends AbstractDao<T> {
     boolean deleteAllMedicineFromOrder(Integer id) throws DaoException;
 
     T findOrderHasMedicineByOrderIdMedicineId(Integer orderId, Integer medicineId) throws DaoException;
+
+    boolean updateRecipe(OrderHasMedicine entity) throws DaoException;
 }

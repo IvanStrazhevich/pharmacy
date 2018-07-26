@@ -49,6 +49,25 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public void updateRecipeAtOrderHasMedicine(OrderHasMedicine orderHasMedicine) throws ServiceException {
+        try(OrderHasMedicineDao orderHasMedicineDao = new OrderHasMedicineDao()) {
+            orderHasMedicineDao.updateRecipe(orderHasMedicine);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    public OrderHasMedicine findOrderHasMedicine(Integer orderId, Integer medicineId) throws ServiceException{
+        OrderHasMedicine orderHasMedicine = new OrderHasMedicine();
+        try(OrderHasMedicineDao orderHasMedicineDao = new OrderHasMedicineDao()){
+            orderHasMedicine = orderHasMedicineDao.findOrderHasMedicineByOrderIdMedicineId(orderId,medicineId);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return orderHasMedicine;
+    }
+
+    @Override
     public boolean removeMedicineFromOrder(SessionRequestContent sessionRequestContent) throws ServiceException {
         boolean success = false;
         int medicineId = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeEnum.MEDICINE_ID.getAttribute()));
@@ -222,6 +241,13 @@ public class OrderServiceImpl implements OrderService {
         clientLogin = encodable.encode(clientLogin);
         try (UserDao userDao = new UserDao()) {
             return userDao.findUserByLogin(clientLogin).getUserId();
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+    public int findCurrentOrderIdByUserId(Integer clientId) throws ServiceException {
+        try (OrderDao orderDao = new OrderDao()) {
+            return orderDao.findCurrentOrderByUserId(clientId).getOrderId();
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

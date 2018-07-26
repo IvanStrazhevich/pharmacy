@@ -13,6 +13,8 @@ public class Recipe extends Entity {
     private BigDecimal dosage;
     private Timestamp validTill;
     private boolean approved;
+    private ClientDetail clientDetail;
+    private Medicine medicine;
 
     public Recipe() {
     }
@@ -81,6 +83,22 @@ public class Recipe extends Entity {
         this.approved = approved;
     }
 
+    public ClientDetail getClientDetail() {
+        return clientDetail;
+    }
+
+    public void setClientDetail(ClientDetail clientDetail) {
+        this.clientDetail = clientDetail;
+    }
+
+    public Medicine getMedicine() {
+        return medicine;
+    }
+
+    public void setMedicine(Medicine medicine) {
+        this.medicine = medicine;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -95,7 +113,10 @@ public class Recipe extends Entity {
         if (medicineQuantity != recipe.medicineQuantity) return false;
         if (approved != recipe.approved) return false;
         if (dosage != null ? !dosage.equals(recipe.dosage) : recipe.dosage != null) return false;
-        return validTill != null ? validTill.equals(recipe.validTill) : recipe.validTill == null;
+        if (validTill != null ? !validTill.equals(recipe.validTill) : recipe.validTill != null) return false;
+        if (clientDetail != null ? !clientDetail.equals(recipe.clientDetail) : recipe.clientDetail != null)
+            return false;
+        return medicine != null ? medicine.equals(recipe.medicine) : recipe.medicine == null;
     }
 
     @Override
@@ -108,6 +129,8 @@ public class Recipe extends Entity {
         result = 31 * result + (dosage != null ? dosage.hashCode() : 0);
         result = 31 * result + (validTill != null ? validTill.hashCode() : 0);
         result = 31 * result + (approved ? 1 : 0);
+        result = 31 * result + (clientDetail != null ? clientDetail.hashCode() : 0);
+        result = 31 * result + (medicine != null ? medicine.hashCode() : 0);
         return result;
     }
 
@@ -122,6 +145,8 @@ public class Recipe extends Entity {
                 ", dosage=" + dosage +
                 ", validTill=" + validTill +
                 ", approved=" + approved +
+                ", clientDetail=" + clientDetail +
+                ", medicine=" + medicine +
                 '}';
     }
 }

@@ -16,7 +16,8 @@ public enum AttributeEnum {
     AVAILABLE("available"),
     MEDICINE("medicine"), QUANTITY_AT_STORAGE("quantityAtStorage"), CLIENT_DETAIL("clientDetail"),
     CLIENT_DETAILS("clientDetails"), MEDICINE_QUANTITY("medicineQuantity"), MEDICINE_ADDED("medicineAdded"),
-    ORDER_ID("orderId"), RECIPE_REQUESTED("recipeRequested");
+    ORDER_ID("orderId"), RECIPE_REQUESTED("recipeRequested"),
+    RECIPE("recipe"), RECIPE_ID("recipeId"), VALID_TILL("validTill"), APPROVED("approved") ;
 
 
 

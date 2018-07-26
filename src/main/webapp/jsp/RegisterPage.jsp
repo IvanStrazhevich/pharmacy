@@ -7,41 +7,51 @@
 <html>
 <head>
     <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/pharmacy.css" rel="stylesheet">
     <title><fmt:message key="label.button.RegisterPage"/>
         <hr>
     </title>
 </head>
 <body>
 <c:import url="/WEB-INF/HeaderPage.jsp"/>
-<hr>
 ${notAuthorised}
-
-<hr>
-<fmt:message key="label.button.RegisterPage"/>
 ${userExist}
 ${needLogin}
 ${needRegister}
+<div class="container container-table">
+    <div class="row vertical-center-row">
+        <div class="col-md-4 col-md-offset-4">
+            <form accept-charset="utf-8" action="RegisterUser" method=post>
+                <div class="form-group input-group input-group-lg">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
 
-<form accept-charset="utf-8" action="RegisterUser" method=post>
-    <div class="input-group">
-        <label for="login"><fmt:message key="message.enterLogin"/></label>
-        <div class="form-inline">
-            <input type="text" id="login" name="login" size="45"
-                   placeholder="<fmt:message key="message.enterLogin"/>">
+                    <input class="form-control" type="text" id="login" name="login" size="15" maxlength="45"
+                           pattern="\w{1,}@\w{3,}\.\w{2,4}" required
+                           title="Match email format no more then 45 symbols at least 6x+@3x+.2x(3x)"
+                           placeholder="<fmt:message key="message.enter.login"/>">
+                </div>
+
+                <div class="form-group input-group input-group-lg">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-eye-close"></span></span>
+
+                    <input class="form-control" id="password" type="password" name="password" size="15" maxlength="45"
+                           placeholder="<fmt:message key="message.enter.password"/>">
+                </div>
+                <input type="hidden" name="action" value="RegisterUser">
+                <div class="form-group input-group input-group-lg col-md-8 col-md-offset-2 col-xs-12">
+
+                    <input class="form-control btn btn-success" type="submit"
+                           value="<fmt:message key="label.button.Register"/>">
+                </div>
+                <div class="form-group input-group input-group-lg col-md-8 col-md-offset-2 col-xs-12">
+
+                    <input class="form-control btn btn-warning" type="reset"
+                           value="<fmt:message key="label.button.Reset"/>">
+                </div>
+            </form>
         </div>
     </div>
-    <div class=" input-group">
-        <label for="password"><fmt:message key="message.enterPassword"/></label>
-        <div class="form-inline">
-            <input id="password" type="password" name="password" size="45"
-                   placeholder="<fmt:message key="message.enterPassword"/>">
-        </div>
-    </div>
-    <input type="hidden" size="15" name="action" value="RegisterUser">
-    <input class="btn bg-success" type="submit" value="<fmt:message key="label.button.Register"/>">
-    <input class="btn btn-warning" type="reset" value="<fmt:message key="label.button.Reset"/>">
-</form>
-<hr>
+</div>
 <div style="float: bottom"><c:import url="/WEB-INF/FooterPage.jsp"/></div>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="js/bootstrap.min.js"></script>

@@ -5,6 +5,7 @@ import by.epam.pharmacy.controller.SessionRequestContent;
 import by.epam.pharmacy.dao.impl.OrderHasMedicineDao;
 import by.epam.pharmacy.dao.impl.RecipeDao;
 import by.epam.pharmacy.dao.impl.UserDao;
+import by.epam.pharmacy.entity.OrderHasMedicine;
 import by.epam.pharmacy.entity.Recipe;
 import by.epam.pharmacy.exception.DaoException;
 import by.epam.pharmacy.exception.ServiceException;
@@ -17,6 +18,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class RecipeServiceImpl implements RecipeService {
@@ -47,9 +49,43 @@ public class RecipeServiceImpl implements RecipeService {
 
     public void showRecipes(SessionRequestContent sessionRequestContent) throws ServiceException {
         try (RecipeDao recipeDao = new RecipeDao()) {
-            ArrayList<Recipe> recipes = recipeDao.findAll();
+            ArrayList<Recipe> recipes = recipeDao.findAllWithDetails();
             logger.info(recipes);
             sessionRequestContent.getRequestAttributes().put(AttributeEnum.RECIPES.getAttribute(), recipes);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public void showRecipe(SessionRequestContent sessionRequestContent) throws ServiceException {
+        int recipeId = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeEnum.RECIPE_ID.getAttribute()));
+        try (RecipeDao recipeDao = new RecipeDao()) {
+            Recipe recipe = recipeDao.findEntityByIdWithDetails(recipeId);
+            logger.info(recipe);
+            sessionRequestContent.getRequestAttributes().put(AttributeEnum.RECIPE.getAttribute(), recipe);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public void approveRecipe(SessionRequestContent sessionRequestContent) throws ServiceException {
+        int recipeId = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeEnum.RECIPE_ID.getAttribute()));
+        Timestamp validTill = Timestamp.valueOf(sessionRequestContent.getRequestParameters().get(AttributeEnum.VALID_TILL.getAttribute()));
+        logger.info(validTill);
+        boolean approved = Boolean.parseBoolean(sessionRequestContent.getRequestParameters().get(AttributeEnum.APPROVED.getAttribute()));
+        try (RecipeDao recipeDao = new RecipeDao()) {
+            Recipe recipeDB = recipeDao.findEntityById(recipeId);
+            recipeDB.setValidTill(validTill);
+            recipeDB.setApproved(approved);
+            recipeDao.update(recipeDB);
+            int medicineId = recipeDB.getMedicineId();
+            int clientId=recipeDB.getClientId();
+            int orderId = orderService.findCurrentOrderIdByUserId(clientId);
+            OrderHasMedicine orderHasMedicine = orderService.findOrderHasMedicine(orderId,medicineId);
+            orderHasMedicine.setRecipeId(recipeDB.getRecipeId());
+            orderService.updateRecipeAtOrderHasMedicine(orderHasMedicine);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -60,10 +96,11 @@ public class RecipeServiceImpl implements RecipeService {
         int medicineId = recipe.getMedicineId();
         int quantity = recipe.getMedicineQuantity();
         try (RecipeDao recipeDao = new RecipeDao()) {
-            Recipe recipeDB = recipeDao.findRecipeByClientrMedicineQuantity(clientId, medicineId, quantity);
+            Recipe recipeDB = recipeDao.findRecipeByClientMedicineQuantity(clientId, medicineId, quantity);
             if (recipeDB.getRecipeId() == 0) {
                 logger.info("creating");
                 recipeDao.create(recipe);
+                recipe.setRecipeId(recipeDao.findLastInsertId());
             } else {
                 logger.info("updating");
                 recipe.setRecipeId(recipeDB.getRecipeId());
@@ -91,4 +128,5 @@ public class RecipeServiceImpl implements RecipeService {
             throw new ServiceException(e);
         }
     }
+
 }

@@ -9,7 +9,6 @@
     <link href="css/bootstrap.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/pharmacy.css">
     <title><fmt:message key="label.button.ErrorPage"/>
-        <hr>
     </title>
 </head>
 <body class="body">

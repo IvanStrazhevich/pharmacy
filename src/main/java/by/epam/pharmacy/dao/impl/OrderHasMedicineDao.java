@@ -25,6 +25,8 @@ public class OrderHasMedicineDao extends AbstractDaoImpl<OrderHasMedicine> imple
     private static final String DELETE_ALL_MEDS_FROM_ORDER_PSTM = "delete from order_has_medicine where order_order_id = ?";
     private static final String DELETE_MEDICINE_FROM_ORDER_PSTM = "delete from order_has_medicine where order_order_id = ? and medicine_mdc_id=?";
     private static final String UPDATE_PSTM = "update `order_has_medicine` set ohm_med_quantity = ?, ohm_med_sum = ? where order_order_id = ? and medicine_mdc_id = ?";
+    private static final String UPDATE_RECIPE_PSTM = "update `order_has_medicine` set recipe_rec_id=? where order_order_id = ? and medicine_mdc_id = ?";
+
     private ProxyConnection proxyConnection;
 
     public OrderHasMedicineDao() throws DaoException {
@@ -225,10 +227,24 @@ public class OrderHasMedicineDao extends AbstractDaoImpl<OrderHasMedicine> imple
             preparedStatement.executeUpdate();
             success = true;
         } catch (SQLException e) {
-            throw new DaoException("Exception on create medicine in order", e);
+            throw new DaoException("Exception on update medicine in order", e);
+        }
+        return success;
+    }
+
+    public boolean updateRecipe(OrderHasMedicine entity) throws DaoException {
+        boolean success = false;
+        try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(UPDATE_RECIPE_PSTM)) {
+            preparedStatement.setInt(1, entity.getRecipeId());
+            preparedStatement.setInt(2, entity.getOrderId());
+            preparedStatement.setInt(3, entity.getMedicineId());
+            preparedStatement.executeUpdate();
+            success = true;
+        } catch (SQLException e) {
+            throw new DaoException("Exception on update recipe in medicine in order", e);
         }
         return success;
     }
 
 
-}
+    }
