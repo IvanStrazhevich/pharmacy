@@ -7,6 +7,7 @@
 <html>
 <head>
     <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/pharmacy.css" rel="stylesheet">
     <title><fmt:message key="label.button.LoginPage"/>
         <hr>
     </title>

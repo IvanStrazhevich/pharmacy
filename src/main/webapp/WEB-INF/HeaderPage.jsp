@@ -10,117 +10,123 @@
     <title><fmt:message key="label.button.HeaderPage"/></title>
 </head>
 <body>
-<nav class="navbar navbar-dark" style="background: #5cb85c">
-    <span style="float: left">
-    <form action="WelcomePage"
-          method="post">
-        <input type="hidden" name="action" value="WelcomePage">
-        <input class="btn btn-success" type="submit"
-               value="<fmt:message key="label.button.WelcomePage"/>">
-    </form>
-    </span>
-    <c:if test="${logged!=null}">
-    <span style="float: left">
-    <form action="EditUserDataPage" method="post">
-        <input type="hidden" name="action" value="EditUserDataPage">
-        <input type="submit" class="btn btn-success"
-               value="<fmt:message key="label.button.EditUserPage"/>">
-    </form>
-    </span>
-        <span style="float: left">
-        <form action="EditOrderPage" method="post">
-            <input type="submit" class="btn btn-primary"
-                   value="<fmt:message key="label.button.EditOrderPage"/>">
-            <input type="hidden" name="action" value="EditOrder">
+<nav class="navbar navbar-default" style="background: #5cb85c">
+    <div class="container-fluid">
+        <form class="navbar-form navbar-left" action="WelcomePage"
+              method="post">
+            <div class="form-group">
+                <input type="hidden" name="action" value="WelcomePage">
+                <input class="btn btn-success" type="submit"
+                       value="<fmt:message key="label.button.WelcomePage"/>">
+            </div>
+        </form>
+        <c:if test="${logged!=null}">
+            <form class="navbar-form navbar-left" action="EditUserDataPage" method="post">
+                <div class="form-group">
+                    <input type="hidden" name="action" value="EditUserDataPage">
+                    <input type="submit" class="btn btn-success"
+                           value="<fmt:message key="label.button.EditUserPage"/>">
+                </div>
+            </form>
+            <span style="float: left">
+        <form class="navbar-form navbar-left" action="EditOrderPage" method="post">
+            <div class="form-group">
+                <input type="hidden" name="action" value="EditOrder">
+                <input type="submit" class="btn btn-primary"
+                       value="<fmt:message key="label.button.EditOrderPage"/>">
+            </div>
         </form>
     </span>
-    </c:if>
-    <c:if test="${logged==null}">
-    <span style="float: left">
-    <form action="LoginPage"
-          method="post">
-        <input type="hidden" name="action" value="LoginPage">
-        <input type="submit" class="btn btn-success"
-               value="<fmt:message key="label.button.LoginPage"/>">
-    </form>
-    </span>
-        <span style="float: left">
-    <form action="RegisterPage"
-          method="post">
-        <input type="hidden" name="action" value="RegisterPage">
-        <input class="btn btn-success" type="submit"
-               value="<fmt:message key="label.button.RegisterPage"/>">
-    </form>
-    </span>
-    </c:if>
-    <span style="float: left">
-        <form action="WelcomePage"
+        </c:if>
+        <c:if test="${logged==null}">
+            <form class="navbar-form navbar-left" action="LoginPage"
+                  method="post">
+                <div class="form-group">
+                    <input type="hidden" name="action" value="LoginPage">
+                    <input type="submit" class="btn btn-success"
+                           value="<fmt:message key="label.button.LoginPage"/>">
+                </div>
+            </form>
+            <form class="navbar-form navbar-left" action="RegisterPage"
+                  method="post">
+                <div class="form-group">
+                    <input type="hidden" name="action" value="RegisterPage">
+                    <input class="btn btn-success" type="submit"
+                           value="<fmt:message key="label.button.RegisterPage"/>">
+                </div>
+            </form>
+
+        </c:if>
+        <form class="navbar-form navbar-left" action="WelcomePage"
               method="post">
-        <input type="hidden" name="action" value="InvalidateSession">
-        <input class="btn btn-danger" type="submit" value="<fmt:message key="label.button.Logout"/>">
-    </form>
-    </span>
-    <c:if test="${sessionScope.accessLevel=='pharmacist'}">
-    <span style="float: left">
-    <form action="EditMedicinePage" method="post">
-        <input type="submit" class="btn btn-primary"
-               value="<fmt:message key="label.button.addMedicine"/>">
-        <input type="hidden" name="action" value="EditMedicine">
-    </form>
-    </span>
-        <span style="float: left">
-    <form action="UserListPage"
-          method="post">
-        <input type="hidden" name="action" value="UserList">
-        <input class="btn btn-success" type="submit"
-               value="<fmt:message key="label.button.UserListPage"/>">
-    </form>
-    </span>
-    </c:if>
-    <span style="float: left">
-    <form action="MedicineListPage"
-          method="post">
-        <input type="hidden" name="action" value="MedicineList">
-        <input class="btn btn-success" type="submit"
-               value="<fmt:message key="label.button.MedicineListPage"/>">
-    </form>
-    </span>
+            <div class="form-group">
+                <input type="hidden" name="action" value="InvalidateSession">
+                <input class="btn btn-danger" type="submit" value="<fmt:message key="label.button.Logout"/>">
+            </div>
+        </form>
+        <c:if test="${sessionScope.accessLevel=='pharmacist'}">
+            <form class="navbar-form navbar-left" action="EditMedicinePage" method="post">
+                <div class="form-group">
+                    <input type="hidden" name="action" value="EditMedicine">
+                    <input type="submit" class="btn btn-primary"
+                           value="<fmt:message key="label.button.addMedicine"/>">
+                </div>
+            </form>
+            <form class="navbar-form navbar-left" action="UserListPage"
+                  method="post">
+                <div class="form-group">
+                    <input type="hidden" name="action" value="UserList">
+                    <input class="btn btn-success" type="submit"
+                           value="<fmt:message key="label.button.UserListPage"/>">
+                </div>
+            </form>
+        </c:if>
+        <form class="navbar-form navbar-left" action="MedicineListPage"
+              method="post">
+            <div class="form-group">
 
-    <c:if test="${sessionScope.accessLevel=='doctor'}">
-    <span style="float: left">
-    <form action="RecipeApprovalPage" method="post">
-        <input type="submit" class="btn btn-primary"
-               value="<fmt:message key="label.button.RecipeApproval"/>">
-        <input type="hidden" name="action" value="EditRecipe">
-    </form>
-    </span>
-        </span>
-        <span style="float: left">
-    <form action="RecipeListPage"
-          method="post">
-        <input type="hidden" name="action" value="RecipeList">
-        <input class="btn btn-success" type="submit"
-               value="<fmt:message key="label.button.RecipeListPage"/>">
-    </form>
-    </span>
-    </c:if>
-    <form action="WelcomePage" method="post">
-            <span style="float: left">
-            <select class="btn btn-primary" name="lang">
-                <option value="be_BY"><fmt:message key="label.button.be"/></option>
-                <option value="ru_RU"><fmt:message key="label.button.ru"/></option>
-                <option value="en_US"><fmt:message key="label.button.en"/></option>
-            </select>
-            </span>
-        <span>
-            <input type="hidden" name="action" value="SetLocale">
-            <input type="submit" class="btn btn-primary" value="<fmt:message key="label.button.language"/> ">
-        </span>
-    </form>
+                <input type="hidden" name="action" value="MedicineList">
+                <input class="btn btn-success" type="submit"
+                       value="<fmt:message key="label.button.MedicineListPage"/>">
+            </div>
+        </form>
+        <c:if test="${sessionScope.accessLevel=='doctor'}">
+            <form class="navbar-form navbar-left" action="RecipeApprovalPage" method="post">
+                <div class="form-group">
+                    <input type="hidden" name="action" value="EditRecipe">
+                    <input type="submit" class="btn btn-primary"
+                           value="<fmt:message key="label.button.RecipeApproval"/>">
+                </div>
+            </form>
+            <form class="navbar-form navbar-left" action="RecipeListPage"
+                  method="post">
+                <div class="form-group">
+                    <input type="hidden" name="action" value="RecipeList">
+                    <input class="btn btn-success" type="submit"
+                           value="<fmt:message key="label.button.RecipeListPage"/>">
+                </div>
+            </form>
+        </c:if>
+        <form class="navbar-form navbar-left" action="WelcomePage" method="post">
+            <div class="form-group">
+                <select class="btn-primary" name="lang">
+                    <option value="be_BY"><fmt:message key="label.button.be"/></option>
+                    <option value="ru_RU"><fmt:message key="label.button.ru"/></option>
+                    <option value="en_US"><fmt:message key="label.button.en"/></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="hidden" name="action" value="SetLocale">
+                <input type="submit" class="btn btn-primary" value="<fmt:message key="label.button.language"/> ">
+            </div>
+        </form>
+        <p class="navbar-text ">
+            <c:if test="${logged!=null}">
+                <pht:hello accessLevel="${sessionScope.accessLevel}" login="${login}"/>
+            </c:if>
+        </p>
+    </div>
 </nav>
-
-<span> <c:if test="${logged!=null}"> <pht:hello accessLevel="${sessionScope.accessLevel}" login="${login}"/>
-</c:if></span>
 
 
 <script src="http://code.jquery.com/jquery-latest.js"></script>

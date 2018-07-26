@@ -7,11 +7,14 @@
 <html>
 <head>
     <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/pharmacy.css" rel="stylesheet">
     <title><fmt:message key="label.button.EditUserPage"/></title>
 </head>
 <body>
+<div>
 <c:import url="/WEB-INF/HeaderPage.jsp"/>
-<div class="container container-table">
+</div>
+<div class="container container-table container-fluid">
     <div class="row vertical-center-row">
         <div class="col-md-4 col-md-offset-4">
             <form action="EditUserDataPage"
@@ -31,7 +34,7 @@
                            value="<fmt:message key="label.button.uploadfile"/>">
                 </div>
             </form>
-            <form accept-charset="utf-8" action="UploadResultPage"
+            <form accept-charset="utf-8" action="ClientDetailPage"
                   method="post">
                 <c:set var="us" value="${user}"></c:set>
                 <div class="form-group input-group input-group-lg">
@@ -89,7 +92,7 @@
                            maxlength="45">
                 </div>
                 <div class="form-group input-group input-group-lg col-md-8 col-md-offset-2 col-xs-12">
-                    <input type="hidden" name="action" value="UploadResultPage">
+                    <input type="hidden" name="action" value="SaveClientDetail">
                     <input class="form-control btn btn-success" type="submit"
                            value="<fmt:message key="label.button.confirm"/>"/>
                 </div>

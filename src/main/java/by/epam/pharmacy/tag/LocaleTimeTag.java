@@ -25,7 +25,7 @@ public class LocaleTimeTag extends TagSupport {
     @Override
     public int doStartTag() throws JspException {
 
-        String time = "<hr/>" + ResourceManager.INSTANCE.getString(MESSAGE_TIME) + " <b> "
+        String time = ResourceManager.INSTANCE.getString(MESSAGE_TIME) + " <b> "
                 + Calendar.getInstance(Locale.getDefault()).getTime() + " " + "</b>";
         String region = null;
         if (null != locale) {

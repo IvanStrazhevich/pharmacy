@@ -10,7 +10,7 @@ import by.epam.pharmacy.service.impl.ClientServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class FileReadCommand implements RequestCommand<SessionRequestContent> {
+public class SaveClientDetailCommand implements RequestCommand<SessionRequestContent> {
     private static final String UPLOAD_DIR = "uploads";
     ClientService clientService = new ClientServiceImpl();
     Logger logger = LogManager.getLogger();
@@ -43,6 +43,6 @@ public class FileReadCommand implements RequestCommand<SessionRequestContent> {
         } catch (ServiceException e) {
             throw new CommandException(e);
         }
-        return PagesEnum.UPLOAD_RESULT_PAGE.getPage();
+        return PagesEnum.CLIENT_DETAIL_PAGE.getPage();
     }
 }

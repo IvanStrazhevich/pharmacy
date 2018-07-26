@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(name = "PharmacyServlet",
-        urlPatterns = {"/WelcomePage", "/EditUserDataPage", "/UploadResultPage", "/LoginPage",
+        urlPatterns = {"/WelcomePage", "/EditUserDataPage", "/ClientDetailPage", "/LoginPage",
                 "/MedicineListPage", "/EditMedicinePage", "/UserListPage","/EditAccessLevelPage",
                 "/CheckLogin", "/RegisterUser", "/RegisterPage", "/EditOrderPage",
                 "/RecipeApprovalPage", "/RecipeListPage"})

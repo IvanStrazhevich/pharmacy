@@ -5,7 +5,7 @@ public enum PagesEnum {
     LOGIN_PAGE("/jsp/LoginPage.jsp"),
     REGISTER_PAGE("/jsp/RegisterPage.jsp"),
     EDIT_USER_DATA_PAGE("/jsp/EditUserDataPage.jsp"),
-    UPLOAD_RESULT_PAGE("/jsp/UploadResultPage.jsp"),
+    CLIENT_DETAIL_PAGE("/jsp/ClientDetailPage.jsp"),
     WELCOME_PAGE("/jsp/WelcomePage.jsp"),
     MISSED_FILE_PAGE("/jsp/MissedFilePage.jsp"),
     RECIPE_APPROVAL_PAGE("/jsp/doctor/RecipeApprovalPage.jsp"),

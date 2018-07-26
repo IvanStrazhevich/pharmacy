@@ -28,8 +28,8 @@ public class MapCreator {
                 case EDIT_USER_DATA_PAGE:
                     servletMap.put(command.getCommand(), new EditUserDataPageCommand());
                     break;
-                case UPLOAD_RESULT_PAGE:
-                    servletMap.put(command.getCommand(), new FileReadCommand());
+                case SAVE_CLIENT_DETAIL_PAGE:
+                    servletMap.put(command.getCommand(), new SaveClientDetailCommand());
                     break;
                 case REGISTER_USER:
                     servletMap.put(command.getCommand(), new RegisterUserCommand());
