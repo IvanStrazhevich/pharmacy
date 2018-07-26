@@ -7,4 +7,5 @@ public interface OrderService {
     void addMedicineToOrder(SessionRequestContent sessionRequestContent) throws ServiceException;
     void showOrder(SessionRequestContent sessionRequestContent) throws ServiceException;
     void changeQuantity(SessionRequestContent sessionRequestContent) throws ServiceException;
+    boolean removeMedicineFromOrder(SessionRequestContent sessionRequestContent) throws ServiceException;
 }
