@@ -13,7 +13,8 @@ public class Medicine extends Entity{
     private BigDecimal price;
     private boolean available;
     private int quantityAtStorage;
-    private ArrayList<Integer> orderIdList;
+    private ArrayList<OrderHasMedicine> orderHasMedicines;
+
 
     public Medicine() {
     }
@@ -82,12 +83,12 @@ public class Medicine extends Entity{
         this.quantityAtStorage = quantityAtStorage;
     }
 
-    public ArrayList<Integer> getOrderIdList() {
-        return orderIdList;
+    public ArrayList<OrderHasMedicine> getOrderHasMedicines() {
+        return orderHasMedicines;
     }
 
-    public void setOrderIdList(ArrayList<Integer> orderIdList) {
-        this.orderIdList = orderIdList;
+    public void setOrderHasMedicines(ArrayList<OrderHasMedicine> orderHasMedicines) {
+        this.orderHasMedicines = orderHasMedicines;
     }
 
     @Override
@@ -107,7 +108,7 @@ public class Medicine extends Entity{
             return false;
         if (dosage != null ? !dosage.equals(medicine.dosage) : medicine.dosage != null) return false;
         if (price != null ? !price.equals(medicine.price) : medicine.price != null) return false;
-        return orderIdList != null ? orderIdList.equals(medicine.orderIdList) : medicine.orderIdList == null;
+        return orderHasMedicines != null ? orderHasMedicines.equals(medicine.orderHasMedicines) : medicine.orderHasMedicines == null;
     }
 
     @Override
@@ -120,7 +121,7 @@ public class Medicine extends Entity{
         result = 31 * result + (price != null ? price.hashCode() : 0);
         result = 31 * result + (available ? 1 : 0);
         result = 31 * result + quantityAtStorage;
-        result = 31 * result + (orderIdList != null ? orderIdList.hashCode() : 0);
+        result = 31 * result + (orderHasMedicines != null ? orderHasMedicines.hashCode() : 0);
         return result;
     }
 
@@ -135,7 +136,7 @@ public class Medicine extends Entity{
                 ", price=" + price +
                 ", available=" + available +
                 ", quantityAtStorage=" + quantityAtStorage +
-                ", orderIdList=" + orderIdList +
+                ", orderHasMedicines=" + orderHasMedicines +
                 '}';
     }
 }

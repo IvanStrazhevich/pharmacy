@@ -18,14 +18,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 
 public class OrderServiceImpl implements OrderService {
 
     private static final String MESSAGE_ADDED = "message.medicineAddedToOrder";
     private static final String MESSAGE_ADD = "message.chooseQuantity";
     private static Logger logger = LogManager.getLogger();
-    private Encodable encodable = new SHAConverter();
+    private Encodable encodable = new ShaConverter();
 
 
     @Override
@@ -105,17 +104,35 @@ public class OrderServiceImpl implements OrderService {
         int medicineId = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeEnum.MEDICINE_ID.getAttribute()));
         int orderId = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeEnum.ORDER_ID.getAttribute()));
         int medicineQuantity = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeEnum.MEDICINE_QUANTITY.getAttribute()));
-        try (OrderHasMedicineDao orderHasMedicineDao = new OrderHasMedicineDao()) {
-            OrderHasMedicine orderHasMedicine = orderHasMedicineDao.findOrderHasMedicineByOrderIdMedicineId(orderId, medicineId);
-            orderHasMedicine.setMedicineQuantity(medicineQuantity);
-            updateQuantity(orderHasMedicine);
-        } catch (DaoException e) {
-            throw new ServiceException(e);
-        }
+        updateQuantityByOrderMedicineQuantity(orderId, medicineId, medicineQuantity);
 
     }
 
-    private boolean updateQuantity(OrderHasMedicine orderHasMedicine) throws ServiceException {
+    public int findCurrentOrderIdByUserId(Integer clientId) throws ServiceException {
+        try (OrderDao orderDao = new OrderDao()) {
+            return orderDao.findCurrentOrderByUserId(clientId).getOrderId();
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    public void changeQuantityFromRecipe(Integer orderId, Integer medicineId, Integer medicineQuantity) throws ServiceException {
+        updateQuantityByOrderMedicineQuantity(orderId, medicineId, medicineQuantity);
+
+    }
+
+    private void updateQuantityByOrderMedicineQuantity(Integer orderId, Integer medicineId, Integer medicineQuantity) throws ServiceException {
+        try (OrderHasMedicineDao orderHasMedicineDao = new OrderHasMedicineDao()) {
+            OrderHasMedicine orderHasMedicine = orderHasMedicineDao.findOrderHasMedicineByOrderIdMedicineId(orderId, medicineId);
+            orderHasMedicine.setMedicineQuantity(medicineQuantity);
+            updateQuantityByOrderMedicineQuantity(orderHasMedicine);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+
+    private boolean updateQuantityByOrderMedicineQuantity(OrderHasMedicine orderHasMedicine) throws ServiceException {
         boolean success = false;
         try (OrderHasMedicineDao orderHasMedicineDao = new OrderHasMedicineDao()) {
             OrderHasMedicine orderHasMedicineDB = orderHasMedicineDao.findOrderHasMedicineByOrderIdMedicineId(orderHasMedicine.getOrderId(), orderHasMedicine.getMedicineId());
@@ -167,14 +184,7 @@ public class OrderServiceImpl implements OrderService {
         Order order = new Order();
         order.setClientId(userId);
         order.setMedicineSum(BigDecimal.valueOf(0));
-        ArrayList<Integer> medicineIds = order.getMedicineIdList();
-        if (medicineIds == null) {
-            medicineIds = new ArrayList<>();
-        }
-        medicineIds.add(medicineId);
-        order.setMedicineIdList(medicineIds);
         logger.info("Creating order");
-        logger.info(medicineId);
         logger.info(order);
         int orderId = createOrUpdateOrder(order);
         logger.info(orderId);
@@ -245,11 +255,9 @@ public class OrderServiceImpl implements OrderService {
             throw new ServiceException(e);
         }
     }
-    public int findCurrentOrderIdByUserId(Integer clientId) throws ServiceException {
-        try (OrderDao orderDao = new OrderDao()) {
-            return orderDao.findCurrentOrderByUserId(clientId).getOrderId();
-        } catch (DaoException e) {
-            throw new ServiceException(e);
-        }
+
+
+    public void setEncodable(Encodable encodable) {
+        this.encodable = encodable;
     }
 }

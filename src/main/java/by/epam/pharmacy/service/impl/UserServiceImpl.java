@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 public class UserServiceImpl implements UserService {
     private static Logger logger = LogManager.getLogger();
-    private Encodable encoder = new SHAConverter();
+    private Encodable encoder = new ShaConverter();
 
     public boolean checkLogin(String login, String password) throws ServiceException {
         Boolean logged = false;
@@ -66,14 +66,19 @@ public class UserServiceImpl implements UserService {
     public boolean createUser(String login, String password) throws ServiceException {
         String shalogin = null;
         String shaPassword = null;
-        try (UserDao userDao = new UserDao()) {
+        try (UserDao userDao = new UserDao();
+             ClientDetailDao clientDetailDao = new ClientDetailDao()) {
             shalogin = encoder.encode(login);
             shaPassword = encoder.encode(password);
             User user = new User();
             user.setLogin(shalogin);
             user.setPassword(shaPassword);
             user.setAccessLevel(AccessLevel.CLIENT.getLevel());
-            return userDao.create(user);
+            userDao.create(user);
+            int userId = userDao.findLastInsertId();
+            ClientDetail clientDetail = new ClientDetail();
+            clientDetail.setClientId(userId);
+            return clientDetailDao.create(clientDetail);
         } catch (DaoException e) {
             throw new ServiceException("DaoException", e);
         }
@@ -122,9 +127,9 @@ public class UserServiceImpl implements UserService {
 
     public User findDefaultDoctor() throws ServiceException {
         User user = new User();
-        try (UserDao userDao = new UserDao()){
+        try (UserDao userDao = new UserDao()) {
             ArrayList<User> doctors = userDao.findUsersByAccessLevel(AccessLevel.DOCTOR.getLevel());
-             user = doctors.get(0);
+            user = doctors.get(0);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -139,5 +144,10 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException(e);
         }
         return users;
+    }
+
+
+    public void setEncoder(Encodable encoder) {
+        this.encoder = encoder;
     }
 }

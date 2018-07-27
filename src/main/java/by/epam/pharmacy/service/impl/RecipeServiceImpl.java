@@ -2,14 +2,12 @@ package by.epam.pharmacy.service.impl;
 
 import by.epam.pharmacy.command.AttributeEnum;
 import by.epam.pharmacy.controller.SessionRequestContent;
-import by.epam.pharmacy.dao.impl.OrderHasMedicineDao;
+import by.epam.pharmacy.dao.impl.OrderDao;
 import by.epam.pharmacy.dao.impl.RecipeDao;
-import by.epam.pharmacy.dao.impl.UserDao;
 import by.epam.pharmacy.entity.OrderHasMedicine;
 import by.epam.pharmacy.entity.Recipe;
 import by.epam.pharmacy.exception.DaoException;
 import by.epam.pharmacy.exception.ServiceException;
-import by.epam.pharmacy.service.Encodable;
 import by.epam.pharmacy.service.OrderService;
 import by.epam.pharmacy.service.RecipeService;
 import by.epam.pharmacy.service.UserService;
@@ -26,16 +24,14 @@ public class RecipeServiceImpl implements RecipeService {
     private static Logger logger = LogManager.getLogger();
     private UserService userService = new UserServiceImpl();
     private OrderService orderService = new OrderServiceImpl();
-    private Encodable encodable = new SHAConverter();
 
     @Override
     public void createRecipe(SessionRequestContent sessionRequestContent) throws ServiceException {
         int orderId = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeEnum.ORDER_ID.getAttribute()));
         int medicineId = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeEnum.MEDICINE_ID.getAttribute()));
-        String login = sessionRequestContent.getSessionAttributes().get(AttributeEnum.LOGIN.getAttribute()).toString();
-        int medicineQuantity = findMedicineQuantity(orderId, medicineId);
+        int medicineQuantity = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeEnum.MEDICINE_QUANTITY.getAttribute()));
         BigDecimal dosage = new BigDecimal(sessionRequestContent.getRequestParameters().get(AttributeEnum.DOSAGE.getAttribute()));
-        int clientId = findUserId(login);
+        int clientId = findUserId(orderId);
         Recipe recipe = new Recipe();
         recipe.setMedicineId(medicineId);
         recipe.setMedicineQuantity(medicineQuantity);
@@ -72,20 +68,24 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public void approveRecipe(SessionRequestContent sessionRequestContent) throws ServiceException {
         int recipeId = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeEnum.RECIPE_ID.getAttribute()));
+        int medicineQuantity = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeEnum.MEDICINE_QUANTITY.getAttribute()));
         Timestamp validTill = Timestamp.valueOf(sessionRequestContent.getRequestParameters().get(AttributeEnum.VALID_TILL.getAttribute()));
         logger.info(validTill);
         boolean approved = Boolean.parseBoolean(sessionRequestContent.getRequestParameters().get(AttributeEnum.APPROVED.getAttribute()));
         try (RecipeDao recipeDao = new RecipeDao()) {
             Recipe recipeDB = recipeDao.findEntityById(recipeId);
+            recipeDB.setMedicineQuantity(medicineQuantity);
             recipeDB.setValidTill(validTill);
             recipeDB.setApproved(approved);
             recipeDao.update(recipeDB);
             int medicineId = recipeDB.getMedicineId();
-            int clientId=recipeDB.getClientId();
+            int clientId = recipeDB.getClientId();
             int orderId = orderService.findCurrentOrderIdByUserId(clientId);
-            OrderHasMedicine orderHasMedicine = orderService.findOrderHasMedicine(orderId,medicineId);
+            OrderHasMedicine orderHasMedicine = orderService.findOrderHasMedicine(orderId, medicineId);
             orderHasMedicine.setRecipeId(recipeDB.getRecipeId());
+            orderHasMedicine.setMedicineQuantity(recipeDB.getMedicineQuantity());
             orderService.updateRecipeAtOrderHasMedicine(orderHasMedicine);
+            orderService.changeQuantityFromRecipe(orderId,medicineId,medicineQuantity);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -111,22 +111,19 @@ public class RecipeServiceImpl implements RecipeService {
         }
     }
 
-    private int findUserId(String clientLogin) throws ServiceException {
-        logger.info(clientLogin);
-        clientLogin = encodable.encode(clientLogin);
-        try (UserDao userDao = new UserDao()) {
-            return userDao.findUserByLogin(clientLogin).getUserId();
+    private int findUserId(Integer orderId) throws ServiceException {
+        try (OrderDao orderDao = new OrderDao()) {
+            return orderDao.findEntityById(orderId).getClientId();
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
     }
 
-    private int findMedicineQuantity(Integer orderId, Integer medicineId) throws ServiceException {
-        try (OrderHasMedicineDao orderHasMedicineDao = new OrderHasMedicineDao()) {
-            return orderHasMedicineDao.findOrderHasMedicineByOrderIdMedicineId(orderId, medicineId).getMedicineQuantity();
-        } catch (DaoException e) {
-            throw new ServiceException(e);
-        }
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 
+    public void setOrderService(OrderService orderService) {
+        this.orderService = orderService;
+    }
 }

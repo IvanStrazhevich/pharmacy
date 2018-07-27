@@ -17,7 +17,7 @@ import java.util.ArrayList;
  */
 public class MedicineDao extends AbstractDaoImpl<Medicine> implements AbstractMedicineDao<Medicine> {
     private static Logger logger = LogManager.getLogger();
-    private static final String SELECT_ALL_PSTM = "select  mdc_id, mdc_name, mdc_description, mdc_dosage, mdc_recipe_required, mdc_price, mdc_available, mdc_quantity from medicine";
+    private static final String SELECT_ALL_PSTM = "select  mdc_id, mdc_name, mdc_description, mdc_dosage, mdc_recipe_required, mdc_price, mdc_available, mdc_quantity from medicine order BY mdc_name";
     private static final String SELECT_BY_ID_PSTM = "select mdc_id, mdc_name, mdc_description, mdc_dosage, mdc_recipe_required, mdc_price, mdc_available, mdc_quantity from medicine where mdc_id = ?";
     private static final String SELECT_BY_NAME_PSTM = "select mdc_id, mdc_name, mdc_description, mdc_dosage, mdc_recipe_required, mdc_price, mdc_available, mdc_quantity from medicine where mdc_name = ?";
     private static final String INSERT_PSTM = "insert into medicine( mdc_name, mdc_description, mdc_dosage, mdc_recipe_required, mdc_price, mdc_available, mdc_quantity) values(?,?,?,?,?,?,?)";

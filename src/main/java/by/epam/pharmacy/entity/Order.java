@@ -9,8 +9,6 @@ public class Order extends Entity {
     private int clientId;
     private boolean payed;
     private BigDecimal medicineSum;
-    private ArrayList<Integer> medicineIdList;
-    private ArrayList<Medicine> medicines;
     private ArrayList<OrderHasMedicine> orderHasMedicines;
 
     public Order() {
@@ -48,31 +46,9 @@ public class Order extends Entity {
         this.medicineSum = medicineSum;
     }
 
-    public ArrayList<Integer> getMedicineIdList() {
-        if (this.medicineIdList == null) {
-            this.medicineIdList = new ArrayList<>();
-        }
-        return medicineIdList;
-    }
-
-    public void setMedicineIdList(ArrayList<Integer> medicineIdList) {
-        this.medicineIdList = medicineIdList;
-    }
-
-    public ArrayList<Medicine> getMedicines() {
-        if (this.medicines == null) {
-            this.medicines = new ArrayList<>();
-        }
-        return medicines;
-    }
-
-    public void setMedicines(ArrayList<Medicine> medicines) {
-        this.medicines = medicines;
-    }
-
     public ArrayList<OrderHasMedicine> getOrderHasMedicines() {
-        if (this.orderHasMedicines == null) {
-            this.orderHasMedicines = new ArrayList<>();
+        if(orderHasMedicines==null){
+            orderHasMedicines=new ArrayList<>();
         }
         return orderHasMedicines;
     }
@@ -92,9 +68,6 @@ public class Order extends Entity {
         if (clientId != order.clientId) return false;
         if (payed != order.payed) return false;
         if (medicineSum != null ? !medicineSum.equals(order.medicineSum) : order.medicineSum != null) return false;
-        if (medicineIdList != null ? !medicineIdList.equals(order.medicineIdList) : order.medicineIdList != null)
-            return false;
-        if (medicines != null ? !medicines.equals(order.medicines) : order.medicines != null) return false;
         return orderHasMedicines != null ? orderHasMedicines.equals(order.orderHasMedicines) : order.orderHasMedicines == null;
     }
 
@@ -104,8 +77,6 @@ public class Order extends Entity {
         result = 31 * result + clientId;
         result = 31 * result + (payed ? 1 : 0);
         result = 31 * result + (medicineSum != null ? medicineSum.hashCode() : 0);
-        result = 31 * result + (medicineIdList != null ? medicineIdList.hashCode() : 0);
-        result = 31 * result + (medicines != null ? medicines.hashCode() : 0);
         result = 31 * result + (orderHasMedicines != null ? orderHasMedicines.hashCode() : 0);
         return result;
     }
@@ -117,8 +88,6 @@ public class Order extends Entity {
                 ", clientId=" + clientId +
                 ", payed=" + payed +
                 ", medicineSum=" + medicineSum +
-                ", medicineIdList=" + medicineIdList +
-                ", medicines=" + medicines +
                 ", orderHasMedicines=" + orderHasMedicines +
                 '}';
     }

@@ -39,7 +39,6 @@ public class PageRedirectTypeDefiner {
                     page = requestCommand.execute(request);
                     if (request.getRequestDispatcher(page) != null) {
                         response.sendRedirect(request.getContextPath() + page);
-                        //request.getRequestDispatcher(page).forward(request, response);
                     }
                 } else {
                     page = requestCommand.execute(sessionRequestContent);

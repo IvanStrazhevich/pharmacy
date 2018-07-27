@@ -9,11 +9,11 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class SHAConverter implements Encodable {
+public class ShaConverter implements Encodable {
     private static Logger logger = LogManager.getLogger();
     private static final String ENCODE="SHA-1";
 
-    public SHAConverter() {
+    public ShaConverter() {
     }
 
     @Override

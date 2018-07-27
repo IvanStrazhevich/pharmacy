@@ -13,7 +13,7 @@
 <c:import url="/WEB-INF/HeaderPage.jsp"/>
 
 ${medicineAdded}
-<div>
+<div class="table-responsive">
     <h6>
         <table class="table table-striped table-hover table-bordered tableUpdated table-responsive">
             <tr>

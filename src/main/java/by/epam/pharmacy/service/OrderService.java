@@ -12,4 +12,5 @@ public interface OrderService {
     void updateRecipeAtOrderHasMedicine(OrderHasMedicine orderHasMedicine) throws ServiceException;
     OrderHasMedicine findOrderHasMedicine(Integer orderId, Integer medicineId) throws ServiceException;
     int findCurrentOrderIdByUserId(Integer clientId) throws ServiceException;
+    void changeQuantityFromRecipe(Integer orderId, Integer medicineId, Integer medicineQuantity) throws ServiceException;
 }

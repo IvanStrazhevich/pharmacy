@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class ClientServiceImpl implements ClientService {
     Logger logger = LogManager.getLogger();
-    private Encodable encoder = new SHAConverter();
+    private Encodable encoder = new ShaConverter();
 
 
     private int findClientId(String login) throws ServiceException {
@@ -76,5 +76,9 @@ public class ClientServiceImpl implements ClientService {
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
+    }
+
+    public void setEncoder(Encodable encoder) {
+        this.encoder = encoder;
     }
 }

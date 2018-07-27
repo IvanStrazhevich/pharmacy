@@ -28,18 +28,17 @@
                 <th></th>
             </tr>
             <c:set value="${recipe}" var="rcp"/>
-            <%--<c:forEach items="${recipes}" var="rcp">
-            --%>
             <tr>
-
                 <form action="RecipeListPage" method="post">
                     <td>${rcp.recipeId}</td>
                     <td>${rcp.medicine.medicineName}</td>
                     <td>${rcp.clientDetail.name}</td>
                     <td>${rcp.clientDetail.lastname}</td>
-                    <td>${rcp.medicineQuantity}</td>
-                    <td>${rcp.dosage}</td>
-                    <td><input type="datetime-local" name="validTill" placeholder="yyyy-mm-dd hh:mm:ss">${rcp.validTill}</td>
+                    <td><input type="number" min="0" max="${rcp.medicineQuantity}"
+                               name="medicineQuantity">${rcp.medicineQuantity}</td>
+                    <td><input type="number" min="0" max="${rcp.dosage}" name="dosage">${rcp.dosage}</td>
+                    <td><input type="datetime-local" name="validTill" placeholder="yyyy-mm-dd hh:mm:ss" maxlength="19"
+                               minlength="19">${rcp.validTill}</td>
                     <td>
                         <select class="btn btn-primary" name="approved">
                             <option value="true" <c:if test="${rcp.approved=='true'}"> selected </c:if>>
@@ -53,10 +52,16 @@
                                value="<fmt:message key="label.button.Submit"/>">
                         <input type="hidden" name="recipeId" value="${rcp.recipeId}">
                         <input type="hidden" name="action" value="ApproveRecipe">
+                    </td>
                 </form>
-                </td>
+                <form action="RecipeListPage" method="post">
+                    <td><input type="submit" class="btn btn-danger"
+                               value="<fmt:message key="label.button.delete"/>">
+                        <input type="hidden" name="recipeId" value="${rcp.recipeId}">
+                        <input type="hidden" name="action" value="DeleteRecipe">
+                    </td>
+                </form>
             </tr>
-            <%--</c:forEach><br>--%>
         </table>
     </h6>
 </div>

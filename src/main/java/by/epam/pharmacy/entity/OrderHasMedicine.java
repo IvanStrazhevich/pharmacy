@@ -9,6 +9,9 @@ public class OrderHasMedicine extends Entity{
     private int medicineQuantity;
     private BigDecimal medicineSum;
     private int recipeId;
+    private Medicine medicine;
+    private Order order;
+    private Recipe recipe;
 
     public OrderHasMedicine() {
     }
@@ -57,11 +60,34 @@ public class OrderHasMedicine extends Entity{
         this.recipeId = recipeId;
     }
 
+    public Medicine getMedicine() {
+        return medicine;
+    }
+
+    public void setMedicine(Medicine medicine) {
+        this.medicine = medicine;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
+    public Recipe getRecipe() {
+        return recipe;
+    }
+
+    public void setRecipe(Recipe recipe) {
+        this.recipe = recipe;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
 
         OrderHasMedicine that = (OrderHasMedicine) o;
 
@@ -69,17 +95,22 @@ public class OrderHasMedicine extends Entity{
         if (medicineId != that.medicineId) return false;
         if (medicineQuantity != that.medicineQuantity) return false;
         if (recipeId != that.recipeId) return false;
-        return medicineSum != null ? medicineSum.equals(that.medicineSum) : that.medicineSum == null;
+        if (medicineSum != null ? !medicineSum.equals(that.medicineSum) : that.medicineSum != null) return false;
+        if (medicine != null ? !medicine.equals(that.medicine) : that.medicine != null) return false;
+        if (order != null ? !order.equals(that.order) : that.order != null) return false;
+        return recipe != null ? recipe.equals(that.recipe) : that.recipe == null;
     }
 
     @Override
     public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + orderId;
+        int result = orderId;
         result = 31 * result + medicineId;
         result = 31 * result + medicineQuantity;
         result = 31 * result + (medicineSum != null ? medicineSum.hashCode() : 0);
         result = 31 * result + recipeId;
+        result = 31 * result + (medicine != null ? medicine.hashCode() : 0);
+        result = 31 * result + (order != null ? order.hashCode() : 0);
+        result = 31 * result + (recipe != null ? recipe.hashCode() : 0);
         return result;
     }
 
@@ -91,6 +122,9 @@ public class OrderHasMedicine extends Entity{
                 ", medicineQuantity=" + medicineQuantity +
                 ", medicineSum=" + medicineSum +
                 ", recipeId=" + recipeId +
+                ", medicine=" + medicine +
+                ", order=" + order +
+                ", recipe=" + recipe +
                 '}';
     }
 }
