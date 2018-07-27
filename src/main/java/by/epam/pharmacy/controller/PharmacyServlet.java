@@ -1,6 +1,7 @@
 package by.epam.pharmacy.controller;
 
 
+import by.epam.pharmacy.command.SessionRequestContent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

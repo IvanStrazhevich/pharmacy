@@ -1,6 +1,6 @@
 package by.epam.pharmacy.service.impl;
 
-import by.epam.pharmacy.controller.SessionRequestContent;
+import by.epam.pharmacy.command.SessionRequestContent;
 import by.epam.pharmacy.command.AttributeEnum;
 import by.epam.pharmacy.service.LanguageSwitchable;
 import by.epam.pharmacy.util.ResourceManager;

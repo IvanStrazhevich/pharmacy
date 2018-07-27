@@ -1,7 +1,7 @@
 package by.epam.pharmacy.service.impl;
 
 import by.epam.pharmacy.command.AttributeEnum;
-import by.epam.pharmacy.controller.SessionRequestContent;
+import by.epam.pharmacy.command.SessionRequestContent;
 import by.epam.pharmacy.dao.impl.MedicineDao;
 import by.epam.pharmacy.dao.impl.OrderDao;
 import by.epam.pharmacy.dao.impl.OrderHasMedicineDao;

@@ -1,4 +1,4 @@
-package by.epam.pharmacy.controller;
+package by.epam.pharmacy.command;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

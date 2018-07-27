@@ -3,7 +3,7 @@ package by.epam.pharmacy.command.impl;
 
 import by.epam.pharmacy.command.PagesEnum;
 import by.epam.pharmacy.command.RequestCommand;
-import by.epam.pharmacy.controller.SessionRequestContent;
+import by.epam.pharmacy.command.SessionRequestContent;
 
 public class LoginPageCommand implements RequestCommand<SessionRequestContent> {
     private static final String MESSAGE = "message.needLogin";
