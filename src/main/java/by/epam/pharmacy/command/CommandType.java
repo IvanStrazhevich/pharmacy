@@ -1,6 +1,6 @@
 package by.epam.pharmacy.command;
 
-public enum CommandEnum {
+public enum CommandType {
     EDIT_USER_DATA_PAGE("EditUserDataPage"), SAVE_CLIENT_DETAIL_PAGE("SaveClientDetail"),
     WELCOME_PAGE("WelcomePage"), LOGIN_PAGE("LoginPage"), CHECK_LOGIN("CheckLogin"),
     REGISTER_USER("RegisterUser"), INVALIDATE_SESSION("InvalidateSession"),
@@ -14,7 +14,7 @@ public enum CommandEnum {
     CHANGE_QUANTITY("ChangeQuantity"), DEMAND_RECIPE("DemandRecipe");
     private String command;
 
-    CommandEnum(String command) {
+    CommandType(String command) {
         this.command = command;
     }
 

@@ -1,6 +1,6 @@
 package by.epam.pharmacy.command.impl;
 
-import by.epam.pharmacy.command.PagesEnum;
+import by.epam.pharmacy.command.PagePath;
 import by.epam.pharmacy.command.RequestCommand;
 import by.epam.pharmacy.command.SessionRequestContent;
 import by.epam.pharmacy.exception.CommandException;
@@ -11,8 +11,8 @@ import by.epam.pharmacy.service.impl.OrderServiceImpl;
 import by.epam.pharmacy.service.impl.RecipeServiceImpl;
 
 public class DemandRecipeCommand implements RequestCommand<SessionRequestContent> {
-        OrderService orderService = new OrderServiceImpl();
-        RecipeService recipeService = new RecipeServiceImpl();
+        private OrderService orderService = new OrderServiceImpl();
+        private RecipeService recipeService = new RecipeServiceImpl();
         @Override
         public String execute(SessionRequestContent sessionRequestContent) throws CommandException {
             try {
@@ -21,6 +21,6 @@ public class DemandRecipeCommand implements RequestCommand<SessionRequestContent
             } catch (ServiceException e) {
                 throw new CommandException(e);
             }
-            return PagesEnum.EDIT_ORDER_PAGE.getPage();
+            return PagePath.EDIT_ORDER_PAGE.getPage();
     }
 }

@@ -1,7 +1,7 @@
 package by.epam.pharmacy.filter;
 
-import by.epam.pharmacy.command.AttributeEnum;
-import by.epam.pharmacy.command.PagesEnum;
+import by.epam.pharmacy.command.AttributeName;
+import by.epam.pharmacy.command.PagePath;
 import by.epam.pharmacy.util.ResourceManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -32,16 +32,16 @@ public class LoginForwardFilter implements Filter {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         logger.info("Check Login filter Works");
         String path = ((HttpServletRequest) request).getRequestURI();
-        if (path.startsWith(httpRequest.getContextPath() + PagesEnum.LOGIN_PAGE.getPage())
-                || path.startsWith(httpRequest.getContextPath() + PagesEnum.REGISTER_PAGE.getPage())
-                || path.startsWith(httpRequest.getContextPath() + PagesEnum.WELCOME_PAGE.getPage())) {
+        if (path.startsWith(httpRequest.getContextPath() + PagePath.LOGIN_PAGE.getPage())
+                || path.startsWith(httpRequest.getContextPath() + PagePath.REGISTER_PAGE.getPage())
+                || path.startsWith(httpRequest.getContextPath() + PagePath.WELCOME_PAGE.getPage())) {
             chain.doFilter(request, response);
         } else {
-            if (httpRequest.getSession().getAttribute(AttributeEnum.LOGGED.getAttribute()) == null
-                    || !httpRequest.getSession().getAttribute(AttributeEnum.LOGGED.getAttribute()).equals(AttributeEnum.LOGGED.getAttribute())) {
-                ((HttpServletRequest) request).getSession().setAttribute(AttributeEnum.NEED_LOGIN.getAttribute(),
+            if (httpRequest.getSession().getAttribute(AttributeName.LOGGED.getAttribute()) == null
+                    || !httpRequest.getSession().getAttribute(AttributeName.LOGGED.getAttribute()).equals(AttributeName.LOGGED.getAttribute())) {
+                ((HttpServletRequest) request).getSession().setAttribute(AttributeName.NEED_LOGIN.getAttribute(),
                         ResourceManager.INSTANCE.getString(MESSAGE));
-                httpResponse.sendRedirect(httpRequest.getContextPath() + PagesEnum.INDEX_PAGE.getPage());
+                httpResponse.sendRedirect(httpRequest.getContextPath() + PagePath.INDEX_PAGE.getPage());
             } else {
                 chain.doFilter(request, response);
             }

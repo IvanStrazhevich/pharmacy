@@ -28,7 +28,6 @@
                            value="<fmt:message key="label.button.EditUserPage"/>">
                 </div>
             </form>
-            <span style="float: left">
         <form class="navbar-form navbar-left" action="EditOrderPage" method="post">
             <div class="form-group">
                 <input type="hidden" name="action" value="EditOrder">
@@ -36,51 +35,8 @@
                        value="<fmt:message key="label.button.EditOrderPage"/>">
             </div>
         </form>
-    </span>
         </c:if>
-        <c:if test="${logged==null}">
-            <form class="navbar-form navbar-left" action="LoginPage"
-                  method="post">
-                <div class="form-group">
-                    <input type="hidden" name="action" value="LoginPage">
-                    <input type="submit" class="btn btn-success"
-                           value="<fmt:message key="label.button.LoginPage"/>">
-                </div>
-            </form>
-            <form class="navbar-form navbar-left" action="RegisterPage"
-                  method="post">
-                <div class="form-group">
-                    <input type="hidden" name="action" value="RegisterPage">
-                    <input class="btn btn-success" type="submit"
-                           value="<fmt:message key="label.button.RegisterPage"/>">
-                </div>
-            </form>
 
-        </c:if>
-        <form class="navbar-form navbar-left" action="WelcomePage"
-              method="post">
-            <div class="form-group">
-                <input type="hidden" name="action" value="InvalidateSession">
-                <input class="btn btn-danger" type="submit" value="<fmt:message key="label.button.Logout"/>">
-            </div>
-        </form>
-        <c:if test="${sessionScope.accessLevel=='pharmacist'}">
-            <form class="navbar-form navbar-left" action="EditMedicinePage" method="post">
-                <div class="form-group">
-                    <input type="hidden" name="action" value="EditMedicine">
-                    <input type="submit" class="btn btn-primary"
-                           value="<fmt:message key="label.button.addMedicine"/>">
-                </div>
-            </form>
-            <form class="navbar-form navbar-left" action="UserListPage"
-                  method="post">
-                <div class="form-group">
-                    <input type="hidden" name="action" value="UserList">
-                    <input class="btn btn-success" type="submit"
-                           value="<fmt:message key="label.button.UserListPage"/>">
-                </div>
-            </form>
-        </c:if>
         <form class="navbar-form navbar-left" action="MedicineListPage"
               method="post">
             <div class="form-group">
@@ -120,14 +76,47 @@
                 <input type="submit" class="btn btn-primary" value="<fmt:message key="label.button.language"/> ">
             </div>
         </form>
+        <form class="navbar-form navbar-right" action="WelcomePage"
+              method="post">
+            <div class="form-group">
+                <input type="hidden" name="action" value="InvalidateSession">
+                <input class="btn btn-danger" type="submit" value="<fmt:message key="label.button.Logout"/>">
+            </div>
+        </form>
+        <c:if test="${logged==null}">
+            <form class="navbar-form navbar-right" action="LoginPage"
+                  method="post">
+                <div class="form-group">
+                    <input type="hidden" name="action" value="LoginPage">
+                    <input type="submit" class="btn btn-success"
+                           value="<fmt:message key="label.button.LoginPage"/>">
+                </div>
+            </form>
+            <form class="navbar-form navbar-right" action="RegisterPage"
+                  method="post">
+                <div class="form-group">
+                    <input type="hidden" name="action" value="RegisterPage">
+                    <input class="btn btn-success" type="submit"
+                           value="<fmt:message key="label.button.RegisterPage"/>">
+                </div>
+            </form>
+        </c:if>
         <p class="navbar-text ">
             <c:if test="${logged!=null}">
                 <pht:hello accessLevel="${sessionScope.accessLevel}" login="${login}"/>
             </c:if>
         </p>
+
     </div>
 </nav>
 
+<%--
+<nav class="navbar navbar-default" style="background: #5cb85c">
+    <div class="container-fluid">
+
+    </div>
+</nav>
+--%>
 
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="js/bootstrap.min.js"></script>

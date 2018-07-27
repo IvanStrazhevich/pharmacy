@@ -1,6 +1,6 @@
 package by.epam.pharmacy.command.impl;
 
-import by.epam.pharmacy.command.PagesEnum;
+import by.epam.pharmacy.command.PagePath;
 import by.epam.pharmacy.command.RequestCommand;
 import by.epam.pharmacy.command.SessionRequestContent;
 import org.apache.logging.log4j.LogManager;
@@ -13,11 +13,11 @@ public class WelcomePageCommand implements RequestCommand<SessionRequestContent>
     @Override
     public String execute(SessionRequestContent sessionRequestContent) {
         String page = null;
-        /*if (sessionRequestContent.getSessionAttributes().get(AttributeEnum.LOGGED.getAttribute()) != null) {
-            page =*/ return PagesEnum.WELCOME_PAGE.getPage();
+        /*if (sessionRequestContent.getSessionAttributes().get(AttributeName.LOGGED.getAttribute()) != null) {
+            page =*/ return PagePath.WELCOME_PAGE.getPage();
         /*} else {
-            sessionRequestContent.getRequestAttributes().put(AttributeEnum.NEED_LOGIN.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE));
-            page = PagesEnum.LOGIN_PAGE.getPage();
+            sessionRequestContent.getRequestAttributes().put(AttributeName.NEED_LOGIN.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE));
+            page = PagePath.LOGIN_PAGE.getPage();
         }
         return page;*/
     }

@@ -1,6 +1,6 @@
 package by.epam.pharmacy.service.impl;
 
-import by.epam.pharmacy.command.AttributeEnum;
+import by.epam.pharmacy.command.AttributeName;
 import by.epam.pharmacy.command.SessionRequestContent;
 import by.epam.pharmacy.dao.impl.ClientDetailDao;
 import by.epam.pharmacy.dao.impl.UserDao;
@@ -88,7 +88,7 @@ public class UserServiceImpl implements UserService {
         try (UserDao userDao = new UserDao()) {
             ArrayList<User> users = userDao.findUserWithNames();
             logger.info(users);
-            sessionRequestContent.getRequestAttributes().put(AttributeEnum.USERS.getAttribute(), users);
+            sessionRequestContent.getRequestAttributes().put(AttributeName.USERS.getAttribute(), users);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -96,7 +96,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void showUserAccessLvl(SessionRequestContent sessionRequestContent) throws ServiceException {
-        int id = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeEnum.USER_ID.getAttribute()));
+        int id = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeName.USER_ID.getAttribute()));
         logger.info(id);
         try (UserDao userDao = new UserDao();
              ClientDetailDao clientDetailDao = new ClientDetailDao()) {
@@ -104,7 +104,7 @@ public class UserServiceImpl implements UserService {
             ClientDetail clientDetail = clientDetailDao.findEntityById(id);
             user.setClientDetail(clientDetail);
             logger.info(user);
-            sessionRequestContent.getRequestAttributes().put(AttributeEnum.USER.getAttribute(), user);
+            sessionRequestContent.getRequestAttributes().put(AttributeName.USER.getAttribute(), user);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -112,12 +112,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void saveAccessLvl(SessionRequestContent sessionRequestContent) throws ServiceException {
-        int id = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeEnum.USER_ID.getAttribute()));
+        int id = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeName.USER_ID.getAttribute()));
         logger.info(id);
         try (UserDao userDao = new UserDao()) {
             User user = userDao.findEntityById(id);
             logger.info("from base: " + user);
-            user.setAccessLevel(sessionRequestContent.getRequestParameters().get(AttributeEnum.ACCESS_LEVEL.getAttribute()));
+            user.setAccessLevel(sessionRequestContent.getRequestParameters().get(AttributeName.ACCESS_LEVEL.getAttribute()));
             userDao.update(user);
             logger.info(user);
         } catch (DaoException e) {

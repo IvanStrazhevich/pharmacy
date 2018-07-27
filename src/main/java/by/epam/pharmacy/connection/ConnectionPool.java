@@ -23,8 +23,8 @@ public class ConnectionPool {
 
 
     private ConnectionPool() {
-        int poolsize = connectionCreator.definePoolsize();
-        for (int i = 0; i < poolsize; i++) {
+        int poolSize = connectionCreator.definePoolSize();
+        for (int i = 0; i < poolSize; i++) {
             ProxyConnection proxyConnection = connectionCreator.createConnection();
             connectionPoolFree.add(proxyConnection);
         }
@@ -46,8 +46,8 @@ public class ConnectionPool {
 
     public void closeAll() throws PoolException {
         try {
-            int poolsize = connectionPoolFree.size() + connectionInUse.size();
-            for (int i = 0; i < poolsize; i++) {
+            int poolSize = connectionPoolFree.size() + connectionInUse.size();
+            for (int i = 0; i < poolSize; i++) {
                 logger.info(connectionPoolFree.size() + " i: " + i + " in pool");
                 connectionPoolFree.take().getConnection().close();
             }

@@ -12,7 +12,7 @@ public interface AbstractOrderHasMedicineDao<T> extends AbstractDao<T> {
 
     boolean deleteMedicineFromOrder(Integer orderId, Integer medicineId) throws DaoException;
 
-    boolean deleteAllMedicineFromOrder(Integer id) throws DaoException;
+    boolean deleteAllMedicineFromOrder(Integer orderId) throws DaoException;
 
     T findOrderHasMedicineByOrderIdMedicineId(Integer orderId, Integer medicineId) throws DaoException;
 

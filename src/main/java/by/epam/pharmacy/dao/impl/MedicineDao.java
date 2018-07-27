@@ -100,7 +100,7 @@ public class MedicineDao extends AbstractDaoImpl<Medicine> implements AbstractMe
             preparedStatement.setInt(1, id);
             preparedStatement.execute();
             ResultSet resultSet = preparedStatement.getResultSet();
-            resultSet.next();
+            while (resultSet.next()){
             medicine.setMedicineId(resultSet.getInt(1));
             medicine.setMedicineName(resultSet.getString(2));
             medicine.setDescription(resultSet.getString(3));
@@ -109,6 +109,7 @@ public class MedicineDao extends AbstractDaoImpl<Medicine> implements AbstractMe
             medicine.setPrice(resultSet.getBigDecimal(6));
             medicine.setAvailable(resultSet.getBoolean(7));
             medicine.setQuantityAtStorage(resultSet.getInt(8));
+            }
         } catch (SQLException e) {
             throw new DaoException("Exception on find Medicine by id", e);
         }

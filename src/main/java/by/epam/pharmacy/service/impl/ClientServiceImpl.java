@@ -1,6 +1,6 @@
 package by.epam.pharmacy.service.impl;
 
-import by.epam.pharmacy.command.AttributeEnum;
+import by.epam.pharmacy.command.AttributeName;
 import by.epam.pharmacy.command.SessionRequestContent;
 import by.epam.pharmacy.dao.impl.ClientDetailDao;
 import by.epam.pharmacy.dao.impl.UserDao;
@@ -33,11 +33,11 @@ public class ClientServiceImpl implements ClientService {
 
     public void findClientDetail(SessionRequestContent sessionRequestContent) throws ServiceException {
         try (ClientDetailDao clientDetailDao = new ClientDetailDao()) {
-            if (sessionRequestContent.getSessionAttributes().get(AttributeEnum.LOGIN.getAttribute())!= null) {
-                int clientId = findClientId(sessionRequestContent.getSessionAttributes().get(AttributeEnum.LOGIN.getAttribute()).toString());
+            if (sessionRequestContent.getSessionAttributes().get(AttributeName.LOGIN.getAttribute())!= null) {
+                int clientId = findClientId(sessionRequestContent.getSessionAttributes().get(AttributeName.LOGIN.getAttribute()).toString());
                 ClientDetail clientDetail = clientDetailDao.findEntityById(clientId);
                 logger.info(clientDetail);
-                sessionRequestContent.getRequestAttributes().put(AttributeEnum.USER.getAttribute(),
+                sessionRequestContent.getRequestAttributes().put(AttributeName.USER.getAttribute(),
                         clientDetail);
             }
         } catch (DaoException e) {
@@ -49,15 +49,15 @@ public class ClientServiceImpl implements ClientService {
         try (ClientDetailDao clientDetailDao = new ClientDetailDao()) {
             ArrayList<ClientDetail> details = new ArrayList<>();
             ClientDetail clientDetail = new ClientDetail();
-            clientDetail.setName(sessionRequestContent.getRequestParameters().get(AttributeEnum.NAME.getAttribute()));
-            clientDetail.setLastname(sessionRequestContent.getRequestParameters().get(AttributeEnum.LASTNAME.getAttribute()));
-            clientDetail.setEmail(sessionRequestContent.getRequestParameters().get(AttributeEnum.EMAIL.getAttribute()));
-            clientDetail.setPhone(sessionRequestContent.getRequestParameters().get(AttributeEnum.PHONE.getAttribute()));
-            clientDetail.setPostcode(sessionRequestContent.getRequestParameters().get(AttributeEnum.POSTCODE.getAttribute()));
-            clientDetail.setCountry(sessionRequestContent.getRequestParameters().get(AttributeEnum.COUNTRY.getAttribute()));
-            clientDetail.setCity(sessionRequestContent.getRequestParameters().get(AttributeEnum.CITY.getAttribute()));
-            clientDetail.setAddress(sessionRequestContent.getRequestParameters().get(AttributeEnum.ADDRESS.getAttribute()));
-            clientDetail.setClientId(findClientId(sessionRequestContent.getSessionAttributes().get(AttributeEnum.LOGIN.getAttribute()).toString()));
+            clientDetail.setName(sessionRequestContent.getRequestParameters().get(AttributeName.NAME.getAttribute()));
+            clientDetail.setLastname(sessionRequestContent.getRequestParameters().get(AttributeName.LASTNAME.getAttribute()));
+            clientDetail.setEmail(sessionRequestContent.getRequestParameters().get(AttributeName.EMAIL.getAttribute()));
+            clientDetail.setPhone(sessionRequestContent.getRequestParameters().get(AttributeName.PHONE.getAttribute()));
+            clientDetail.setPostcode(sessionRequestContent.getRequestParameters().get(AttributeName.POSTCODE.getAttribute()));
+            clientDetail.setCountry(sessionRequestContent.getRequestParameters().get(AttributeName.COUNTRY.getAttribute()));
+            clientDetail.setCity(sessionRequestContent.getRequestParameters().get(AttributeName.CITY.getAttribute()));
+            clientDetail.setAddress(sessionRequestContent.getRequestParameters().get(AttributeName.ADDRESS.getAttribute()));
+            clientDetail.setClientId(findClientId(sessionRequestContent.getSessionAttributes().get(AttributeName.LOGIN.getAttribute()).toString()));
             logger.info("Client detail: " + clientDetail);
             int id = clientDetail.getClientId();
             logger.info(clientDetail.getClientId());
@@ -71,7 +71,7 @@ public class ClientServiceImpl implements ClientService {
             }
             details.add(clientDetailDao.findEntityById(clientDetail.getClientId()));
             logger.info("Output list: " + details);
-            sessionRequestContent.getRequestAttributes().put(AttributeEnum.USER.getAttribute(),
+            sessionRequestContent.getRequestAttributes().put(AttributeName.USER.getAttribute(),
                     clientDetailDao.findEntityById(clientDetail.getClientId()));
         } catch (DaoException e) {
             throw new ServiceException(e);

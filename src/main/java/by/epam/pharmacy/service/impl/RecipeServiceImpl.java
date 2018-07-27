@@ -1,6 +1,6 @@
 package by.epam.pharmacy.service.impl;
 
-import by.epam.pharmacy.command.AttributeEnum;
+import by.epam.pharmacy.command.AttributeName;
 import by.epam.pharmacy.command.SessionRequestContent;
 import by.epam.pharmacy.dao.impl.OrderDao;
 import by.epam.pharmacy.dao.impl.RecipeDao;
@@ -27,10 +27,10 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public void createRecipe(SessionRequestContent sessionRequestContent) throws ServiceException {
-        int orderId = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeEnum.ORDER_ID.getAttribute()));
-        int medicineId = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeEnum.MEDICINE_ID.getAttribute()));
-        int medicineQuantity = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeEnum.MEDICINE_QUANTITY.getAttribute()));
-        BigDecimal dosage = new BigDecimal(sessionRequestContent.getRequestParameters().get(AttributeEnum.DOSAGE.getAttribute()));
+        int orderId = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeName.ORDER_ID.getAttribute()));
+        int medicineId = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeName.MEDICINE_ID.getAttribute()));
+        int medicineQuantity = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeName.MEDICINE_QUANTITY.getAttribute()));
+        BigDecimal dosage = new BigDecimal(sessionRequestContent.getRequestParameters().get(AttributeName.DOSAGE.getAttribute()));
         int clientId = findUserId(orderId);
         Recipe recipe = new Recipe();
         recipe.setMedicineId(medicineId);
@@ -40,14 +40,14 @@ public class RecipeServiceImpl implements RecipeService {
         recipe.setDoctorId(userService.findDefaultDoctor().getUserId());
         logger.info(recipe);
         createOrUpdateRecipe(recipe);
-        sessionRequestContent.getRequestAttributes().put(AttributeEnum.RECIPE_REQUESTED.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE));
+        sessionRequestContent.getRequestAttributes().put(AttributeName.RECIPE_REQUESTED.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE));
     }
 
     public void showRecipes(SessionRequestContent sessionRequestContent) throws ServiceException {
         try (RecipeDao recipeDao = new RecipeDao()) {
             ArrayList<Recipe> recipes = recipeDao.findAllWithDetails();
             logger.info(recipes);
-            sessionRequestContent.getRequestAttributes().put(AttributeEnum.RECIPES.getAttribute(), recipes);
+            sessionRequestContent.getRequestAttributes().put(AttributeName.RECIPES.getAttribute(), recipes);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -55,11 +55,11 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public void showRecipe(SessionRequestContent sessionRequestContent) throws ServiceException {
-        int recipeId = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeEnum.RECIPE_ID.getAttribute()));
+        int recipeId = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeName.RECIPE_ID.getAttribute()));
         try (RecipeDao recipeDao = new RecipeDao()) {
             Recipe recipe = recipeDao.findEntityByIdWithDetails(recipeId);
             logger.info(recipe);
-            sessionRequestContent.getRequestAttributes().put(AttributeEnum.RECIPE.getAttribute(), recipe);
+            sessionRequestContent.getRequestAttributes().put(AttributeName.RECIPE.getAttribute(), recipe);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -67,11 +67,11 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public void approveRecipe(SessionRequestContent sessionRequestContent) throws ServiceException {
-        int recipeId = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeEnum.RECIPE_ID.getAttribute()));
-        int medicineQuantity = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeEnum.MEDICINE_QUANTITY.getAttribute()));
-        Timestamp validTill = Timestamp.valueOf(sessionRequestContent.getRequestParameters().get(AttributeEnum.VALID_TILL.getAttribute()));
+        int recipeId = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeName.RECIPE_ID.getAttribute()));
+        int medicineQuantity = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeName.MEDICINE_QUANTITY.getAttribute()));
+        Timestamp validTill = Timestamp.valueOf(sessionRequestContent.getRequestParameters().get(AttributeName.VALID_TILL.getAttribute()));
         logger.info(validTill);
-        boolean approved = Boolean.parseBoolean(sessionRequestContent.getRequestParameters().get(AttributeEnum.APPROVED.getAttribute()));
+        boolean approved = Boolean.parseBoolean(sessionRequestContent.getRequestParameters().get(AttributeName.APPROVED.getAttribute()));
         try (RecipeDao recipeDao = new RecipeDao()) {
             Recipe recipeDB = recipeDao.findEntityById(recipeId);
             recipeDB.setMedicineQuantity(medicineQuantity);

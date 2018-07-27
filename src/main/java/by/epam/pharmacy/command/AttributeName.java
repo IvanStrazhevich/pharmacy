@@ -1,6 +1,6 @@
 package by.epam.pharmacy.command;
 
-public enum AttributeEnum {
+public enum AttributeName {
     ACTION("action"),LANG("lang"), USER("user"),
     NEED_LOGIN("needLogin"), NEED_REGISTER("needRegister"), LOGGED("logged"), NOT_AUTHORISED("notAuthorised"),
     USER_EXIST("userExist"), USER_REGISTERED("userRegistered"),
@@ -23,7 +23,7 @@ public enum AttributeEnum {
 
     private String attribute;
 
-    AttributeEnum(String attribute) {
+    AttributeName(String attribute) {
         this.attribute = attribute;
     }
 

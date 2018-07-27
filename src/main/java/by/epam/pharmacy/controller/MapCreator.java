@@ -1,6 +1,6 @@
 package by.epam.pharmacy.controller;
 
-import by.epam.pharmacy.command.CommandEnum;
+import by.epam.pharmacy.command.CommandType;
 import by.epam.pharmacy.command.RequestCommand;
 import by.epam.pharmacy.command.impl.*;
 import by.epam.pharmacy.exception.PharmacyServletException;
@@ -13,7 +13,7 @@ public class MapCreator {
 
     private MapCreator() throws PharmacyServletException {
 
-        for (CommandEnum command : CommandEnum.values()
+        for (CommandType command : CommandType.values()
                 ) {
             switch (command) {
                 case LOGIN_PAGE:
@@ -96,7 +96,7 @@ public class MapCreator {
                     break;
 
                 default:
-                    throw new PharmacyServletException("There is no such command at " + CommandEnum.class + command.getCommand());
+                    throw new PharmacyServletException("There is no such command at " + CommandType.class + command.getCommand());
             }
         }
     }

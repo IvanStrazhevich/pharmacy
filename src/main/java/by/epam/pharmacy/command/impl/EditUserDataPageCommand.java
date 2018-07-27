@@ -1,6 +1,6 @@
 package by.epam.pharmacy.command.impl;
 
-import by.epam.pharmacy.command.PagesEnum;
+import by.epam.pharmacy.command.PagePath;
 import by.epam.pharmacy.command.RequestCommand;
 import by.epam.pharmacy.command.SessionRequestContent;
 import by.epam.pharmacy.exception.CommandException;
@@ -22,7 +22,7 @@ public class EditUserDataPageCommand implements RequestCommand<SessionRequestCon
         } catch (ServiceException e) {
             throw new CommandException(e);
         }
-        return PagesEnum.EDIT_USER_DATA_PAGE.getPage();
+        return PagePath.EDIT_USER_DATA_PAGE.getPage();
     }
 
 }

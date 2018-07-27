@@ -12,11 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 
-public class PageRedirectTypeDefiner {
+public class PageRouter {
     private HashMap<String, RequestCommand> servletMap;
     private static Logger logger = LogManager.getLogger();
 
-    PageRedirectTypeDefiner() {
+    PageRouter() {
         try {
             servletMap = MapCreator.getInstance().getServletMap();
         } catch (PharmacyServletException e) {
@@ -26,13 +26,13 @@ public class PageRedirectTypeDefiner {
     }
 
     void redirectToPage(HttpServletRequest request, HttpServletResponse response, SessionRequestContent sessionRequestContent) throws IOException, ServletException {
-        String action = sessionRequestContent.getRequestParameters().get(AttributeEnum.ACTION.getAttribute());
+        String action = sessionRequestContent.getRequestParameters().get(AttributeName.ACTION.getAttribute());
         if (action != null) {
             RequestCommand requestCommand = servletMap.get(action);
             logger.debug(action);
             String page = null;
             try {
-                if (action.equals(CommandEnum.INVALIDATE_SESSION.getCommand())) {
+                if (action.equals(CommandType.INVALIDATE_SESSION.getCommand())) {
                     page = requestCommand.execute(request);
                     if (request.getRequestDispatcher(page) != null) {
                         response.sendRedirect(request.getContextPath() + page);
@@ -45,15 +45,15 @@ public class PageRedirectTypeDefiner {
                             request.getRequestDispatcher(page).forward(request, response);
                         }
                     } else {
-                        if (request.getRequestDispatcher(PagesEnum.ERROR_PAGE.getPage()) != null) {
-                            response.sendRedirect(request.getContextPath() + PagesEnum.ERROR_PAGE.getPage());
+                        if (request.getRequestDispatcher(PagePath.ERROR_PAGE.getPage()) != null) {
+                            response.sendRedirect(request.getContextPath() + PagePath.ERROR_PAGE.getPage());
                         }
                     }
                 }
             } catch (CommandException e) {
                 logger.error(e.getCause());
-                if (request.getRequestDispatcher(PagesEnum.ERROR_PAGE.getPage()) != null) {
-                    response.sendRedirect(request.getContextPath() + PagesEnum.ERROR_PAGE.getPage());
+                if (request.getRequestDispatcher(PagePath.ERROR_PAGE.getPage()) != null) {
+                    response.sendRedirect(request.getContextPath() + PagePath.ERROR_PAGE.getPage());
                 }
             }
         }

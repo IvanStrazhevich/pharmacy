@@ -24,14 +24,14 @@ import java.io.IOException;
         , maxRequestSize = 1024 * 1024 * 5 * 5)
 public class PharmacyServlet extends HttpServlet {
     private static Logger logger = LogManager.getLogger();
-    private PageRedirectTypeDefiner pageRedirectTypeDefiner = new PageRedirectTypeDefiner();
+    private PageRouter pageRouter = new PageRouter();
 
     private void handleRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        response.setContentType("text/html; charset=utf-8");
-        request.setCharacterEncoding("utf-8");
+        /*response.setContentType("text/html; charset=utf-8");
+        request.setCharacterEncoding("utf-8");*/
         SessionRequestContent sessionRequestContent = new SessionRequestContent();
         sessionRequestContent.extractValues(request);
-        pageRedirectTypeDefiner.redirectToPage(request, response, sessionRequestContent);
+        pageRouter.redirectToPage(request, response, sessionRequestContent);
     }
 
     @Override

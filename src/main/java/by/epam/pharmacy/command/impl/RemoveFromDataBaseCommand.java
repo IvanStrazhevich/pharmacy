@@ -1,6 +1,6 @@
 package by.epam.pharmacy.command.impl;
 
-import by.epam.pharmacy.command.PagesEnum;
+import by.epam.pharmacy.command.PagePath;
 import by.epam.pharmacy.command.RequestCommand;
 import by.epam.pharmacy.command.SessionRequestContent;
 import by.epam.pharmacy.exception.CommandException;
@@ -9,7 +9,7 @@ import by.epam.pharmacy.service.MedicineService;
 import by.epam.pharmacy.service.impl.MedicineServiceImpl;
 
 public class RemoveFromDataBaseCommand implements RequestCommand<SessionRequestContent> {
-    MedicineService medicineService = new MedicineServiceImpl();
+    private MedicineService medicineService = new MedicineServiceImpl();
     @Override
     public String execute(SessionRequestContent sessionRequestContent) throws CommandException {
         try {
@@ -17,6 +17,6 @@ public class RemoveFromDataBaseCommand implements RequestCommand<SessionRequestC
         } catch (ServiceException e) {
             throw new CommandException(e);
         }
-        return PagesEnum.MEDICINE_LIST_PAGE.getPage();
+        return PagePath.MEDICINE_LIST_PAGE.getPage();
     }
 }

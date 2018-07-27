@@ -12,7 +12,7 @@ public class ConnectionCreator {
     private static Logger logger = LogManager.getLogger();
     private Properties properties = new Properties();
 
-    int definePoolsize() {
+    int definePoolSize() {
         try {
             properties.load(getClass().getClassLoader().getResourceAsStream("connection.properties"));
         } catch (IOException e) {

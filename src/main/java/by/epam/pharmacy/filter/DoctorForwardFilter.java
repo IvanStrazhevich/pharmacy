@@ -1,7 +1,7 @@
 package by.epam.pharmacy.filter;
 
-import by.epam.pharmacy.command.AttributeEnum;
-import by.epam.pharmacy.command.PagesEnum;
+import by.epam.pharmacy.command.AttributeName;
+import by.epam.pharmacy.command.PagePath;
 import by.epam.pharmacy.entity.AccessLevel;
 import by.epam.pharmacy.util.ResourceManager;
 import org.apache.logging.log4j.LogManager;
@@ -32,12 +32,12 @@ public class DoctorForwardFilter implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         logger.info("Doctor page filter Works");
-        if (httpRequest.getSession().getAttribute(AttributeEnum.ACCESS_LEVEL.getAttribute()) == null
-                || !httpRequest.getSession().getAttribute(AttributeEnum.ACCESS_LEVEL.getAttribute())
+        if (httpRequest.getSession().getAttribute(AttributeName.ACCESS_LEVEL.getAttribute()) == null
+                || !httpRequest.getSession().getAttribute(AttributeName.ACCESS_LEVEL.getAttribute())
                 .equals(AccessLevel.DOCTOR.getLevel())) {
-            ((HttpServletRequest) request).getSession().setAttribute(AttributeEnum.NOT_AUTHORISED.getAttribute(),
+            ((HttpServletRequest) request).getSession().setAttribute(AttributeName.NOT_AUTHORISED.getAttribute(),
                     ResourceManager.INSTANCE.getString(MESSAGE));
-            httpResponse.sendRedirect(httpRequest.getContextPath() + PagesEnum.INDEX_PAGE.getPage());
+            httpResponse.sendRedirect(httpRequest.getContextPath() + PagePath.INDEX_PAGE.getPage());
         } else {
             chain.doFilter(request, response);
         }

@@ -1,6 +1,6 @@
 package by.epam.pharmacy.command;
 
-public enum PagesEnum {
+public enum PagePath {
     ERROR_PAGE("/ErrorPage.jsp"),
     LOGIN_PAGE("/jsp/LoginPage.jsp"),
     REGISTER_PAGE("/jsp/RegisterPage.jsp"),
@@ -21,9 +21,9 @@ public enum PagesEnum {
     INDEX_PAGE("/index.jsp"), MEDICINE_LIST_PAGE("/jsp/MedicineListPage.jsp");
 
 
-    String page;
+    private String page;
 
-    PagesEnum(String page) {
+    PagePath(String page) {
         this.page = page;
     }
 

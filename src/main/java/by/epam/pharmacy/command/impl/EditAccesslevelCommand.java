@@ -1,6 +1,6 @@
 package by.epam.pharmacy.command.impl;
 
-import by.epam.pharmacy.command.PagesEnum;
+import by.epam.pharmacy.command.PagePath;
 import by.epam.pharmacy.command.RequestCommand;
 import by.epam.pharmacy.exception.CommandException;
 import by.epam.pharmacy.command.SessionRequestContent;
@@ -9,7 +9,7 @@ import by.epam.pharmacy.service.UserService;
 import by.epam.pharmacy.service.impl.UserServiceImpl;
 
 public class EditAccesslevelCommand implements RequestCommand<SessionRequestContent> {
-    UserService userService = new UserServiceImpl();
+    private UserService userService = new UserServiceImpl();
     @Override
     public String execute(SessionRequestContent sessionRequestContent) throws CommandException {
         try {
@@ -17,6 +17,6 @@ public class EditAccesslevelCommand implements RequestCommand<SessionRequestCont
         } catch (ServiceException e) {
             throw new CommandException(e);
         }
-        return PagesEnum.EDIT_USER_ACCESS_LEVEL_PAGE.getPage();
+        return PagePath.EDIT_USER_ACCESS_LEVEL_PAGE.getPage();
     }
 }

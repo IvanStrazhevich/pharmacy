@@ -1,7 +1,7 @@
 package by.epam.pharmacy.command.impl;
 
-import by.epam.pharmacy.command.AttributeEnum;
-import by.epam.pharmacy.command.PagesEnum;
+import by.epam.pharmacy.command.AttributeName;
+import by.epam.pharmacy.command.PagePath;
 import by.epam.pharmacy.command.RequestCommand;
 import by.epam.pharmacy.command.SessionRequestContent;
 import by.epam.pharmacy.exception.CommandException;
@@ -23,17 +23,17 @@ public class CheckUserCommand implements RequestCommand<SessionRequestContent> {
     public String execute(SessionRequestContent sessionRequestContent) throws CommandException {
         try {
             String page = null;
-            String login = sessionRequestContent.getRequestParameters().get(AttributeEnum.LOGIN.getAttribute());
-            String password = sessionRequestContent.getRequestParameters().get(AttributeEnum.PASSWORD.getAttribute());
+            String login = sessionRequestContent.getRequestParameters().get(AttributeName.LOGIN.getAttribute());
+            String password = sessionRequestContent.getRequestParameters().get(AttributeName.PASSWORD.getAttribute());
             if (userService.checkLogin(login, password)) {
-                sessionRequestContent.getSessionAttributes().put(AttributeEnum.LOGGED.getAttribute(), AttributeEnum.LOGGED.getAttribute());
-                sessionRequestContent.getSessionAttributes().put(AttributeEnum.ACCESS_LEVEL.getAttribute(), userService.checkUserAccessLevel(login));
-                sessionRequestContent.getSessionAttributes().put(AttributeEnum.LOGIN.getAttribute(), login);
-                sessionRequestContent.getRequestAttributes().put(AttributeEnum.GREETING.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE_SUCCESS));
-                page = PagesEnum.WELCOME_PAGE.getPage();
+                sessionRequestContent.getSessionAttributes().put(AttributeName.LOGGED.getAttribute(), AttributeName.LOGGED.getAttribute());
+                sessionRequestContent.getSessionAttributes().put(AttributeName.ACCESS_LEVEL.getAttribute(), userService.checkUserAccessLevel(login));
+                sessionRequestContent.getSessionAttributes().put(AttributeName.LOGIN.getAttribute(), login);
+                sessionRequestContent.getRequestAttributes().put(AttributeName.GREETING.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE_SUCCESS));
+                page = PagePath.WELCOME_PAGE.getPage();
             } else {
-                sessionRequestContent.getSessionAttributes().put(AttributeEnum.NEED_REGISTER.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE));
-                page = PagesEnum.LOGIN_PAGE.getPage();
+                sessionRequestContent.getSessionAttributes().put(AttributeName.NEED_REGISTER.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE));
+                page = PagePath.LOGIN_PAGE.getPage();
             }
             return page;
         } catch (ServiceException e) {

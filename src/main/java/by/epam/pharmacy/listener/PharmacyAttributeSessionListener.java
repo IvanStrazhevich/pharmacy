@@ -1,6 +1,6 @@
 package by.epam.pharmacy.listener;
 
-import by.epam.pharmacy.command.AttributeEnum;
+import by.epam.pharmacy.command.AttributeName;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,14 +15,14 @@ public class PharmacyAttributeSessionListener implements HttpSessionAttributeLis
     @Override
     public void attributeAdded(HttpSessionBindingEvent event) {
         logger.debug("Added worked");
-        if (event.getSession().getAttribute(AttributeEnum.LOGGED.getAttribute()) != null && event.getSession().getAttribute(AttributeEnum.LOGGED.getAttribute()).equals(AttributeEnum.LOGGED.getAttribute())) {
-            logger.info(AttributeEnum.LOGGED.getAttribute());
-            logger.info(event.getSession().getAttribute(AttributeEnum.NEED_LOGIN.getAttribute()));
-            event.getSession().removeAttribute(AttributeEnum.NEED_LOGIN.getAttribute());
-            logger.info(event.getSession().getAttribute(AttributeEnum.NEED_LOGIN.getAttribute()));
-            logger.info(event.getSession().getAttribute(AttributeEnum.NEED_REGISTER.getAttribute()));
-            event.getSession().removeAttribute(AttributeEnum.NEED_REGISTER.getAttribute());
-            logger.info(event.getSession().getAttribute(AttributeEnum.NEED_REGISTER.getAttribute()));
+        if (event.getSession().getAttribute(AttributeName.LOGGED.getAttribute()) != null && event.getSession().getAttribute(AttributeName.LOGGED.getAttribute()).equals(AttributeName.LOGGED.getAttribute())) {
+            logger.info(AttributeName.LOGGED.getAttribute());
+            logger.info(event.getSession().getAttribute(AttributeName.NEED_LOGIN.getAttribute()));
+            event.getSession().removeAttribute(AttributeName.NEED_LOGIN.getAttribute());
+            logger.info(event.getSession().getAttribute(AttributeName.NEED_LOGIN.getAttribute()));
+            logger.info(event.getSession().getAttribute(AttributeName.NEED_REGISTER.getAttribute()));
+            event.getSession().removeAttribute(AttributeName.NEED_REGISTER.getAttribute());
+            logger.info(event.getSession().getAttribute(AttributeName.NEED_REGISTER.getAttribute()));
         }
 
     }

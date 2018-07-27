@@ -34,11 +34,11 @@
                     <td>${rcp.medicine.medicineName}</td>
                     <td>${rcp.clientDetail.name}</td>
                     <td>${rcp.clientDetail.lastname}</td>
-                    <td><input type="number" min="0" max="${rcp.medicineQuantity}"
-                               name="medicineQuantity">${rcp.medicineQuantity}</td>
-                    <td><input type="number" min="0" max="${rcp.dosage}" name="dosage">${rcp.dosage}</td>
+                    <td><input type="number" value="${rcp.medicineQuantity}" min="0" max="${rcp.medicineQuantity}"
+                               name="medicineQuantity"></td>
+                    <td><input type="number" value="${rcp.dosage}" min="0" max="${rcp.dosage}" name="dosage"></td>
                     <td><input type="datetime-local" name="validTill" placeholder="yyyy-mm-dd hh:mm:ss" maxlength="19"
-                               minlength="19">${rcp.validTill}</td>
+                               minlength="19"></td>
                     <td>
                         <select class="btn btn-primary" name="approved">
                             <option value="true" <c:if test="${rcp.approved=='true'}"> selected </c:if>>
@@ -50,6 +50,7 @@
                     <td>
                         <input type="submit" class="btn btn-primary"
                                value="<fmt:message key="label.button.Submit"/>">
+                        <input type="hidden" name="medicineId" value="${rcp.medicineId}">
                         <input type="hidden" name="recipeId" value="${rcp.recipeId}">
                         <input type="hidden" name="action" value="ApproveRecipe">
                     </td>

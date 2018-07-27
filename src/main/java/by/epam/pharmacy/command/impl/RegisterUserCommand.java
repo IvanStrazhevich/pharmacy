@@ -1,7 +1,7 @@
 package by.epam.pharmacy.command.impl;
 
-import by.epam.pharmacy.command.AttributeEnum;
-import by.epam.pharmacy.command.PagesEnum;
+import by.epam.pharmacy.command.AttributeName;
+import by.epam.pharmacy.command.PagePath;
 import by.epam.pharmacy.command.RequestCommand;
 import by.epam.pharmacy.command.SessionRequestContent;
 import by.epam.pharmacy.exception.CommandException;
@@ -22,24 +22,24 @@ public class RegisterUserCommand implements RequestCommand<SessionRequestContent
 
     @Override
     public String execute(SessionRequestContent sessionRequestContent) throws CommandException {
-        String login = sessionRequestContent.getRequestParameters().get(AttributeEnum.LOGIN.getAttribute());
-        String password = sessionRequestContent.getRequestParameters().get(AttributeEnum.PASSWORD.getAttribute());
+        String login = sessionRequestContent.getRequestParameters().get(AttributeName.LOGIN.getAttribute());
+        String password = sessionRequestContent.getRequestParameters().get(AttributeName.PASSWORD.getAttribute());
         String page = null;
         try {
             if (userService.checkUserExist(login)) {
-                sessionRequestContent.getRequestAttributes().put(AttributeEnum.USER_EXIST.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE_USER_EXIST));
-                page = PagesEnum.REGISTER_PAGE.getPage();
+                sessionRequestContent.getRequestAttributes().put(AttributeName.USER_EXIST.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE_USER_EXIST));
+                page = PagePath.REGISTER_PAGE.getPage();
             } else if (userService.createUser(login, password)) {
                 logger.debug("registered");
-                sessionRequestContent.getSessionAttributes().put(AttributeEnum.LOGGED.getAttribute(), AttributeEnum.LOGGED.getAttribute());
-                sessionRequestContent.getRequestAttributes().put(AttributeEnum.USER_REGISTERED.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE_USER_REGISTERED));
-                sessionRequestContent.getSessionAttributes().put(AttributeEnum.ACCESS_LEVEL.getAttribute(), userService.checkUserAccessLevel(login));
-                sessionRequestContent.getSessionAttributes().put(AttributeEnum.LOGIN.getAttribute(), login);
-                page = PagesEnum.WELCOME_PAGE.getPage();
+                sessionRequestContent.getSessionAttributes().put(AttributeName.LOGGED.getAttribute(), AttributeName.LOGGED.getAttribute());
+                sessionRequestContent.getRequestAttributes().put(AttributeName.USER_REGISTERED.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE_USER_REGISTERED));
+                sessionRequestContent.getSessionAttributes().put(AttributeName.ACCESS_LEVEL.getAttribute(), userService.checkUserAccessLevel(login));
+                sessionRequestContent.getSessionAttributes().put(AttributeName.LOGIN.getAttribute(), login);
+                page = PagePath.WELCOME_PAGE.getPage();
             } else {
                 logger.debug("not registered");
-                sessionRequestContent.getRequestAttributes().put(AttributeEnum.USER_NOT_REGISTERED.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE_USER_NOT_REGISTERED));
-                page = PagesEnum.REGISTER_PAGE.getPage();
+                sessionRequestContent.getRequestAttributes().put(AttributeName.USER_NOT_REGISTERED.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE_USER_NOT_REGISTERED));
+                page = PagePath.REGISTER_PAGE.getPage();
             }
         } catch (ServiceException e) {
             throw new CommandException(e);
