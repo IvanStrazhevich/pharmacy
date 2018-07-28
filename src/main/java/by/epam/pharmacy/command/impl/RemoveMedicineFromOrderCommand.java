@@ -12,10 +12,10 @@ public class RemoveMedicineFromOrderCommand implements RequestCommand<SessionReq
     private OrderService orderService = new OrderServiceImpl();
 
     @Override
-    public String execute(SessionRequestContent sessionRequestContent) throws CommandException {
+    public String execute(SessionRequestContent content) throws CommandException {
         try {
-            orderService.removeMedicineFromOrder(sessionRequestContent);
-            orderService.showOrder(sessionRequestContent);
+            orderService.removeMedicineFromOrder(content);
+            orderService.showOrder(content);
         } catch (ServiceException e) {
             throw new CommandException(e);
         }

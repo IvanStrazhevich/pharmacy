@@ -21,24 +21,24 @@ public class RegisterUserCommand implements RequestCommand<SessionRequestContent
 
 
     @Override
-    public String execute(SessionRequestContent sessionRequestContent) throws CommandException {
-        String login = sessionRequestContent.getRequestParameters().get(AttributeName.LOGIN.getAttribute());
-        String password = sessionRequestContent.getRequestParameters().get(AttributeName.PASSWORD.getAttribute());
+    public String execute(SessionRequestContent content) throws CommandException {
+        String login = content.getRequestParameters().get(AttributeName.LOGIN.getAttribute());
+        String password = content.getRequestParameters().get(AttributeName.PASSWORD.getAttribute());
         String page = null;
         try {
             if (userService.checkUserExist(login)) {
-                sessionRequestContent.getRequestAttributes().put(AttributeName.USER_EXIST.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE_USER_EXIST));
+                content.getRequestAttributes().put(AttributeName.USER_EXIST.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE_USER_EXIST));
                 page = PagePath.REGISTER_PAGE.getPage();
             } else if (userService.createUser(login, password)) {
                 logger.debug("registered");
-                sessionRequestContent.getSessionAttributes().put(AttributeName.LOGGED.getAttribute(), AttributeName.LOGGED.getAttribute());
-                sessionRequestContent.getRequestAttributes().put(AttributeName.USER_REGISTERED.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE_USER_REGISTERED));
-                sessionRequestContent.getSessionAttributes().put(AttributeName.ACCESS_LEVEL.getAttribute(), userService.checkUserAccessLevel(login));
-                sessionRequestContent.getSessionAttributes().put(AttributeName.LOGIN.getAttribute(), login);
+                content.getSessionAttributes().put(AttributeName.LOGGED.getAttribute(), AttributeName.LOGGED.getAttribute());
+                content.getRequestAttributes().put(AttributeName.USER_REGISTERED.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE_USER_REGISTERED));
+                content.getSessionAttributes().put(AttributeName.ACCESS_LEVEL.getAttribute(), userService.checkUserAccessLevel(login));
+                content.getSessionAttributes().put(AttributeName.LOGIN.getAttribute(), login);
                 page = PagePath.WELCOME_PAGE.getPage();
             } else {
                 logger.debug("not registered");
-                sessionRequestContent.getRequestAttributes().put(AttributeName.USER_NOT_REGISTERED.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE_USER_NOT_REGISTERED));
+                content.getRequestAttributes().put(AttributeName.USER_NOT_REGISTERED.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE_USER_NOT_REGISTERED));
                 page = PagePath.REGISTER_PAGE.getPage();
             }
         } catch (ServiceException e) {

@@ -14,10 +14,10 @@ public class AddMedicineToOrder implements RequestCommand<SessionRequestContent>
     private OrderService orderService = new OrderServiceImpl();
     private MedicineService medicineService = new MedicineServiceImpl();
     @Override
-    public String execute(SessionRequestContent sessionRequestContent) throws CommandException {
+    public String execute(SessionRequestContent content) throws CommandException {
         try {
-            orderService.addMedicineToOrder(sessionRequestContent);
-            medicineService.findAllMedicines(sessionRequestContent);
+            orderService.addMedicineToOrder(content);
+            medicineService.findAllMedicines(content);
         } catch (ServiceException e) {
             throw new CommandException(e);
         }

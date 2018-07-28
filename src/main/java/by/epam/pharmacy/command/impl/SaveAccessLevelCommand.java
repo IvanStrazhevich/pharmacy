@@ -11,10 +11,10 @@ import by.epam.pharmacy.service.impl.UserServiceImpl;
 public class SaveAccessLevelCommand implements RequestCommand<SessionRequestContent> {
     private UserService userService = new UserServiceImpl();
     @Override
-    public String execute(SessionRequestContent sessionRequestContent) throws CommandException {
+    public String execute(SessionRequestContent content) throws CommandException {
         try {
-            userService.saveAccessLvl(sessionRequestContent);
-            userService.showUsersAndAccess(sessionRequestContent);
+            userService.saveAccessLvl(content);
+            userService.showUsersAndAccess(content);
         } catch (ServiceException e) {
             throw new CommandException(e);
         }

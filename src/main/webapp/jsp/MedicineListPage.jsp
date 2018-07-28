@@ -1,4 +1,4 @@
-<%@page contentType="text/html" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="pharmacyCustomTaglib" prefix="pht" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -15,7 +15,7 @@
 ${medicineAdded}
 <div class="table-responsive">
     <h6>
-        <table class="table table-striped table-hover table-bordered tableUpdated table-responsive">
+        <table class="table table-striped table-bordered tableUpdated table-responsive">
             <tr>
                 <th><fmt:message key="label.header.id"/></th>
                 <th><fmt:message key="label.header.medicineName"/></th>
@@ -49,7 +49,7 @@ ${medicineAdded}
                                     <input type="submit" class="btn btn-primary"
                                            value="<fmt:message key="label.button.addMedicine"/>">
                                     <input type="hidden" name="medicineId" value="${meds.medicineId}">
-                                    <input type="hidden" name="action" value="addMedicineToOrder">
+                                    <input type="hidden" name="action" value="AddMedicineToOrder">
                                 </td>
                             </form>
                         </c:when>

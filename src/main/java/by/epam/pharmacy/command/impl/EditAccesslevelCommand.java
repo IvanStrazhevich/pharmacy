@@ -11,9 +11,9 @@ import by.epam.pharmacy.service.impl.UserServiceImpl;
 public class EditAccesslevelCommand implements RequestCommand<SessionRequestContent> {
     private UserService userService = new UserServiceImpl();
     @Override
-    public String execute(SessionRequestContent sessionRequestContent) throws CommandException {
+    public String execute(SessionRequestContent content) throws CommandException {
         try {
-            userService.showUserAccessLvl(sessionRequestContent);
+            userService.showUserAccessLvl(content);
         } catch (ServiceException e) {
             throw new CommandException(e);
         }

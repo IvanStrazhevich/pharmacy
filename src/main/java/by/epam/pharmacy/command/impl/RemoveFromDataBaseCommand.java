@@ -11,9 +11,9 @@ import by.epam.pharmacy.service.impl.MedicineServiceImpl;
 public class RemoveFromDataBaseCommand implements RequestCommand<SessionRequestContent> {
     private MedicineService medicineService = new MedicineServiceImpl();
     @Override
-    public String execute(SessionRequestContent sessionRequestContent) throws CommandException {
+    public String execute(SessionRequestContent content) throws CommandException {
         try {
-            medicineService.removeMedicineFromDtaBase(sessionRequestContent);
+            medicineService.removeMedicineFromDtaBase(content);
         } catch (ServiceException e) {
             throw new CommandException(e);
         }

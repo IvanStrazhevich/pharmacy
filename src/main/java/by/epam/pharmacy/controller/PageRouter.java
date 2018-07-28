@@ -18,7 +18,7 @@ public class PageRouter {
 
     PageRouter() {
         try {
-            servletMap = MapCreator.getInstance().getServletMap();
+            servletMap = CommandMapper.getInstance().getServletMap();
         } catch (PharmacyServletException e) {
             logger.fatal(e);
             throw new RuntimeException(e);

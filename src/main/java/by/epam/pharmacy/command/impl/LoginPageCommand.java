@@ -9,7 +9,7 @@ public class LoginPageCommand implements RequestCommand<SessionRequestContent> {
     private static final String MESSAGE = "message.needLogin";
 
     @Override
-    public String execute(SessionRequestContent sessionRequestContent) {
+    public String execute(SessionRequestContent content) {
         String page = null;
        /* ResourceManager.INSTANCE.changeResource(new Locale(sessionRequestContent.getSessionAttributes().get(AttributeName.LANG.getAttribute()).toString()));
         if (sessionRequestContent.getSessionAttributes().get(AttributeName.LOGGED.getAttribute()) == null) {

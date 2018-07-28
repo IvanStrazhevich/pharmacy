@@ -44,6 +44,10 @@ public class ConnectionPool {
         return instance;
     }
 
+    /**
+     * Closes all connections in pool
+     * @throws PoolException
+     */
     public void closeAll() throws PoolException {
         try {
             int poolSize = connectionPoolFree.size() + connectionInUse.size();
@@ -56,17 +60,16 @@ public class ConnectionPool {
         }
     }
 
-    private void optimizePool() throws PoolException {
-        try {
-            while (connectionPoolFree.size() > CONNECTIONS_NORM) {
-                logger.debug("Optimisation " + connectionPoolFree.size());
-                connectionPoolFree.take().getConnection().close();
-            }
-        } catch (SQLException | InterruptedException e) {
-            throw new PoolException("Closing proxyConnection error", e);
-        }
-    }
 
+    /**
+     * On demand return connection to db. If number available connection becomes less then
+     * MIN_CONNECTIONS creates new one and puts in pool of free connections
+     * until number of connections in use reaches MAX_CONNECTIONS. If number of
+     * free connections reaches NORMALIZATION_LIMIT_FOR_CONNECTION it's number reduces
+     * until reaches CONNECTIONS_NORM
+     * @return proxy connection
+     * @throws PoolException
+     */
     public ProxyConnection getConnection() throws PoolException {
         logger.debug("Connections avalable" + connectionPoolFree.size());
         ProxyConnection proxyConnection = null;
@@ -88,6 +91,10 @@ public class ConnectionPool {
         return proxyConnection;
     }
 
+    /**
+     * Moves proxyconnection back to pool.
+     * @param proxyConnection
+     */
     void releaseConnection(ProxyConnection proxyConnection) {
         logger.debug("Returning connection to pool: Connection " + proxyConnection + " is in use: " + connectionInUse.contains(proxyConnection) + " in use size " + connectionInUse.size());
         connectionInUse.remove(proxyConnection);
@@ -95,4 +102,16 @@ public class ConnectionPool {
         connectionPoolFree.add(proxyConnection);
         logger.debug("Connections in free poll " + connectionPoolFree.size() + "Connections in use " + connectionInUse.size());
     }
+
+    private void optimizePool() throws PoolException {
+        try {
+            while (connectionPoolFree.size() > CONNECTIONS_NORM) {
+                logger.debug("Optimisation " + connectionPoolFree.size());
+                connectionPoolFree.take().getConnection().close();
+            }
+        } catch (SQLException | InterruptedException e) {
+            throw new PoolException("Closing proxyConnection error", e);
+        }
+    }
+
 }

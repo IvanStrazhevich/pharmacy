@@ -6,7 +6,7 @@ import by.epam.pharmacy.command.SessionRequestContent;
 
 public class RegisterPageCommand implements RequestCommand<SessionRequestContent> {
     @Override
-    public String execute(SessionRequestContent sessionRequestContent) {
+    public String execute(SessionRequestContent content) {
         return PagePath.REGISTER_PAGE.getPage();
     }
 }

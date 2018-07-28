@@ -11,7 +11,7 @@ public class WelcomePageCommand implements RequestCommand<SessionRequestContent>
     private static final String MESSAGE = "message.needLogin";
 
     @Override
-    public String execute(SessionRequestContent sessionRequestContent) {
+    public String execute(SessionRequestContent content) {
         String page = null;
         /*if (sessionRequestContent.getSessionAttributes().get(AttributeName.LOGGED.getAttribute()) != null) {
             page =*/ return PagePath.WELCOME_PAGE.getPage();

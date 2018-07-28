@@ -14,8 +14,8 @@ public class LocaleSwitchCommand implements RequestCommand<SessionRequestContent
     private LanguageSwitchable<SessionRequestContent> languageSwitcher = new LanguageSwitcherUsingContent();
 
     @Override
-    public String execute(SessionRequestContent sessionRequestContent) {
-        languageSwitcher.langSwitch(sessionRequestContent);
+    public String execute(SessionRequestContent content) {
+        languageSwitcher.langSwitch(content);
         return PagePath.WELCOME_PAGE.getPage();
     }
 }

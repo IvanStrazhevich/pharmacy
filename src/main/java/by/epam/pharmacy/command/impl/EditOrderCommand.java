@@ -11,9 +11,9 @@ import by.epam.pharmacy.service.impl.OrderServiceImpl;
 public class EditOrderCommand implements RequestCommand<SessionRequestContent> {
     private OrderService orderService = new OrderServiceImpl();
     @Override
-    public String execute(SessionRequestContent sessionRequestContent) throws CommandException {
+    public String execute(SessionRequestContent content) throws CommandException {
         try {
-            orderService.showOrder(sessionRequestContent);
+            orderService.showOrder(content);
         } catch (ServiceException e) {
             throw new CommandException(e);
         }

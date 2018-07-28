@@ -19,14 +19,14 @@ public class MedicineServiceImpl implements MedicineService {
     /**
      * Finds all entries put ArrayList result in request
      *
-     * @param sessionRequestContent
+     * @param content
      * @throws ServiceException
      */
     @Override
-    public void findAllMedicines(SessionRequestContent sessionRequestContent) throws ServiceException {
+    public void findAllMedicines(SessionRequestContent content) throws ServiceException {
         try (MedicineDao medicineDao = new MedicineDao()) {
             ArrayList<Medicine> medicines = medicineDao.findAll();
-            sessionRequestContent.getRequestAttributes().put(AttributeName.MEDICINES.getAttribute(), medicines);
+            content.getRequestAttributes().put(AttributeName.MEDICINES.getAttribute(), medicines);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -35,17 +35,17 @@ public class MedicineServiceImpl implements MedicineService {
     /**
      * Finds entries by name put ArrayList result in request
      *
-     * @param sessionRequestContent
+     * @param content
      * @throws ServiceException
      */
     @Override
-    public void findMedicinesByName(SessionRequestContent sessionRequestContent) throws ServiceException {
+    public void findMedicinesByName(SessionRequestContent content) throws ServiceException {
         try (MedicineDao medicineDao = new MedicineDao()) {
-            if (sessionRequestContent.getRequestParameters().get(AttributeName.MEDICINE_NAME.getAttribute()) != null) {
-                String medName = sessionRequestContent.getRequestParameters().get(AttributeName.MEDICINE_NAME.getAttribute()).toString();
+            if (content.getRequestParameters().get(AttributeName.MEDICINE_NAME.getAttribute()) != null) {
+                String medName = content.getRequestParameters().get(AttributeName.MEDICINE_NAME.getAttribute()).toString();
                 ArrayList<Medicine> medicines = medicineDao.findMedicineByName(medName);
                 logger.info(medicines);
-                sessionRequestContent.getRequestAttributes().put(AttributeName.MEDICINES.getAttribute(), medicines);
+                content.getRequestAttributes().put(AttributeName.MEDICINES.getAttribute(), medicines);
             }
         } catch (DaoException e) {
             throw new ServiceException(e);
@@ -55,17 +55,17 @@ public class MedicineServiceImpl implements MedicineService {
     /**
      * Finds entry by id put in result in request
      *
-     * @param sessionRequestContent
+     * @param content
      * @throws ServiceException
      */
     @Override
-    public void findMedicineById(SessionRequestContent sessionRequestContent) throws ServiceException {
+    public void findMedicineById(SessionRequestContent content) throws ServiceException {
         try (MedicineDao medicineDao = new MedicineDao()) {
-            if (sessionRequestContent.getRequestParameters().get(AttributeName.MEDICINE_ID.getAttribute()) != null) {
-                int medId = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeName.MEDICINE_ID.getAttribute()).toString());
+            if (content.getRequestParameters().get(AttributeName.MEDICINE_ID.getAttribute()) != null) {
+                int medId = Integer.valueOf(content.getRequestParameters().get(AttributeName.MEDICINE_ID.getAttribute()).toString());
                 Medicine medicine = medicineDao.findEntityById(medId);
                 logger.info(medicine);
-                sessionRequestContent.getRequestAttributes().put(AttributeName.MEDICINE.getAttribute(), medicine);
+                content.getRequestAttributes().put(AttributeName.MEDICINE.getAttribute(), medicine);
             }
         } catch (DaoException e) {
             throw new ServiceException(e);
@@ -74,14 +74,14 @@ public class MedicineServiceImpl implements MedicineService {
 
     /**
      * Removes entry from database forever by its id
-     * @param sessionRequestContent
+     * @param content
      * @throws ServiceException
      */
     @Override
-    public void removeMedicineFromDtaBase(SessionRequestContent sessionRequestContent) throws ServiceException {
+    public void removeMedicineFromDtaBase(SessionRequestContent content) throws ServiceException {
         try (MedicineDao medicineDao = new MedicineDao()) {
-            if (sessionRequestContent.getRequestParameters().get(AttributeName.MEDICINE_ID.getAttribute()) != null) {
-                int medId = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeName.MEDICINE_ID.getAttribute()).toString());
+            if (content.getRequestParameters().get(AttributeName.MEDICINE_ID.getAttribute()) != null) {
+                int medId = Integer.valueOf(content.getRequestParameters().get(AttributeName.MEDICINE_ID.getAttribute()).toString());
                 medicineDao.deleteById(medId);
             }
         } catch (DaoException e) {
@@ -91,24 +91,24 @@ public class MedicineServiceImpl implements MedicineService {
 
         /**
          * Creates or updates entry
-         * @param sessionRequestContent
+         * @param content
          * @throws ServiceException
          */
         @Override
-        public void createOrUpdateMedicine(SessionRequestContent sessionRequestContent) throws ServiceException {
+        public void createOrUpdateMedicine(SessionRequestContent content) throws ServiceException {
             try (MedicineDao medicineDao = new MedicineDao()) {
                 ArrayList<Medicine> medicines = new ArrayList<>();
                 Medicine medicine = new Medicine();
-                if(sessionRequestContent.getRequestParameters().get(AttributeName.MEDICINE_ID.getAttribute())!=null){
-                medicine.setMedicineId(Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeName.MEDICINE_ID.getAttribute())));
+                if(content.getRequestParameters().get(AttributeName.MEDICINE_ID.getAttribute())!=null){
+                medicine.setMedicineId(Integer.valueOf(content.getRequestParameters().get(AttributeName.MEDICINE_ID.getAttribute())));
                 }
-                medicine.setMedicineName(sessionRequestContent.getRequestParameters().get(AttributeName.MEDICINE_NAME.getAttribute()));
-                medicine.setDescription(sessionRequestContent.getRequestParameters().get(AttributeName.DESCRIPTION.getAttribute()));
-                medicine.setDosage(BigDecimal.valueOf(Double.valueOf(sessionRequestContent.getRequestParameters().get(AttributeName.DOSAGE.getAttribute()))));
-                medicine.setRecipeRequired(Boolean.parseBoolean(sessionRequestContent.getRequestParameters().get(AttributeName.RECIPE_REQ.getAttribute())));
-                medicine.setPrice(BigDecimal.valueOf(Double.valueOf(sessionRequestContent.getRequestParameters().get(AttributeName.PRICE.getAttribute()))));
-                medicine.setAvailable(Boolean.parseBoolean(sessionRequestContent.getRequestParameters().get(AttributeName.AVAILABLE.getAttribute())));
-                medicine.setQuantityAtStorage(Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeName.QUANTITY_AT_STORAGE.getAttribute())));
+                medicine.setMedicineName(content.getRequestParameters().get(AttributeName.MEDICINE_NAME.getAttribute()));
+                medicine.setDescription(content.getRequestParameters().get(AttributeName.DESCRIPTION.getAttribute()));
+                medicine.setDosage(BigDecimal.valueOf(Double.valueOf(content.getRequestParameters().get(AttributeName.DOSAGE.getAttribute()))));
+                medicine.setRecipeRequired(Boolean.parseBoolean(content.getRequestParameters().get(AttributeName.RECIPE_REQ.getAttribute())));
+                medicine.setPrice(BigDecimal.valueOf(Double.valueOf(content.getRequestParameters().get(AttributeName.PRICE.getAttribute()))));
+                medicine.setAvailable(Boolean.parseBoolean(content.getRequestParameters().get(AttributeName.AVAILABLE.getAttribute())));
+                medicine.setQuantityAtStorage(Integer.valueOf(content.getRequestParameters().get(AttributeName.QUANTITY_AT_STORAGE.getAttribute())));
                 logger.info("Medicine: " + medicine);
                 int id = medicine.getMedicineId();
                 logger.info(id);
@@ -121,7 +121,7 @@ public class MedicineServiceImpl implements MedicineService {
                 }
                 medicines.addAll(medicineDao.findAll());
                 logger.info("Output list: " + medicines);
-                sessionRequestContent.getRequestAttributes().put(AttributeName.MEDICINES.getAttribute(),
+                content.getRequestAttributes().put(AttributeName.MEDICINES.getAttribute(),
                         medicines);
             } catch (DaoException e) {
                 throw new ServiceException(e);

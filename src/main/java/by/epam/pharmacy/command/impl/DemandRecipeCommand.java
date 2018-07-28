@@ -14,10 +14,10 @@ public class DemandRecipeCommand implements RequestCommand<SessionRequestContent
         private OrderService orderService = new OrderServiceImpl();
         private RecipeService recipeService = new RecipeServiceImpl();
         @Override
-        public String execute(SessionRequestContent sessionRequestContent) throws CommandException {
+        public String execute(SessionRequestContent content) throws CommandException {
             try {
-                recipeService.createRecipe(sessionRequestContent);
-                orderService.showOrder(sessionRequestContent);
+                recipeService.createRecipe(content);
+                orderService.showOrder(content);
             } catch (ServiceException e) {
                 throw new CommandException(e);
             }

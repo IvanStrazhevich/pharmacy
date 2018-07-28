@@ -6,7 +6,7 @@ import by.epam.pharmacy.command.SessionRequestContent;
 
 public class PayOrderCommand implements RequestCommand<SessionRequestContent> {
     @Override
-    public String execute(SessionRequestContent sessionRequestContent) throws CommandException {
+    public String execute(SessionRequestContent content) throws CommandException {
         return null;
     }
 }

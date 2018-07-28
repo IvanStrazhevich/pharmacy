@@ -11,9 +11,9 @@ import by.epam.pharmacy.service.impl.RecipeServiceImpl;
 public class EditRecipeCommand implements RequestCommand<SessionRequestContent> {
     private RecipeService recipeService = new RecipeServiceImpl();
     @Override
-    public String execute(SessionRequestContent sessionRequestContent) throws CommandException {
+    public String execute(SessionRequestContent content) throws CommandException {
         try {
-            recipeService.showRecipe(sessionRequestContent);
+            recipeService.showRecipe(content);
         } catch (ServiceException e) {
             throw new CommandException(e);
         }

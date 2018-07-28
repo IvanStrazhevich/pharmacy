@@ -10,7 +10,7 @@
     <title><fmt:message key="label.button.HeaderPage"/></title>
 </head>
 <body>
-<nav class="navbar navbar-default" style="background: #5cb85c">
+<nav class="navbar nav-tabs" style="background: #5cb85c;padding: 0px">
     <div class="container-fluid">
         <form class="navbar-form navbar-left" action="WelcomePage"
               method="post">
@@ -28,13 +28,13 @@
                            value="<fmt:message key="label.button.EditUserPage"/>">
                 </div>
             </form>
-        <form class="navbar-form navbar-left" action="EditOrderPage" method="post">
-            <div class="form-group">
-                <input type="hidden" name="action" value="EditOrder">
-                <input type="submit" class="btn btn-primary"
-                       value="<fmt:message key="label.button.EditOrderPage"/>">
-            </div>
-        </form>
+            <form class="navbar-form navbar-left" action="EditOrderPage" method="post">
+                <div class="form-group">
+                    <input type="hidden" name="action" value="EditOrder">
+                    <input type="submit" class="btn btn-primary"
+                           value="<fmt:message key="label.button.EditOrderPage"/>">
+                </div>
+            </form>
         </c:if>
 
         <form class="navbar-form navbar-left" action="MedicineListPage"
@@ -110,13 +110,51 @@
     </div>
 </nav>
 
-<%--
-<nav class="navbar navbar-default" style="background: #5cb85c">
-    <div class="container-fluid">
+<ul class="nav navbar-left container-fluid" style="background: #5cb85c; padding: 10px; height: auto" >
+    <li>
+        <form action="MedicineListPage"
+              method="post">
+                <input type="hidden" name="action" value="MedicineList">
+                <input class="btn btn-success" type="submit"
+                       value="<fmt:message key="label.button.MedicineListPage"/>">
+        </form>
+    </li>
+    <c:if test="${sessionScope.accessLevel=='doctor'}">
+        <li>
+            <form action="RecipeApprovalPage" method="post">
+                    <input type="hidden" name="action" value="EditRecipe">
+                    <input class="btn btn-success" type="submit"
+                           value="<fmt:message key="label.button.RecipeApproval"/>">
+            </form>
+        </li>
+        <li>
+            <form action="RecipeListPage"
+                  method="post">
+                    <input type="hidden" name="action" value="RecipeList">
+                    <input class="btn btn-success" type="submit"
+                           value="<fmt:message key="label.button.RecipeListPage"/>">
+            </form>
+        </li>
+    </c:if>
 
-    </div>
-</nav>
---%>
+    <c:if test="${logged!=null}">
+        <li>
+            <form action="EditUserDataPage" method="post">
+                    <input type="hidden" name="action" value="EditUserDataPage">
+                    <input class="btn btn-success" type="submit"
+                           value="<fmt:message key="label.button.EditUserPage"/>">
+            </form>
+        </li>
+        <li>
+            <form action="EditOrderPage" method="post">
+                    <input type="hidden" name="action" value="EditOrder">
+                    <input class="btn btn-success" type="submit"
+                           value="<fmt:message key="label.button.EditOrderPage"/>">
+            </form>
+        </li>
+    </c:if>
+</ul>
+
 
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="js/bootstrap.min.js"></script>

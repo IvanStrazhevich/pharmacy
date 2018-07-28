@@ -16,7 +16,7 @@ public class SaveClientDetailCommand implements RequestCommand<SessionRequestCon
     Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(SessionRequestContent sessionRequestContent) throws CommandException {
+    public String execute(SessionRequestContent content) throws CommandException {
         /*String applicationPath = request.getServletContext().getRealPath("");
         String uploadFilePath = applicationPath + UPLOAD_DIR;
         String filename = null;
@@ -39,7 +39,7 @@ public class SaveClientDetailCommand implements RequestCommand<SessionRequestCon
             throw new CommandException("IOException",e);
         }*/
         try {
-            clientService.createClientDetail(sessionRequestContent);
+            clientService.createClientDetail(content);
         } catch (ServiceException e) {
             throw new CommandException(e);
         }

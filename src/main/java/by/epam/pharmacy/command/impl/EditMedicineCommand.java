@@ -11,9 +11,9 @@ import by.epam.pharmacy.service.impl.MedicineServiceImpl;
 public class EditMedicineCommand implements RequestCommand<SessionRequestContent> {
     private MedicineService medicineService = new MedicineServiceImpl();
     @Override
-    public String execute(SessionRequestContent sessionRequestContent) throws CommandException {
+    public String execute(SessionRequestContent content) throws CommandException {
         try {
-            medicineService.findMedicineById(sessionRequestContent);
+            medicineService.findMedicineById(content);
         } catch (ServiceException e) {
             throw new CommandException(e);
         }

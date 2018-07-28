@@ -9,8 +9,8 @@ public interface UserService {
     boolean checkUserExist(String login) throws ServiceException;
     String checkUserAccessLevel(String login) throws ServiceException;
     boolean checkLogin(String login, String password) throws ServiceException;
-    void showUsersAndAccess(SessionRequestContent sessionRequestContent) throws ServiceException;
-    void showUserAccessLvl(SessionRequestContent sessionRequestContent) throws ServiceException;
-    void saveAccessLvl(SessionRequestContent sessionRequestContent) throws ServiceException;
+    void showUsersAndAccess(SessionRequestContent content) throws ServiceException;
+    void showUserAccessLvl(SessionRequestContent content) throws ServiceException;
+    void saveAccessLvl(SessionRequestContent content) throws ServiceException;
     User findDefaultDoctor() throws ServiceException;
 }

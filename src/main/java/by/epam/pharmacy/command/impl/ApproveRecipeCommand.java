@@ -11,10 +11,10 @@ import by.epam.pharmacy.service.impl.RecipeServiceImpl;
 public class ApproveRecipeCommand implements RequestCommand<SessionRequestContent> {
     private RecipeService recipeService = new RecipeServiceImpl();
     @Override
-    public String execute(SessionRequestContent sessionRequestContent) throws CommandException {
+    public String execute(SessionRequestContent content) throws CommandException {
         try {
-            recipeService.approveRecipe(sessionRequestContent);
-            recipeService.showRecipes(sessionRequestContent);
+            recipeService.approveRecipe(content);
+            recipeService.showRecipes(content);
         } catch (ServiceException e) {
             throw new CommandException(e);
         }

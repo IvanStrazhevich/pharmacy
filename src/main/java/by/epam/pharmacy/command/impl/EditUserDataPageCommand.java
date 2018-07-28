@@ -16,9 +16,9 @@ public class EditUserDataPageCommand implements RequestCommand<SessionRequestCon
 
 
     @Override
-    public String execute(SessionRequestContent sessionRequestContent) throws CommandException {
+    public String execute(SessionRequestContent content) throws CommandException {
         try {
-            clientService.findClientDetail(sessionRequestContent);
+            clientService.findClientDetail(content);
         } catch (ServiceException e) {
             throw new CommandException(e);
         }

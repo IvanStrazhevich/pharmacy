@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
         String shalogin = encoder.encode(login);
         for (User user : list) {
             String loginDB = user.getLogin();
-            logger.info(loginDB + '\n' + shalogin);
+            logger.debug(loginDB + '\n' + shalogin);
             if (shalogin.equals(loginDB)) {
                 exist = true;
             }
@@ -75,7 +75,9 @@ public class UserServiceImpl implements UserService {
             user.setPassword(shaPassword);
             user.setAccessLevel(AccessLevel.CLIENT.getLevel());
             userDao.create(user);
+            logger.info("user created");
             int userId = userDao.findLastInsertId();
+            logger.info("id extracted");
             ClientDetail clientDetail = new ClientDetail();
             clientDetail.setClientId(userId);
             return clientDetailDao.create(clientDetail);
@@ -84,19 +86,19 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public void showUsersAndAccess(SessionRequestContent sessionRequestContent) throws ServiceException {
+    public void showUsersAndAccess(SessionRequestContent content) throws ServiceException {
         try (UserDao userDao = new UserDao()) {
             ArrayList<User> users = userDao.findUserWithNames();
             logger.info(users);
-            sessionRequestContent.getRequestAttributes().put(AttributeName.USERS.getAttribute(), users);
+            content.getRequestAttributes().put(AttributeName.USERS.getAttribute(), users);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
     }
 
     @Override
-    public void showUserAccessLvl(SessionRequestContent sessionRequestContent) throws ServiceException {
-        int id = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeName.USER_ID.getAttribute()));
+    public void showUserAccessLvl(SessionRequestContent content) throws ServiceException {
+        int id = Integer.valueOf(content.getRequestParameters().get(AttributeName.USER_ID.getAttribute()));
         logger.info(id);
         try (UserDao userDao = new UserDao();
              ClientDetailDao clientDetailDao = new ClientDetailDao()) {
@@ -104,20 +106,20 @@ public class UserServiceImpl implements UserService {
             ClientDetail clientDetail = clientDetailDao.findEntityById(id);
             user.setClientDetail(clientDetail);
             logger.info(user);
-            sessionRequestContent.getRequestAttributes().put(AttributeName.USER.getAttribute(), user);
+            content.getRequestAttributes().put(AttributeName.USER.getAttribute(), user);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
     }
 
     @Override
-    public void saveAccessLvl(SessionRequestContent sessionRequestContent) throws ServiceException {
-        int id = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeName.USER_ID.getAttribute()));
+    public void saveAccessLvl(SessionRequestContent content) throws ServiceException {
+        int id = Integer.valueOf(content.getRequestParameters().get(AttributeName.USER_ID.getAttribute()));
         logger.info(id);
         try (UserDao userDao = new UserDao()) {
             User user = userDao.findEntityById(id);
             logger.info("from base: " + user);
-            user.setAccessLevel(sessionRequestContent.getRequestParameters().get(AttributeName.ACCESS_LEVEL.getAttribute()));
+            user.setAccessLevel(content.getRequestParameters().get(AttributeName.ACCESS_LEVEL.getAttribute()));
             userDao.update(user);
             logger.info(user);
         } catch (DaoException e) {

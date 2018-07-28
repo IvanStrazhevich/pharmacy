@@ -2,15 +2,12 @@ package by.epam.pharmacy.service.impl;
 
 import by.epam.pharmacy.exception.ServiceException;
 import by.epam.pharmacy.service.Encodable;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class ShaConverter implements Encodable {
-    private static Logger logger = LogManager.getLogger();
     private static final String ENCODE="SHA-1";
 
     public ShaConverter() {

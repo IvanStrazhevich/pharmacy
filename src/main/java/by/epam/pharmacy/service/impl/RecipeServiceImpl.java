@@ -26,11 +26,11 @@ public class RecipeServiceImpl implements RecipeService {
     private OrderService orderService = new OrderServiceImpl();
 
     @Override
-    public void createRecipe(SessionRequestContent sessionRequestContent) throws ServiceException {
-        int orderId = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeName.ORDER_ID.getAttribute()));
-        int medicineId = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeName.MEDICINE_ID.getAttribute()));
-        int medicineQuantity = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeName.MEDICINE_QUANTITY.getAttribute()));
-        BigDecimal dosage = new BigDecimal(sessionRequestContent.getRequestParameters().get(AttributeName.DOSAGE.getAttribute()));
+    public void createRecipe(SessionRequestContent content) throws ServiceException {
+        int orderId = Integer.valueOf(content.getRequestParameters().get(AttributeName.ORDER_ID.getAttribute()));
+        int medicineId = Integer.valueOf(content.getRequestParameters().get(AttributeName.MEDICINE_ID.getAttribute()));
+        int medicineQuantity = Integer.valueOf(content.getRequestParameters().get(AttributeName.MEDICINE_QUANTITY.getAttribute()));
+        BigDecimal dosage = new BigDecimal(content.getRequestParameters().get(AttributeName.DOSAGE.getAttribute()));
         int clientId = findUserId(orderId);
         Recipe recipe = new Recipe();
         recipe.setMedicineId(medicineId);
@@ -40,38 +40,38 @@ public class RecipeServiceImpl implements RecipeService {
         recipe.setDoctorId(userService.findDefaultDoctor().getUserId());
         logger.info(recipe);
         createOrUpdateRecipe(recipe);
-        sessionRequestContent.getRequestAttributes().put(AttributeName.RECIPE_REQUESTED.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE));
+        content.getRequestAttributes().put(AttributeName.RECIPE_REQUESTED.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE));
     }
 
-    public void showRecipes(SessionRequestContent sessionRequestContent) throws ServiceException {
+    public void showRecipes(SessionRequestContent content) throws ServiceException {
         try (RecipeDao recipeDao = new RecipeDao()) {
             ArrayList<Recipe> recipes = recipeDao.findAllWithDetails();
             logger.info(recipes);
-            sessionRequestContent.getRequestAttributes().put(AttributeName.RECIPES.getAttribute(), recipes);
+            content.getRequestAttributes().put(AttributeName.RECIPES.getAttribute(), recipes);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
     }
 
     @Override
-    public void showRecipe(SessionRequestContent sessionRequestContent) throws ServiceException {
-        int recipeId = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeName.RECIPE_ID.getAttribute()));
+    public void showRecipe(SessionRequestContent content) throws ServiceException {
+        int recipeId = Integer.valueOf(content.getRequestParameters().get(AttributeName.RECIPE_ID.getAttribute()));
         try (RecipeDao recipeDao = new RecipeDao()) {
             Recipe recipe = recipeDao.findEntityByIdWithDetails(recipeId);
             logger.info(recipe);
-            sessionRequestContent.getRequestAttributes().put(AttributeName.RECIPE.getAttribute(), recipe);
+            content.getRequestAttributes().put(AttributeName.RECIPE.getAttribute(), recipe);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
     }
 
     @Override
-    public void approveRecipe(SessionRequestContent sessionRequestContent) throws ServiceException {
-        int recipeId = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeName.RECIPE_ID.getAttribute()));
-        int medicineQuantity = Integer.valueOf(sessionRequestContent.getRequestParameters().get(AttributeName.MEDICINE_QUANTITY.getAttribute()));
-        Timestamp validTill = Timestamp.valueOf(sessionRequestContent.getRequestParameters().get(AttributeName.VALID_TILL.getAttribute()));
+    public void approveRecipe(SessionRequestContent content) throws ServiceException {
+        int recipeId = Integer.valueOf(content.getRequestParameters().get(AttributeName.RECIPE_ID.getAttribute()));
+        int medicineQuantity = Integer.valueOf(content.getRequestParameters().get(AttributeName.MEDICINE_QUANTITY.getAttribute()));
+        Timestamp validTill = Timestamp.valueOf(content.getRequestParameters().get(AttributeName.VALID_TILL.getAttribute()));
         logger.info(validTill);
-        boolean approved = Boolean.parseBoolean(sessionRequestContent.getRequestParameters().get(AttributeName.APPROVED.getAttribute()));
+        boolean approved = Boolean.parseBoolean(content.getRequestParameters().get(AttributeName.APPROVED.getAttribute()));
         try (RecipeDao recipeDao = new RecipeDao()) {
             Recipe recipeDB = recipeDao.findEntityById(recipeId);
             recipeDB.setMedicineQuantity(medicineQuantity);

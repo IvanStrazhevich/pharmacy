@@ -20,19 +20,19 @@ public class CheckUserCommand implements RequestCommand<SessionRequestContent> {
 
 
     @Override
-    public String execute(SessionRequestContent sessionRequestContent) throws CommandException {
+    public String execute(SessionRequestContent content) throws CommandException {
         try {
             String page = null;
-            String login = sessionRequestContent.getRequestParameters().get(AttributeName.LOGIN.getAttribute());
-            String password = sessionRequestContent.getRequestParameters().get(AttributeName.PASSWORD.getAttribute());
+            String login = content.getRequestParameters().get(AttributeName.LOGIN.getAttribute());
+            String password = content.getRequestParameters().get(AttributeName.PASSWORD.getAttribute());
             if (userService.checkLogin(login, password)) {
-                sessionRequestContent.getSessionAttributes().put(AttributeName.LOGGED.getAttribute(), AttributeName.LOGGED.getAttribute());
-                sessionRequestContent.getSessionAttributes().put(AttributeName.ACCESS_LEVEL.getAttribute(), userService.checkUserAccessLevel(login));
-                sessionRequestContent.getSessionAttributes().put(AttributeName.LOGIN.getAttribute(), login);
-                sessionRequestContent.getRequestAttributes().put(AttributeName.GREETING.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE_SUCCESS));
+                content.getSessionAttributes().put(AttributeName.LOGGED.getAttribute(), AttributeName.LOGGED.getAttribute());
+                content.getSessionAttributes().put(AttributeName.ACCESS_LEVEL.getAttribute(), userService.checkUserAccessLevel(login));
+                content.getSessionAttributes().put(AttributeName.LOGIN.getAttribute(), login);
+                content.getRequestAttributes().put(AttributeName.GREETING.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE_SUCCESS));
                 page = PagePath.WELCOME_PAGE.getPage();
             } else {
-                sessionRequestContent.getSessionAttributes().put(AttributeName.NEED_REGISTER.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE));
+                content.getSessionAttributes().put(AttributeName.NEED_REGISTER.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE));
                 page = PagePath.LOGIN_PAGE.getPage();
             }
             return page;
