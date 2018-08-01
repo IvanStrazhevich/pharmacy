@@ -12,6 +12,9 @@ import by.epam.pharmacy.util.ResourceManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * 
+ */
 public class CheckUserCommand implements RequestCommand<SessionRequestContent> {
     private static Logger logger = LogManager.getLogger();
     private static final String MESSAGE = "message.wrongloginAndPass";
@@ -19,6 +22,10 @@ public class CheckUserCommand implements RequestCommand<SessionRequestContent> {
     private UserService userService = new UserServiceImpl();
 
 
+    /**
+     * 
+     * @param content 
+     */
     @Override
     public String execute(SessionRequestContent content) throws CommandException {
         try {
@@ -41,4 +48,5 @@ public class CheckUserCommand implements RequestCommand<SessionRequestContent> {
         }
     }
 }
+
 

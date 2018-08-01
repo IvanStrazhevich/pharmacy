@@ -1,7 +1,7 @@
 package by.epam.pharmacy.dao;
 
 import by.epam.pharmacy.connection.ConnectionPool;
-import by.epam.pharmacy.dao.impl.UserDao;
+import by.epam.pharmacy.dao.impl.UserDaoImpl;
 import by.epam.pharmacy.entity.User;
 import by.epam.pharmacy.exception.DaoException;
 import by.epam.pharmacy.exception.PoolException;
@@ -10,12 +10,18 @@ import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
+/**
+ * 
+ */
 public class UserDaoTest {
-    private UserDao userDao;
+    private UserDaoImpl userDao;
     private User user;
     private static Logger logger = LogManager.getLogger();
     private ConnectionPool connectionPool;
 
+    /**
+     * 
+     */
     @BeforeClass
     public void beforeClass() {
         user = new User();
@@ -25,6 +31,9 @@ public class UserDaoTest {
 
     }
 
+    /**
+     * 
+     */
     @AfterClass
     public void afterClass() throws PoolException {
         connectionPool.closeAll();
@@ -32,47 +41,71 @@ public class UserDaoTest {
 
     }
 
+    /**
+     * 
+     */
     @BeforeMethod
     public void setUp() throws Exception {
-        userDao = new UserDao();
+        userDao = new UserDaoImpl();
 
     }
 
+    /**
+     * 
+     */
     @AfterMethod
     public void tearDown() throws DaoException {
         userDao.close();
     }
 
+    /**
+     * 
+     */
     @Test
     public void testFindAll() throws DaoException {
         System.out.println(userDao.findAll());
 
     }
 
+    /**
+     * 
+     */
     @Test
     public void testFindEntityById() throws DaoException {
         userDao.create(user);
         userDao.findEntityById(userDao.findLastInsertId());
     }
 
+    /**
+     * 
+     */
     @Test
     public void testDelete() throws DaoException {
         userDao.create(user);
         userDao.delete(user);
     }
 
+    /**
+     * 
+     */
     @Test
     public void testDeleteById() throws DaoException {
         userDao.create(user);
         userDao.deleteById(userDao.findLastInsertId());
     }
 
+    /**
+     * 
+     */
     @Test
     public void testCreate() throws DaoException {
         userDao.create(user);
         userDao.delete(user);
     }
 
+    /**
+     * 
+     */
     @Test
     public void testUpdate() throws DaoException {
         userDao.create(user);
@@ -86,3 +119,4 @@ public class UserDaoTest {
         userDao.delete(expected);
     }
 }
+

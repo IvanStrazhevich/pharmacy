@@ -1,7 +1,7 @@
 package by.epam.pharmacy.dao.impl;
 
 import by.epam.pharmacy.connection.ProxyConnection;
-import by.epam.pharmacy.dao.AbstractOrderDao;
+import by.epam.pharmacy.dao.OrderDao;
 import by.epam.pharmacy.entity.Medicine;
 import by.epam.pharmacy.entity.Order;
 import by.epam.pharmacy.entity.OrderHasMedicine;
@@ -18,7 +18,7 @@ import java.util.ArrayList;
 /**
  *
  */
-public class OrderDao extends AbstractDaoImpl<Order> implements AbstractOrderDao<Order>{
+public class OrderDaoImpl extends AbstractDaoImpl<Order> implements OrderDao<Order> {
     private static Logger logger = LogManager.getLogger();
     private static final String SELECT_ALL_PSTM = "select order_id, ord_user_id, ord_payed, ord_med_sum from `order`";
     private static final String SELECT_BY_ID_PSTM = "select order_id, ord_user_id, ord_payed, ord_med_sum from `order` where order_id = ?";
@@ -29,7 +29,10 @@ public class OrderDao extends AbstractDaoImpl<Order> implements AbstractOrderDao
     private static final String UPDATE_PSTM = "update `order` set ord_user_id=?, ord_payed=?, ord_med_sum=? where order_id = ?";
     private ProxyConnection proxyConnection;
 
-    public OrderDao() throws DaoException {
+    /**
+     * 
+     */
+    public OrderDaoImpl() throws DaoException {
         proxyConnection = super.proxyConnection;
     }
 
@@ -64,7 +67,7 @@ public class OrderDao extends AbstractDaoImpl<Order> implements AbstractOrderDao
      * @throws DaoException
      */
     @Override
-    public Order findEntityById(Integer id) throws DaoException {
+    public Order findEntityById(int id) throws DaoException {
         Order order = new Order();
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_BY_ID_PSTM)) {
             preparedStatement.setInt(1, id);
@@ -84,7 +87,7 @@ public class OrderDao extends AbstractDaoImpl<Order> implements AbstractOrderDao
      * @throws DaoException
      */
     @Override
-    public boolean deleteById(Integer id) throws DaoException {
+    public boolean deleteById(int id) throws DaoException {
         return deleteById(id, DELETE_PSTM);
     }
 
@@ -151,6 +154,10 @@ public class OrderDao extends AbstractDaoImpl<Order> implements AbstractOrderDao
         return success;
     }
 
+    /**
+     * 
+     * @param id 
+     */
     @Override
     public Order findCurrentOrderByUserId(int id) throws DaoException {
         Order order = new Order();
@@ -166,6 +173,10 @@ public class OrderDao extends AbstractDaoImpl<Order> implements AbstractOrderDao
         }
         return order;
     }
+    /**
+     * 
+     * @param orderId 
+     */
     @Override
     public Order showOrderWithMedicineByOrderId(Integer orderId) throws DaoException {
         Order order = new Order();
@@ -196,11 +207,16 @@ public class OrderDao extends AbstractDaoImpl<Order> implements AbstractOrderDao
                 order.getOrderHasMedicines().add(orderHasMedicine);
             }
         } catch (SQLException e) {
-            throw new DaoException("Exception on OrderDao show Order With Medicine", e);
+            throw new DaoException("Exception on OrderDaoImpl show Order With Medicine", e);
         }
         return order;
     }
 
+    /**
+     * 
+     * @param order 
+     * @param resultSet 
+     */
     private void fillOrder(Order order, ResultSet resultSet) throws SQLException {
         while (resultSet.next()) {
             order.setOrderId(resultSet.getInt(1));
@@ -210,4 +226,5 @@ public class OrderDao extends AbstractDaoImpl<Order> implements AbstractOrderDao
         }
     }
 }
+
 

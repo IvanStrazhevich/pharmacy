@@ -1,7 +1,7 @@
 package by.epam.pharmacy.dao.impl;
 
 import by.epam.pharmacy.connection.ProxyConnection;
-import by.epam.pharmacy.dao.AbstractRecipeDao;
+import by.epam.pharmacy.dao.RecipeDao;
 import by.epam.pharmacy.entity.ClientDetail;
 import by.epam.pharmacy.entity.Medicine;
 import by.epam.pharmacy.entity.Recipe;
@@ -14,7 +14,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class RecipeDao extends AbstractDaoImpl<Recipe> implements AbstractRecipeDao<Recipe>{
+/**
+ * 
+ */
+public class RecipeDaoImpl extends AbstractDaoImpl<Recipe> implements RecipeDao<Recipe> {
     private static Logger logger = LogManager.getLogger();
     private static final String SELECT_ALL_PSTM = "select rec_id, rec_doctor_user_id, rec_medicine_mdc_id, rec_client_user_id, rec_meds_quantity, rec_dosage, rec_date_valid_till, res_approved from recipe";
     private static final String SELECT_ALL_WITH_DETAILS_PSTM = "select r.rec_id, r.rec_doctor_user_id, r.rec_medicine_mdc_id, r.rec_client_user_id, r.rec_meds_quantity, r.rec_dosage, r.rec_date_valid_till, r.res_approved, cd.cl_name, cd.cl_lastname, m.mdc_name from recipe as r LEFT JOIN medicine as m on r.rec_medicine_mdc_id=m.mdc_id LEFT JOIN client_detail cd ON r.rec_client_user_id = cd.user_id";
@@ -28,7 +31,10 @@ public class RecipeDao extends AbstractDaoImpl<Recipe> implements AbstractRecipe
     private ProxyConnection proxyConnection;
 
 
-    public RecipeDao() throws DaoException {
+    /**
+     * 
+     */
+    public RecipeDaoImpl() throws DaoException {
         proxyConnection = super.proxyConnection;
     }
     /**
@@ -61,6 +67,9 @@ public class RecipeDao extends AbstractDaoImpl<Recipe> implements AbstractRecipe
         return recipes;
     }
 
+    /**
+     * 
+     */
     @Override
     public ArrayList<Recipe> findAllWithDetails() throws DaoException {
         ArrayList<Recipe> recipes = new ArrayList<>();
@@ -102,7 +111,7 @@ public class RecipeDao extends AbstractDaoImpl<Recipe> implements AbstractRecipe
      * @throws DaoException
      */
     @Override
-    public Recipe findEntityById(Integer id) throws DaoException {
+    public Recipe findEntityById(int id) throws DaoException {
         Recipe recipe = new Recipe();
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_BY_ID_PSTM)) {
             preparedStatement.setInt(1, id);
@@ -115,6 +124,10 @@ public class RecipeDao extends AbstractDaoImpl<Recipe> implements AbstractRecipe
         return recipe;
     }
 
+    /**
+     * 
+     * @param recipeId 
+     */
     @Override
     public Recipe findEntityByIdWithDetails(Integer recipeId) throws DaoException {
         Recipe recipe = new Recipe();
@@ -152,7 +165,7 @@ public class RecipeDao extends AbstractDaoImpl<Recipe> implements AbstractRecipe
      * @throws DaoException
      */
     @Override
-    public boolean deleteById(Integer id) throws DaoException {
+    public boolean deleteById(int id) throws DaoException {
         return deleteById(id, DELETE_PSTM);
     }
 
@@ -225,6 +238,12 @@ public class RecipeDao extends AbstractDaoImpl<Recipe> implements AbstractRecipe
     }
 
 
+    /**
+     * 
+     * @param clientId 
+     * @param medicineId 
+     * @param medicineQuantity 
+     */
     @Override
     public Recipe findRecipeByClientMedicineQuantity(Integer clientId, Integer medicineId, Integer medicineQuantity) throws DaoException {
         Recipe recipe = new Recipe();
@@ -242,6 +261,11 @@ public class RecipeDao extends AbstractDaoImpl<Recipe> implements AbstractRecipe
 
     }
 
+    /**
+     * 
+     * @param recipe 
+     * @param resultSet 
+     */
     private void fillRecipe(Recipe recipe, ResultSet resultSet) throws SQLException {
         while (resultSet.next()) {
             recipe.setRecipeId(resultSet.getInt(1));
@@ -255,3 +279,4 @@ public class RecipeDao extends AbstractDaoImpl<Recipe> implements AbstractRecipe
         }
     }
 }
+

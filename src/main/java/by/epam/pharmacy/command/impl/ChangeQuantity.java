@@ -8,8 +8,15 @@ import by.epam.pharmacy.exception.ServiceException;
 import by.epam.pharmacy.service.OrderService;
 import by.epam.pharmacy.service.impl.OrderServiceImpl;
 
+/**
+ * 
+ */
 public class ChangeQuantity implements RequestCommand<SessionRequestContent> {
         private OrderService orderService = new OrderServiceImpl();
+        /**
+         * 
+         * @param content 
+         */
         @Override
         public String execute(SessionRequestContent content) throws CommandException {
             try {
@@ -21,3 +28,4 @@ public class ChangeQuantity implements RequestCommand<SessionRequestContent> {
         return PagePath.EDIT_ORDER_PAGE.getPage();
     }
 }
+

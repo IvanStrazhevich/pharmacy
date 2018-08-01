@@ -2,8 +2,8 @@ package by.epam.pharmacy.service.impl;
 
 import by.epam.pharmacy.command.AttributeName;
 import by.epam.pharmacy.command.SessionRequestContent;
-import by.epam.pharmacy.dao.impl.OrderDao;
-import by.epam.pharmacy.dao.impl.RecipeDao;
+import by.epam.pharmacy.dao.impl.OrderDaoImpl;
+import by.epam.pharmacy.dao.impl.RecipeDaoImpl;
 import by.epam.pharmacy.entity.OrderHasMedicine;
 import by.epam.pharmacy.entity.Recipe;
 import by.epam.pharmacy.exception.DaoException;
@@ -19,12 +19,19 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
+/**
+ * 
+ */
 public class RecipeServiceImpl implements RecipeService {
     private static final String MESSAGE = "message.recipeRequested";
     private static Logger logger = LogManager.getLogger();
     private UserService userService = new UserServiceImpl();
     private OrderService orderService = new OrderServiceImpl();
 
+    /**
+     * 
+     * @param content 
+     */
     @Override
     public void createRecipe(SessionRequestContent content) throws ServiceException {
         int orderId = Integer.valueOf(content.getRequestParameters().get(AttributeName.ORDER_ID.getAttribute()));
@@ -43,8 +50,12 @@ public class RecipeServiceImpl implements RecipeService {
         content.getRequestAttributes().put(AttributeName.RECIPE_REQUESTED.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE));
     }
 
+    /**
+     * 
+     * @param content 
+     */
     public void showRecipes(SessionRequestContent content) throws ServiceException {
-        try (RecipeDao recipeDao = new RecipeDao()) {
+        try (RecipeDaoImpl recipeDao = new RecipeDaoImpl()) {
             ArrayList<Recipe> recipes = recipeDao.findAllWithDetails();
             logger.info(recipes);
             content.getRequestAttributes().put(AttributeName.RECIPES.getAttribute(), recipes);
@@ -53,10 +64,14 @@ public class RecipeServiceImpl implements RecipeService {
         }
     }
 
+    /**
+     * 
+     * @param content 
+     */
     @Override
     public void showRecipe(SessionRequestContent content) throws ServiceException {
         int recipeId = Integer.valueOf(content.getRequestParameters().get(AttributeName.RECIPE_ID.getAttribute()));
-        try (RecipeDao recipeDao = new RecipeDao()) {
+        try (RecipeDaoImpl recipeDao = new RecipeDaoImpl()) {
             Recipe recipe = recipeDao.findEntityByIdWithDetails(recipeId);
             logger.info(recipe);
             content.getRequestAttributes().put(AttributeName.RECIPE.getAttribute(), recipe);
@@ -65,6 +80,10 @@ public class RecipeServiceImpl implements RecipeService {
         }
     }
 
+    /**
+     * 
+     * @param content 
+     */
     @Override
     public void approveRecipe(SessionRequestContent content) throws ServiceException {
         int recipeId = Integer.valueOf(content.getRequestParameters().get(AttributeName.RECIPE_ID.getAttribute()));
@@ -72,7 +91,7 @@ public class RecipeServiceImpl implements RecipeService {
         Timestamp validTill = Timestamp.valueOf(content.getRequestParameters().get(AttributeName.VALID_TILL.getAttribute()));
         logger.info(validTill);
         boolean approved = Boolean.parseBoolean(content.getRequestParameters().get(AttributeName.APPROVED.getAttribute()));
-        try (RecipeDao recipeDao = new RecipeDao()) {
+        try (RecipeDaoImpl recipeDao = new RecipeDaoImpl()) {
             Recipe recipeDB = recipeDao.findEntityById(recipeId);
             recipeDB.setMedicineQuantity(medicineQuantity);
             recipeDB.setValidTill(validTill);
@@ -91,11 +110,15 @@ public class RecipeServiceImpl implements RecipeService {
         }
     }
 
+    /**
+     * 
+     * @param recipe 
+     */
     private void createOrUpdateRecipe(Recipe recipe) throws ServiceException {
         int clientId = recipe.getClientId();
         int medicineId = recipe.getMedicineId();
         int quantity = recipe.getMedicineQuantity();
-        try (RecipeDao recipeDao = new RecipeDao()) {
+        try (RecipeDaoImpl recipeDao = new RecipeDaoImpl()) {
             Recipe recipeDB = recipeDao.findRecipeByClientMedicineQuantity(clientId, medicineId, quantity);
             if (recipeDB.getRecipeId() == 0) {
                 logger.info("creating");
@@ -111,19 +134,32 @@ public class RecipeServiceImpl implements RecipeService {
         }
     }
 
+    /**
+     * 
+     * @param orderId 
+     */
     private int findUserId(Integer orderId) throws ServiceException {
-        try (OrderDao orderDao = new OrderDao()) {
+        try (OrderDaoImpl orderDao = new OrderDaoImpl()) {
             return orderDao.findEntityById(orderId).getClientId();
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
     }
 
+    /**
+     * 
+     * @param userService 
+     */
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
 
+    /**
+     * 
+     * @param orderService 
+     */
     public void setOrderService(OrderService orderService) {
         this.orderService = orderService;
     }
 }
+

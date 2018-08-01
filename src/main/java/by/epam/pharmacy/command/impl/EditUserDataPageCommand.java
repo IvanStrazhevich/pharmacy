@@ -10,11 +10,18 @@ import by.epam.pharmacy.service.impl.ClientServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * 
+ */
 public class EditUserDataPageCommand implements RequestCommand<SessionRequestContent> {
     private static Logger logger = LogManager.getLogger();
     private ClientService clientService = new ClientServiceImpl();
 
 
+    /**
+     * 
+     * @param content 
+     */
     @Override
     public String execute(SessionRequestContent content) throws CommandException {
         try {
@@ -26,3 +33,4 @@ public class EditUserDataPageCommand implements RequestCommand<SessionRequestCon
     }
 
 }
+

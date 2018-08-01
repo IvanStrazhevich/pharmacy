@@ -1,7 +1,7 @@
 package by.epam.pharmacy.dao.impl;
 
 import by.epam.pharmacy.connection.ProxyConnection;
-import by.epam.pharmacy.dao.AbstractUserDao;
+import by.epam.pharmacy.dao.UserDao;
 import by.epam.pharmacy.entity.ClientDetail;
 import by.epam.pharmacy.entity.User;
 import by.epam.pharmacy.exception.DaoException;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 /**
  * Implementation of AbstractDao for type User
  */
-public class UserDao extends AbstractDaoImpl<User> implements AbstractUserDao<User> {
+public class UserDaoImpl extends AbstractDaoImpl<User> implements UserDao<User> {
     private static Logger logger = LogManager.getLogger();
     private static final String SELECT_ALL_PSTM = "select  user_id, user_login, user_password, user_access_level from user";
     private static final String SELECT_BY_ID_PSTM = "select user_id, user_login, user_password, user_access_level from user where user_id = ?";
@@ -29,7 +29,10 @@ public class UserDao extends AbstractDaoImpl<User> implements AbstractUserDao<Us
             = "select u.user_id, u.user_access_level, cd.cl_name, cd.cl_lastname  FROM client_detail as cd LEFT OUTER JOIN `user` as u ON cd.user_id = u.user_id";
     private ProxyConnection proxyConnection;
 
-    public UserDao() throws DaoException {
+    /**
+     * 
+     */
+    public UserDaoImpl() throws DaoException {
         proxyConnection = super.proxyConnection;
     }
 
@@ -62,7 +65,7 @@ public class UserDao extends AbstractDaoImpl<User> implements AbstractUserDao<Us
      */
 
     @Override
-    public User findEntityById(Integer id) throws DaoException {
+    public User findEntityById(int id) throws DaoException {
         User user = new User();
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_BY_ID_PSTM)) {
             preparedStatement.setInt(1, id);
@@ -102,7 +105,7 @@ public class UserDao extends AbstractDaoImpl<User> implements AbstractUserDao<Us
      * @throws DaoException
      */
     @Override
-    public boolean deleteById(Integer id) throws DaoException {
+    public boolean deleteById(int id) throws DaoException {
         return deleteById(id, DELETE_PSTM);
     }
 
@@ -165,6 +168,9 @@ public class UserDao extends AbstractDaoImpl<User> implements AbstractUserDao<Us
         return success;
     }
 
+    /**
+     * 
+     */
     @Override
     public ArrayList<User> findUserWithNames() throws DaoException {
         ArrayList<User> users = new ArrayList<>();
@@ -187,6 +193,10 @@ public class UserDao extends AbstractDaoImpl<User> implements AbstractUserDao<Us
         return users;
     }
 
+    /**
+     * 
+     * @param accessLevel 
+     */
     @Override
     public ArrayList<User> findUsersByAccessLevel(String accessLevel) throws DaoException {
         ArrayList<User> users = new ArrayList<>();
@@ -201,6 +211,11 @@ public class UserDao extends AbstractDaoImpl<User> implements AbstractUserDao<Us
         return users;
     }
 
+    /**
+     * 
+     * @param users 
+     * @param resultSet 
+     */
     private void fillUsers(ArrayList<User> users, ResultSet resultSet) throws SQLException {
         while (resultSet.next()) {
             User user = new User();
@@ -212,6 +227,11 @@ public class UserDao extends AbstractDaoImpl<User> implements AbstractUserDao<Us
         }
     }
 
+    /**
+     * 
+     * @param user 
+     * @param resultSet 
+     */
     private void fillUser(User user, ResultSet resultSet) throws SQLException {
         while (resultSet.next()) {
             user.setUserId(resultSet.getInt(1));
@@ -221,3 +241,4 @@ public class UserDao extends AbstractDaoImpl<User> implements AbstractUserDao<Us
         }
     }
 }
+

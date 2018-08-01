@@ -10,9 +10,16 @@ import by.epam.pharmacy.service.RecipeService;
 import by.epam.pharmacy.service.impl.OrderServiceImpl;
 import by.epam.pharmacy.service.impl.RecipeServiceImpl;
 
+/**
+ * 
+ */
 public class DemandRecipeCommand implements RequestCommand<SessionRequestContent> {
         private OrderService orderService = new OrderServiceImpl();
         private RecipeService recipeService = new RecipeServiceImpl();
+        /**
+         * 
+         * @param content 
+         */
         @Override
         public String execute(SessionRequestContent content) throws CommandException {
             try {
@@ -24,3 +31,4 @@ public class DemandRecipeCommand implements RequestCommand<SessionRequestContent
             return PagePath.EDIT_ORDER_PAGE.getPage();
     }
 }
+

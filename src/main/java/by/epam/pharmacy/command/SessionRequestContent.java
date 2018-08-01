@@ -7,18 +7,28 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Iterator;
 
+/**
+ * 
+ */
 public class SessionRequestContent {
     private static Logger logger = LogManager.getLogger();
     private HashMap<String, Object> requestAttributes;
     private HashMap<String, String> requestParameters;
     private HashMap<String, Object> sessionAttributes;
 
+    /**
+     * 
+     */
     public SessionRequestContent() {
         requestAttributes = new HashMap<>();
         sessionAttributes = new HashMap<>();
         requestParameters = new HashMap<>();
     }
 
+    /**
+     * 
+     * @param request 
+     */
     public void extractValues(HttpServletRequest request) {
         Iterator<String> requestAttributeNames = request.getAttributeNames().asIterator();
         while (requestAttributeNames.hasNext()) {
@@ -40,6 +50,10 @@ public class SessionRequestContent {
         logger.info(requestParameters);
     }
 
+    /**
+     * 
+     * @param request 
+     */
     public void insertAttributes(HttpServletRequest request) {
         for (String key : requestAttributes.keySet()
                 ) {
@@ -58,15 +72,25 @@ public class SessionRequestContent {
 
     }
 
+    /**
+     * 
+     */
     public HashMap<String, Object> getRequestAttributes() {
         return requestAttributes;
     }
 
+    /**
+     * 
+     */
     public HashMap<String, String> getRequestParameters() {
         return requestParameters;
     }
 
+    /**
+     * 
+     */
     public HashMap<String, Object> getSessionAttributes() {
         return sessionAttributes;
     }
 }
+

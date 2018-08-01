@@ -5,9 +5,16 @@ import by.epam.pharmacy.command.PagePath;
 import by.epam.pharmacy.command.RequestCommand;
 import by.epam.pharmacy.command.SessionRequestContent;
 
+/**
+ * 
+ */
 public class LoginPageCommand implements RequestCommand<SessionRequestContent> {
     private static final String MESSAGE = "message.needLogin";
 
+    /**
+     * 
+     * @param content 
+     */
     @Override
     public String execute(SessionRequestContent content) {
         String page = null;
@@ -21,3 +28,4 @@ public class LoginPageCommand implements RequestCommand<SessionRequestContent> {
         return page;
  */   }
 }
+

@@ -9,6 +9,9 @@ import java.util.LinkedList;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * 
+ */
 public class ConnectionPool {
     private static Logger logger = LogManager.getLogger();
     private static ReentrantLock lock = new ReentrantLock();
@@ -22,6 +25,9 @@ public class ConnectionPool {
     private LinkedList<ProxyConnection> connectionInUse = new LinkedList<>();
 
 
+    /**
+     * 
+     */
     private ConnectionPool() {
         int poolSize = connectionCreator.definePoolSize();
         for (int i = 0; i < poolSize; i++) {
@@ -30,6 +36,9 @@ public class ConnectionPool {
         }
     }
 
+    /**
+     * 
+     */
     public static ConnectionPool getInstance() {
         if (null == instance) {
             try {
@@ -103,6 +112,9 @@ public class ConnectionPool {
         logger.debug("Connections in free poll " + connectionPoolFree.size() + "Connections in use " + connectionInUse.size());
     }
 
+    /**
+     * 
+     */
     private void optimizePool() throws PoolException {
         try {
             while (connectionPoolFree.size() > CONNECTIONS_NORM) {
@@ -115,3 +127,4 @@ public class ConnectionPool {
     }
 
 }
+

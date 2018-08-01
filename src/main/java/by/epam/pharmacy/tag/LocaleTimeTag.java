@@ -11,6 +11,9 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.Locale;
 
+/**
+ * 
+ */
 @SuppressWarnings("serial")
 public class LocaleTimeTag extends TagSupport {
     private static Logger logger = LogManager.getLogger();
@@ -18,10 +21,17 @@ public class LocaleTimeTag extends TagSupport {
     private static final String MESSAGE_LOCALE = "message.locale";
     private String locale;
 
+    /**
+     * 
+     * @param locale 
+     */
     public void setLocale(String locale) {
         this.locale = locale;
     }
 
+    /**
+     * 
+     */
     @Override
     public int doStartTag() throws JspException {
 
@@ -44,6 +54,9 @@ public class LocaleTimeTag extends TagSupport {
         return SKIP_BODY;
     }
 
+    /**
+     * 
+     */
     @Override
     public int doEndTag() throws JspException {
         return EVAL_PAGE;

@@ -8,8 +8,15 @@ import by.epam.pharmacy.exception.ServiceException;
 import by.epam.pharmacy.service.UserService;
 import by.epam.pharmacy.service.impl.UserServiceImpl;
 
+/**
+ * 
+ */
 public class EditAccesslevelCommand implements RequestCommand<SessionRequestContent> {
     private UserService userService = new UserServiceImpl();
+    /**
+     * 
+     * @param content 
+     */
     @Override
     public String execute(SessionRequestContent content) throws CommandException {
         try {
@@ -20,3 +27,4 @@ public class EditAccesslevelCommand implements RequestCommand<SessionRequestCont
         return PagePath.EDIT_USER_ACCESS_LEVEL_PAGE.getPage();
     }
 }
+

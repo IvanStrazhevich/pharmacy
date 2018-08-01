@@ -10,6 +10,9 @@ import org.testng.annotations.Test;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+/**
+ * 
+ */
 public class LocaleTest {
     private StringBuffer stringBuffer;
     private static Logger logger = LogManager.getLogger();
@@ -17,17 +20,26 @@ public class LocaleTest {
             "Welcome!\nMedicine List\n" +
             "Добро пожаловать!\nСписок препаратов\n";
 
+    /**
+     * 
+     */
     @BeforeMethod
     public void setUp() {
         stringBuffer = new StringBuffer();
     }
 
+    /**
+     * 
+     */
     @AfterMethod
     public void tearDown(){
         stringBuffer = null;
 
     }
 
+    /**
+     * 
+     */
     @Test
     public void LocaleTest() {
         String expected = CORRECT_LINE;
@@ -57,6 +69,9 @@ public class LocaleTest {
         Assert.assertEquals(actual, expected);
     }
 
+    /**
+     * 
+     */
     @Test
     public void ResourceManagerTest() {
         String expected = CORRECT_LINE;
@@ -75,3 +90,4 @@ public class LocaleTest {
         Assert.assertEquals(actual, expected);
     }
 }
+

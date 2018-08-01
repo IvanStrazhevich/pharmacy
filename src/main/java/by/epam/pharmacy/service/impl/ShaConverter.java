@@ -7,12 +7,22 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * 
+ */
 public class ShaConverter implements Encodable {
     private static final String ENCODE="SHA-1";
 
+    /**
+     * 
+     */
     public ShaConverter() {
     }
 
+    /**
+     * 
+     * @param string 
+     */
     @Override
     public String encode(String string) throws ServiceException {
         byte[] digest = null;
@@ -32,4 +42,5 @@ public class ShaConverter implements Encodable {
         return SHA1Hex;
     }
 }
+
 

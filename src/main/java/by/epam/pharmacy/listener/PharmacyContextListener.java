@@ -11,9 +11,16 @@ import javax.servlet.annotation.WebListener;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * 
+ */
 @WebListener
 public class PharmacyContextListener implements ServletContextListener {
     private static Logger logger = LogManager.getLogger();
+    /**
+     * 
+     * @param sce 
+     */
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         try {
@@ -24,6 +31,10 @@ public class PharmacyContextListener implements ServletContextListener {
         ConnectionPool.getInstance();
     }
 
+    /**
+     * 
+     * @param sce 
+     */
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
         try {
@@ -42,3 +53,4 @@ public class PharmacyContextListener implements ServletContextListener {
         }
     }
 }
+

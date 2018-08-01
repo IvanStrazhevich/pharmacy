@@ -12,10 +12,16 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 
+/**
+ * 
+ */
 public class PageRouter {
     private HashMap<String, RequestCommand> servletMap;
     private static Logger logger = LogManager.getLogger();
 
+    /**
+     * 
+     */
     PageRouter() {
         try {
             servletMap = CommandMapper.getInstance().getServletMap();
@@ -25,6 +31,12 @@ public class PageRouter {
         }
     }
 
+    /**
+     * 
+     * @param request 
+     * @param response 
+     * @param sessionRequestContent 
+     */
     void redirectToPage(HttpServletRequest request, HttpServletResponse response, SessionRequestContent sessionRequestContent) throws IOException, ServletException {
         String action = sessionRequestContent.getRequestParameters().get(AttributeName.ACTION.getAttribute());
         if (action != null) {
@@ -59,3 +71,4 @@ public class PageRouter {
         }
     }
 }
+

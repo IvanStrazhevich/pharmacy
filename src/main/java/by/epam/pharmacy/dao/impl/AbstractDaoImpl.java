@@ -1,7 +1,7 @@
 package by.epam.pharmacy.dao.impl;
 
-import by.epam.pharmacy.connection.ProxyConnection;
 import by.epam.pharmacy.connection.ConnectionPool;
+import by.epam.pharmacy.connection.ProxyConnection;
 import by.epam.pharmacy.dao.AbstractDao;
 import by.epam.pharmacy.exception.DaoException;
 import by.epam.pharmacy.exception.PoolException;
@@ -14,6 +14,7 @@ import java.sql.SQLException;
 
 /**
  * Common Dao methods implementation
+ *
  * @param <T>
  */
 public abstract class AbstractDaoImpl<T> implements AbstractDao<T> {
@@ -21,6 +22,9 @@ public abstract class AbstractDaoImpl<T> implements AbstractDao<T> {
     private static final String SELECT_LAST_INSERT_ID_PSTM = "select last_insert_id()";
     protected ProxyConnection proxyConnection;
 
+    /**
+     *
+     */
     public AbstractDaoImpl() throws DaoException {
         try {
             this.proxyConnection = ConnectionPool.getInstance().getConnection();
@@ -49,13 +53,14 @@ public abstract class AbstractDaoImpl<T> implements AbstractDao<T> {
 
     /**
      * Delete entity by it's id
+     *
      * @param id
      * @param statement
      * @return true if deleted, false if exception
      * @throws DaoException
      */
     @Override
-    public boolean deleteById(Integer id, String statement) throws DaoException {
+    public boolean deleteById(int id, String statement) throws DaoException {
         boolean success = false;
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(statement)) {
             preparedStatement.setInt(1, id);
@@ -63,7 +68,8 @@ public abstract class AbstractDaoImpl<T> implements AbstractDao<T> {
             success = true;
         } catch (SQLException e) {
             throw new DaoException("Exception on deleteById", e);
-        } return success;
+        }
+        return success;
     }
 
     /**
@@ -77,3 +83,4 @@ public abstract class AbstractDaoImpl<T> implements AbstractDao<T> {
         }
     }
 }
+

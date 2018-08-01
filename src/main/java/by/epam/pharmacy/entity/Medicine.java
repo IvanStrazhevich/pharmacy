@@ -3,6 +3,9 @@ package by.epam.pharmacy.entity;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
+/**
+ * 
+ */
 public class Medicine extends Entity{
     private static final long serialVersionUID = 267509931711743300L;
     private int medicineId;
@@ -16,81 +19,151 @@ public class Medicine extends Entity{
     private ArrayList<OrderHasMedicine> orderHasMedicines;
 
 
+    /**
+     * 
+     */
     public Medicine() {
     }
 
+    /**
+     * 
+     */
     public int getMedicineId() {
         return medicineId;
     }
 
+    /**
+     * 
+     * @param medicineId 
+     */
     public void setMedicineId(int medicineId) {
         this.medicineId = medicineId;
     }
 
+    /**
+     * 
+     */
     public String getMedicineName() {
         return medicineName;
     }
 
+    /**
+     * 
+     * @param medicineName 
+     */
     public void setMedicineName(String medicineName) {
         this.medicineName = medicineName;
     }
 
+    /**
+     * 
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * 
+     * @param description 
+     */
     public void setDescription(String description) {
         this.description = description;
     }
 
+    /**
+     * 
+     */
     public BigDecimal getDosage() {
         return dosage;
     }
 
+    /**
+     * 
+     * @param dosage 
+     */
     public void setDosage(BigDecimal dosage) {
         this.dosage = dosage;
     }
 
+    /**
+     * 
+     */
     public boolean isRecipeRequired() {
         return recipeRequired;
     }
 
+    /**
+     * 
+     * @param recipeRequired 
+     */
     public void setRecipeRequired(boolean recipeRequired) {
         this.recipeRequired = recipeRequired;
     }
 
+    /**
+     * 
+     */
     public BigDecimal getPrice() {
         return price;
     }
 
+    /**
+     * 
+     * @param price 
+     */
     public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
+    /**
+     * 
+     */
     public boolean isAvailable() {
         return available;
     }
 
+    /**
+     * 
+     * @param available 
+     */
     public void setAvailable(boolean available) {
         this.available = available;
     }
 
+    /**
+     * 
+     */
     public int getQuantityAtStorage() {
         return quantityAtStorage;
     }
 
+    /**
+     * 
+     * @param quantityAtStorage 
+     */
     public void setQuantityAtStorage(int quantityAtStorage) {
         this.quantityAtStorage = quantityAtStorage;
     }
 
+    /**
+     * 
+     */
     public ArrayList<OrderHasMedicine> getOrderHasMedicines() {
         return orderHasMedicines;
     }
 
+    /**
+     * 
+     * @param orderHasMedicines 
+     */
     public void setOrderHasMedicines(ArrayList<OrderHasMedicine> orderHasMedicines) {
         this.orderHasMedicines = orderHasMedicines;
     }
 
+    /**
+     * 
+     * @param o 
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -111,6 +184,9 @@ public class Medicine extends Entity{
         return orderHasMedicines != null ? orderHasMedicines.equals(medicine.orderHasMedicines) : medicine.orderHasMedicines == null;
     }
 
+    /**
+     * 
+     */
     @Override
     public int hashCode() {
         int result = medicineId;
@@ -125,6 +201,9 @@ public class Medicine extends Entity{
         return result;
     }
 
+    /**
+     * 
+     */
     @Override
     public String toString() {
         return "Medicine{" +
@@ -140,3 +219,4 @@ public class Medicine extends Entity{
                 '}';
     }
 }
+

@@ -8,8 +8,15 @@ import by.epam.pharmacy.exception.ServiceException;
 import by.epam.pharmacy.service.RecipeService;
 import by.epam.pharmacy.service.impl.RecipeServiceImpl;
 
+/**
+ * 
+ */
 public class EditRecipeCommand implements RequestCommand<SessionRequestContent> {
     private RecipeService recipeService = new RecipeServiceImpl();
+    /**
+     * 
+     * @param content 
+     */
     @Override
     public String execute(SessionRequestContent content) throws CommandException {
         try {
@@ -20,3 +27,4 @@ public class EditRecipeCommand implements RequestCommand<SessionRequestContent> 
         return PagePath.RECIPE_APPROVAL_PAGE.getPage();
     }
 }
+

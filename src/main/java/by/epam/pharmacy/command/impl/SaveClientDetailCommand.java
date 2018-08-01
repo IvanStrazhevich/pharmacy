@@ -10,11 +10,18 @@ import by.epam.pharmacy.service.impl.ClientServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * 
+ */
 public class SaveClientDetailCommand implements RequestCommand<SessionRequestContent> {
     private static final String UPLOAD_DIR = "uploads";
     ClientService clientService = new ClientServiceImpl();
     Logger logger = LogManager.getLogger();
 
+    /**
+     * 
+     * @param content 
+     */
     @Override
     public String execute(SessionRequestContent content) throws CommandException {
         /*String applicationPath = request.getServletContext().getRealPath("");
@@ -46,3 +53,4 @@ public class SaveClientDetailCommand implements RequestCommand<SessionRequestCon
         return PagePath.CLIENT_DETAIL_PAGE.getPage();
     }
 }
+

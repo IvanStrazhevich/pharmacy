@@ -8,8 +8,15 @@ import by.epam.pharmacy.exception.ServiceException;
 import by.epam.pharmacy.service.MedicineService;
 import by.epam.pharmacy.service.impl.MedicineServiceImpl;
 
+/**
+ * 
+ */
 public class SaveMedicineCommand implements RequestCommand<SessionRequestContent> {
     private MedicineService medicineService = new MedicineServiceImpl();
+    /**
+     * 
+     * @param content 
+     */
     @Override
     public String execute(SessionRequestContent content) throws CommandException {
         try {
@@ -20,3 +27,4 @@ public class SaveMedicineCommand implements RequestCommand<SessionRequestContent
         return PagePath.MEDICINE_LIST_PAGE.getPage();
     }
 }
+

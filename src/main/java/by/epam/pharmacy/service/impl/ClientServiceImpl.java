@@ -2,8 +2,8 @@ package by.epam.pharmacy.service.impl;
 
 import by.epam.pharmacy.command.AttributeName;
 import by.epam.pharmacy.command.SessionRequestContent;
-import by.epam.pharmacy.dao.impl.ClientDetailDao;
-import by.epam.pharmacy.dao.impl.UserDao;
+import by.epam.pharmacy.dao.impl.ClientDetailDaoImpl;
+import by.epam.pharmacy.dao.impl.UserDaoImpl;
 import by.epam.pharmacy.entity.ClientDetail;
 import by.epam.pharmacy.entity.User;
 import by.epam.pharmacy.exception.DaoException;
@@ -15,13 +15,20 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 
+/**
+ * 
+ */
 public class ClientServiceImpl implements ClientService {
     Logger logger = LogManager.getLogger();
     private Encodable encoder = new ShaConverter();
 
 
+    /**
+     * 
+     * @param login 
+     */
     private int findClientId(String login) throws ServiceException {
-        try (UserDao userDao = new UserDao()) {
+        try (UserDaoImpl userDao = new UserDaoImpl()) {
             String shaLogin = encoder.encode(login);
             User user = userDao.findUserByLogin(shaLogin);
             logger.info("User id is " + user.getUserId());
@@ -31,8 +38,12 @@ public class ClientServiceImpl implements ClientService {
         }
     }
 
+    /**
+     * 
+     * @param content 
+     */
     public void findClientDetail(SessionRequestContent content) throws ServiceException {
-        try (ClientDetailDao clientDetailDao = new ClientDetailDao()) {
+        try (ClientDetailDaoImpl clientDetailDao = new ClientDetailDaoImpl()) {
             if (content.getSessionAttributes().get(AttributeName.LOGIN.getAttribute())!= null) {
                 int clientId = findClientId(content.getSessionAttributes().get(AttributeName.LOGIN.getAttribute()).toString());
                 ClientDetail clientDetail = clientDetailDao.findEntityById(clientId);
@@ -45,8 +56,12 @@ public class ClientServiceImpl implements ClientService {
         }
     }
 
+    /**
+     * 
+     * @param content 
+     */
     public void createClientDetail(SessionRequestContent content) throws ServiceException {
-        try (ClientDetailDao clientDetailDao = new ClientDetailDao()) {
+        try (ClientDetailDaoImpl clientDetailDao = new ClientDetailDaoImpl()) {
             ArrayList<ClientDetail> details = new ArrayList<>();
             ClientDetail clientDetail = new ClientDetail();
             clientDetail.setName(content.getRequestParameters().get(AttributeName.NAME.getAttribute()));
@@ -78,7 +93,12 @@ public class ClientServiceImpl implements ClientService {
         }
     }
 
+    /**
+     * 
+     * @param encoder 
+     */
     public void setEncoder(Encodable encoder) {
         this.encoder = encoder;
     }
 }
+

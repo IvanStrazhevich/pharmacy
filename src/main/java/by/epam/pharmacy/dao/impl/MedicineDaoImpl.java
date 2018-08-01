@@ -1,7 +1,7 @@
 package by.epam.pharmacy.dao.impl;
 
 import by.epam.pharmacy.connection.ProxyConnection;
-import by.epam.pharmacy.dao.AbstractMedicineDao;
+import by.epam.pharmacy.dao.MedicineDao;
 import by.epam.pharmacy.entity.Medicine;
 import by.epam.pharmacy.exception.DaoException;
 import org.apache.logging.log4j.LogManager;
@@ -13,9 +13,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- * Medicine implementations for AbstractDao and AbstractMedicineDao
+ * Medicine implementations for AbstractDao and MedicineDao
  */
-public class MedicineDao extends AbstractDaoImpl<Medicine> implements AbstractMedicineDao<Medicine> {
+public class MedicineDaoImpl extends AbstractDaoImpl<Medicine> implements MedicineDao<Medicine> {
     private static Logger logger = LogManager.getLogger();
     private static final String SELECT_ALL_PSTM = "select  mdc_id, mdc_name, mdc_description, mdc_dosage, mdc_recipe_required, mdc_price, mdc_available, mdc_quantity from medicine order BY mdc_name";
     private static final String SELECT_BY_ID_PSTM = "select mdc_id, mdc_name, mdc_description, mdc_dosage, mdc_recipe_required, mdc_price, mdc_available, mdc_quantity from medicine where mdc_id = ?";
@@ -26,7 +26,10 @@ public class MedicineDao extends AbstractDaoImpl<Medicine> implements AbstractMe
     private static final String DELETE_PSTM = "delete FROM medicine where mdc_id=?";
     private ProxyConnection proxyConnection;
 
-    public MedicineDao() throws DaoException {
+    /**
+     * 
+     */
+    public MedicineDaoImpl() throws DaoException {
         proxyConnection = super.proxyConnection;
     }
 
@@ -71,6 +74,11 @@ public class MedicineDao extends AbstractDaoImpl<Medicine> implements AbstractMe
         return medicineList;
     }
 
+    /**
+     * 
+     * @param medicineList 
+     * @param resultSet 
+     */
     private void fillMedicine(ArrayList<Medicine> medicineList, ResultSet resultSet) throws SQLException {
         while (resultSet.next()) {
             Medicine medicine = new Medicine();
@@ -94,7 +102,7 @@ public class MedicineDao extends AbstractDaoImpl<Medicine> implements AbstractMe
      * @throws DaoException
      */
     @Override
-    public Medicine findEntityById(Integer id) throws DaoException {
+    public Medicine findEntityById(int id) throws DaoException {
         Medicine medicine = new Medicine();
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_BY_ID_PSTM)) {
             preparedStatement.setInt(1, id);
@@ -116,11 +124,19 @@ public class MedicineDao extends AbstractDaoImpl<Medicine> implements AbstractMe
         return medicine;
     }
 
+    /**
+     *
+     * @param id
+     */
     @Override
-    public boolean deleteById(Integer id) throws DaoException {
+    public boolean deleteById(int id) throws DaoException {
         return deleteById(id,DELETE_PSTM);
     }
 
+    /**
+     * 
+     * @param entity 
+     */
     @Override
     public boolean delete(Medicine entity) throws DaoException {
         boolean success = false;
@@ -229,3 +245,4 @@ public class MedicineDao extends AbstractDaoImpl<Medicine> implements AbstractMe
 
 
 }
+

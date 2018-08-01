@@ -3,6 +3,9 @@ package by.epam.pharmacy.entity;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
+/**
+ * 
+ */
 public class Order extends Entity {
     private static final long serialVersionUID = -7808138802635242837L;
     private int orderId;
@@ -11,41 +14,75 @@ public class Order extends Entity {
     private BigDecimal medicineSum;
     private ArrayList<OrderHasMedicine> orderHasMedicines;
 
+    /**
+     * 
+     */
     public Order() {
     }
 
+    /**
+     * 
+     */
     public int getOrderId() {
         return orderId;
     }
 
+    /**
+     * 
+     * @param orderId 
+     */
     public void setOrderId(int orderId) {
         this.orderId = orderId;
     }
 
+    /**
+     * 
+     */
     public int getClientId() {
         return clientId;
     }
 
+    /**
+     * 
+     * @param clientId 
+     */
     public void setClientId(int clientId) {
         this.clientId = clientId;
     }
 
+    /**
+     * 
+     */
     public boolean isPayed() {
         return payed;
     }
 
+    /**
+     * 
+     * @param payed 
+     */
     public void setPayed(boolean payed) {
         this.payed = payed;
     }
 
+    /**
+     * 
+     */
     public BigDecimal getMedicineSum() {
         return medicineSum;
     }
 
+    /**
+     * 
+     * @param medicineSum 
+     */
     public void setMedicineSum(BigDecimal medicineSum) {
         this.medicineSum = medicineSum;
     }
 
+    /**
+     * 
+     */
     public ArrayList<OrderHasMedicine> getOrderHasMedicines() {
         if(orderHasMedicines==null){
             orderHasMedicines=new ArrayList<>();
@@ -53,10 +90,18 @@ public class Order extends Entity {
         return orderHasMedicines;
     }
 
+    /**
+     * 
+     * @param orderHasMedicines 
+     */
     public void setOrderHasMedicines(ArrayList<OrderHasMedicine> orderHasMedicines) {
         this.orderHasMedicines = orderHasMedicines;
     }
 
+    /**
+     * 
+     * @param o 
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -71,6 +116,9 @@ public class Order extends Entity {
         return orderHasMedicines != null ? orderHasMedicines.equals(order.orderHasMedicines) : order.orderHasMedicines == null;
     }
 
+    /**
+     * 
+     */
     @Override
     public int hashCode() {
         int result = orderId;
@@ -81,6 +129,9 @@ public class Order extends Entity {
         return result;
     }
 
+    /**
+     * 
+     */
     @Override
     public String toString() {
         return "Order{" +

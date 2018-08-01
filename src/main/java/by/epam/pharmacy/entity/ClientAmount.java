@@ -2,39 +2,70 @@ package by.epam.pharmacy.entity;
 
 import java.math.BigDecimal;
 
+/**
+ * 
+ */
 public class ClientAmount extends Entity{
     private static final long serialVersionUID = 632246434979432068L;
     private int clientId;
     private BigDecimal amountDebit;
     private BigDecimal amountCredit;
 
+    /**
+     * 
+     */
     public ClientAmount() {
     }
 
+    /**
+     * 
+     */
     public BigDecimal getAmountDebit() {
         return amountDebit;
     }
 
+    /**
+     * 
+     * @param amountDebit 
+     */
     public void setAmountDebit(BigDecimal amountDebit) {
         this.amountDebit = amountDebit;
     }
 
+    /**
+     * 
+     */
     public BigDecimal getAmountCredit() {
         return amountCredit;
     }
 
+    /**
+     * 
+     * @param amountCredit 
+     */
     public void setAmountCredit(BigDecimal amountCredit) {
         this.amountCredit = amountCredit;
     }
 
+    /**
+     * 
+     */
     public int getClientId() {
         return clientId;
     }
 
+    /**
+     * 
+     * @param clientId 
+     */
     public void setClientId(int clientId) {
         this.clientId = clientId;
     }
 
+    /**
+     * 
+     * @param o 
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -48,6 +79,9 @@ public class ClientAmount extends Entity{
         return amountCredit != null ? amountCredit.equals(that.amountCredit) : that.amountCredit == null;
     }
 
+    /**
+     * 
+     */
     @Override
     public int hashCode() {
         int result = super.hashCode();
@@ -57,6 +91,9 @@ public class ClientAmount extends Entity{
         return result;
     }
 
+    /**
+     * 
+     */
     @Override
     public String toString() {
         return "ClientAmount{" +
@@ -66,3 +103,4 @@ public class ClientAmount extends Entity{
                 '}';
     }
 }
+

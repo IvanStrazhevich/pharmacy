@@ -46,7 +46,7 @@ ALTER TABLE client_amount
 FOREIGN KEY (user_id) REFERENCES client_detail (user_id)
   ON UPDATE CASCADE;
 
-CREATE TABLE doctor
+CREATE TABLE doctor_detail
 (
   user_id           INT NOT NULL
   COMMENT 'corresponds to client_id'
@@ -61,7 +61,7 @@ CREATE TABLE doctor
   ENGINE = InnoDB;
 
 CREATE INDEX fk_doctor_license1_idx
-  ON doctorDetail (dc_license_lic_id);
+  ON doctor_detail (dc_license_lic_id);
 
 CREATE TABLE doctor_license
 (
@@ -96,7 +96,8 @@ CREATE TABLE medicine
   mdc_recipe_required TINYINT       NULL
   COMMENT 'recipe required',
   mdc_price           DECIMAL(5, 2) NULL,
-  mdc_available       TINYINT(1)    NULL
+  mdc_available       TINYINT(1)    NULL,
+  mdc_quantity        INT           NULL
 )
   COMMENT 'Medicine  name, description, dosage, recipe requirement, price'
   ENGINE = InnoDB;
@@ -110,7 +111,7 @@ CREATE TABLE `order`
   COMMENT 'corresponds to client id',
   ord_payed   TINYINT       NOT NULL
   COMMENT 'confirmed payment',
-  ord_med_sum DECIMAL(6, 2) NOT NULL
+  ord_med_sum DECIMAL(6, 2) NULL
   COMMENT 'Order sum 
 	',
   CONSTRAINT order_client_user_id_fk
@@ -122,9 +123,6 @@ CREATE TABLE `order`
 
 CREATE INDEX order_client_user_id_fk
   ON `order` (ord_user_id);
-
-CREATE INDEX fk_pmt_ord_sum
-  ON `order` (ord_med_sum);
 
 CREATE TABLE order_has_medicine
 (
@@ -173,10 +171,7 @@ CREATE TABLE payment
   CONSTRAINT payment_order_order_id_fk
   FOREIGN KEY (pmt_order_id) REFERENCES `order` (order_id)
     ON UPDATE CASCADE
-    ON DELETE CASCADE,
-  CONSTRAINT fk_payment_order_sum
-  FOREIGN KEY (pmt_ord_sum) REFERENCES `order` (ord_med_sum)
-    ON UPDATE CASCADE
+    ON DELETE CASCADE
 )
   COMMENT 'Payment info: id, order id, payment confirmation, order sum'
   ENGINE = InnoDB;
@@ -190,7 +185,7 @@ CREATE INDEX fk_payment_order_sum_idx
 CREATE INDEX fk_payment_confirmed
   ON payment (pmt_confirmed);
 
-CREATE TABLE pharmacist
+CREATE TABLE pharmacist_detail
 (
   user_id           INT NOT NULL
   COMMENT 'Corresponds to client_id'
@@ -204,7 +199,7 @@ CREATE TABLE pharmacist
   ENGINE = InnoDB;
 
 CREATE INDEX fk_doctor_license10_idx
-  ON pharmacist (ph_license_lic_id);
+  ON pharmacist_detail (ph_license_lic_id);
 
 CREATE TABLE pharmacist_license
 (

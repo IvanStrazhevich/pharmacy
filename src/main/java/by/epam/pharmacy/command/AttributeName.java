@@ -23,21 +23,36 @@ public enum AttributeName {
 
     private String attribute;
 
+    /**
+     * 
+     * @param attribute 
+     */
     AttributeName(String attribute) {
         this.attribute = attribute;
     }
 
 
+    /**
+     * 
+     */
     public String getAttribute() {
         return attribute;
     }
 
+    /**
+     * 
+     * @param attribute 
+     */
     public void setAttribute(String attribute) {
         this.attribute = attribute;
     }
 
+    /**
+     * 
+     */
     @Override
     public String toString() {
         return attribute;
     }
 }
+

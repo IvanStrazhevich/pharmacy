@@ -9,8 +9,16 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Locale;
 
+/**
+ * 
+ */
 public class LanguageSwitcherUsingContent implements LanguageSwitchable<SessionRequestContent> {
     private static Logger logger = LogManager.getLogger();
+    /**
+     * 
+     * @param lang 
+     * @param content 
+     */
     private void langDef(String lang, SessionRequestContent content) {
         switch (lang) {
             case "be_BY":
@@ -38,6 +46,10 @@ public class LanguageSwitcherUsingContent implements LanguageSwitchable<SessionR
                 content.getSessionAttributes().put(AttributeName.LANG.getAttribute(), "be_BY");
         }
     }
+    /**
+     * 
+     * @param sessionRequestContent 
+     */
     @Override
     public void langSwitch(SessionRequestContent sessionRequestContent) {
         String lang = null;
@@ -56,4 +68,5 @@ public class LanguageSwitcherUsingContent implements LanguageSwitchable<SessionR
         }
     }
 }
+
 

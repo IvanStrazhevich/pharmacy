@@ -3,6 +3,9 @@ package by.epam.pharmacy.entity;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
+/**
+ * 
+ */
 public class Recipe extends Entity {
     private static final long serialVersionUID = 7502910725723537491L;
     private int recipeId;
@@ -16,89 +19,166 @@ public class Recipe extends Entity {
     private ClientDetail clientDetail;
     private Medicine medicine;
 
+    /**
+     * 
+     */
     public Recipe() {
     }
 
+    /**
+     * 
+     */
     public int getRecipeId() {
         return recipeId;
     }
 
+    /**
+     * 
+     * @param recipeId 
+     */
     public void setRecipeId(int recipeId) {
         this.recipeId = recipeId;
     }
 
+    /**
+     * 
+     */
     public int getDoctorId() {
         return doctorId;
     }
 
+    /**
+     * 
+     * @param doctorId 
+     */
     public void setDoctorId(int doctorId) {
         this.doctorId = doctorId;
     }
 
+    /**
+     * 
+     */
     public int getMedicineId() {
         return medicineId;
     }
 
+    /**
+     * 
+     * @param medicineId 
+     */
     public void setMedicineId(int medicineId) {
         this.medicineId = medicineId;
     }
 
+    /**
+     * 
+     */
     public int getClientId() {
         return clientId;
     }
 
+    /**
+     * 
+     * @param clientId 
+     */
     public void setClientId(int clientId) {
         this.clientId = clientId;
     }
 
+    /**
+     * 
+     */
     public int getMedicineQuantity() {
         return medicineQuantity;
     }
 
+    /**
+     * 
+     * @param medicineQuantity 
+     */
     public void setMedicineQuantity(int medicineQuantity) {
         this.medicineQuantity = medicineQuantity;
     }
 
+    /**
+     * 
+     */
     public BigDecimal getDosage() {
         return dosage;
     }
 
+    /**
+     * 
+     * @param dosage 
+     */
     public void setDosage(BigDecimal dosage) {
         this.dosage = dosage;
     }
 
+    /**
+     * 
+     */
     public Timestamp getValidTill() {
         return validTill;
     }
 
+    /**
+     * 
+     * @param validTill 
+     */
     public void setValidTill(Timestamp validTill) {
         this.validTill = validTill;
     }
 
+    /**
+     * 
+     */
     public boolean isApproved() {
         return approved;
     }
 
+    /**
+     * 
+     * @param approved 
+     */
     public void setApproved(boolean approved) {
         this.approved = approved;
     }
 
+    /**
+     * 
+     */
     public ClientDetail getClientDetail() {
         return clientDetail;
     }
 
+    /**
+     * 
+     * @param clientDetail 
+     */
     public void setClientDetail(ClientDetail clientDetail) {
         this.clientDetail = clientDetail;
     }
 
+    /**
+     * 
+     */
     public Medicine getMedicine() {
         return medicine;
     }
 
+    /**
+     * 
+     * @param medicine 
+     */
     public void setMedicine(Medicine medicine) {
         this.medicine = medicine;
     }
 
+    /**
+     * 
+     * @param o 
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -119,6 +199,9 @@ public class Recipe extends Entity {
         return medicine != null ? medicine.equals(recipe.medicine) : recipe.medicine == null;
     }
 
+    /**
+     * 
+     */
     @Override
     public int hashCode() {
         int result = recipeId;
@@ -134,6 +217,9 @@ public class Recipe extends Entity {
         return result;
     }
 
+    /**
+     * 
+     */
     @Override
     public String toString() {
         return "Recipe{" +
@@ -150,3 +236,4 @@ public class Recipe extends Entity {
                 '}';
     }
 }
+

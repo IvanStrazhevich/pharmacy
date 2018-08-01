@@ -1,7 +1,7 @@
 package by.epam.pharmacy.dao.impl;
 
 import by.epam.pharmacy.connection.ProxyConnection;
-import by.epam.pharmacy.dao.AbstractOrderHasMedicineDao;
+import by.epam.pharmacy.dao.OrderHasMedicineDao;
 import by.epam.pharmacy.entity.OrderHasMedicine;
 import by.epam.pharmacy.exception.DaoException;
 import org.apache.logging.log4j.LogManager;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 /**
  *
  */
-public class OrderHasMedicineDao extends AbstractDaoImpl<OrderHasMedicine> implements AbstractOrderHasMedicineDao<OrderHasMedicine> {
+public class OrderHasMedicineDaoImpl extends AbstractDaoImpl<OrderHasMedicine> implements OrderHasMedicineDao<OrderHasMedicine> {
     private static Logger logger = LogManager.getLogger();
     private static final String SELECT_ALL_PSTM = "select order_order_id, medicine_mdc_id, ohm_med_quantity, ohm_med_sum, recipe_rec_id from order_has_medicine";
     private static final String SELECT_BY_ORDER_ID_PSTM = "select order_order_id, medicine_mdc_id, ohm_med_quantity, ohm_med_sum, recipe_rec_id from order_has_medicine where order_order_id = ?";
@@ -29,10 +29,18 @@ public class OrderHasMedicineDao extends AbstractDaoImpl<OrderHasMedicine> imple
 
     private ProxyConnection proxyConnection;
 
-    public OrderHasMedicineDao() throws DaoException {
+    /**
+     * 
+     */
+    public OrderHasMedicineDaoImpl() throws DaoException {
         proxyConnection = super.proxyConnection;
     }
 
+    /**
+     * 
+     * @param orderId 
+     * @param medicineId 
+     */
     @Override
     public OrderHasMedicine findOrderHasMedicineByOrderIdMedicineId(Integer orderId, Integer medicineId) throws DaoException {
         OrderHasMedicine orderHasMedicine=new OrderHasMedicine();
@@ -90,6 +98,10 @@ public class OrderHasMedicineDao extends AbstractDaoImpl<OrderHasMedicine> imple
         return ordersHasMedicinesList;
     }
 
+    /**
+     * 
+     * @param medicineId 
+     */
     @Override
     public OrderHasMedicine findOrderHasMedicineByMedicineId(Integer medicineId) throws DaoException {
         OrderHasMedicine orderHasMedicine = new OrderHasMedicine();
@@ -175,15 +187,23 @@ public class OrderHasMedicineDao extends AbstractDaoImpl<OrderHasMedicine> imple
      * @throws DaoException
      */
     @Override
-    public OrderHasMedicine findEntityById(Integer id) throws DaoException {
+    public OrderHasMedicine findEntityById(int id) throws DaoException {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     *
+     * @param id
+     */
     @Override
-    public boolean deleteById(Integer id) throws DaoException {
+    public boolean deleteById(int id) throws DaoException {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * 
+     * @param entity 
+     */
     @Override
     public boolean delete(OrderHasMedicine entity) throws DaoException {
         throw new UnsupportedOperationException();
@@ -232,6 +252,10 @@ public class OrderHasMedicineDao extends AbstractDaoImpl<OrderHasMedicine> imple
         return success;
     }
 
+    /**
+     * 
+     * @param entity 
+     */
     public boolean updateRecipe(OrderHasMedicine entity) throws DaoException {
         boolean success = false;
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(UPDATE_RECIPE_PSTM)) {
@@ -248,3 +272,4 @@ public class OrderHasMedicineDao extends AbstractDaoImpl<OrderHasMedicine> imple
 
 
     }
+

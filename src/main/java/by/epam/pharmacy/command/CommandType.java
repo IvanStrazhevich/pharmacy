@@ -14,15 +14,27 @@ public enum CommandType {
     CHANGE_QUANTITY("ChangeQuantity"), DEMAND_RECIPE("DemandRecipe");
     private String command;
 
+    /**
+     * 
+     * @param command 
+     */
     CommandType(String command) {
         this.command = command;
     }
 
+    /**
+     * 
+     */
     public String getCommand() {
         return command;
     }
 
+    /**
+     * 
+     * @param command 
+     */
     public void setCommand(String command) {
         this.command = command;
     }
 }
+

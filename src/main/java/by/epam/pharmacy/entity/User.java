@@ -1,5 +1,8 @@
 package by.epam.pharmacy.entity;
 
+/**
+ * 
+ */
 public class User extends Entity{
     private static final long serialVersionUID = -5709073289050764193L;
     private int userId;
@@ -8,49 +11,91 @@ public class User extends Entity{
     private String accessLevel;
     private ClientDetail clientDetail;
 
+    /**
+     * 
+     */
     public User() {
     }
 
+    /**
+     * 
+     */
     public int getUserId() {
         return userId;
     }
 
+    /**
+     * 
+     * @param userId 
+     */
     public void setUserId(int userId) {
         this.userId = userId;
     }
 
+    /**
+     * 
+     */
     public String getLogin() {
         return login;
     }
 
+    /**
+     * 
+     * @param login 
+     */
     public void setLogin(String login) {
         this.login = login;
     }
 
+    /**
+     * 
+     */
     public String getPassword() {
         return password;
     }
 
+    /**
+     * 
+     * @param password 
+     */
     public void setPassword(String password) {
         this.password = password;
     }
 
+    /**
+     * 
+     */
     public String getAccessLevel() {
         return accessLevel;
     }
 
+    /**
+     * 
+     * @param accessLevel 
+     */
     public void setAccessLevel(String accessLevel) {
         this.accessLevel = accessLevel;
     }
 
+    /**
+     * 
+     */
     public ClientDetail getClientDetail() {
         return clientDetail;
     }
 
+    /**
+     * 
+     * @param clientDetail 
+     */
     public void setClientDetail(ClientDetail clientDetail) {
         this.clientDetail = clientDetail;
     }
 
+    /**
+     * 
+     * @param o 
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -65,6 +110,9 @@ public class User extends Entity{
         return clientDetail != null ? clientDetail.equals(user.clientDetail) : user.clientDetail == null;
     }
 
+    /**
+     * 
+     */
     @Override
     public int hashCode() {
         int result = userId;
@@ -75,6 +123,9 @@ public class User extends Entity{
         return result;
     }
 
+    /**
+     * 
+     */
     @Override
     public String toString() {
         return "User{" +
@@ -86,3 +137,4 @@ public class User extends Entity{
                 '}';
     }
 }
+

@@ -1,20 +1,37 @@
 package by.epam.pharmacy.entity;
 
+/**
+ * 
+ */
 public class PharmacistDetail extends ClientDetail {
     private static final long serialVersionUID = 5257165600065973373L;
     private int licenseId;
 
+    /**
+     * 
+     */
     public PharmacistDetail() {
     }
 
+    /**
+     * 
+     */
     public int getLicenseId() {
         return licenseId;
     }
 
+    /**
+     * 
+     * @param licenseId 
+     */
     public void setLicenseId(int licenseId) {
         this.licenseId = licenseId;
     }
 
+    /**
+     * 
+     * @param o 
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -26,6 +43,9 @@ public class PharmacistDetail extends ClientDetail {
         return licenseId == that.licenseId;
     }
 
+    /**
+     * 
+     */
     @Override
     public int hashCode() {
         int result = super.hashCode();
@@ -33,6 +53,9 @@ public class PharmacistDetail extends ClientDetail {
         return result;
     }
 
+    /**
+     * 
+     */
     @Override
     public String toString() {
         return "PharmacistDetail{" +
@@ -40,3 +63,4 @@ public class PharmacistDetail extends ClientDetail {
                 '}';
     }
 }
+

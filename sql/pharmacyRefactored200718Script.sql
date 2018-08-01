@@ -46,7 +46,7 @@ ALTER TABLE client_amount
 FOREIGN KEY (user_id) REFERENCES client_detail (user_id)
   ON UPDATE CASCADE;
 
-CREATE TABLE doctor
+CREATE TABLE doctor_detail
 (
   user_id           INT NOT NULL
   COMMENT 'corresponds to client_id'
@@ -61,7 +61,7 @@ CREATE TABLE doctor
   ENGINE = InnoDB;
 
 CREATE INDEX fk_doctor_license1_idx
-  ON doctorDetail (dc_license_lic_id);
+  ON doctor_detail (dc_license_lic_id);
 
 CREATE TABLE doctor_license
 (
@@ -96,7 +96,8 @@ CREATE TABLE medicine
   mdc_recipe_required TINYINT       NULL
   COMMENT 'recipe required',
   mdc_price           DECIMAL(5, 2) NULL,
-  mdc_available       TINYINT(1)    NULL
+  mdc_available       TINYINT(1)    NULL,
+  mdc_quantity        INT           NULL
 )
   COMMENT 'Medicine  name, description, dosage, recipe requirement, price'
   ENGINE = InnoDB;
@@ -190,7 +191,7 @@ CREATE INDEX fk_payment_order_sum_idx
 CREATE INDEX fk_payment_confirmed
   ON payment (pmt_confirmed);
 
-CREATE TABLE pharmacist
+CREATE TABLE pharmacist_detail
 (
   user_id           INT NOT NULL
   COMMENT 'Corresponds to client_id'
@@ -204,7 +205,7 @@ CREATE TABLE pharmacist
   ENGINE = InnoDB;
 
 CREATE INDEX fk_doctor_license10_idx
-  ON pharmacist (ph_license_lic_id);
+  ON pharmacist_detail (ph_license_lic_id);
 
 CREATE TABLE pharmacist_license
 (

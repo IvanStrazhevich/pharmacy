@@ -8,10 +8,16 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+/**
+ * 
+ */
 public class ConnectionCreator {
     private static Logger logger = LogManager.getLogger();
     private Properties properties = new Properties();
 
+    /**
+     * 
+     */
     int definePoolSize() {
         try {
             properties.load(getClass().getClassLoader().getResourceAsStream("connection.properties"));
@@ -22,6 +28,9 @@ public class ConnectionCreator {
         return Integer.valueOf(properties.getProperty("poolsize"));
     }
 
+    /**
+     * 
+     */
     ProxyConnection createConnection() {
         ProxyConnection proxyConnection = new ProxyConnection();
         try {
@@ -38,3 +47,4 @@ public class ConnectionCreator {
         return proxyConnection;
     }
 }
+

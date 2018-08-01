@@ -1,5 +1,8 @@
 package by.epam.pharmacy.entity;
 
+/**
+ * 
+ */
 public class ClientDetail extends Entity {
     private static final long serialVersionUID = -2234118294156026170L;
     private int clientId;
@@ -12,81 +15,151 @@ public class ClientDetail extends Entity {
     private String city;
     private String address;
 
+    /**
+     * 
+     */
     public ClientDetail() {
     }
 
+    /**
+     * 
+     */
     public int getClientId() {
         return clientId;
     }
 
+    /**
+     * 
+     * @param clientId 
+     */
     public void setClientId(int clientId) {
         this.clientId = clientId;
     }
 
+    /**
+     * 
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * 
+     * @param name 
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * 
+     */
     public String getLastname() {
         return lastname;
     }
 
+    /**
+     * 
+     * @param lastname 
+     */
     public void setLastname(String lastname) {
         this.lastname = lastname;
     }
 
+    /**
+     * 
+     */
     public String getEmail() {
         return email;
     }
 
+    /**
+     * 
+     * @param email 
+     */
     public void setEmail(String email) {
         this.email = email;
     }
 
+    /**
+     * 
+     */
     public String getPhone() {
         return phone;
     }
 
+    /**
+     * 
+     * @param phone 
+     */
     public void setPhone(String phone) {
         this.phone = phone;
     }
 
+    /**
+     * 
+     */
     public String getPostcode() {
         return postcode;
     }
 
+    /**
+     * 
+     * @param postcode 
+     */
     public void setPostcode(String postcode) {
         this.postcode = postcode;
     }
 
+    /**
+     * 
+     */
     public String getCountry() {
         return country;
     }
 
+    /**
+     * 
+     * @param country 
+     */
     public void setCountry(String country) {
         this.country = country;
     }
 
+    /**
+     * 
+     */
     public String getCity() {
         return city;
     }
 
+    /**
+     * 
+     * @param city 
+     */
     public void setCity(String city) {
         this.city = city;
     }
 
+    /**
+     * 
+     */
     public String getAddress() {
         return address;
     }
 
+    /**
+     * 
+     * @param address 
+     */
     public void setAddress(String address) {
         this.address = address;
     }
 
+    /**
+     * 
+     * @param o 
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -105,6 +178,9 @@ public class ClientDetail extends Entity {
         return address != null ? address.equals(clientDetail.address) : clientDetail.address == null;
     }
 
+    /**
+     * 
+     */
     @Override
     public int hashCode() {
         int result = clientId;
@@ -119,6 +195,9 @@ public class ClientDetail extends Entity {
         return result;
     }
 
+    /**
+     * 
+     */
     @Override
     public String toString() {
         return "ClientDetail{" +
@@ -134,3 +213,4 @@ public class ClientDetail extends Entity {
                 '}';
     }
 }
+

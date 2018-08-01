@@ -2,7 +2,7 @@ package by.epam.pharmacy.service.impl;
 
 import by.epam.pharmacy.command.AttributeName;
 import by.epam.pharmacy.command.SessionRequestContent;
-import by.epam.pharmacy.dao.impl.MedicineDao;
+import by.epam.pharmacy.dao.impl.MedicineDaoImpl;
 import by.epam.pharmacy.entity.Medicine;
 import by.epam.pharmacy.exception.DaoException;
 import by.epam.pharmacy.exception.ServiceException;
@@ -13,6 +13,9 @@ import org.apache.logging.log4j.Logger;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
+/**
+ * 
+ */
 public class MedicineServiceImpl implements MedicineService {
     Logger logger = LogManager.getLogger();
 
@@ -24,7 +27,7 @@ public class MedicineServiceImpl implements MedicineService {
      */
     @Override
     public void findAllMedicines(SessionRequestContent content) throws ServiceException {
-        try (MedicineDao medicineDao = new MedicineDao()) {
+        try (MedicineDaoImpl medicineDao = new MedicineDaoImpl()) {
             ArrayList<Medicine> medicines = medicineDao.findAll();
             content.getRequestAttributes().put(AttributeName.MEDICINES.getAttribute(), medicines);
         } catch (DaoException e) {
@@ -40,7 +43,7 @@ public class MedicineServiceImpl implements MedicineService {
      */
     @Override
     public void findMedicinesByName(SessionRequestContent content) throws ServiceException {
-        try (MedicineDao medicineDao = new MedicineDao()) {
+        try (MedicineDaoImpl medicineDao = new MedicineDaoImpl()) {
             if (content.getRequestParameters().get(AttributeName.MEDICINE_NAME.getAttribute()) != null) {
                 String medName = content.getRequestParameters().get(AttributeName.MEDICINE_NAME.getAttribute()).toString();
                 ArrayList<Medicine> medicines = medicineDao.findMedicineByName(medName);
@@ -60,7 +63,7 @@ public class MedicineServiceImpl implements MedicineService {
      */
     @Override
     public void findMedicineById(SessionRequestContent content) throws ServiceException {
-        try (MedicineDao medicineDao = new MedicineDao()) {
+        try (MedicineDaoImpl medicineDao = new MedicineDaoImpl()) {
             if (content.getRequestParameters().get(AttributeName.MEDICINE_ID.getAttribute()) != null) {
                 int medId = Integer.valueOf(content.getRequestParameters().get(AttributeName.MEDICINE_ID.getAttribute()).toString());
                 Medicine medicine = medicineDao.findEntityById(medId);
@@ -79,7 +82,7 @@ public class MedicineServiceImpl implements MedicineService {
      */
     @Override
     public void removeMedicineFromDtaBase(SessionRequestContent content) throws ServiceException {
-        try (MedicineDao medicineDao = new MedicineDao()) {
+        try (MedicineDaoImpl medicineDao = new MedicineDaoImpl()) {
             if (content.getRequestParameters().get(AttributeName.MEDICINE_ID.getAttribute()) != null) {
                 int medId = Integer.valueOf(content.getRequestParameters().get(AttributeName.MEDICINE_ID.getAttribute()).toString());
                 medicineDao.deleteById(medId);
@@ -96,7 +99,7 @@ public class MedicineServiceImpl implements MedicineService {
          */
         @Override
         public void createOrUpdateMedicine(SessionRequestContent content) throws ServiceException {
-            try (MedicineDao medicineDao = new MedicineDao()) {
+            try (MedicineDaoImpl medicineDao = new MedicineDaoImpl()) {
                 ArrayList<Medicine> medicines = new ArrayList<>();
                 Medicine medicine = new Medicine();
                 if(content.getRequestParameters().get(AttributeName.MEDICINE_ID.getAttribute())!=null){
@@ -130,3 +133,4 @@ public class MedicineServiceImpl implements MedicineService {
 
 
     }
+

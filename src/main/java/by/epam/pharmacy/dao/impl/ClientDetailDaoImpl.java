@@ -14,7 +14,7 @@ import java.util.ArrayList;
 /**
  * ClientDetail implementations for AbstractDao
  */
-public class ClientDetailDao extends AbstractDaoImpl<ClientDetail> {
+public class ClientDetailDaoImpl extends AbstractDaoImpl<ClientDetail> {
     private static Logger logger = LogManager.getLogger();
     private static final String SELECT_ALL_PSTM = "select user_id, cl_name, cl_lastname, cl_email, cl_phone, cl_postcode, cl_country, cl_city, cl_address from client_detail";
     private static final String SELECT_BY_ID_PSTM = "select user_id, cl_name, cl_lastname, cl_email, cl_phone, cl_postcode, cl_country, cl_city, cl_address from client_detail where user_id = ?";
@@ -23,7 +23,10 @@ public class ClientDetailDao extends AbstractDaoImpl<ClientDetail> {
     private static final String UPDATE_PSTM = "update client_detail set cl_name = ?, cl_lastname = ?, cl_email = ?, cl_phone = ?, cl_postcode = ?, cl_country = ?, cl_city = ?, cl_address = ? where user_id = ?";
     private ProxyConnection proxyConnection;
 
-    public ClientDetailDao() throws DaoException {
+    /**
+     * 
+     */
+    public ClientDetailDaoImpl() throws DaoException {
         proxyConnection = super.proxyConnection;
     }
 
@@ -64,7 +67,7 @@ public class ClientDetailDao extends AbstractDaoImpl<ClientDetail> {
      * @throws DaoException
      */
     @Override
-    public ClientDetail findEntityById(Integer id) throws DaoException {
+    public ClientDetail findEntityById(int id) throws DaoException {
         ClientDetail clientDetail = new ClientDetail();
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_BY_ID_PSTM)) {
             preparedStatement.setInt(1, id);
@@ -94,7 +97,7 @@ public class ClientDetailDao extends AbstractDaoImpl<ClientDetail> {
      * @throws DaoException
      */
     @Override
-    public boolean deleteById(Integer id) throws DaoException {
+    public boolean deleteById(int id) throws DaoException {
         return deleteById(id, DELETE_PSTM);
     }
 
@@ -106,15 +109,8 @@ public class ClientDetailDao extends AbstractDaoImpl<ClientDetail> {
      */
     @Override
     public boolean delete(ClientDetail entity) throws DaoException {
-       boolean success = false;
-        try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(DELETE_PSTM)) {
-            preparedStatement.setInt(1, entity.getClientId());
-            preparedStatement.execute();
-            success = true;
-        } catch (SQLException e) {
-            throw new DaoException("Exception on deleteById", e);
-        }
-        return success;
+        int id = entity.getClientId();
+        return deleteById(id, DELETE_PSTM);
     }
 
     /**
@@ -171,3 +167,4 @@ public class ClientDetailDao extends AbstractDaoImpl<ClientDetail> {
         return success;
     }
 }
+

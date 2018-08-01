@@ -13,6 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * 
+ */
 @WebFilter(dispatcherTypes = {
         DispatcherType.FORWARD,
         DispatcherType.REQUEST,
@@ -23,9 +26,19 @@ public class PharmacistForwardFilter implements Filter {
     private static Logger logger = LogManager.getLogger();
     private static final String MESSAGE = "message.not.authorised";
 
+    /**
+     * 
+     * @param fConfig 
+     */
     public void init(FilterConfig fConfig) throws ServletException {
     }
 
+    /**
+     * 
+     * @param request 
+     * @param response 
+     * @param chain 
+     */
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
@@ -41,6 +54,9 @@ public class PharmacistForwardFilter implements Filter {
         }
     }
 
+    /**
+     * 
+     */
     public void destroy() {
     }
 }

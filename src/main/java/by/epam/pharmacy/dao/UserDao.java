@@ -5,9 +5,21 @@ import by.epam.pharmacy.exception.DaoException;
 
 import java.util.ArrayList;
 
-public interface AbstractUserDao<T> extends AbstractDao<T> {
+public interface UserDao<T> extends AbstractDao<T> {
 
+    /**
+     * 
+     * @param login 
+     */
     T findUserByLogin(String login) throws DaoException;
+    /**
+     * 
+     */
     ArrayList<User> findUserWithNames() throws DaoException;
+    /**
+     * 
+     * @param accessLevel 
+     */
     ArrayList<User> findUsersByAccessLevel(String accessLevel) throws DaoException;
 }
+

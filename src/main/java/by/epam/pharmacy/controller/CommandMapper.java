@@ -7,10 +7,16 @@ import by.epam.pharmacy.exception.PharmacyServletException;
 
 import java.util.HashMap;
 
+/**
+ * 
+ */
 public class CommandMapper {
     private static CommandMapper instance;
     private HashMap<String, RequestCommand> servletMap = new HashMap<>();
 
+    /**
+     * 
+     */
     private CommandMapper() {
         servletMap.put(CommandType.LOGIN_PAGE.getCommand(), new LoginPageCommand());
         servletMap.put(CommandType.CHECK_LOGIN.getCommand(), new CheckUserCommand());
@@ -40,6 +46,9 @@ public class CommandMapper {
         servletMap.put(CommandType.REMOVE_MEDICINE_FROM_ORDER.getCommand(), new RemoveFromDataBaseCommand());
     }
 
+    /**
+     * 
+     */
     static CommandMapper getInstance() throws PharmacyServletException {
         if (instance == null) {
             instance = new CommandMapper();
@@ -47,7 +56,11 @@ public class CommandMapper {
         return instance;
     }
 
+    /**
+     * 
+     */
     HashMap<String, RequestCommand> getServletMap() {
         return servletMap;
     }
 }
+
