@@ -18,6 +18,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 
 /**
  *
@@ -117,7 +118,17 @@ public class OrderServiceImpl implements OrderService {
         try (OrderDaoImpl orderDao = new OrderDaoImpl()) {
             int orderId = orderDao.findCurrentOrderByUserId(userId).getOrderId();
             Order order = orderDao.showOrderWithMedicineByOrderId(orderId);
+            ArrayList<OrderHasMedicine> medicines = order.getOrderHasMedicines();
+            BigDecimal orderSum = new BigDecimal(0);
+            for (OrderHasMedicine medicine : medicines) {
+                logger.info(medicine.getMedicineSum());
+                BigDecimal medicineSum = medicine.getMedicineSum();
+                orderSum=orderSum.add(medicineSum);
+            }
+            logger.info(orderSum);
+            order.setMedicineSum(orderSum);
             logger.info(order);
+            orderDao.update(order);
             content.getRequestAttributes().put(AttributeName.ORDER.getAttribute(), order);
         } catch (DaoException e) {
             throw new ServiceException(e);

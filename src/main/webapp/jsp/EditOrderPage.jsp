@@ -82,6 +82,19 @@ ${recipeRequested}
                     </form>
                 </tr>
             </c:forEach>
+            <tr>
+                <td>
+                    <form action="EditOrderPage" method="post">
+                        <input type="submit" class="btn btn-info"
+                               value="<fmt:message key="label.button.payOrder"/>">
+                        <input type="hidden" name="action" value="PayOrder">
+                    </form>
+                </td>
+                <td><fmt:message key="label.header.orderSummary"/></td>
+                <td>
+                    ${ord.medicineSum}
+                </td>
+            </tr>
         </table>
     </h6>
 </div>

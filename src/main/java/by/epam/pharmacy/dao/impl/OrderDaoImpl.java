@@ -23,7 +23,7 @@ public class OrderDaoImpl extends AbstractDaoImpl<Order> implements OrderDao<Ord
     private static final String SELECT_ALL_PSTM = "select order_id, ord_user_id, ord_payed, ord_med_sum from `order`";
     private static final String SELECT_BY_ID_PSTM = "select order_id, ord_user_id, ord_payed, ord_med_sum from `order` where order_id = ?";
     private static final String SELECT_BY_USER_PSTM = "select order_id, ord_user_id, ord_payed, ord_med_sum from `order` where ord_user_id = ?";
-    private static final String SELECT_BY_ORDER_ID_PSTM = "select ohm.order_order_id, m.mdc_name, ohm.ohm_med_quantity, ohm.ohm_med_sum, ohm.recipe_rec_id, m.mdc_dosage, m.mdc_recipe_required, m.mdc_id, m.mdc_price, ohm.ohm_med_sum, r.res_approved, r.rec_meds_quantity, m.mdc_quantity from order_has_medicine as ohm LEFT JOIN `medicine` as m on medicine_mdc_id=mdc_id LEFT JOIN `recipe` as r on ohm.recipe_rec_id = r.rec_id where ohm.order_order_id = ? order BY m.mdc_name";
+    private static final String SELECT_BY_ORDER_ID_PSTM = "select ohm.order_order_id, m.mdc_name, ohm.ohm_med_quantity, ohm.ohm_med_sum, ohm.recipe_rec_id, m.mdc_dosage, m.mdc_recipe_required, m.mdc_id, m.mdc_price, r.res_approved, r.rec_meds_quantity, m.mdc_quantity, o.ord_user_id from order_has_medicine as ohm LEFT JOIN `medicine` as m on medicine_mdc_id=mdc_id LEFT JOIN `order`as o on ohm.order_order_id = o.order_id LEFT JOIN `recipe` as r on ohm.recipe_rec_id = r.rec_id where ohm.order_order_id = ? order BY m.mdc_name";
     private static final String INSERT_PSTM = "insert into `order` (ord_user_id, ord_payed, ord_med_sum) values(?,?,?)";
     private static final String DELETE_PSTM = "delete from `order` where order_id = ?";
     private static final String UPDATE_PSTM = "update `order` set ord_user_id=?, ord_payed=?, ord_med_sum=? where order_id = ?";
@@ -198,10 +198,10 @@ public class OrderDaoImpl extends AbstractDaoImpl<Order> implements OrderDao<Ord
                 orderHasMedicine.setMedicineId(resultSet.getInt(8));
                 medicine.setMedicineId(resultSet.getInt(8));
                 medicine.setPrice(resultSet.getBigDecimal(9));
-                orderHasMedicine.setMedicineSum(resultSet.getBigDecimal(10));
-                recipe.setApproved(resultSet.getBoolean(11));
-                recipe.setMedicineQuantity(resultSet.getInt(12));
-                medicine.setQuantityAtStorage(resultSet.getInt(13));
+                recipe.setApproved(resultSet.getBoolean(10));
+                recipe.setMedicineQuantity(resultSet.getInt(11));
+                medicine.setQuantityAtStorage(resultSet.getInt(12));
+                order.setClientId(resultSet.getInt(13));
                 orderHasMedicine.setMedicine(medicine);
                 orderHasMedicine.setRecipe(recipe);
                 order.getOrderHasMedicines().add(orderHasMedicine);
