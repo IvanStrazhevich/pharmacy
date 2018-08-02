@@ -11,7 +11,7 @@ public enum CommandType {
     PAY_ORDER("PayOrder"), REMOVE_MEDICINE_FROM_ORDER("RemoveMedicineFromOrder"),
     REMOVE_MEDICINE_FROM_BASE("RemoveMedicineFromBase"),
     FIND_MEDICINE("FindMedicine"), EDIT_ORDER("EditOrder"), ADD_MEDICINE_TO_ORDER("AddMedicineToOrder"),
-    CHANGE_QUANTITY("ChangeQuantity"), DEMAND_RECIPE("DemandRecipe");
+    CHANGE_QUANTITY("ChangeQuantity"), DEMAND_RECIPE("DemandRecipe"), DELETE_RECIPE("DeleteRecipe");
     private String command;
 
     /**

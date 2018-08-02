@@ -11,6 +11,9 @@
 </head>
 <body>
 <c:import url="/WEB-INF/HeaderPage.jsp"/>
+<div class="container-fluid" style="flex-direction:column; float: left">
+    <c:import url="/WEB-INF/LeftSidePage.jsp"/>
+</div>
 ${recipeRequested}
 <div class="table-responsive">
     <h6>

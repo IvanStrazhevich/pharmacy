@@ -44,9 +44,12 @@ public class PageRouter {
             String page = null;
             try {
                 page = requestCommand.execute(content);
+                logger.info(page);
                 if (page != null) {
                     content.insertAttributes(request);
+                    logger.info(request.getAttribute(AttributeName.USERS.getAttribute()));
                     if (request.getRequestDispatcher(page) != null) {
+                        logger.info("forwarded");
                         request.getRequestDispatcher(page).forward(request, response);
                     }
                 } else {

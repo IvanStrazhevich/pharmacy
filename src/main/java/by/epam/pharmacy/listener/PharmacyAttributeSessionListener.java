@@ -21,36 +21,33 @@ public class PharmacyAttributeSessionListener implements HttpSessionAttributeLis
      */
     @Override
     public void attributeAdded(HttpSessionBindingEvent event) {
-        /*logger.info("Added worked");
-        logger.info("login is: " + event.getSession().getAttribute(AttributeName.LOGGED.getAttribute()));
-        logger.info(event.getName());
+        logger.debug("Added worked");
+        logger.debug("login is: " + event.getSession().getAttribute(AttributeName.LOGGED.getAttribute()));
+        logger.debug(event.getName());
         if (event.getName().equals(AttributeName.LOGGED.getAttribute())) {
-            logger.info("login listener worked");
+            logger.debug("login listener worked");
             HttpSession session = event.getSession();
-            logger.info(session.getId());
-           *//* event.getSession().removeAttribute(AttributeName.NEED_LOGIN.getAttribute());
-            logger.info(event.getSession().getAttribute(AttributeName.NEED_LOGIN.getAttribute()));
-           *//**//* event.getSession().removeAttribute(AttributeName.LOGOUT.getAttribute());
-            logger.info(event.getSession().getAttribute(AttributeName.LOGOUT.getAttribute()));
-           *//**//* event.getSession().removeAttribute(AttributeName.NEED_REGISTER.getAttribute());
-            logger.info(event.getSession().getAttribute(AttributeName.NEED_REGISTER.getAttribute()));
-*//*
+            logger.debug(session.getId());
+            session.removeAttribute(AttributeName.NEED_LOGIN.getAttribute());
+            logger.debug(session.getAttribute(AttributeName.NEED_LOGIN.getAttribute()));
+            session.removeAttribute(AttributeName.NEED_REGISTER.getAttribute());
+            logger.debug(session.getAttribute(AttributeName.NEED_REGISTER.getAttribute()));
         } else {
-            logger.info("login listener not worked");
-        }*/
+            logger.debug("login listener not worked");
+        }
         if (event.getName().equals(AttributeName.LOGOUT.getAttribute())) {
-            logger.info("logout listener worked" + event.getSession().getAttribute(AttributeName.LOGOUT.getAttribute()));
+            logger.debug("logout listener worked" + event.getSession().getAttribute(AttributeName.LOGOUT.getAttribute()));
             HttpSession session = event.getSession();
-            /*session.removeAttribute(AttributeName.LOGGED.getAttribute());
-            logger.info(session.getAttribute(AttributeName.LOGGED.getAttribute()));
+            session.removeAttribute(AttributeName.LOGGED.getAttribute());
+            logger.debug(session.getAttribute(AttributeName.LOGGED.getAttribute()));
             session.removeAttribute(AttributeName.LOGIN.getAttribute());
-            logger.info(session.getAttribute(AttributeName.LOGIN.getAttribute()));
+            logger.debug(session.getAttribute(AttributeName.LOGIN.getAttribute()));
             session.removeAttribute(AttributeName.ACCESS_LEVEL.getAttribute());
-            logger.info(session.getAttribute(AttributeName.ACCESS_LEVEL.getAttribute()));
-            */logger.info(session.getId());
+            logger.debug(session.getAttribute(AttributeName.ACCESS_LEVEL.getAttribute()));
+            logger.debug(session.getId());
             session.invalidate();
         } else {
-            logger.info("logout listener not worked" + event.getSession().getAttribute(AttributeName.LOGOUT.getAttribute()));
+            logger.debug("logout listener not worked" + event.getSession().getAttribute(AttributeName.LOGOUT.getAttribute()));
 
         }
 
@@ -70,12 +67,13 @@ public class PharmacyAttributeSessionListener implements HttpSessionAttributeLis
      */
     @Override
     public void attributeReplaced(HttpSessionBindingEvent event) {
-
-        /*logger.info("Replased worked");
-        if (event.getName().equals(AttributeName.LOGGED.getAttribute())) {
-            event.getSession().removeAttribute(AttributeName.NEED_LOGIN.getAttribute());
-            event.getSession().removeAttribute(AttributeName.NEED_REGISTER.getAttribute());
-        }*/
+        logger.debug("Replased worked");
+        HttpSession session = event.getSession();
+        if (event.getName().equals(AttributeName.LOGGED.getAttribute())
+                && event.getValue().equals(AttributeName.LOGGED.getAttribute())) {
+            session.removeAttribute(AttributeName.NEED_LOGIN.getAttribute());
+            session.removeAttribute(AttributeName.NEED_REGISTER.getAttribute());
+        }
     }
 }
 

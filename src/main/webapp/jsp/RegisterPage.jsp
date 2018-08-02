@@ -14,6 +14,7 @@
 </head>
 <body>
 <c:import url="/WEB-INF/HeaderPage.jsp"/>
+
 ${notAuthorised}
 ${userExist}
 ${needLogin}

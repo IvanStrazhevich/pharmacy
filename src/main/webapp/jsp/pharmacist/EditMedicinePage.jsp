@@ -12,9 +12,14 @@
 </head>
 <body>
 <c:import url="/WEB-INF/HeaderPage.jsp"/>
-<div>
+<div class="container-fluid" style="flex-direction:column; float: left">
+    <c:import url="/WEB-INF/LeftSidePage.jsp"/>
+</div>
+<div class="table-responsive">
     <h6>
-        <table class="table table-striped table-hover table-bordered tableUpdated table-responsive" >
+        <table class="table table-striped table-hover table-bordered tableUpdated table-responsive">
+
+            <c:set var="med" value="${medicine}"></c:set>
             <tr>
                 <th><fmt:message key="label.header.id"/></th>
                 <th><fmt:message key="label.header.medicineName"/></th>
@@ -24,12 +29,11 @@
                 <th><fmt:message key="label.header.price"/></th>
                 <th><fmt:message key="label.header.available"/></th>
                 <th><fmt:message key="label.header.quantityAvailable"/></th>
-                <%-- <th><fmt:message key="label.header.choose"/></th>--%>
                 <th></th>
-                <th></th>
+                <c:if test="${accessLevel=='pharmacist'&& med.medicineId!=0}">
+                    <th></th>
+                </c:if>
             </tr>
-            <c:set var="med" value="${medicine}"></c:set>
-            <%--<c:forEach items="${medicines}" var="meds">--%>
             <tr>
                 <form action="MedicineListPage" accept-charset="utf-8" method="post">
                     <c:if test="${medicine==null}">
@@ -43,16 +47,17 @@
                     <td><input type="text" name="description" value="${med.description}"
                                placeholder="${med.description}" maxlength="65000" size="10">
                     </td>
-                    <td><input type="text" name="dosage" value="${med.dosage}" placeholder="${med.dosage}"maxlength="5" size="10"></td>
+                    <td><input type="text" name="dosage" value="${med.dosage}" placeholder="${med.dosage}" maxlength="5"
+                               size="10"></td>
                     <td><input type="text" name="recipeRequired" value="${med.recipeRequired}"
-                               placeholder="${med.recipeRequired}" maxlength="5" size="10"></td>
-                    <td><input type="text" name="price" value="${med.price}" placeholder="${med.price}" maxlength="8" size="10">
+                               placeholder="${med.recipeRequired}" maxlength="5" size="5"></td>
+                    <td><input type="text" name="price" value="${med.price}" placeholder="${med.price}" maxlength="8"
+                               size="10">
                     </td>
                     <td><input type="text" name="available" value="${med.available}" placeholder="${med.available}"
-                               maxlength="5" size="10"></td>
+                               maxlength="5" size="5"></td>
                     <td><input type="text" name="quantityAtStorage" value="${med.quantityAtStorage}"
                                placeholder="${med.quantityAtStorage}" maxlength="11" size="10"></td>
-                    <%--<td><input type="checkbox" name="chosen"></td>--%>
                     <td>
                         <input type="submit" class="btn btn-success"
                                value="<fmt:message key="label.button.confirm"/>">
@@ -61,18 +66,19 @@
                         <input type="hidden" name="action" value="SaveMedicine">
                 </form>
                 </td>
-                <td>
-                    <c:if test="${accessLevel=='pharmacist'}">
-                    <form action="MedicineListPage" method="post">
-                        <input type="submit" class="btn btn-danger"
-                               value="<fmt:message key="label.button.delete"/>">
-                        <input type="hidden" name="medicineId" value="${med.medicineId}">
-                        <input type="hidden" name="action" value="RemoveMedicineFromBase">
-                    </form>
-                    </c:if>
-                </td>
+
+                <c:if test="${accessLevel=='pharmacist'&& med.medicineId!=0}">
+                    <td>
+                        <form action="MedicineListPage" method="post">
+                            <input type="submit" class="btn btn-danger"
+                                   value="<fmt:message key="label.button.delete"/>">
+                            <input type="hidden" name="medicineId" value="${med.medicineId}">
+                            <input type="hidden" name="action" value="RemoveMedicineFromBase">
+                        </form>
+                    </td>
+                </c:if>
+
             </tr>
-            <%--</c:forEach><br>--%>
         </table>
     </h6>
 </div>

@@ -27,5 +27,10 @@ public interface RecipeService {
      * @param content 
      */
     void approveRecipe(SessionRequestContent content) throws ServiceException;
+
+    /**
+     * @param content
+     */
+    void deleteRecipe(SessionRequestContent content) throws ServiceException;
 }
 

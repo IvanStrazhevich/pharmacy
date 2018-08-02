@@ -11,7 +11,11 @@
 </head>
 <body>
 <c:import url="/WEB-INF/HeaderPage.jsp"/>
-<div>
+<div class="container-fluid" style="flex-direction:column; float: left">
+    <c:import url="/WEB-INF/LeftSidePage.jsp"/>
+</div>
+
+<div class="table-responsive">
     <h6>
         <table class="table table-hover table-bordered tableUpdated">
             <tr>
@@ -36,7 +40,7 @@
                         </form>
                     </td>
                 </tr>
-            </c:forEach><br>
+            </c:forEach>
         </table>
     </h6>
 </div>

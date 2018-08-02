@@ -20,17 +20,17 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 
 /**
- * 
+ *
  */
 public class RecipeServiceImpl implements RecipeService {
     private static final String MESSAGE = "message.recipeRequested";
+    private static final String MESSAGE_DELETED = "message.recipeDeleted";
     private static Logger logger = LogManager.getLogger();
     private UserService userService = new UserServiceImpl();
     private OrderService orderService = new OrderServiceImpl();
 
     /**
-     * 
-     * @param content 
+     * @param content
      */
     @Override
     public void createRecipe(SessionRequestContent content) throws ServiceException {
@@ -51,8 +51,7 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     /**
-     * 
-     * @param content 
+     * @param content
      */
     public void showRecipes(SessionRequestContent content) throws ServiceException {
         try (RecipeDaoImpl recipeDao = new RecipeDaoImpl()) {
@@ -65,8 +64,7 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     /**
-     * 
-     * @param content 
+     * @param content
      */
     @Override
     public void showRecipe(SessionRequestContent content) throws ServiceException {
@@ -81,8 +79,7 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     /**
-     * 
-     * @param content 
+     * @param content
      */
     @Override
     public void approveRecipe(SessionRequestContent content) throws ServiceException {
@@ -104,15 +101,28 @@ public class RecipeServiceImpl implements RecipeService {
             orderHasMedicine.setRecipeId(recipeDB.getRecipeId());
             orderHasMedicine.setMedicineQuantity(recipeDB.getMedicineQuantity());
             orderService.updateRecipeAtOrderHasMedicine(orderHasMedicine);
-            orderService.changeQuantityFromRecipe(orderId,medicineId,medicineQuantity);
+            orderService.changeQuantityFromRecipe(orderId, medicineId, medicineQuantity);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
     }
 
     /**
-     * 
-     * @param recipe 
+     * @param content
+     */
+    @Override
+    public void deleteRecipe(SessionRequestContent content) throws ServiceException {
+        int recipeId = Integer.valueOf(content.getRequestParameters().get(AttributeName.RECIPE_ID.getAttribute()));
+        try (RecipeDaoImpl recipeDao = new RecipeDaoImpl()) {
+            recipeDao.deleteById(recipeId);
+            content.getRequestAttributes().put(AttributeName.RECIPE_DELETED.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE_DELETED));
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    /**
+     * @param recipe
      */
     private void createOrUpdateRecipe(Recipe recipe) throws ServiceException {
         int clientId = recipe.getClientId();
@@ -135,8 +145,7 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     /**
-     * 
-     * @param orderId 
+     * @param orderId
      */
     private int findUserId(Integer orderId) throws ServiceException {
         try (OrderDaoImpl orderDao = new OrderDaoImpl()) {
@@ -147,16 +156,14 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     /**
-     * 
-     * @param userService 
+     * @param userService
      */
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
 
     /**
-     * 
-     * @param orderService 
+     * @param orderService
      */
     public void setOrderService(OrderService orderService) {
         this.orderService = orderService;

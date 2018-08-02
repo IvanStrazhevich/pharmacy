@@ -7,6 +7,7 @@ import by.epam.pharmacy.entity.Medicine;
 import by.epam.pharmacy.exception.DaoException;
 import by.epam.pharmacy.exception.ServiceException;
 import by.epam.pharmacy.service.MedicineService;
+import by.epam.pharmacy.util.ResourceManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,6 +18,7 @@ import java.util.ArrayList;
  * 
  */
 public class MedicineServiceImpl implements MedicineService {
+    private static final String MESSAGE_DELETED = "message.medicineDeleted";
     Logger logger = LogManager.getLogger();
 
     /**
@@ -81,14 +83,15 @@ public class MedicineServiceImpl implements MedicineService {
      * @throws ServiceException
      */
     @Override
-    public void removeMedicineFromDtaBase(SessionRequestContent content) throws ServiceException {
+    public void removeMedicineFromDataBase(SessionRequestContent content) throws ServiceException {
         try (MedicineDaoImpl medicineDao = new MedicineDaoImpl()) {
             if (content.getRequestParameters().get(AttributeName.MEDICINE_ID.getAttribute()) != null) {
                 int medId = Integer.valueOf(content.getRequestParameters().get(AttributeName.MEDICINE_ID.getAttribute()).toString());
                 medicineDao.deleteById(medId);
+                content.getRequestAttributes().put(AttributeName.MEDICINE_DELETED.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE_DELETED));
             }
         } catch (DaoException e) {
-            e.printStackTrace();
+            throw new ServiceException(e);
         }
     }
 

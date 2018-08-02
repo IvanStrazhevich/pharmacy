@@ -20,7 +20,8 @@ public class RemoveFromDataBaseCommand implements RequestCommand<SessionRequestC
     @Override
     public String execute(SessionRequestContent content) throws CommandException {
         try {
-            medicineService.removeMedicineFromDtaBase(content);
+            medicineService.removeMedicineFromDataBase(content);
+            medicineService.findAllMedicines(content);
         } catch (ServiceException e) {
             throw new CommandException(e);
         }

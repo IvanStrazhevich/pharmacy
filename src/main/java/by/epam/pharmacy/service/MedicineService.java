@@ -28,6 +28,6 @@ public interface MedicineService {
      * 
      * @param content 
      */
-    void removeMedicineFromDtaBase(SessionRequestContent content) throws ServiceException;
+    void removeMedicineFromDataBase(SessionRequestContent content) throws ServiceException;
 }
 

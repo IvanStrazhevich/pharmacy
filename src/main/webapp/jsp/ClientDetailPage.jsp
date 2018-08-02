@@ -11,7 +11,9 @@
 </head>
 <body>
 <c:import url="/WEB-INF/HeaderPage.jsp"/>
-<hr>
+<div class="container-fluid" style="flex-direction:column; float: left">
+    <c:import url="/WEB-INF/LeftSidePage.jsp"/>
+</div>
 ${result}
 <br>
 <div>

@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 
+ *
  */
 @WebFilter(dispatcherTypes = {
         DispatcherType.FORWARD,
@@ -27,18 +27,16 @@ public class LoginForwardFilter implements Filter {
     private String indexPath;
 
     /**
-     * 
-     * @param fConfig 
+     * @param fConfig
      */
     public void init(FilterConfig fConfig) throws ServletException {
 
     }
 
     /**
-     * 
-     * @param request 
-     * @param response 
-     * @param chain 
+     * @param request
+     * @param response
+     * @param chain
      */
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
@@ -47,7 +45,8 @@ public class LoginForwardFilter implements Filter {
         String path = ((HttpServletRequest) request).getRequestURI();
         if (path.startsWith(httpRequest.getContextPath() + PagePath.LOGIN_PAGE.getPage())
                 || path.startsWith(httpRequest.getContextPath() + PagePath.REGISTER_PAGE.getPage())
-                || path.startsWith(httpRequest.getContextPath() + PagePath.WELCOME_PAGE.getPage())) {
+                || path.startsWith(httpRequest.getContextPath() + PagePath.WELCOME_PAGE.getPage())
+                || path.startsWith(httpRequest.getContextPath() + PagePath.MEDICINE_LIST_PAGE.getPage())) {
             chain.doFilter(request, response);
         } else {
             if (httpRequest.getSession().getAttribute(AttributeName.LOGGED.getAttribute()) == null
@@ -62,7 +61,7 @@ public class LoginForwardFilter implements Filter {
     }
 
     /**
-     * 
+     *
      */
     public void destroy() {
     }

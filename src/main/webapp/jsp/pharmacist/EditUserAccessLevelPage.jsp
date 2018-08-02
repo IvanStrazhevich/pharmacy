@@ -11,41 +11,50 @@
 </head>
 <body>
 <c:import url="/WEB-INF/HeaderPage.jsp"/>
+<div class="container-fluid" style="flex-direction:column; float: left">
+    <c:import url="/WEB-INF/LeftSidePage.jsp"/>
+</div>
 
-<table style="background: whitesmoke" class="table table-striped table-hover table-bordered tableUpdated">
-    <tr>
-        <th><fmt:message key="label.header.id"/></th>
-        <th><fmt:message key="label.header.name"/></th>
-        <th><fmt:message key="label.header.lastname"/></th>
-        <th><fmt:message key="label.header.accessLevel"/></th>
-        <th></th>
-    </tr>
-    <c:set value="${user}" var="us"></c:set>
-    <tr>
-        <td>${us.userId}</td>
-        <td>${us.clientDetail.name}</td>
-        <td>${us.clientDetail.lastname}</td>
-        <form action="UserListPage" method="post">
-            <td>
-                <select class="btn btn-primary" name="accessLevel">
-                    <option value="client" <c:if test="${us.accessLevel=='client'}"> selected </c:if>><fmt:message
-                            key="label.button.accessClient"/></option>
-                    <option value="pharmacist" <c:if test="${us.accessLevel=='pharmacist'}"> selected </c:if>>
-                        <fmt:message key="label.button.accessPharmacist"/></option>
-                    <option value="doctor"<c:if test="${us.accessLevel=='doctor'}"> selected </c:if>><fmt:message
-                            key="label.button.accessDoctor"/></option>
-                </select>
-            </td>
-            <td>
-                <input type="submit" class="btn btn-primary"
-                       value="<fmt:message key="label.button.confirm"/>">
-                <input type="hidden" name="action" value="SaveAccessLevel">
-                <input name="userId" type="hidden" value="${us.userId}">
-        </form>
-        </td>
-    </tr>
-    <br>
-</table>
+<div class="table-responsive">
+    <h6>
+        <table style="background: whitesmoke" class="table table-striped table-hover table-bordered tableUpdated">
+            <tr>
+                <th><fmt:message key="label.header.id"/></th>
+                <th><fmt:message key="label.header.name"/></th>
+                <th><fmt:message key="label.header.lastname"/></th>
+                <th><fmt:message key="label.header.accessLevel"/></th>
+                <th></th>
+            </tr>
+            <c:set value="${user}" var="us"></c:set>
+            <tr>
+                <td>${us.userId}</td>
+                <td>${us.clientDetail.name}</td>
+                <td>${us.clientDetail.lastname}</td>
+                <form action="UserListPage" method="post">
+                    <td>
+                        <select class="btn btn-primary" name="accessLevel">
+                            <option value="client" <c:if test="${us.accessLevel=='client'}"> selected </c:if>>
+                                <fmt:message
+                                        key="label.button.accessClient"/></option>
+                            <option value="pharmacist" <c:if test="${us.accessLevel=='pharmacist'}"> selected </c:if>>
+                                <fmt:message key="label.button.accessPharmacist"/></option>
+                            <option value="doctor"<c:if test="${us.accessLevel=='doctor'}"> selected </c:if>>
+                                <fmt:message
+                                        key="label.button.accessDoctor"/></option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="submit" class="btn btn-primary"
+                               value="<fmt:message key="label.button.confirm"/>">
+                        <input type="hidden" name="action" value="SaveAccessLevel">
+                        <input name="userId" type="hidden" value="${us.userId}">
+                </form>
+                </td>
+            </tr>
+            <br>
+        </table>
+    </h6>
+</div>
 <div style="float: bottom"><c:import url="/WEB-INF/FooterPage.jsp"/></div>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="js/bootstrap.min.js"></script>

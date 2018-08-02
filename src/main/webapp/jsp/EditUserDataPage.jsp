@@ -14,8 +14,8 @@
 <div>
 <c:import url="/WEB-INF/HeaderPage.jsp"/>
 </div>
-<div class="container container-table container-fluid">
-    <div class="row vertical-center-row">
+<div class="container-fluid container-table">
+    <div class="row">
         <div class="col-md-4 col-md-offset-4">
             <form action="EditUserDataPage"
                   enctype="multipart/form-data"
@@ -28,6 +28,7 @@
                            value="<fmt:message key="label.button.choosefile"/>">
                 </div>
                 <div class="form-group input-group input-group-lg col-md-8 col-md-offset-2 col-xs-12">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-upload"></span></span>
 
                     <input type="hidden" name="action" value="UploadResult">
                     <input class="form-control btn btn-success" type="submit"
@@ -92,6 +93,8 @@
                            maxlength="45">
                 </div>
                 <div class="form-group input-group input-group-lg col-md-8 col-md-offset-2 col-xs-12">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-check"></span></span>
+
                     <input type="hidden" name="action" value="SaveClientDetail">
                     <input class="form-control btn btn-success" type="submit"
                            value="<fmt:message key="label.button.confirm"/>"/>
@@ -100,6 +103,8 @@
             </form>
             <form action="WelcomePage" method="post">
                 <div class="form-group input-group input-group-lg col-md-8 col-md-offset-2 col-xs-12">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-home"></span></span>
+
                     <input type="hidden" name="action" value="WelcomePage">
                     <input class="form-control btn btn-primary" type="submit"
                            value="<fmt:message key="label.button.WelcomePage"/>"/>

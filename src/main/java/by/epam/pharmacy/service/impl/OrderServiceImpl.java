@@ -20,47 +20,51 @@ import org.apache.logging.log4j.Logger;
 import java.math.BigDecimal;
 
 /**
- * 
+ *
  */
 public class OrderServiceImpl implements OrderService {
 
     private static final String MESSAGE_ADDED = "message.medicineAddedToOrder";
     private static final String MESSAGE_ADD = "message.chooseQuantity";
+    private static final String MESSAGE_NEED_LOGIN = "message.needLogin";
     private static Logger logger = LogManager.getLogger();
     private Encodable encodable = new ShaConverter();
 
 
     /**
-     * 
-     * @param content 
+     * @param content
      */
     @Override
     public void addMedicineToOrder(SessionRequestContent content) throws ServiceException {
-        if (content.getRequestParameters().get(AttributeName.MEDICINE_QUANTITY.getAttribute()) != "") {
-            int medicineId = Integer.valueOf(content.getRequestParameters().get(AttributeName.MEDICINE_ID.getAttribute()));
-            int medicineQuantity = Integer.valueOf(content.getRequestParameters().get(AttributeName.MEDICINE_QUANTITY.getAttribute()));
-            String clientLogin = content.getSessionAttributes().get(AttributeName.LOGIN.getAttribute()).toString();
-            int userId = findUserId(clientLogin);
-            logger.info(userId);
-            int orderId = createOrder(userId, medicineId);
-            logger.info("adding medicine to order" + orderId);
-            createOrUpdateMedicineInOrder(medicineId, orderId, medicineQuantity);
-            content.getRequestAttributes().put(AttributeName.MEDICINE_ADDED.getAttribute(),
-                    ResourceManager.INSTANCE.getString(MESSAGE_ADDED));
-        } else {
-            content.getRequestAttributes().put(AttributeName.MEDICINE_ADDED.getAttribute(),
-                    ResourceManager.INSTANCE.getString(MESSAGE_ADD));
+        if (content.getSessionAttributes().get(AttributeName.LOGGED.getAttribute()) != null
+                && content.getSessionAttributes().get(AttributeName.LOGGED.getAttribute()).equals(AttributeName.LOGGED.getAttribute())) {
+            if (content.getRequestParameters().get(AttributeName.MEDICINE_QUANTITY.getAttribute()) != "") {
+                int medicineId = Integer.valueOf(content.getRequestParameters().get(AttributeName.MEDICINE_ID.getAttribute()));
+                int medicineQuantity = Integer.valueOf(content.getRequestParameters().get(AttributeName.MEDICINE_QUANTITY.getAttribute()));
+                String clientLogin = content.getSessionAttributes().get(AttributeName.LOGIN.getAttribute()).toString();
+                int userId = findUserId(clientLogin);
+                logger.info(userId);
+                int orderId = createOrder(userId, medicineId);
+                logger.info("adding medicine to order" + orderId);
+                createOrUpdateMedicineInOrder(medicineId, orderId, medicineQuantity);
+                content.getRequestAttributes().put(AttributeName.MEDICINE_ADDED.getAttribute(),
+                        ResourceManager.INSTANCE.getString(MESSAGE_ADDED));
+            } else {
+                content.getRequestAttributes().put(AttributeName.MEDICINE_ADDED.getAttribute(),
+                        ResourceManager.INSTANCE.getString(MESSAGE_ADD));
 
+            }
+        } else {
+            content.getRequestAttributes().put(AttributeName.NEED_LOGIN.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE_NEED_LOGIN));
         }
     }
 
     /**
-     * 
-     * @param orderHasMedicine 
+     * @param orderHasMedicine
      */
     @Override
     public void updateRecipeAtOrderHasMedicine(OrderHasMedicine orderHasMedicine) throws ServiceException {
-        try(OrderHasMedicineDaoImpl orderHasMedicineDao = new OrderHasMedicineDaoImpl()) {
+        try (OrderHasMedicineDaoImpl orderHasMedicineDao = new OrderHasMedicineDaoImpl()) {
             orderHasMedicineDao.updateRecipe(orderHasMedicine);
         } catch (DaoException e) {
             throw new ServiceException(e);
@@ -68,14 +72,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * 
-     * @param orderId 
-     * @param medicineId 
+     * @param orderId
+     * @param medicineId
      */
-    public OrderHasMedicine findOrderHasMedicine(Integer orderId, Integer medicineId) throws ServiceException{
+    public OrderHasMedicine findOrderHasMedicine(Integer orderId, Integer medicineId) throws ServiceException {
         OrderHasMedicine orderHasMedicine = new OrderHasMedicine();
-        try(OrderHasMedicineDaoImpl orderHasMedicineDao = new OrderHasMedicineDaoImpl()){
-            orderHasMedicine = orderHasMedicineDao.findOrderHasMedicineByOrderIdMedicineId(orderId,medicineId);
+        try (OrderHasMedicineDaoImpl orderHasMedicineDao = new OrderHasMedicineDaoImpl()) {
+            orderHasMedicine = orderHasMedicineDao.findOrderHasMedicineByOrderIdMedicineId(orderId, medicineId);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -83,8 +86,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * 
-     * @param content 
+     * @param content
      */
     @Override
     public boolean removeMedicineFromOrder(SessionRequestContent content) throws ServiceException {
@@ -106,8 +108,7 @@ public class OrderServiceImpl implements OrderService {
 
 
     /**
-     * 
-     * @param content 
+     * @param content
      */
     @Override
     public void showOrder(SessionRequestContent content) throws ServiceException {
@@ -124,8 +125,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * 
-     * @param content 
+     * @param content
      */
     @Override
     public void changeQuantity(SessionRequestContent content) throws ServiceException {
@@ -137,8 +137,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * 
-     * @param clientId 
+     * @param clientId
      */
     public int findCurrentOrderIdByUserId(Integer clientId) throws ServiceException {
         try (OrderDaoImpl orderDao = new OrderDaoImpl()) {
@@ -149,10 +148,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * 
-     * @param orderId 
-     * @param medicineId 
-     * @param medicineQuantity 
+     * @param orderId
+     * @param medicineId
+     * @param medicineQuantity
      */
     public void changeQuantityFromRecipe(Integer orderId, Integer medicineId, Integer medicineQuantity) throws ServiceException {
         updateQuantityByOrderMedicineQuantity(orderId, medicineId, medicineQuantity);
@@ -160,10 +158,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * 
-     * @param orderId 
-     * @param medicineId 
-     * @param medicineQuantity 
+     * @param orderId
+     * @param medicineId
+     * @param medicineQuantity
      */
     private void updateQuantityByOrderMedicineQuantity(Integer orderId, Integer medicineId, Integer medicineQuantity) throws ServiceException {
         try (OrderHasMedicineDaoImpl orderHasMedicineDao = new OrderHasMedicineDaoImpl()) {
@@ -177,8 +174,7 @@ public class OrderServiceImpl implements OrderService {
 
 
     /**
-     * 
-     * @param orderHasMedicine 
+     * @param orderHasMedicine
      */
     private boolean updateQuantityByOrderMedicineQuantity(OrderHasMedicine orderHasMedicine) throws ServiceException {
         boolean success = false;
@@ -197,10 +193,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * 
-     * @param medicineId 
-     * @param medicineQuantity 
-     * @param medicineQuantityDB 
+     * @param medicineId
+     * @param medicineQuantity
+     * @param medicineQuantityDB
      */
     private void recountStorageQuantity(int medicineId, int medicineQuantity, int medicineQuantityDB) throws ServiceException {
         try (MedicineDaoImpl medicineDao = new MedicineDaoImpl()) {
@@ -214,9 +209,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * 
-     * @param quantity 
-     * @param medicineId 
+     * @param quantity
+     * @param medicineId
      */
     private BigDecimal countMedicineSum(int quantity, int medicineId) throws ServiceException {
         try (MedicineDaoImpl medicineDao = new MedicineDaoImpl()) {
@@ -229,9 +223,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * 
-     * @param medicineId 
-     * @param medicineQuantity 
+     * @param medicineId
+     * @param medicineQuantity
      */
     private void updateStorageQuantity(int medicineId, int medicineQuantity) throws ServiceException {
         try (MedicineDaoImpl medicineDao = new MedicineDaoImpl()) {
@@ -245,9 +238,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * 
-     * @param userId 
-     * @param medicineId 
+     * @param userId
+     * @param medicineId
      */
     private Integer createOrder(int userId, int medicineId) throws ServiceException {
         Order order = new Order();
@@ -261,8 +253,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * 
-     * @param order 
+     * @param order
      */
     private Integer createOrUpdateOrder(Order order) throws ServiceException {
         try (OrderDaoImpl orderDao = new OrderDaoImpl()) {
@@ -285,10 +276,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * 
-     * @param medicineId 
-     * @param orderId 
-     * @param medicineQuantity 
+     * @param medicineId
+     * @param orderId
+     * @param medicineQuantity
      */
     private boolean createOrUpdateMedicineInOrder(int medicineId, int orderId, int medicineQuantity) throws ServiceException {
         boolean success = false;
@@ -326,8 +316,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * 
-     * @param clientLogin 
+     * @param clientLogin
      */
     private Integer findUserId(String clientLogin) throws ServiceException {
         logger.info(clientLogin);
@@ -341,8 +330,7 @@ public class OrderServiceImpl implements OrderService {
 
 
     /**
-     * 
-     * @param encodable 
+     * @param encodable
      */
     public void setEncodable(Encodable encodable) {
         this.encodable = encodable;

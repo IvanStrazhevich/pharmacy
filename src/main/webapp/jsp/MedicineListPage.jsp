@@ -11,8 +11,12 @@
 </head>
 <body>
 <c:import url="/WEB-INF/HeaderPage.jsp"/>
-
+<div class="container-fluid" style="flex-direction:column; float: left ">
+    <c:import url="/WEB-INF/LeftSidePage.jsp"/>
+</div>
 ${medicineAdded}
+${needLogin}
+${medicineDeleted}
 <div class="table-responsive">
     <h6>
         <table class="table table-striped table-bordered tableUpdated table-responsive">
