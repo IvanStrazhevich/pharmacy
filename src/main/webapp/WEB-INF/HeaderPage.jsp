@@ -20,16 +20,6 @@
                        value="<fmt:message key="label.button.WelcomePage"/>">
             </div>
         </form>
-        <c:if test="${sessionScope.accessLevel=='doctor'}">
-            <form class="navbar-form navbar-left" action="RecipeListPage"
-                  method="post">
-                <div class="form-group">
-                    <input type="hidden" name="action" value="RecipeList">
-                    <input class="btn btn-success" type="submit"
-                           value="<fmt:message key="label.button.RecipeListPage"/>">
-                </div>
-            </form>
-        </c:if>
         <form class="navbar-form navbar-left" action="WelcomePage" method="post">
             <div class="form-group">
                 <select class="btn-primary" name="lang">

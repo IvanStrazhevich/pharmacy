@@ -53,7 +53,7 @@
                     </td>
                     <td>
                         <input type="submit" class="btn btn-primary"
-                               value="<fmt:message key="label.button.Submit"/>">
+                               value="<fmt:message key="label.button.approve"/>">
                         <input type="hidden" name="medicineId" value="${rcp.medicineId}">
                         <input type="hidden" name="recipeId" value="${rcp.recipeId}">
                         <input type="hidden" name="action" value="ApproveRecipe">

@@ -11,7 +11,7 @@ public class Order extends Entity {
     private int orderId;
     private int clientId;
     private boolean payed;
-    private BigDecimal medicineSum;
+    private BigDecimal orderSum;
     private ArrayList<OrderHasMedicine> orderHasMedicines;
 
     /**
@@ -68,16 +68,16 @@ public class Order extends Entity {
     /**
      * 
      */
-    public BigDecimal getMedicineSum() {
-        return medicineSum;
+    public BigDecimal getOrderSum() {
+        return orderSum;
     }
 
     /**
      * 
-     * @param medicineSum 
+     * @param orderSum
      */
-    public void setMedicineSum(BigDecimal medicineSum) {
-        this.medicineSum = medicineSum;
+    public void setOrderSum(BigDecimal orderSum) {
+        this.orderSum = orderSum;
     }
 
     /**
@@ -112,7 +112,7 @@ public class Order extends Entity {
         if (orderId != order.orderId) return false;
         if (clientId != order.clientId) return false;
         if (payed != order.payed) return false;
-        if (medicineSum != null ? !medicineSum.equals(order.medicineSum) : order.medicineSum != null) return false;
+        if (orderSum != null ? !orderSum.equals(order.orderSum) : order.orderSum != null) return false;
         return orderHasMedicines != null ? orderHasMedicines.equals(order.orderHasMedicines) : order.orderHasMedicines == null;
     }
 
@@ -124,7 +124,7 @@ public class Order extends Entity {
         int result = orderId;
         result = 31 * result + clientId;
         result = 31 * result + (payed ? 1 : 0);
-        result = 31 * result + (medicineSum != null ? medicineSum.hashCode() : 0);
+        result = 31 * result + (orderSum != null ? orderSum.hashCode() : 0);
         result = 31 * result + (orderHasMedicines != null ? orderHasMedicines.hashCode() : 0);
         return result;
     }
@@ -138,7 +138,7 @@ public class Order extends Entity {
                 "orderId=" + orderId +
                 ", clientId=" + clientId +
                 ", payed=" + payed +
-                ", medicineSum=" + medicineSum +
+                ", orderSum=" + orderSum +
                 ", orderHasMedicines=" + orderHasMedicines +
                 '}';
     }

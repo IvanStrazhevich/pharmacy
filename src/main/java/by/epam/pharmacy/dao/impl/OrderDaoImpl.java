@@ -30,7 +30,7 @@ public class OrderDaoImpl extends AbstractDaoImpl<Order> implements OrderDao<Ord
     private ProxyConnection proxyConnection;
 
     /**
-     * 
+     *
      */
     public OrderDaoImpl() throws DaoException {
         proxyConnection = super.proxyConnection;
@@ -51,7 +51,7 @@ public class OrderDaoImpl extends AbstractDaoImpl<Order> implements OrderDao<Ord
                 order.setOrderId(resultSet.getInt(1));
                 order.setClientId(resultSet.getInt(2));
                 order.setPayed(resultSet.getBoolean(3));
-                order.setMedicineSum(resultSet.getBigDecimal(4));
+                order.setOrderSum(resultSet.getBigDecimal(4));
                 userList.add(order);
             }
         } catch (SQLException e) {
@@ -121,7 +121,7 @@ public class OrderDaoImpl extends AbstractDaoImpl<Order> implements OrderDao<Ord
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(INSERT_PSTM)) {
             preparedStatement.setInt(1, entity.getClientId());
             preparedStatement.setBoolean(2, entity.isPayed());
-            preparedStatement.setBigDecimal(3, entity.getMedicineSum());
+            preparedStatement.setBigDecimal(3, entity.getOrderSum());
             logger.info(preparedStatement);
             logger.info(entity);
             preparedStatement.execute();
@@ -144,7 +144,7 @@ public class OrderDaoImpl extends AbstractDaoImpl<Order> implements OrderDao<Ord
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(UPDATE_PSTM)) {
             preparedStatement.setInt(1, entity.getClientId());
             preparedStatement.setBoolean(2, entity.isPayed());
-            preparedStatement.setBigDecimal(3, entity.getMedicineSum());
+            preparedStatement.setBigDecimal(3, entity.getOrderSum());
             preparedStatement.setInt(4, entity.getOrderId());
             preparedStatement.executeUpdate();
             success = true;
@@ -155,8 +155,7 @@ public class OrderDaoImpl extends AbstractDaoImpl<Order> implements OrderDao<Ord
     }
 
     /**
-     * 
-     * @param id 
+     * @param id
      */
     @Override
     public Order findCurrentOrderByUserId(int id) throws DaoException {
@@ -173,9 +172,9 @@ public class OrderDaoImpl extends AbstractDaoImpl<Order> implements OrderDao<Ord
         }
         return order;
     }
+
     /**
-     * 
-     * @param orderId 
+     * @param orderId
      */
     @Override
     public Order showOrderWithMedicineByOrderId(Integer orderId) throws DaoException {
@@ -184,7 +183,7 @@ public class OrderDaoImpl extends AbstractDaoImpl<Order> implements OrderDao<Ord
             preparedStatement.setInt(1, orderId);
             preparedStatement.execute();
             ResultSet resultSet = preparedStatement.getResultSet();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 Medicine medicine = new Medicine();
                 OrderHasMedicine orderHasMedicine = new OrderHasMedicine();
                 Recipe recipe = new Recipe();
@@ -213,16 +212,15 @@ public class OrderDaoImpl extends AbstractDaoImpl<Order> implements OrderDao<Ord
     }
 
     /**
-     * 
-     * @param order 
-     * @param resultSet 
+     * @param order
+     * @param resultSet
      */
     private void fillOrder(Order order, ResultSet resultSet) throws SQLException {
         while (resultSet.next()) {
             order.setOrderId(resultSet.getInt(1));
             order.setClientId(resultSet.getInt(2));
             order.setPayed(resultSet.getBoolean(3));
-            order.setMedicineSum(resultSet.getBigDecimal(4));
+            order.setOrderSum(resultSet.getBigDecimal(4));
         }
     }
 }

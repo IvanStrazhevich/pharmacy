@@ -45,6 +45,7 @@ public class CommandMapper {
         servletMap.put(CommandType.EDIT_ORDER.getCommand(), new EditOrderCommand());
         servletMap.put(CommandType.REMOVE_MEDICINE_FROM_BASE.getCommand(), new RemoveFromDataBaseCommand());
         servletMap.put(CommandType.DELETE_RECIPE.getCommand(), new DeleteRecipeCommand());
+        servletMap.put(CommandType.PAY_ORDER.getCommand(), new PayOrderCommand());
     }
 
     /**

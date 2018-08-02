@@ -17,10 +17,10 @@ public class PaymentDaoImpl<T> extends AbstractDaoImpl<Payment> implements Payme
     private static final String SELECT_ALL_PSTM = "select payment_id, pmt_order_id, pmt_ord_sum, pmt_confirmed from `payment`";
     private static final String SELECT_BY_ID_PSTM = "select payment_id, pmt_order_id, pmt_ord_sum, pmt_confirmed from `payment` where payment_id = ?";
     private static final String SELECT_BY_ORDER_ID_PSTM = "select payment_id, pmt_order_id, pmt_ord_sum, pmt_confirmed from `payment` where pmt_order_id = ?";
-    private static final String INSERT_PSTM = "insert into `payment` (pmt_order_id, pmt_ord_sum, pmt_confirmed) values(?,?,?,?)";
+    private static final String INSERT_PSTM = "insert into `payment` (pmt_order_id, pmt_ord_sum, pmt_confirmed) values(?,?,?)";
     private static final String DELETE_PSTM = "delete from `payment` where payment_id = ?";
     private static final String DELETE_BY_ORDER_ID_PSTM = "delete from `payment` where pmt_order_id = ?";
-    private static final String UPDATE_PSTM = "update `payment` set payment_id=?, pmt_order_id=?, pmt_ord_sum=?, pmt_confirmed=? set where payment_id = ?";
+    private static final String UPDATE_PSTM = "update `payment` set pmt_order_id=?, pmt_ord_sum=?, pmt_confirmed=? where payment_id = ?";
     private ProxyConnection proxyConnection;
 
     /**
@@ -48,7 +48,7 @@ public class PaymentDaoImpl<T> extends AbstractDaoImpl<Payment> implements Payme
             while (resultSet.next()) {
                 Payment payment = new Payment();
                 payment.setPaymentId(resultSet.getInt(1));
-                payment.setPaymentId(resultSet.getInt(2));
+                payment.setOrderId(resultSet.getInt(2));
                 payment.setOrderSum(resultSet.getBigDecimal(3));
                 payment.setPaymentConfirmed(resultSet.getBoolean(4));
                 payments.add(payment);
@@ -166,10 +166,10 @@ public class PaymentDaoImpl<T> extends AbstractDaoImpl<Payment> implements Payme
         boolean success = false;
         logger.info(entity);
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(UPDATE_PSTM)) {
-            preparedStatement.setInt(1,entity.getPaymentId());
-            preparedStatement.setInt(2, entity.getOrderId());
-            preparedStatement.setBigDecimal(3, entity.getOrderSum());
-            preparedStatement.setBoolean(4, entity.isPaymentConfirmed());
+            preparedStatement.setInt(1, entity.getOrderId());
+            preparedStatement.setBigDecimal(2, entity.getOrderSum());
+            preparedStatement.setBoolean(3, entity.isPaymentConfirmed());
+            preparedStatement.setInt(4,entity.getPaymentId());
             logger.info(preparedStatement);
             logger.info(entity);
             preparedStatement.execute();
@@ -184,7 +184,7 @@ public class PaymentDaoImpl<T> extends AbstractDaoImpl<Payment> implements Payme
     private void fillPayment(Payment payment, ResultSet resultSet) throws SQLException {
         while (resultSet.next()) {
             payment.setPaymentId(resultSet.getInt(1));
-            payment.setPaymentId(resultSet.getInt(2));
+            payment.setOrderId(resultSet.getInt(2));
             payment.setOrderSum(resultSet.getBigDecimal(3));
             payment.setPaymentConfirmed(resultSet.getBoolean(4));
         }

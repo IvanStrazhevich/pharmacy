@@ -18,7 +18,8 @@ public enum PagePath {
     ORDER_PAGE("/jsp/OrderPage.jsp"),
     HEADER_PAGE("WEB-INF/HeaderPage.jsp"),
     FOOTER_PAGE("/FooterPage.jsp"),
-    INDEX_PAGE("/index.jsp"), MEDICINE_LIST_PAGE("/jsp/MedicineListPage.jsp");
+    INDEX_PAGE("/index.jsp"), MEDICINE_LIST_PAGE("/jsp/MedicineListPage.jsp"),
+    PAYMENT_PAGE("/jsp/PaymentPage.jsp");
 
 
     private String page;

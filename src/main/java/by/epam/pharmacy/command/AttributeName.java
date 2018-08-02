@@ -18,8 +18,7 @@ public enum AttributeName {
     CLIENT_DETAILS("clientDetails"), MEDICINE_QUANTITY("medicineQuantity"), MEDICINE_ADDED("medicineAdded"),
     ORDER_ID("orderId"), RECIPE_REQUESTED("recipeRequested"),
     RECIPE("recipe"), RECIPE_ID("recipeId"), VALID_TILL("validTill"), APPROVED("approved"), RECIPE_DELETED("recipeDeleted"),
-    MEDICINE_DELETED("medicineDeleted");
-
+    MEDICINE_DELETED("medicineDeleted"), ORDER_SUM("orderSum"), PAYMENT("payment");
 
     private String attribute;
 

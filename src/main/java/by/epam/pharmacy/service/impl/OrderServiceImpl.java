@@ -126,7 +126,7 @@ public class OrderServiceImpl implements OrderService {
                 orderSum=orderSum.add(medicineSum);
             }
             logger.info(orderSum);
-            order.setMedicineSum(orderSum);
+            order.setOrderSum(orderSum);
             logger.info(order);
             orderDao.update(order);
             content.getRequestAttributes().put(AttributeName.ORDER.getAttribute(), order);
@@ -255,7 +255,7 @@ public class OrderServiceImpl implements OrderService {
     private Integer createOrder(int userId, int medicineId) throws ServiceException {
         Order order = new Order();
         order.setClientId(userId);
-        order.setMedicineSum(BigDecimal.valueOf(0));
+        order.setOrderSum(BigDecimal.valueOf(0));
         logger.info("Creating order");
         logger.info(order);
         int orderId = createOrUpdateOrder(order);
