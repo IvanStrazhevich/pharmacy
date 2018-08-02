@@ -24,23 +24,21 @@ public enum PagePath {
     private String page;
 
     /**
-     * 
-     * @param page 
+     * @param page
      */
     PagePath(String page) {
         this.page = page;
     }
 
     /**
-     * 
+     *
      */
     public String getPage() {
         return page;
     }
 
     /**
-     * 
-     * @param page 
+     * @param page
      */
     public void setPage(String page) {
         this.page = page;

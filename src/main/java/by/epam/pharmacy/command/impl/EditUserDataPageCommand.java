@@ -7,20 +7,15 @@ import by.epam.pharmacy.exception.CommandException;
 import by.epam.pharmacy.exception.ServiceException;
 import by.epam.pharmacy.service.ClientService;
 import by.epam.pharmacy.service.impl.ClientServiceImpl;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
- * 
+ *
  */
 public class EditUserDataPageCommand implements RequestCommand<SessionRequestContent> {
-    private static Logger logger = LogManager.getLogger();
     private ClientService clientService = new ClientServiceImpl();
 
-
     /**
-     * 
-     * @param content 
+     * @param content
      */
     @Override
     public String execute(SessionRequestContent content) throws CommandException {
@@ -32,5 +27,8 @@ public class EditUserDataPageCommand implements RequestCommand<SessionRequestCon
         return PagePath.EDIT_USER_DATA_PAGE.getPage();
     }
 
+    public void setClientService(ClientService clientService) {
+        this.clientService = clientService;
+    }
 }
 

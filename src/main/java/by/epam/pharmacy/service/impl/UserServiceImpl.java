@@ -11,24 +11,31 @@ import by.epam.pharmacy.exception.DaoException;
 import by.epam.pharmacy.exception.ServiceException;
 import by.epam.pharmacy.service.Encodable;
 import by.epam.pharmacy.service.UserService;
+import by.epam.pharmacy.util.ResourceManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 
 /**
- * 
+ *
  */
 public class UserServiceImpl implements UserService {
     private static Logger logger = LogManager.getLogger();
+    private static final String MESSAGE_SUCCESS = "message.loginOk";
+    private static final String MESSAGE = "message.wrongloginAndPass";
+    private static final String MESSAGE_USER_EXIST = "message.userExist";
+    private static final String MESSAGE_USER_REGISTERED = "message.userRegistered";
+    private static final String MESSAGE_USER_NOT_REGISTERED = "message.userNotRegistered";
+
     private Encodable encoder = new ShaConverter();
 
     /**
-     * 
-     * @param login 
-     * @param password 
+     * @param content
      */
-    public boolean checkLogin(String login, String password) throws ServiceException {
+    public boolean checkLogin(SessionRequestContent content) throws ServiceException {
+        String login = content.getRequestParameters().get(AttributeName.LOGIN.getAttribute());
+        String password = content.getRequestParameters().get(AttributeName.PASSWORD.getAttribute());
         Boolean logged = false;
         ArrayList<User> list = getUsersList();
         String shaLogin = encoder.encode(login);
@@ -38,15 +45,22 @@ public class UserServiceImpl implements UserService {
             String loginDB = user.getLogin();
             String passDB = user.getPassword();
             if (shaLogin.equals(loginDB) && shaPassword.equals(passDB)) {
+                content.getSessionAttributes().put(AttributeName.LOGGED.getAttribute(), AttributeName.LOGGED.getAttribute());
+                content.getSessionAttributes().put(AttributeName.ACCESS_LEVEL.getAttribute(), checkUserAccessLevel(login));
+                content.getSessionAttributes().put(AttributeName.LOGIN.getAttribute(), login);
+                content.getRequestAttributes().put(AttributeName.GREETING.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE_SUCCESS));
+                content.getSessionAttributes().put(AttributeName.NEED_REGISTER.getAttribute(), null);
+                content.getSessionAttributes().put(AttributeName.NEED_LOGIN.getAttribute(), null);
                 logged = true;
+            } else {
+                content.getSessionAttributes().put(AttributeName.NEED_REGISTER.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE));
             }
         }
         return logged;
     }
 
     /**
-     * 
-     * @param login 
+     * @param login
      */
     public String checkUserAccessLevel(String login) throws ServiceException {
         try (UserDaoImpl userDao = new UserDaoImpl()) {
@@ -60,10 +74,12 @@ public class UserServiceImpl implements UserService {
 
 
     /**
-     * 
-     * @param login 
+     * @param content
      */
-    public boolean checkUserExist(String login) throws ServiceException {
+    public boolean checkUserExist(SessionRequestContent content) throws ServiceException {
+        String login = content.getRequestParameters().get(AttributeName.LOGIN.getAttribute());
+        String password = content.getRequestParameters().get(AttributeName.PASSWORD.getAttribute());
+
         boolean exist = false;
         ArrayList<User> list = new ArrayList();
         list = getUsersList();
@@ -73,6 +89,7 @@ public class UserServiceImpl implements UserService {
             String loginDB = user.getLogin();
             logger.debug(loginDB + '\n' + shalogin);
             if (shalogin.equals(loginDB)) {
+                content.getRequestAttributes().put(AttributeName.USER_EXIST.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE_USER_EXIST));
                 exist = true;
             }
         }
@@ -80,11 +97,12 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * 
-     * @param login 
-     * @param password 
+     * @param content
      */
-    public boolean createUser(String login, String password) throws ServiceException {
+    public boolean createUser(SessionRequestContent content) throws ServiceException {
+        String login = content.getRequestParameters().get(AttributeName.LOGIN.getAttribute());
+        String password = content.getRequestParameters().get(AttributeName.PASSWORD.getAttribute());
+
         String shalogin = null;
         String shaPassword = null;
         try (UserDaoImpl userDao = new UserDaoImpl();
@@ -95,21 +113,28 @@ public class UserServiceImpl implements UserService {
             user.setLogin(shalogin);
             user.setPassword(shaPassword);
             user.setAccessLevel(AccessLevel.CLIENT.getLevel());
-            userDao.create(user);
-            logger.info("user created");
-            int userId = userDao.findLastInsertId();
-            logger.info("id extracted");
-            ClientDetail clientDetail = new ClientDetail();
-            clientDetail.setClientId(userId);
-            return clientDetailDao.create(clientDetail);
+            if (userDao.create(user)) {
+                logger.info("user created");
+                int userId = userDao.findLastInsertId();
+                logger.info("id extracted");
+                ClientDetail clientDetail = new ClientDetail();
+                clientDetail.setClientId(userId);
+                content.getSessionAttributes().put(AttributeName.LOGGED.getAttribute(), AttributeName.LOGGED.getAttribute());
+                content.getRequestAttributes().put(AttributeName.USER_REGISTERED.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE_USER_REGISTERED));
+                content.getSessionAttributes().put(AttributeName.ACCESS_LEVEL.getAttribute(), checkUserAccessLevel(login));
+                content.getSessionAttributes().put(AttributeName.LOGIN.getAttribute(), login);
+                return clientDetailDao.create(clientDetail);
+            } else {
+                content.getRequestAttributes().put(AttributeName.USER_NOT_REGISTERED.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE_USER_NOT_REGISTERED));
+                return false;
+            }
         } catch (DaoException e) {
             throw new ServiceException("DaoException", e);
         }
     }
 
     /**
-     * 
-     * @param content 
+     * @param content
      */
     public void showUsersAndAccess(SessionRequestContent content) throws ServiceException {
         try (UserDaoImpl userDao = new UserDaoImpl()) {
@@ -122,8 +147,7 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * 
-     * @param content 
+     * @param content
      */
     @Override
     public void showUserAccessLvl(SessionRequestContent content) throws ServiceException {
@@ -142,8 +166,7 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * 
-     * @param content 
+     * @param content
      */
     @Override
     public void saveAccessLvl(SessionRequestContent content) throws ServiceException {
@@ -161,7 +184,7 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * 
+     *
      */
     public User findDefaultDoctor() throws ServiceException {
         User user = new User();
@@ -175,8 +198,16 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * 
+     *
      */
+    public void invalidateSession(SessionRequestContent content) throws ServiceException {
+        content.getSessionAttributes().put(AttributeName.LOGOUT.getAttribute(), AttributeName.LOGOUT.getAttribute());
+        content.getSessionAttributes().put(AttributeName.LOGGED.getAttribute(), null);
+        content.getSessionAttributes().put(AttributeName.LOGIN.getAttribute(), null);
+        content.getSessionAttributes().put(AttributeName.ACCESS_LEVEL.getAttribute(), null);
+    }
+
+
     private ArrayList<User> getUsersList() throws ServiceException {
         ArrayList<User> users = new ArrayList<>();
         try (UserDaoImpl userDao = new UserDaoImpl()) {
@@ -189,8 +220,7 @@ public class UserServiceImpl implements UserService {
 
 
     /**
-     * 
-     * @param encoder 
+     * @param encoder
      */
     public void setEncoder(Encodable encoder) {
         this.encoder = encoder;

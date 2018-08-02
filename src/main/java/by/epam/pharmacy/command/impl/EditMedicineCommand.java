@@ -26,5 +26,9 @@ public class EditMedicineCommand implements RequestCommand<SessionRequestContent
         }
         return PagePath.EDIT_MEDICINE.getPage();
     }
+
+    public void setMedicineService(MedicineService medicineService) {
+        this.medicineService = medicineService;
+    }
 }
 

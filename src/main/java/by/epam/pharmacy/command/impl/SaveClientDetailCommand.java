@@ -11,7 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * 
+ *
  */
 public class SaveClientDetailCommand implements RequestCommand<SessionRequestContent> {
     private static final String UPLOAD_DIR = "uploads";
@@ -19,8 +19,7 @@ public class SaveClientDetailCommand implements RequestCommand<SessionRequestCon
     Logger logger = LogManager.getLogger();
 
     /**
-     * 
-     * @param content 
+     * @param content
      */
     @Override
     public String execute(SessionRequestContent content) throws CommandException {
@@ -51,6 +50,10 @@ public class SaveClientDetailCommand implements RequestCommand<SessionRequestCon
             throw new CommandException(e);
         }
         return PagePath.CLIENT_DETAIL_PAGE.getPage();
+    }
+
+    public void setClientService(ClientService clientService) {
+        this.clientService = clientService;
     }
 }
 

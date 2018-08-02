@@ -6,27 +6,25 @@ import by.epam.pharmacy.exception.ServiceException;
 
 public interface UserService {
     /**
-     * 
-     * @param login 
-     * @param password 
+     *
+     * @param content
      */
-    boolean createUser(String login, String password) throws ServiceException;
+    boolean createUser(SessionRequestContent content) throws ServiceException;
     /**
-     * 
-     * @param login 
+     *
+     * @param content
      */
-    boolean checkUserExist(String login) throws ServiceException;
+    boolean checkUserExist(SessionRequestContent content) throws ServiceException;
     /**
      * 
      * @param login 
      */
     String checkUserAccessLevel(String login) throws ServiceException;
     /**
-     * 
-     * @param login 
-     * @param password 
+     *
+     * @param content
      */
-    boolean checkLogin(String login, String password) throws ServiceException;
+    boolean checkLogin(SessionRequestContent content) throws ServiceException;
     /**
      * 
      * @param content 
@@ -46,5 +44,7 @@ public interface UserService {
      * 
      */
     User findDefaultDoctor() throws ServiceException;
+
+    void invalidateSession(SessionRequestContent content) throws ServiceException;
 }
 

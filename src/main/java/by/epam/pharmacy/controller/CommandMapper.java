@@ -8,14 +8,14 @@ import by.epam.pharmacy.exception.PharmacyServletException;
 import java.util.HashMap;
 
 /**
- * 
+ *
  */
 public class CommandMapper {
     private static CommandMapper instance;
     private HashMap<String, RequestCommand> servletMap = new HashMap<>();
 
     /**
-     * 
+     *
      */
     private CommandMapper() {
         servletMap.put(CommandType.LOGIN_PAGE.getCommand(), new LoginPageCommand());
@@ -34,7 +34,7 @@ public class CommandMapper {
         servletMap.put(CommandType.EDIT_MEDICINE.getCommand(), new EditMedicineCommand());
         servletMap.put(CommandType.SAVE_MEDICINE.getCommand(), new SaveMedicineCommand());
         servletMap.put(CommandType.USER_LIST.getCommand(), new UserListCommand());
-        servletMap.put(CommandType.EDIT_ACCESS_LEVEL.getCommand(), new EditAccesslevelCommand());
+        servletMap.put(CommandType.EDIT_ACCESS_LEVEL.getCommand(), new EditAccessLevelCommand());
         servletMap.put(CommandType.SAVE_ACCESS_LEVEL.getCommand(), new SaveAccessLevelCommand());
         servletMap.put(CommandType.REMOVE_MEDICINE_FROM_ORDER.getCommand(), new RemoveMedicineFromOrderCommand());
         servletMap.put(CommandType.DEMAND_RECIPE.getCommand(), new DemandRecipeCommand());
@@ -47,7 +47,7 @@ public class CommandMapper {
     }
 
     /**
-     * 
+     *
      */
     static CommandMapper getInstance() throws PharmacyServletException {
         if (instance == null) {
@@ -57,7 +57,7 @@ public class CommandMapper {
     }
 
     /**
-     * 
+     *
      */
     HashMap<String, RequestCommand> getServletMap() {
         return servletMap;

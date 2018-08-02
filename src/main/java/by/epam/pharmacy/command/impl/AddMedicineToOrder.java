@@ -11,14 +11,14 @@ import by.epam.pharmacy.service.impl.MedicineServiceImpl;
 import by.epam.pharmacy.service.impl.OrderServiceImpl;
 
 /**
- * 
+ *
  */
 public class AddMedicineToOrder implements RequestCommand<SessionRequestContent> {
     private OrderService orderService = new OrderServiceImpl();
     private MedicineService medicineService = new MedicineServiceImpl();
+
     /**
-     * 
-     * @param content 
+     * @param content
      */
     @Override
     public String execute(SessionRequestContent content) throws CommandException {
@@ -29,6 +29,14 @@ public class AddMedicineToOrder implements RequestCommand<SessionRequestContent>
             throw new CommandException(e);
         }
         return PagePath.MEDICINE_LIST_PAGE.getPage();
+    }
+
+    public void setOrderService(OrderService orderService) {
+        this.orderService = orderService;
+    }
+
+    public void setMedicineService(MedicineService medicineService) {
+        this.medicineService = medicineService;
     }
 }
 

@@ -11,11 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 
+ *
  */
 @WebServlet(name = "PharmacyServlet",
         urlPatterns = {"/WelcomePage", "/EditUserDataPage", "/ClientDetailPage", "/LoginPage",
-                "/MedicineListPage", "/EditMedicinePage", "/UserListPage","/EditAccessLevelPage",
+                "/MedicineListPage", "/EditMedicinePage", "/UserListPage", "/EditAccessLevelPage",
                 "/CheckLogin", "/RegisterUser", "/RegisterPage", "/EditOrderPage",
                 "/RecipeApprovalPage", "/RecipeListPage"})
 /*@MultipartConfig(location = ""//The directory location where files will be stored
@@ -26,20 +26,18 @@ public class PharmacyServlet extends HttpServlet {
     private PageRouter pageRouter = new PageRouter();
 
     /**
-     * 
-     * @param request 
-     * @param response 
+     * @param request
+     * @param response
      */
     private void handleRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        SessionRequestContent sessionRequestContent = new SessionRequestContent();
-        sessionRequestContent.extractValues(request);
-        pageRouter.redirectToPage(request, response, sessionRequestContent);
+        SessionRequestContent content = new SessionRequestContent();
+        content.extractValues(request);
+        pageRouter.redirectToPage(request, response, content);
     }
 
     /**
-     * 
-     * @param request 
-     * @param response 
+     * @param request
+     * @param response
      */
     @Override
     protected void doGet(HttpServletRequest request,
@@ -48,9 +46,8 @@ public class PharmacyServlet extends HttpServlet {
     }
 
     /**
-     * 
-     * @param request 
-     * @param response 
+     * @param request
+     * @param response
      */
     @Override
     protected void doPost(HttpServletRequest request,

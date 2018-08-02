@@ -9,22 +9,26 @@ import by.epam.pharmacy.service.RecipeService;
 import by.epam.pharmacy.service.impl.RecipeServiceImpl;
 
 /**
- * 
+ *
  */
 public class RecipeListCommand implements RequestCommand<SessionRequestContent> {
-   private RecipeService recipeService = new RecipeServiceImpl();
+    private RecipeService recipeService = new RecipeServiceImpl();
+
     /**
-     * 
-     * @param content 
+     * @param content
      */
     @Override
-    public String execute(SessionRequestContent content) throws CommandException{
+    public String execute(SessionRequestContent content) throws CommandException {
         try {
             recipeService.showRecipes(content);
         } catch (ServiceException e) {
             throw new CommandException(e);
         }
         return PagePath.RECIPE_LIST_PAGE.getPage();
+    }
+
+    public void setRecipeService(RecipeService recipeService) {
+        this.recipeService = recipeService;
     }
 }
 

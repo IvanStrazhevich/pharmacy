@@ -6,11 +6,11 @@
 <fmt:setBundle basename="message"/>
 <html>
 <head>
-    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap.css/bootstrap.min.css" rel="stylesheet">
     <title><fmt:message key="label.button.HeaderPage"/></title>
 </head>
 <body>
-<nav class="navbar nav-tabs" style="background: #5cb85c;padding: 0px">
+<nav class="navbar nav-tabs" style="background: #5cb85c">
     <div class="container-fluid">
         <form class="navbar-form navbar-left" action="WelcomePage"
               method="post">
@@ -76,7 +76,7 @@
                 <input type="submit" class="btn btn-primary" value="<fmt:message key="label.button.language"/> ">
             </div>
         </form>
-        <form class="navbar-form navbar-right" action="WelcomePage"
+        <form action="WelcomePage" class="navbar-form navbar-right"
               method="post">
             <div class="form-group">
                 <input type="hidden" name="action" value="InvalidateSession">
@@ -154,7 +154,6 @@
         </li>
     </c:if>
 </ul>
-
 
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="js/bootstrap.min.js"></script>

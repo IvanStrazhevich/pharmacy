@@ -9,13 +9,13 @@ import by.epam.pharmacy.service.RecipeService;
 import by.epam.pharmacy.service.impl.RecipeServiceImpl;
 
 /**
- * 
+ *
  */
 public class EditRecipeCommand implements RequestCommand<SessionRequestContent> {
     private RecipeService recipeService = new RecipeServiceImpl();
+
     /**
-     * 
-     * @param content 
+     * @param content
      */
     @Override
     public String execute(SessionRequestContent content) throws CommandException {
@@ -25,6 +25,10 @@ public class EditRecipeCommand implements RequestCommand<SessionRequestContent> 
             throw new CommandException(e);
         }
         return PagePath.RECIPE_APPROVAL_PAGE.getPage();
+    }
+
+    public void setRecipeService(RecipeService recipeService) {
+        this.recipeService = recipeService;
     }
 }
 

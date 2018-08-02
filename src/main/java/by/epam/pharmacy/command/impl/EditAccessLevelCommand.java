@@ -9,13 +9,13 @@ import by.epam.pharmacy.service.UserService;
 import by.epam.pharmacy.service.impl.UserServiceImpl;
 
 /**
- * 
+ *
  */
-public class EditAccesslevelCommand implements RequestCommand<SessionRequestContent> {
+public class EditAccessLevelCommand implements RequestCommand<SessionRequestContent> {
     private UserService userService = new UserServiceImpl();
+
     /**
-     * 
-     * @param content 
+     * @param content
      */
     @Override
     public String execute(SessionRequestContent content) throws CommandException {
@@ -25,6 +25,10 @@ public class EditAccesslevelCommand implements RequestCommand<SessionRequestCont
             throw new CommandException(e);
         }
         return PagePath.EDIT_USER_ACCESS_LEVEL_PAGE.getPage();
+    }
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 }
 

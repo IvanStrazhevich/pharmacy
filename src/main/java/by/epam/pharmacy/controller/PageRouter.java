@@ -13,14 +13,14 @@ import java.io.IOException;
 import java.util.HashMap;
 
 /**
- * 
+ *
  */
 public class PageRouter {
     private HashMap<String, RequestCommand> servletMap;
     private static Logger logger = LogManager.getLogger();
 
     /**
-     * 
+     *
      */
     PageRouter() {
         try {
@@ -32,34 +32,26 @@ public class PageRouter {
     }
 
     /**
-     * 
-     * @param request 
-     * @param response 
-     * @param sessionRequestContent 
+     * @param request
+     * @param response
+     * @param content
      */
-    void redirectToPage(HttpServletRequest request, HttpServletResponse response, SessionRequestContent sessionRequestContent) throws IOException, ServletException {
-        String action = sessionRequestContent.getRequestParameters().get(AttributeName.ACTION.getAttribute());
+    void redirectToPage(HttpServletRequest request, HttpServletResponse response, SessionRequestContent content) throws IOException, ServletException {
+        String action = content.getRequestParameters().get(AttributeName.ACTION.getAttribute());
         if (action != null) {
             RequestCommand requestCommand = servletMap.get(action);
             logger.debug(action);
             String page = null;
             try {
-                if (action.equals(CommandType.INVALIDATE_SESSION.getCommand())) {
-                    page = requestCommand.execute(request);
+                page = requestCommand.execute(content);
+                if (page != null) {
+                    content.insertAttributes(request);
                     if (request.getRequestDispatcher(page) != null) {
-                        response.sendRedirect(request.getContextPath() + page);
+                        request.getRequestDispatcher(page).forward(request, response);
                     }
                 } else {
-                    page = requestCommand.execute(sessionRequestContent);
-                    if (page != null) {
-                        sessionRequestContent.insertAttributes(request);
-                        if (request.getRequestDispatcher(page) != null) {
-                            request.getRequestDispatcher(page).forward(request, response);
-                        }
-                    } else {
-                        if (request.getRequestDispatcher(PagePath.ERROR_PAGE.getPage()) != null) {
-                            response.sendRedirect(request.getContextPath() + PagePath.ERROR_PAGE.getPage());
-                        }
+                    if (request.getRequestDispatcher(PagePath.ERROR_PAGE.getPage()) != null) {
+                        response.sendRedirect(request.getContextPath() + PagePath.ERROR_PAGE.getPage());
                     }
                 }
             } catch (CommandException e) {

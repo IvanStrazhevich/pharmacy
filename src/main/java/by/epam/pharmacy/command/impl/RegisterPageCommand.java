@@ -5,12 +5,11 @@ import by.epam.pharmacy.command.RequestCommand;
 import by.epam.pharmacy.command.SessionRequestContent;
 
 /**
- * 
+ *
  */
 public class RegisterPageCommand implements RequestCommand<SessionRequestContent> {
     /**
-     * 
-     * @param content 
+     * @param content
      */
     @Override
     public String execute(SessionRequestContent content) {

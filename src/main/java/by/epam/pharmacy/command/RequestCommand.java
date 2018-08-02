@@ -4,8 +4,7 @@ import by.epam.pharmacy.exception.CommandException;
 
 public interface RequestCommand<T> {
     /**
-     * 
-     * @param content 
+     * @param content
      */
     String execute(T content) throws CommandException;
 }

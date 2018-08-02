@@ -5,12 +5,11 @@ import by.epam.pharmacy.exception.CommandException;
 import by.epam.pharmacy.command.SessionRequestContent;
 
 /**
- * 
+ *
  */
 public class FindMedicineCommand implements RequestCommand<SessionRequestContent> {
     /**
-     * 
-     * @param content 
+     * @param content
      */
     @Override
     public String execute(SessionRequestContent content) throws CommandException {
