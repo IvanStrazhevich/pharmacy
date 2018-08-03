@@ -130,12 +130,12 @@ public class PaymentServiceImpl implements PaymentService {
             logger.info(amountTemp);
             pharmacyAccountTemp = pharmacyAccountDao.findEntityById(userId);
             BigDecimal payAbility = amountTemp.getAmountDebit().subtract(orderSum);
+            logger.info(payAbility);
             if (payAbility.compareTo(new BigDecimal(0)) >= 0) {
-                amountTemp.setAmountDebit(amountTemp.getAmountDebit().subtract(orderSum));
                 pharmacyAccountTemp.setAccountDebit(orderSum);
+                pharmacyAccountTemp.setAccountCredit(new BigDecimal(INITIAL_AMOUNT));
             } else {
-                pharmacyAccountTemp.setAccountDebit(pharmacyAccountTemp.getAccountDebit().add(amountTemp.getAmountDebit()));
-                amountTemp.setAmountDebit(new BigDecimal(0));
+                pharmacyAccountTemp.setAccountDebit(amountTemp.getAmountDebit());
                 pharmacyAccountTemp.setAccountCredit(payAbility.abs());
             }
         } catch (DaoException e) {
@@ -152,7 +152,7 @@ public class PaymentServiceImpl implements PaymentService {
             PharmacyAccount pharmacyAccount = pharmacyAccountDao.findEntityById(userId);
             amount.setAmountDebit(amount.getAmountDebit().subtract(accountDebit));
             amount.setAmountCredit(amount.getAmountCredit().add(accountCredit));
-            pharmacyAccount.setAccountDebit(accountDebit);
+            pharmacyAccount.setAccountDebit(pharmacyAccount.getAccountDebit().add(accountDebit));
             pharmacyAccount.setAccountCredit(pharmacyAccount.getAccountCredit().add(accountCredit));
             amountDao.update(amount);
             pharmacyAccountDao.update(pharmacyAccount);
