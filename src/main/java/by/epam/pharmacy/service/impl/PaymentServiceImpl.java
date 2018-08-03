@@ -136,7 +136,7 @@ public class PaymentServiceImpl implements PaymentService {
             } else {
                 pharmacyAccountTemp.setAccountDebit(pharmacyAccountTemp.getAccountDebit().add(amountTemp.getAmountDebit()));
                 amountTemp.setAmountDebit(new BigDecimal(0));
-                pharmacyAccountTemp.setAccountCredit(pharmacyAccountTemp.getAccountCredit().add(payAbility.abs()));
+                pharmacyAccountTemp.setAccountCredit(payAbility.abs());
             }
         } catch (DaoException e) {
             throw new ServiceException(e);

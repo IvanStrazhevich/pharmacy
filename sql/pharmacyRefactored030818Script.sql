@@ -8,10 +8,10 @@ CREATE TABLE access_level
 
 CREATE TABLE client_amount
 (
-  user_id            INT     NOT NULL
+  user_id            INT           NOT NULL
     PRIMARY KEY,
-  clam_amount_debet  DECIMAL NULL,
-  clam_amount_credit DECIMAL NULL
+  clam_amount_debit  DECIMAL(6, 2) NULL,
+  clam_amount_credit DECIMAL(6, 2) NULL
 )
   COMMENT 'shows money amount of the client'
   ENGINE = InnoDB;
@@ -40,11 +40,6 @@ CREATE TABLE client_detail
 )
   COMMENT 'Base client data'
   ENGINE = InnoDB;
-
-ALTER TABLE client_amount
-  ADD CONSTRAINT client_amount_client_user_id_fk
-FOREIGN KEY (user_id) REFERENCES client_detail (user_id)
-  ON UPDATE CASCADE;
 
 CREATE TABLE doctor_detail
 (
@@ -143,6 +138,8 @@ CREATE TABLE order_has_medicine
     ON DELETE CASCADE,
   CONSTRAINT fk_order_has_medicine_medicine1
   FOREIGN KEY (medicine_mdc_id) REFERENCES medicine (mdc_id)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
 )
   COMMENT 'List of medicine for order'
   ENGINE = InnoDB;
@@ -158,7 +155,7 @@ CREATE INDEX fk_order_has_medicine_recipe1_idx
 
 CREATE TABLE payment
 (
-  payment_id    INT           NOT NULL
+  payment_id    INT AUTO_INCREMENT
   COMMENT 'payment id'
     PRIMARY KEY,
   pmt_order_id  INT           NOT NULL
@@ -222,13 +219,10 @@ FOREIGN KEY (ph_license_lic_id) REFERENCES pharmacist_license (flic_id)
 
 CREATE TABLE pharmacy_account
 (
-  phac_user_id        INT     NOT NULL
+  user_id             INT           NOT NULL
     PRIMARY KEY,
-  phac_account_debet  DECIMAL NULL,
-  phac_account_credit DECIMAL NULL,
-  CONSTRAINT pharmacy_account_client_user_id_fk
-  FOREIGN KEY (phac_user_id) REFERENCES client_detail (user_id)
-    ON UPDATE CASCADE
+  phac_account_debet  DECIMAL(6, 2) NULL,
+  phac_account_credit DECIMAL(6, 2) NULL
 )
   ENGINE = InnoDB;
 
@@ -247,11 +241,8 @@ CREATE TABLE recipe
   COMMENT 'quantity of medicine packs',
   rec_dosage          DECIMAL(5) NOT NULL
   COMMENT 'Dosage of medicine',
-  rec_date_valid_till DATETIME   NOT NULL,
+  rec_date_valid_till DATETIME   NULL,
   res_approved        TINYINT(1) NULL,
-  CONSTRAINT recipe_doctor_user_id_fk
-  FOREIGN KEY (rec_doctor_user_id) REFERENCES doctor_detail (user_id)
-    ON UPDATE CASCADE,
   CONSTRAINT fk_recipe_medicine_id
   FOREIGN KEY (rec_medicine_mdc_id) REFERENCES medicine (mdc_id)
     ON UPDATE CASCADE,
@@ -273,7 +264,9 @@ CREATE INDEX recipe_client_user_id_fk
 
 ALTER TABLE order_has_medicine
   ADD CONSTRAINT fk_order_has_medicine_recipe1
-FOREIGN KEY (recipe_rec_id) REFERENCES recipe (rec_id);
+FOREIGN KEY (recipe_rec_id) REFERENCES recipe (rec_id)
+  ON UPDATE CASCADE
+  ON DELETE SET NULL;
 
 CREATE TABLE user
 (
@@ -294,10 +287,20 @@ CREATE TABLE user
 CREATE INDEX fk_au_access_level_idx
   ON user (user_access_level);
 
+ALTER TABLE client_amount
+  ADD CONSTRAINT client_amount_client_user_id_fk
+FOREIGN KEY (user_id) REFERENCES user (user_id)
+  ON UPDATE CASCADE;
+
 ALTER TABLE client_detail
   ADD CONSTRAINT client_user_user_id_fk
 FOREIGN KEY (user_id) REFERENCES user (user_id)
   ON UPDATE CASCADE
   ON DELETE CASCADE;
+
+ALTER TABLE pharmacy_account
+  ADD CONSTRAINT pharmacy_account_client_user_id_fk
+FOREIGN KEY (user_id) REFERENCES user (user_id)
+  ON UPDATE CASCADE;
 
 
