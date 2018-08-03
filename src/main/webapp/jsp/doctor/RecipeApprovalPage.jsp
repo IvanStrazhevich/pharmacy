@@ -42,7 +42,7 @@
                                name="medicineQuantity"></td>
                     <td><input type="number" value="${rcp.dosage}" min="0" max="${rcp.dosage}" name="dosage"></td>
                     <td><input type="datetime-local" name="validTill" placeholder="yyyy-mm-dd hh:mm:ss" maxlength="19"
-                               minlength="19"></td>
+                               pattern="\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}" minlength="19"></td>
                     <td>
                         <select class="btn btn-primary" name="approved">
                             <option value="true" <c:if test="${rcp.approved=='true'}"> selected </c:if>>

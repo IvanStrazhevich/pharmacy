@@ -21,7 +21,36 @@
                        value="<fmt:message key="label.button.WelcomePage"/>">
             </div>
         </form>
-        <form class="navbar-form navbar-left" action="WelcomePage" method="post">
+        <form action="WelcomePage" class="navbar-form navbar-right" method="post">
+            <input type="hidden" name="action" value="InvalidateSession">
+            <div class="form-group input-group input-group-lg col-md-8 col-md-offset-0 col-xs-12">
+                <input class="form-control btn btn-danger" type="submit"
+                       value="<fmt:message key="label.button.Logout"/>">
+            </div>
+        </form>
+        <form class="navbar-form navbar-right" action="WelcomePage" method="post">
+            <input type="hidden" name="action" value="SetLocale">
+            <input type="hidden" name="lang" value="be_BY"></input>
+            <div class="form-group input-group input-group-lg col-md-8 col-md-offset-0 col-xs-12">
+                <input type="submit" class="form-control btn btn-primary" value="<fmt:message key="label.button.be"/>">
+            </div>
+        </form>
+        <form class="navbar-form navbar-right" action="WelcomePage" method="post">
+            <input type="hidden" name="action" value="SetLocale">
+            <input type="hidden" name="lang" value="ru_RU"></input>
+            <div class="form-group input-group input-group-lg col-md-8 col-md-offset-0 col-xs-12">
+                <input type="submit" class="form-control btn btn-primary" value="<fmt:message key="label.button.ru"/>">
+            </div>
+        </form>
+        <form class="navbar-form navbar-right" action="WelcomePage" method="post">
+            <input type="hidden" name="action" value="SetLocale">
+            <input type="hidden" name="lang" value="en_US"></input>
+            <div class="form-group input-group input-group-lg col-md-8 col-md-offset-0 col-xs-12">
+                <input type="submit" class="form-control btn btn-primary" value="<fmt:message key="label.button.en"/>">
+            </div>
+        </form>
+
+        <%--<form class="navbar-form navbar-left" action="WelcomePage" method="post">
             <input type="hidden" name="action" value="SetLocale">
             <div>
                 <select class="form-control btn-primary" name="lang">
@@ -35,13 +64,8 @@
                        value="<fmt:message key="label.button.language"/> ">
             </div>
         </form>
-        <form action="WelcomePage" class="navbar-form navbar-right" method="post">
-            <input type="hidden" name="action" value="InvalidateSession">
-            <div class="form-group input-group input-group-lg col-md-8 col-md-offset-0 col-xs-12">
-                <input class="form-control btn btn-danger" type="submit"
-                       value="<fmt:message key="label.button.Logout"/>">
-            </div>
-        </form>
+--%>
+
         <c:if test="${logged==null}">
             <form class="navbar-form navbar-right" action="LoginPage" method="post">
                 <input type="hidden" name="action" value="LoginPage">

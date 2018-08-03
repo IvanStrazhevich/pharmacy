@@ -16,7 +16,7 @@
             <form action="MedicineListPage" method="post">
                 <input type="hidden" name="action" value="MedicineList">
                 <div class="form-group input-group input-group-lg col-md-4 col-md-offset-0 col-xs-2">
-                    <input class=" form-control btn btn-success" type="submit"
+                    <input class=" form-control btn btn-success btn-block" type="submit"
                            value="<fmt:message key="label.button.MedicineListPage"/>">
                 </div>
             </form>
@@ -24,7 +24,7 @@
                 <form action="RecipeListPage" method="post">
                     <input type="hidden" name="action" value="RecipeList">
                     <div class="form-group input-group input-group-lg col-md-4 col-md-offset-0 col-xs-2">
-                        <input class=" form-control btn btn-warning" type="submit"
+                        <input class=" form-control btn btn-warning btn-block" type="submit"
                                value="<fmt:message key="label.button.RecipeListPage"/>">
                     </div>
                 </form>
@@ -34,14 +34,14 @@
                 <form action="EditUserDataPage" method="post">
                     <input type="hidden" name="action" value="EditUserDataPage">
                     <div class="form-group input-group input-group-lg col-md-4 col-md-offset-0 col-xs-2">
-                        <input class=" form-control btn btn-success" type="submit"
+                        <input class=" form-control btn btn-success btn-block" type="submit"
                                value="<fmt:message key="label.button.EditUserPage"/>">
                     </div>
                 </form>
                 <form action="EditOrderPage" method="post">
                     <input type="hidden" name="action" value="EditOrder">
                     <div class="form-group input-group input-group-lg col-md-4 col-md-offset-0 col-xs-2">
-                        <input class=" form-control btn btn-success" type="submit"
+                        <input class=" form-control btn btn-success btn-block" type="submit"
                                value="<fmt:message key="label.button.EditOrderPage"/>">
                     </div>
                 </form>
@@ -51,14 +51,14 @@
                     <input type="hidden" name="medicineId" value="0">
                     <input type="hidden" name="action" value="EditMedicine">
                     <div class="form-group input-group input-group-lg col-md-4 col-md-offset-0 col-xs-2">
-                        <input type="submit" class=" form-control btn btn-primary"
+                        <input type="submit" class=" form-control btn btn-primary btn-block"
                                value="<fmt:message key="label.button.newMedicine"/>">
                     </div>
                 </form>
                 <form action="UserListPage" method="post">
                     <input type="hidden" name="action" value="UserList">
                     <div class="form-group input-group input-group-lg col-md-4 col-md-offset-0 col-xs-2">
-                        <input class="form-control btn btn-primary" type="submit"
+                        <input class="form-control btn btn-primary btn-block" type="submit"
                                value="<fmt:message key="label.button.UserListPage"/>">
                     </div>
                 </form>
