@@ -21,8 +21,8 @@ public class PharmacyAccountDaoImpl extends AbstractDaoImpl<PharmacyAccount> imp
     private static final String UPDATE_PSTM = "update `pharmacy_account` set user_id=?, phac_account_debet=?, phac_account_credit=? where user_id = ?";
     private ProxyConnection proxyConnection;
 
-    public PharmacyAccountDaoImpl(ProxyConnection proxyConnection) throws DaoException {
-        this.proxyConnection = proxyConnection;
+    public PharmacyAccountDaoImpl() throws DaoException {
+        proxyConnection = super.proxyConnection;
     }
 
     @Override
@@ -96,7 +96,7 @@ public class PharmacyAccountDaoImpl extends AbstractDaoImpl<PharmacyAccount> imp
             preparedStatement.execute();
             success = true;
         } catch (SQLException e) {
-            throw new DaoException("Exception on create Parmacy Account", e);
+            throw new DaoException("Exception on create Pharmacy Account", e);
         }
         return success;
     }
@@ -111,10 +111,11 @@ public class PharmacyAccountDaoImpl extends AbstractDaoImpl<PharmacyAccount> imp
             preparedStatement.setInt(1, entity.getClientId());
             preparedStatement.setBigDecimal(2, entity.getAccountDebit());
             preparedStatement.setBigDecimal(3, entity.getAccountCredit());
+            preparedStatement.setInt(4, entity.getClientId());
             preparedStatement.executeUpdate();
             success = true;
         } catch (SQLException e) {
-            throw new DaoException("Exception on create Parmacy Account", e);
+            throw new DaoException("Exception on update Pharmacy Account", e);
         }
         return success;
     }

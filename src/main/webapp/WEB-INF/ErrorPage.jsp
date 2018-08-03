@@ -8,25 +8,29 @@
 <head>
     <link href="css/bootstrap.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/pharmacy.css">
+
     <title><fmt:message key="label.button.ErrorPage"/>
     </title>
 </head>
-<body class="body">
-<script src="http://code.jquery.com/jquery-latest.js"></script>
-<script src="js/bootstrap.min.js"></script>
+<body>
 <fmt:message key="message.smthwentwrong"/>
-<hr>
 <p><img src="img/eddie1.gif" alt="Sorry, we alredy fix this" width="1000" height="500"></p>
-<div class="floating">
-    <form action="WelcomePage"
-          method="post">
+<div>
+    <form action="WelcomePage" method="post">
         <input type="hidden" name="action" value="WelcomePage">
-        <input class="btn btn-primary" type="submit" value="<fmt:message key="label.button.WelcomePage"/>">
+        <div class="form-group input-group input-group-lg col-md-8 col-md-offset-0 col-xs-12">
+            <input class="form-control btn btn-success" type="submit" value="<fmt:message key="label.button.WelcomePage"/>">
+        </div>
     </form>
     <form action="WelcomePage" method="post">
         <input type="hidden" name="action" value="InvalidateSession">
-        <input class="btn btn-danger" type="submit" value="<fmt:message key="label.button.Logout"/>">
+        <div class="form-group input-group input-group-lg col-md-8 col-md-offset-0 col-xs-12">
+            <input class="form-control btn btn-danger" type="submit" value="<fmt:message key="label.button.Logout"/>">
+        </div>
     </form>
 </div>
+
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="js/bootstrap.min.js"></script>
 </body>
 </html>

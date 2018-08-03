@@ -14,58 +14,59 @@
     <div class="container-fluid">
         <form class="navbar-form navbar-left" action="WelcomePage"
               method="post">
-            <div class="form-group">
-                <input type="hidden" name="action" value="WelcomePage">
-                <input class="btn btn-success" type="submit"
+
+            <input type="hidden" name="action" value="WelcomePage">
+            <div class="form-group input-group input-group-lg col-md-8 col-md-offset-0 col-xs-12">
+                <input class="form-control btn btn-success" type="submit"
                        value="<fmt:message key="label.button.WelcomePage"/>">
             </div>
         </form>
         <form class="navbar-form navbar-left" action="WelcomePage" method="post">
-            <div class="form-group">
-                <select class="btn-primary" name="lang">
+            <input type="hidden" name="action" value="SetLocale">
+            <div>
+                <select class="form-control btn-primary" name="lang">
                     <option value="be_BY"><fmt:message key="label.button.be"/></option>
                     <option value="ru_RU"><fmt:message key="label.button.ru"/></option>
                     <option value="en_US"><fmt:message key="label.button.en"/></option>
                 </select>
-                <input type="hidden" name="action" value="SetLocale">
-                <input type="submit" class="btn btn-primary" value="<fmt:message key="label.button.language"/> ">
+            </div>
+            <div class="form-group input-group input-group-lg col-md-8 col-md-offset-0 col-xs-12">
+                <input type="submit" class="form-control btn btn-primary"
+                       value="<fmt:message key="label.button.language"/> ">
             </div>
         </form>
-        <form action="WelcomePage" class="navbar-form navbar-right"
-              method="post">
-            <div class="form-group">
-                <input type="hidden" name="action" value="InvalidateSession">
-                <input class="btn btn-danger" type="submit" value="<fmt:message key="label.button.Logout"/>">
+        <form action="WelcomePage" class="navbar-form navbar-right" method="post">
+            <input type="hidden" name="action" value="InvalidateSession">
+            <div class="form-group input-group input-group-lg col-md-8 col-md-offset-0 col-xs-12">
+                <input class="form-control btn btn-danger" type="submit"
+                       value="<fmt:message key="label.button.Logout"/>">
             </div>
         </form>
         <c:if test="${logged==null}">
-            <form class="navbar-form navbar-right" action="LoginPage"
-                  method="post">
-                <div class="form-group">
-                    <input type="hidden" name="action" value="LoginPage">
-                    <input type="submit" class="btn btn-success"
+            <form class="navbar-form navbar-right" action="LoginPage" method="post">
+                <input type="hidden" name="action" value="LoginPage">
+                <div class="form-group input-group input-group-lg col-md-8 col-md-offset-0 col-xs-12">
+                    <input type="submit" class="form-control btn btn-success"
                            value="<fmt:message key="label.button.LoginPage"/>">
                 </div>
             </form>
-            <form class="navbar-form navbar-right" action="RegisterPage"
-                  method="post">
-                <div class="form-group">
-                    <input type="hidden" name="action" value="RegisterPage">
-                    <input class="btn btn-success" type="submit"
+            <form class="navbar-form navbar-right" action="RegisterPage" method="post">
+                <input type="hidden" name="action" value="RegisterPage">
+                <div class="form-group input-group input-group-lg col-md-8 col-md-offset-0 col-xs-12">
+                    <input class="form-control btn btn-success" type="submit"
                            value="<fmt:message key="label.button.RegisterPage"/>">
                 </div>
             </form>
         </c:if>
-        <p class="navbar-text ">
-            <c:if test="${logged!=null}">
+        <c:if test="${logged!=null}">
+            <p class="navbar-text btn-success">
                 <pht:hello accessLevel="${sessionScope.accessLevel}" login="${login}"/>
-            </c:if>
-        </p>
+            </p>
+        </c:if>
+
 
     </div>
 </nav>
-
-
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="js/bootstrap.min.js"></script>
 </body>

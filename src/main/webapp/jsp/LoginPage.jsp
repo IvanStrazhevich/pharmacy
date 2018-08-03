@@ -25,17 +25,15 @@ ${needLogin}
             <form action="CheckLogin" method=post>
                 <div class="form-group input-group input-group-lg">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-
                     <input class="form-control" type="text" id="login" name="login" size="15" maxlength="45"
                            pattern="\w{1,}@\w{3,}\.\w{2,4}" required
-                           title="Match email format no more then 45 symbols at least 6x+@3x+.2x(3x)"
+                           title="Match email format"
                            placeholder="<fmt:message key="message.enter.login"/>">
                 </div>
-
                 <div class="form-group input-group input-group-lg">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-eye-close"></span></span>
-
                     <input class="form-control" id="password" type="password" name="password" size="15" maxlength="45"
+                           title="Enter at least 6 symbols"
                            pattern="\w{6,45}" required placeholder="<fmt:message key="message.enter.password"/>">
                 </div>
                 <input type="hidden" name="action" value="CheckLogin">

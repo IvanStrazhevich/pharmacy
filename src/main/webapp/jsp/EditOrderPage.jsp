@@ -15,6 +15,7 @@
     <c:import url="/WEB-INF/LeftSidePage.jsp"/>
 </div>
 ${recipeRequested}
+${payed}
 <div class="table-responsive">
     <h6>
         <table class="table table-striped table-bordered tableUpdated table-responsive">
@@ -28,9 +29,8 @@ ${recipeRequested}
                 <th><fmt:message key="label.header.approved"/></th>
                 <th><fmt:message key="label.header.orderSummary"/></th>
                 <th><fmt:message key="label.header.quantity"/></th>
-                <th></th>
-                <th></th>
-                <th></th>
+                <th colspan="3"></th>
+
             </tr>
             <c:forEach items="${ord.orderHasMedicines}" var="ohm">
                 <tr>
@@ -89,16 +89,18 @@ ${recipeRequested}
                 <td>
                     ${ord.orderSum}
                 </td>
-                <td>
+                <c:if test="${!ord.payed}">
+                    <td>
                     <form action="EditOrderPage" method="post">
                         <input type="hidden" name="action" value="PayOrder">
                         <input type="hidden" name="orderId" value="${ord.orderId}">
                         <input type="hidden" name="orderSum" value="${ord.orderSum}">
                         <input type="submit" class="btn btn-info"
                                value="<fmt:message key="label.button.payOrder"/>">
-
                     </form>
                 </td>
+                </c:if>
+
             </tr>
         </table>
     </h6>
