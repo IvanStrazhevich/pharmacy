@@ -5,6 +5,9 @@ import by.epam.pharmacy.exception.DaoException;
 
 import java.util.ArrayList;
 
+/**
+ * @param <T>
+ */
 public interface UserDao<T> extends AbstractDao<T> {
 
     /**

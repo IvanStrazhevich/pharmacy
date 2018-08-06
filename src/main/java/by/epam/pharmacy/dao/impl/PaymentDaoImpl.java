@@ -180,7 +180,7 @@ public class PaymentDaoImpl<T> extends AbstractDaoImpl<Payment> implements Payme
      * @throws DaoException
      */
     @Override
-    public boolean DeletePaymentByOrderId(int orderId) throws DaoException {
+    public boolean deletePaymentByOrderId(int orderId) throws DaoException {
         boolean success = false;
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(DELETE_BY_ORDER_ID_PSTM)) {
             preparedStatement.setInt(1, orderId);

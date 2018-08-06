@@ -118,5 +118,17 @@ public class UserDaoTest {
         Assert.assertEquals(expected, actual);
         userDao.delete(expected);
     }
+
+    @Test
+    public void testFindUserByLogin() {
+    }
+
+    @Test
+    public void testFindUserWithNames() {
+    }
+
+    @Test
+    public void testFindUsersByAccessLevel() {
+    }
 }
 
