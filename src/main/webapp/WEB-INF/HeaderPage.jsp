@@ -10,7 +10,7 @@
     <title><fmt:message key="label.button.HeaderPage"/></title>
 </head>
 <body>
-<nav class="navbar nav-tabs" style="background: #5cb85c">
+<nav class="navbar" style="background: #5cb85c">
     <div class="container-fluid">
         <form class="navbar-form navbar-left" action="WelcomePage"
               method="post">
@@ -38,7 +38,7 @@
         <form class="navbar-form navbar-right" action="WelcomePage" method="post">
             <input type="hidden" name="action" value="SetLocale">
             <input type="hidden" name="lang" value="ru_RU"></input>
-            <div class="form-group input-group input-group-lg col-md-8 col-md-offset-0 col-xs-12">
+            <div class="form-group input-group input-group-lg col-md-0 col-md-offset-0 col-xs-12">
                 <input type="submit" class="form-control btn btn-primary" value="<fmt:message key="label.button.ru"/>">
             </div>
         </form>

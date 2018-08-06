@@ -83,7 +83,7 @@ public class PaymentServiceImpl implements PaymentService {
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
-        logger.info(orderSum+" "+userId);
+        logger.info(orderSum + " " + userId);
         PharmacyAccount tempPharmacyAccount = checkAmount(orderSum, userId);
         content.getRequestAttributes().put(AttributeName.ACCOUNT.getAttribute(), tempPharmacyAccount);
 
@@ -146,17 +146,8 @@ public class PaymentServiceImpl implements PaymentService {
 
     private boolean confirmAndProcessPayment(BigDecimal accountDebit, BigDecimal accountCredit, int userId) throws ServiceException {
         boolean confirmed = false;
-        try (AmountDaoImpl amountDao = new AmountDaoImpl();
-             PharmacyAccountDaoImpl pharmacyAccountDao = new PharmacyAccountDaoImpl()) {
-            ClientAmount amount = amountDao.findEntityById(userId);
-            PharmacyAccount pharmacyAccount = pharmacyAccountDao.findEntityById(userId);
-            amount.setAmountDebit(amount.getAmountDebit().subtract(accountDebit));
-            amount.setAmountCredit(amount.getAmountCredit().add(accountCredit));
-            pharmacyAccount.setAccountDebit(pharmacyAccount.getAccountDebit().add(accountDebit));
-            pharmacyAccount.setAccountCredit(pharmacyAccount.getAccountCredit().add(accountCredit));
-            amountDao.update(amount);
-            pharmacyAccountDao.update(pharmacyAccount);
-            confirmed = true;
+        try (PaymentDaoImpl paymentDao = new PaymentDaoImpl()) {
+            confirmed = paymentDao.makePayment(accountDebit, accountCredit, userId);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

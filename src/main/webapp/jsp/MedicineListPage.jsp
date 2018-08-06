@@ -29,8 +29,10 @@ ${medicineDeleted}
                 <th><fmt:message key="label.header.price"/></th>
                 <th><fmt:message key="label.header.available"/></th>
                 <th><fmt:message key="label.header.quantityAvailable"/></th>
-                <th><fmt:message key="label.header.choose"/><fmt:message key="label.header.quantity"/></th>
+                <th><fmt:message key="label.header.choose"/></th>
+                <c:if test="${accessLevel!='pharmacist'}">
                 <th colspan="3"></th>
+                </c:if>
             </tr>
             <c:forEach items="${medicines}" var="meds">
                 <tr>

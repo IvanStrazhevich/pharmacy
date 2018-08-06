@@ -31,7 +31,7 @@
                 <th><fmt:message key="label.header.quantityAvailable"/></th>
                 <th></th>
                 <c:if test="${accessLevel=='pharmacist'&& med.medicineId!=0}">
-                    <th></th>
+                    <th colspan="2"></th>
                 </c:if>
             </tr>
             <tr>
@@ -43,12 +43,12 @@
                         <td>${med.medicineId}</td>
                     </c:if>
                     <td><input type="text" name="medicineName" value="${med.medicineName}"
-                               placeholder="${med.medicineName}" maxlength="45" size="15"></td>
+                               placeholder="${med.medicineName}" maxlength="45" size="10"></td>
                     <td><input type="text" name="description" value="${med.description}"
-                               placeholder="${med.description}" maxlength="65000" size="10">
+                               placeholder="${med.description}" maxlength="65000" size="15">
                     </td>
                     <td><input type="text" name="dosage" value="${med.dosage}" placeholder="${med.dosage}" maxlength="5"
-                               size="10"></td>
+                               size="5"></td>
                     <td><input type="text" name="recipeRequired" value="${med.recipeRequired}"
                                placeholder="${med.recipeRequired}" maxlength="5" size="5"></td>
                     <td><input type="text" name="price" value="${med.price}" placeholder="${med.price}" maxlength="8"
@@ -57,9 +57,9 @@
                     <td><input type="text" name="available" value="${med.available}" placeholder="${med.available}"
                                maxlength="5" size="5"></td>
                     <td><input type="text" name="quantityAtStorage" value="${med.quantityAtStorage}"
-                               placeholder="${med.quantityAtStorage}" maxlength="11" size="10"></td>
+                               placeholder="${med.quantityAtStorage}" maxlength="11" size="5"></td>
                     <td>
-                        <input type="submit" class="btn btn-success"
+                        <input type="submit" class="form-group btn btn-success"
                                value="<fmt:message key="label.button.confirm"/>">
                         <c:if test="${med.medicineId!=null}">
                         <input type="hidden" name="medicineId" value="${med.medicineId}"></c:if>
@@ -70,7 +70,7 @@
                 <c:if test="${accessLevel=='pharmacist'&& med.medicineId!=0}">
                     <td>
                         <form action="MedicineListPage" method="post">
-                            <input type="submit" class="btn btn-danger"
+                            <input type="submit" class=" form-control btn btn-danger"
                                    value="<fmt:message key="label.button.delete"/>">
                             <input type="hidden" name="medicineId" value="${med.medicineId}">
                             <input type="hidden" name="action" value="RemoveMedicineFromBase">

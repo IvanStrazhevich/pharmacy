@@ -7,12 +7,17 @@ import by.epam.pharmacy.exception.DaoException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class PaymentDaoImpl<T> extends AbstractDaoImpl<Payment> implements PaymentDao<Payment> {
+    private static final String SET_AMOUNT = "UPDATE client_amount set clam_amount_debit = ?, clam_amount_credit = ? WHERE user_id = ?";
+    private static final String SET_ACCOUNT = "UPDATE pharmacy_account set phac_account_debet = ?, phac_account_credit = ? WHERE user_id = ?";
+    private static final String SELECT_BY_ID_AMOUNT_PSTM = "select clam_amount_debit, clam_amount_credit from client_amount WHERE user_id = ?";
+    private static final String SELECT_BY_ID_ACCOUNT_PSTM = "SELECT phac_account_debet, phac_account_credit FROM pharmacy_account WHERE  user_id =?";
     private static Logger logger = LogManager.getLogger();
     private static final String SELECT_ALL_PSTM = "select payment_id, pmt_order_id, pmt_ord_sum, pmt_confirmed from `payment`";
     private static final String SELECT_BY_ID_PSTM = "select payment_id, pmt_order_id, pmt_ord_sum, pmt_confirmed from `payment` where payment_id = ?";
@@ -31,8 +36,58 @@ public class PaymentDaoImpl<T> extends AbstractDaoImpl<Payment> implements Payme
     }
 
     @Override
-    public boolean makePayment() {
-        return false;
+    public boolean makePayment(BigDecimal accountDebit, BigDecimal accountCredit, int userId) throws DaoException {
+        boolean transfered = false;
+        try (PreparedStatement preparedStatementFrom = proxyConnection.prepareStatement(SET_AMOUNT);
+             PreparedStatement preparedStatementTo = proxyConnection.prepareStatement(SET_ACCOUNT);
+             PreparedStatement preparedStatementGetBalanceFrom = proxyConnection.prepareStatement(SELECT_BY_ID_AMOUNT_PSTM);
+             PreparedStatement preparedStatementGetBalanceTo = proxyConnection.prepareStatement(SELECT_BY_ID_ACCOUNT_PSTM)) {
+            proxyConnection.setAutoCommit(false);
+            BigDecimal amountDebitDB = null;
+            BigDecimal amountCreditDB = null;
+            BigDecimal accountDebitDB = null;
+            BigDecimal accountCreditDB = null;
+            preparedStatementGetBalanceFrom.setInt(1, userId);
+            preparedStatementGetBalanceFrom.execute();
+            preparedStatementGetBalanceTo.setInt(1, userId);
+            preparedStatementGetBalanceTo.execute();
+            ResultSet resultSetFrom = preparedStatementGetBalanceFrom.getResultSet();
+            while (resultSetFrom.next()) {
+                amountDebitDB = resultSetFrom.getBigDecimal(1);
+                amountCreditDB = resultSetFrom.getBigDecimal(2);
+            }
+            ResultSet resultSetTo = preparedStatementGetBalanceTo.getResultSet();
+            while (resultSetTo.next()) {
+                accountDebitDB = resultSetTo.getBigDecimal(1);
+                accountCreditDB = resultSetTo.getBigDecimal(2);
+            }
+            if (amountDebitDB.subtract(accountDebit).compareTo(new BigDecimal(0)) >= 0) {
+                preparedStatementFrom.setBigDecimal(1, amountDebitDB.subtract(accountDebit));
+                preparedStatementFrom.setBigDecimal(2, amountCreditDB);
+                preparedStatementFrom.setInt(3, userId);
+                preparedStatementTo.setBigDecimal(1, accountDebitDB.add(accountDebit));
+                preparedStatementTo.setBigDecimal(2, accountCreditDB.add(accountCredit));
+                preparedStatementTo.setInt(3, userId);
+                preparedStatementFrom.executeUpdate();
+                preparedStatementTo.executeUpdate();
+                proxyConnection.commit();
+                transfered = true;
+            }
+        } catch (SQLException e) {
+            try {
+                proxyConnection.rollback();
+            } catch (SQLException e1) {
+                throw new DaoException("Rollback error", e);
+            }
+            throw new DaoException("Rolled Back", e);
+        } finally {
+            try {
+                proxyConnection.setAutoCommit(true);
+            } catch (SQLException e) {
+                throw new DaoException("AutoCommit true not settled", e);
+            }
+        }
+        return transfered;
     }
 
     /**
@@ -169,7 +224,7 @@ public class PaymentDaoImpl<T> extends AbstractDaoImpl<Payment> implements Payme
             preparedStatement.setInt(1, entity.getOrderId());
             preparedStatement.setBigDecimal(2, entity.getOrderSum());
             preparedStatement.setBoolean(3, entity.isPaymentConfirmed());
-            preparedStatement.setInt(4,entity.getPaymentId());
+            preparedStatement.setInt(4, entity.getPaymentId());
             logger.info(preparedStatement);
             logger.info(entity);
             preparedStatement.execute();

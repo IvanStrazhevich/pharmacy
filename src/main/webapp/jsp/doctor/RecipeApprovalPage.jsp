@@ -29,7 +29,7 @@
                 <th><fmt:message key="label.header.dosage"/></th>
                 <th><fmt:message key="label.header.validTill"/></th>
                 <th><fmt:message key="label.header.approved"/></th>
-                <th></th>
+                <th colspan="2"></th>
             </tr>
             <c:set value="${recipe}" var="rcp"/>
             <tr>
