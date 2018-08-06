@@ -3,6 +3,14 @@ package by.epam.pharmacy.controller;
 import by.epam.pharmacy.command.CommandType;
 import by.epam.pharmacy.command.RequestCommand;
 import by.epam.pharmacy.command.impl.*;
+import by.epam.pharmacy.command.medicineImpl.*;
+import by.epam.pharmacy.command.orderImpl.*;
+import by.epam.pharmacy.command.paymentImpl.MakePaymentCommand;
+import by.epam.pharmacy.command.paymentImpl.PayOrderCommand;
+import by.epam.pharmacy.command.recipeImpl.ApproveRecipeCommand;
+import by.epam.pharmacy.command.recipeImpl.DeleteRecipeCommand;
+import by.epam.pharmacy.command.recipeImpl.RecipeListCommand;
+import by.epam.pharmacy.command.userImpl.*;
 import by.epam.pharmacy.exception.PharmacyServletException;
 
 import java.util.HashMap;

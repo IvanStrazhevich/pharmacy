@@ -14,8 +14,10 @@
 <div class="container-fluid" style="flex-direction:column; float: left">
     <c:import url="/WEB-INF/LeftSidePage.jsp"/>
 </div>
+<h4>
 ${recipeRequested}
 ${payed}
+</h4>
 <c:if test="${!ord.payed && payed==null}">
 <div class="table-responsive">
     <h6>
@@ -31,7 +33,7 @@ ${payed}
                 <th><fmt:message key="label.header.orderSummary"/></th>
                 <th><fmt:message key="label.header.quantity"/></th>
                 <c:if test="${!ord.payed}">
-                    <th colspan="3"></th>
+                    <th colspan="4"></th>
                 </c:if>
             </tr>
             <c:forEach items="${ord.orderHasMedicines}" var="ohm">
@@ -100,7 +102,7 @@ ${payed}
                     ${ord.orderSum}
                 </td>
                 <c:if test="${!ord.payed}">
-                    <td colspan="3">
+                    <td colspan="4">
                         <form action="EditOrderPage" method="post">
                             <input type="hidden" name="action" value="PayOrder">
                             <input type="hidden" name="orderId" value="${ord.orderId}">

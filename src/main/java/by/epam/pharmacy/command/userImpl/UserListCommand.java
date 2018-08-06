@@ -1,18 +1,18 @@
-package by.epam.pharmacy.command.impl;
+package by.epam.pharmacy.command.userImpl;
 
 import by.epam.pharmacy.command.PagePath;
 import by.epam.pharmacy.command.RequestCommand;
 import by.epam.pharmacy.exception.CommandException;
 import by.epam.pharmacy.command.SessionRequestContent;
 import by.epam.pharmacy.exception.ServiceException;
-import by.epam.pharmacy.service.RecipeService;
-import by.epam.pharmacy.service.impl.RecipeServiceImpl;
+import by.epam.pharmacy.service.UserService;
+import by.epam.pharmacy.service.impl.UserServiceImpl;
 
 /**
  *
  */
-public class RecipeListCommand implements RequestCommand<SessionRequestContent> {
-    private RecipeService recipeService = new RecipeServiceImpl();
+public class UserListCommand implements RequestCommand<SessionRequestContent> {
+    private UserService userService = new UserServiceImpl();
 
     /**
      * @param content
@@ -20,15 +20,15 @@ public class RecipeListCommand implements RequestCommand<SessionRequestContent> 
     @Override
     public String execute(SessionRequestContent content) throws CommandException {
         try {
-            recipeService.showRecipes(content);
+            userService.showUsersAndAccess(content);
         } catch (ServiceException e) {
             throw new CommandException(e);
         }
-        return PagePath.RECIPE_LIST_PAGE.getPage();
+        return PagePath.USER_LIST_PAGE.getPage();
     }
 
-    public void setRecipeService(RecipeService recipeService) {
-        this.recipeService = recipeService;
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 }
 

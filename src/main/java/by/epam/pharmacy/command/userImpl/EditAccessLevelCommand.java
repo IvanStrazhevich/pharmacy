@@ -1,4 +1,4 @@
-package by.epam.pharmacy.command.impl;
+package by.epam.pharmacy.command.userImpl;
 
 import by.epam.pharmacy.command.PagePath;
 import by.epam.pharmacy.command.RequestCommand;
@@ -11,7 +11,7 @@ import by.epam.pharmacy.service.impl.UserServiceImpl;
 /**
  *
  */
-public class SaveAccessLevelCommand implements RequestCommand<SessionRequestContent> {
+public class EditAccessLevelCommand implements RequestCommand<SessionRequestContent> {
     private UserService userService = new UserServiceImpl();
 
     /**
@@ -20,12 +20,11 @@ public class SaveAccessLevelCommand implements RequestCommand<SessionRequestCont
     @Override
     public String execute(SessionRequestContent content) throws CommandException {
         try {
-            userService.saveAccessLvl(content);
-            userService.showUsersAndAccess(content);
+            userService.showUserAccessLvl(content);
         } catch (ServiceException e) {
             throw new CommandException(e);
         }
-        return PagePath.USER_LIST_PAGE.getPage();
+        return PagePath.EDIT_USER_ACCESS_LEVEL_PAGE.getPage();
     }
 
     public void setUserService(UserService userService) {

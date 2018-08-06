@@ -1,4 +1,4 @@
-package by.epam.pharmacy.command.impl;
+package by.epam.pharmacy.command.userImpl;
 
 import by.epam.pharmacy.command.PagePath;
 import by.epam.pharmacy.command.RequestCommand;

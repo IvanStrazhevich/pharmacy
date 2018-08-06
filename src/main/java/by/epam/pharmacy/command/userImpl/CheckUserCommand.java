@@ -1,4 +1,4 @@
-package by.epam.pharmacy.command.impl;
+package by.epam.pharmacy.command.userImpl;
 
 import by.epam.pharmacy.command.PagePath;
 import by.epam.pharmacy.command.RequestCommand;
@@ -7,14 +7,11 @@ import by.epam.pharmacy.exception.CommandException;
 import by.epam.pharmacy.exception.ServiceException;
 import by.epam.pharmacy.service.UserService;
 import by.epam.pharmacy.service.impl.UserServiceImpl;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  *
  */
-public class RegisterUserCommand implements RequestCommand<SessionRequestContent> {
-    private static Logger logger = LogManager.getLogger();
+public class CheckUserCommand implements RequestCommand<SessionRequestContent> {
     private UserService userService = new UserServiceImpl();
 
     /**
@@ -24,26 +21,20 @@ public class RegisterUserCommand implements RequestCommand<SessionRequestContent
     public String execute(SessionRequestContent content) throws CommandException {
         String page = null;
         try {
-            if (userService.checkUserExist(content)) {
-                page = PagePath.REGISTER_PAGE.getPage();
-            } else if (userService.createUser(content)) {
-                logger.debug("registered");
+            if (userService.checkLogin(content)) {
                 page = PagePath.WELCOME_PAGE.getPage();
             } else {
-                logger.debug("not registered");
-                page = PagePath.REGISTER_PAGE.getPage();
+                page = PagePath.LOGIN_PAGE.getPage();
             }
+            return page;
         } catch (ServiceException e) {
             throw new CommandException(e);
         }
-        return page;
     }
 
-    /**
-     * @param userService
-     */
-    public void setRegistrar(UserServiceImpl userService) {
+    public void setUserService(UserService userService) {
         this.userService = userService;
     }
 }
+
 

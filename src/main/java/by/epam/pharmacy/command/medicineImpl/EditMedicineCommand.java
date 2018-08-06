@@ -1,4 +1,4 @@
-package by.epam.pharmacy.command.impl;
+package by.epam.pharmacy.command.medicineImpl;
 
 import by.epam.pharmacy.command.PagePath;
 import by.epam.pharmacy.command.RequestCommand;
@@ -9,22 +9,22 @@ import by.epam.pharmacy.service.MedicineService;
 import by.epam.pharmacy.service.impl.MedicineServiceImpl;
 
 /**
- *
+ * 
  */
-public class SaveMedicineCommand implements RequestCommand<SessionRequestContent> {
+public class EditMedicineCommand implements RequestCommand<SessionRequestContent> {
     private MedicineService medicineService = new MedicineServiceImpl();
-
     /**
-     * @param content
+     * 
+     * @param content 
      */
     @Override
     public String execute(SessionRequestContent content) throws CommandException {
         try {
-            medicineService.createOrUpdateMedicine(content);
+            medicineService.findMedicineById(content);
         } catch (ServiceException e) {
             throw new CommandException(e);
         }
-        return PagePath.MEDICINE_LIST_PAGE.getPage();
+        return PagePath.EDIT_MEDICINE.getPage();
     }
 
     public void setMedicineService(MedicineService medicineService) {

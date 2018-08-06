@@ -1,4 +1,4 @@
-package by.epam.pharmacy.command.impl;
+package by.epam.pharmacy.command.medicineImpl;
 
 import by.epam.pharmacy.command.RequestCommand;
 import by.epam.pharmacy.exception.CommandException;

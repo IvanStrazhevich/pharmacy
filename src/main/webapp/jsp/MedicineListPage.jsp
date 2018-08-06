@@ -14,9 +14,11 @@
 <div class="container-fluid" style="flex-direction:column; float: left ">
     <c:import url="/WEB-INF/LeftSidePage.jsp"/>
 </div>
+<h4>
 ${medicineAdded}
 ${needLogin}
 ${medicineDeleted}
+</h4>
 <div class="table-responsive">
     <h6>
         <table class="table table-striped table-bordered tableUpdated table-responsive">
