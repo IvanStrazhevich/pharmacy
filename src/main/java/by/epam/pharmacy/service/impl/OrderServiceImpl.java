@@ -225,7 +225,9 @@ public class OrderServiceImpl implements OrderService {
      */
     private BigDecimal countMedicineSum(int quantity, int medicineId) throws ServiceException {
         try (MedicineDaoImpl medicineDao = new MedicineDaoImpl()) {
+            logger.info(medicineId);
             BigDecimal price = medicineDao.findEntityById(medicineId).getPrice();
+            logger.info(price);
             return price.multiply(new BigDecimal(quantity));
         } catch (DaoException e) {
             throw new ServiceException(e);

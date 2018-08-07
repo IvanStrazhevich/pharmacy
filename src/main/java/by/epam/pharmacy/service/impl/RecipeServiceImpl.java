@@ -11,6 +11,8 @@ import by.epam.pharmacy.exception.ServiceException;
 import by.epam.pharmacy.service.OrderService;
 import by.epam.pharmacy.service.RecipeService;
 import by.epam.pharmacy.service.UserService;
+import by.epam.pharmacy.util.InputValidator;
+import by.epam.pharmacy.util.InputValidatorImpl;
 import by.epam.pharmacy.util.ResourceManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,9 +27,11 @@ import java.util.ArrayList;
 public class RecipeServiceImpl implements RecipeService {
     private static final String MESSAGE = "message.recipeRequested";
     private static final String MESSAGE_DELETED = "message.recipeDeleted";
+    private static final String MESSAGE_VALIDATION = "message.validationError";
     private static Logger logger = LogManager.getLogger();
     private UserService userService = new UserServiceImpl();
     private OrderService orderService = new OrderServiceImpl();
+    private InputValidator validator = new InputValidatorImpl();
 
     /**
      * @param content
@@ -82,29 +86,39 @@ public class RecipeServiceImpl implements RecipeService {
      * @param content
      */
     @Override
-    public void approveRecipe(SessionRequestContent content) throws ServiceException {
-        int recipeId = Integer.valueOf(content.getRequestParameters().get(AttributeName.RECIPE_ID.getAttribute()));
-        int medicineQuantity = Integer.valueOf(content.getRequestParameters().get(AttributeName.MEDICINE_QUANTITY.getAttribute()));
-        Timestamp validTill = Timestamp.valueOf(content.getRequestParameters().get(AttributeName.VALID_TILL.getAttribute()));
-        logger.info(validTill);
-        boolean approved = Boolean.parseBoolean(content.getRequestParameters().get(AttributeName.APPROVED.getAttribute()));
-        try (RecipeDaoImpl recipeDao = new RecipeDaoImpl()) {
-            Recipe recipeDB = recipeDao.findEntityById(recipeId);
-            recipeDB.setMedicineQuantity(medicineQuantity);
-            recipeDB.setValidTill(validTill);
-            recipeDB.setApproved(approved);
-            recipeDao.update(recipeDB);
-            int medicineId = recipeDB.getMedicineId();
-            int clientId = recipeDB.getClientId();
-            int orderId = orderService.findCurrentOrderIdByUserId(clientId);
-            OrderHasMedicine orderHasMedicine = orderService.findOrderHasMedicine(orderId, medicineId);
-            orderHasMedicine.setRecipeId(recipeDB.getRecipeId());
-            orderHasMedicine.setMedicineQuantity(recipeDB.getMedicineQuantity());
-            orderService.updateRecipeAtOrderHasMedicine(orderHasMedicine);
-            orderService.changeQuantityFromRecipe(orderId, medicineId, medicineQuantity);
-        } catch (DaoException e) {
-            throw new ServiceException(e);
+    public boolean approveRecipe(SessionRequestContent content) throws ServiceException {
+        boolean validated = false;
+        int recipeId = 0;
+        if (validator.validateInteger(content.getRequestParameters().get(AttributeName.RECIPE_ID.getAttribute()))
+                && validator.validateInteger(content.getRequestParameters().get(AttributeName.MEDICINE_QUANTITY.getAttribute()))
+                && validator.validateTimeStamp(content.getRequestParameters().get(AttributeName.VALID_TILL.getAttribute()))) {
+            validated = true;
+            recipeId = Integer.valueOf(content.getRequestParameters().get(AttributeName.RECIPE_ID.getAttribute()));
+            int medicineQuantity = Integer.valueOf(content.getRequestParameters().get(AttributeName.MEDICINE_QUANTITY.getAttribute()));
+            Timestamp validTill = Timestamp.valueOf(content.getRequestParameters().get(AttributeName.VALID_TILL.getAttribute()));
+            boolean approved = Boolean.parseBoolean(content.getRequestParameters().get(AttributeName.APPROVED.getAttribute()));
+            try (RecipeDaoImpl recipeDao = new RecipeDaoImpl()) {
+                Recipe recipeDB = recipeDao.findEntityById(recipeId);
+                recipeDB.setMedicineQuantity(medicineQuantity);
+                recipeDB.setValidTill(validTill);
+                recipeDB.setApproved(approved);
+                recipeDao.update(recipeDB);
+                int medicineId = recipeDB.getMedicineId();
+                int clientId = recipeDB.getClientId();
+                int orderId = orderService.findCurrentOrderIdByUserId(clientId);
+                OrderHasMedicine orderHasMedicine = orderService.findOrderHasMedicine(orderId, medicineId);
+                orderHasMedicine.setRecipeId(recipeDB.getRecipeId());
+                orderHasMedicine.setMedicineQuantity(recipeDB.getMedicineQuantity());
+                orderService.updateRecipeAtOrderHasMedicine(orderHasMedicine);
+                orderService.changeQuantityFromRecipe(orderId, medicineId, medicineQuantity);
+            } catch (DaoException e) {
+                throw new ServiceException(e);
+            }
+        } else {
+            content.getRequestAttributes().put(AttributeName.RECIPE_ID.getAttribute(), recipeId);
+            content.getRequestAttributes().put(AttributeName.VALIDATION_ERROR.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE_VALIDATION));
         }
+        return validated;
     }
 
     /**

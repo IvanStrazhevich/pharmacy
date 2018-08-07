@@ -9,6 +9,7 @@ import by.epam.pharmacy.command.paymentImpl.MakePaymentCommand;
 import by.epam.pharmacy.command.paymentImpl.PayOrderCommand;
 import by.epam.pharmacy.command.recipeImpl.ApproveRecipeCommand;
 import by.epam.pharmacy.command.recipeImpl.DeleteRecipeCommand;
+import by.epam.pharmacy.command.recipeImpl.EditRecipeCommand;
 import by.epam.pharmacy.command.recipeImpl.RecipeListCommand;
 import by.epam.pharmacy.command.userImpl.*;
 import by.epam.pharmacy.exception.PharmacyServletException;
@@ -55,6 +56,7 @@ public class CommandMapper {
         servletMap.put(CommandType.DELETE_RECIPE.getCommand(), new DeleteRecipeCommand());
         servletMap.put(CommandType.PAY_ORDER.getCommand(), new PayOrderCommand());
         servletMap.put(CommandType.MAKE_PAYMENT.getCommand(), new MakePaymentCommand());
+        servletMap.put(CommandType.REMOVE_FROM_AVAILABLE.getCommand(), new RemoveFromAvailableList());
     }
 
     /**

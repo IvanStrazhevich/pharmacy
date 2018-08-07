@@ -50,7 +50,7 @@ public class UserDaoImpl extends AbstractDaoImpl<User> implements UserDao<User> 
             ResultSet resultSet = preparedStatement.getResultSet();
             fillUsers(userList, resultSet);
         } catch (SQLException e) {
-            throw new DaoException("Exception on find all", e);
+            throw new DaoException("Exception on User find all", e);
         }
         return userList;
     }
@@ -73,7 +73,7 @@ public class UserDaoImpl extends AbstractDaoImpl<User> implements UserDao<User> 
             ResultSet resultSet = preparedStatement.getResultSet();
             fillUser(user, resultSet);
         } catch (SQLException e) {
-            throw new DaoException("Exception on find by id", e);
+            throw new DaoException("Exception on User find by id", e);
         }
         return user;
     }
@@ -94,7 +94,7 @@ public class UserDaoImpl extends AbstractDaoImpl<User> implements UserDao<User> 
             ResultSet resultSet = preparedStatement.getResultSet();
             fillUser(user, resultSet);
         } catch (SQLException e) {
-            throw new DaoException("Exception on find by login", e);
+            throw new DaoException("Exception on User find by login", e);
         }
         return user;
     }
@@ -122,7 +122,7 @@ public class UserDaoImpl extends AbstractDaoImpl<User> implements UserDao<User> 
             preparedStatement.execute();
             success = true;
         } catch (SQLException e) {
-            throw new DaoException("Exception on deleteById", e);
+            throw new DaoException("Exception on User deleteById", e);
         }
         return success;
     }
@@ -142,7 +142,7 @@ public class UserDaoImpl extends AbstractDaoImpl<User> implements UserDao<User> 
             preparedStatement.execute();
             success = true;
         } catch (SQLException e) {
-            throw new DaoException("Exception on create", e);
+            throw new DaoException("Exception on User create", e);
         }
         return success;
     }
@@ -163,7 +163,7 @@ public class UserDaoImpl extends AbstractDaoImpl<User> implements UserDao<User> 
             preparedStatement.executeUpdate();
             success = true;
         } catch (SQLException e) {
-            throw new DaoException("Exception on update", e);
+            throw new DaoException("Exception on User update", e);
         }
         return success;
     }
@@ -188,7 +188,7 @@ public class UserDaoImpl extends AbstractDaoImpl<User> implements UserDao<User> 
                 users.add(user);
             }
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException("Exception on FindUserWithNames",e);
         }
         return users;
     }
@@ -206,7 +206,7 @@ public class UserDaoImpl extends AbstractDaoImpl<User> implements UserDao<User> 
             ResultSet resultSet = preparedStatement.getResultSet();
             fillUsers(users, resultSet);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException("Exception on FindUsersByAccessLevel",e);
         }
         return users;
     }

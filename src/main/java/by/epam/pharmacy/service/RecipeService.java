@@ -23,10 +23,10 @@ public interface RecipeService {
     void showRecipe(SessionRequestContent content) throws ServiceException;
 
     /**
-     * 
-     * @param content 
+     *
+     * @param content
      */
-    void approveRecipe(SessionRequestContent content) throws ServiceException;
+    boolean approveRecipe(SessionRequestContent content) throws ServiceException;
 
     /**
      * @param content

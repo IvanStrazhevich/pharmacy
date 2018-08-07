@@ -6,8 +6,8 @@
 <fmt:setBundle basename="message"/>
 <html>
 <head>
-    <link href="css/bootstrap.css" rel="stylesheet">
     <link rel="stylesheet" href=“css/normalize.css">
+    <link href="css/bootstrap.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/pharmacy.css">
     <title><fmt:message key="label.button.RecipeApproval"/></title>
 </head>
@@ -41,7 +41,7 @@
                     <td><input type="number" value="${rcp.medicineQuantity}" min="0" max="${rcp.medicineQuantity}"
                                name="medicineQuantity"></td>
                     <td><input type="number" value="${rcp.dosage}" min="0" max="${rcp.dosage}" name="dosage"></td>
-                    <td><input type="datetime-local" name="validTill" placeholder="yyyy-mm-dd hh:mm:ss" maxlength="19"
+                    <td><input type="datetime" name="validTill" value="${rcp.validTill}" placeholder="yyyy-mm-dd hh:mm:ss" maxlength="19"
                                pattern="\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}" minlength="19"></td>
                     <td>
                         <select class="btn btn-primary" name="approved">

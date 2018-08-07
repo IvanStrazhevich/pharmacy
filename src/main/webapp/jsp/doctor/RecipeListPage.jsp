@@ -7,6 +7,7 @@
 <html>
 <head>
 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="css/bootstrap.css" rel="stylesheet">
     <link rel="stylesheet" href=“css/normalize.css">
     <link rel="stylesheet" type="text/css" href="css/pharmacy.css">

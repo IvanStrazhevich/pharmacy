@@ -19,6 +19,7 @@ import java.util.ArrayList;
  */
 public class MedicineServiceImpl implements MedicineService {
     private static final String MESSAGE_DELETED = "message.medicineDeleted";
+    private static final String MESSAGE_NOT_AVAILABLE = "message.medicineNotAvailable";
     Logger logger = LogManager.getLogger();
 
     /**
@@ -95,7 +96,20 @@ public class MedicineServiceImpl implements MedicineService {
         }
     }
 
-        /**
+    @Override
+    public void removeMedicineFromAvailableList(SessionRequestContent content) throws ServiceException {
+        try (MedicineDaoImpl medicineDao = new MedicineDaoImpl()) {
+            if (content.getRequestParameters().get(AttributeName.MEDICINE_ID.getAttribute()) != null) {
+                int medId = Integer.valueOf(content.getRequestParameters().get(AttributeName.MEDICINE_ID.getAttribute()).toString());
+                medicineDao.setUnavailableById(medId);
+                content.getRequestAttributes().put(AttributeName.MEDICINE_DELETED.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE_NOT_AVAILABLE));
+            }
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    /**
          * Creates or updates entry
          * @param content
          * @throws ServiceException

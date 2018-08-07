@@ -6,6 +6,8 @@
 <fmt:setBundle basename="message"/>
 <html>
 <head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="css/bootstrap.css" rel="stylesheet">
     <title><fmt:message key="label.button.EditOrderPage"/></title>
 </head>
@@ -17,6 +19,7 @@
 <h4>
 ${recipeRequested}
 ${payed}
+${validationError}
 </h4>
 <c:if test="${!ord.payed && payed==null}">
 <div class="table-responsive">
@@ -103,7 +106,7 @@ ${payed}
                 </td>
                 <c:if test="${!ord.payed}">
                     <td colspan="4">
-                        <form action="EditOrderPage" method="post">
+                        <form action="EditOrderPage" method="get">
                             <input type="hidden" name="action" value="PayOrder">
                             <input type="hidden" name="orderId" value="${ord.orderId}">
                             <input type="hidden" name="orderSum" value="${ord.orderSum}">

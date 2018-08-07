@@ -6,6 +6,8 @@
 <fmt:setBundle basename="message"/>
 <html>
 <head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
     <link href="css/bootstrap.css" rel="stylesheet">
     <title><fmt:message key="label.button.EditMedicine"/></title>
@@ -31,7 +33,7 @@
                 <th><fmt:message key="label.header.quantityAvailable"/></th>
                 <th></th>
                 <c:if test="${accessLevel=='pharmacist'&& med.medicineId!=0}">
-                    <th colspan="2"></th>
+                    <th colspan="3"></th>
                 </c:if>
             </tr>
             <tr>
@@ -76,8 +78,15 @@
                             <input type="hidden" name="action" value="RemoveMedicineFromBase">
                         </form>
                     </td>
+                    <td>
+                        <form action="MedicineListPage" method="post">
+                            <input type="submit" class=" form-control btn btn-warning"
+                                   value="<fmt:message key="label.button.remove"/>">
+                            <input type="hidden" name="medicineId" value="${med.medicineId}">
+                            <input type="hidden" name="action" value="RemoveFromAvailable">
+                        </form>
+                    </td>
                 </c:if>
-
             </tr>
         </table>
     </h6>

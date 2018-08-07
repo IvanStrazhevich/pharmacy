@@ -21,7 +21,7 @@ public class MedicineDaoImpl extends AbstractDaoImpl<Medicine> implements Medici
     private static final String SELECT_BY_ID_PSTM = "select mdc_id, mdc_name, mdc_description, mdc_dosage, mdc_recipe_required, mdc_price, mdc_available, mdc_quantity from medicine where mdc_id = ?";
     private static final String SELECT_BY_NAME_PSTM = "select mdc_id, mdc_name, mdc_description, mdc_dosage, mdc_recipe_required, mdc_price, mdc_available, mdc_quantity from medicine where mdc_name = ?";
     private static final String INSERT_PSTM = "insert into medicine( mdc_name, mdc_description, mdc_dosage, mdc_recipe_required, mdc_price, mdc_available, mdc_quantity) values(?,?,?,?,?,?,?)";
-    private static final String UPDATE_MEDICINE_SET_MDC_AVAILABLE = "update medicine set mdc_available=?where mdc_id = ?";
+    private static final String UPDATE_MEDICINE_SET_MDC_AVAILABLE = "update medicine set mdc_available=? where mdc_id = ?";
     private static final String UPDATE_PSTM = "update medicine set mdc_name=?, mdc_description=?, mdc_dosage=?, mdc_recipe_required=?, mdc_price=?, mdc_available=?, mdc_quantity=? where mdc_id = ?";
     private static final String DELETE_PSTM = "delete FROM medicine where mdc_id=?";
     private ProxyConnection proxyConnection;

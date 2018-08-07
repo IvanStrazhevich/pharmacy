@@ -11,7 +11,7 @@ import org.testng.Assert;
 import org.testng.annotations.*;
 
 /**
- * 
+ *
  */
 public class UserDaoTest {
     private UserDaoImpl userDao;
@@ -20,7 +20,7 @@ public class UserDaoTest {
     private ConnectionPool connectionPool;
 
     /**
-     * 
+     *
      */
     @BeforeClass
     public void beforeClass() {
@@ -32,17 +32,17 @@ public class UserDaoTest {
     }
 
     /**
-     * 
+     *
      */
     @AfterClass
     public void afterClass() throws PoolException {
         connectionPool.closeAll();
-        connectionPool =null;
+        connectionPool = null;
 
     }
 
     /**
-     * 
+     *
      */
     @BeforeMethod
     public void setUp() throws Exception {
@@ -51,7 +51,7 @@ public class UserDaoTest {
     }
 
     /**
-     * 
+     *
      */
     @AfterMethod
     public void tearDown() throws DaoException {
@@ -59,7 +59,7 @@ public class UserDaoTest {
     }
 
     /**
-     * 
+     *
      */
     @Test
     public void testFindAll() throws DaoException {
@@ -68,43 +68,59 @@ public class UserDaoTest {
     }
 
     /**
-     * 
+     *
      */
     @Test
     public void testFindEntityById() throws DaoException {
         userDao.create(user);
-        userDao.findEntityById(userDao.findLastInsertId());
+        User actual = userDao.findEntityById(userDao.findLastInsertId());
+        Assert.assertEquals(user, actual);
     }
 
     /**
-     * 
+     *
      */
     @Test
     public void testDelete() throws DaoException {
         userDao.create(user);
+        int userId = userDao.findLastInsertId();
+        user.setUserId(userId);
+        userDao.findEntityById(userId);
         userDao.delete(user);
+        User actual = userDao.findEntityById(userId);
+        Assert.assertNull(actual.getLogin());
     }
 
     /**
-     * 
+     *
      */
     @Test
     public void testDeleteById() throws DaoException {
         userDao.create(user);
-        userDao.deleteById(userDao.findLastInsertId());
-    }
+        int userId = userDao.findLastInsertId();
+        user.setUserId(userId);
+        userDao.findEntityById(userId);
+        userDao.deleteById(userId);
+        User actual = userDao.findEntityById(userId);
+        Assert.assertNull(actual.getLogin());
+        }
 
     /**
-     * 
+     *
      */
     @Test
     public void testCreate() throws DaoException {
         userDao.create(user);
+        int userId = userDao.findLastInsertId();
+        user.setUserId(userId);
+        User expected = user;
+        User actual = userDao.findEntityById(userId);
+        Assert.assertEquals(expected, actual);
         userDao.delete(user);
     }
 
     /**
-     * 
+     *
      */
     @Test
     public void testUpdate() throws DaoException {

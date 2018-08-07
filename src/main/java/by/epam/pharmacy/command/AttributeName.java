@@ -21,7 +21,8 @@ public enum AttributeName {
     APPROVED("approved"), RECIPE_DELETED("recipeDeleted"),
     MEDICINE_DELETED("medicineDeleted"), ORDER_SUM("orderSum"),
     PAYMENT("payment"), ACCOUNT("account"), PAYMENT_ID("paymentId"),
-    ACCOUNT_DEBIT("accountDebit"), ACCOUNT_CREDIT("accountCredit"), PAYED("payed");
+    ACCOUNT_DEBIT("accountDebit"), ACCOUNT_CREDIT("accountCredit"), PAYED("payed"),
+    VALIDATION_ERROR("validationError");
 
     private String attribute;
 

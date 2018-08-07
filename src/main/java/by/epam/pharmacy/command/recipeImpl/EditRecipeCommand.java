@@ -1,4 +1,4 @@
-package by.epam.pharmacy.command.orderImpl;
+package by.epam.pharmacy.command.recipeImpl;
 
 import by.epam.pharmacy.command.PagePath;
 import by.epam.pharmacy.command.RequestCommand;

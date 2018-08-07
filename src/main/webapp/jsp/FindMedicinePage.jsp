@@ -6,6 +6,8 @@
 <fmt:setBundle basename="message"/>
 <html>
 <head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="css/bootstrap.css" rel="stylesheet">
     <title><fmt:message key="label.button.FindMedicinePage"/></title>
 </head>

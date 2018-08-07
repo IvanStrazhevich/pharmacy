@@ -5,29 +5,34 @@ import by.epam.pharmacy.exception.ServiceException;
 
 public interface MedicineService {
     /**
-     * 
-     * @param content 
+     * @param content
      */
     void findAllMedicines(SessionRequestContent content) throws ServiceException;
+
     /**
-     * 
-     * @param content 
+     * @param content
      */
     void findMedicinesByName(SessionRequestContent content) throws ServiceException;
+
     /**
-     * 
-     * @param content 
+     * @param content
      */
     void createOrUpdateMedicine(SessionRequestContent content) throws ServiceException;
+
     /**
-     * 
-     * @param content 
+     * @param content
      */
     void findMedicineById(SessionRequestContent content) throws ServiceException;
+
     /**
-     * 
-     * @param content 
+     * @param content
      */
     void removeMedicineFromDataBase(SessionRequestContent content) throws ServiceException;
+
+    /**
+     * @throws ServiceException
+     * @param content
+     */
+    void removeMedicineFromAvailableList(SessionRequestContent content) throws ServiceException;
 }
 
