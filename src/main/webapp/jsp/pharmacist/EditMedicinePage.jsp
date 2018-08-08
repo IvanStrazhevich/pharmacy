@@ -17,6 +17,9 @@
 <div class="container-fluid" style="flex-direction:column; float: left">
     <c:import url="/WEB-INF/LeftSidePage.jsp"/>
 </div>
+<h4>
+    ${validationError}
+</h4>
 <div class="table-responsive">
     <h6>
         <table class="table table-striped table-hover table-bordered tableUpdated table-responsive">

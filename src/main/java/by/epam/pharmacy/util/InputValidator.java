@@ -11,4 +11,5 @@ public interface InputValidator {
     boolean validateTimeStamp(String string);
     boolean validatePhone(String string);
     boolean validateLength(int length, String string);
+    boolean validateBoolean(String string);
 }

@@ -5,6 +5,10 @@ import org.apache.logging.log4j.Logger;
 
 public class InputValidatorImpl implements InputValidator {
     private static Logger logger = LogManager.getLogger();
+    private static final int VARCHAR_45 = 45;
+    private static final int LONGTEXT_ = 65535;
+    private static final String TRUE ="true";
+    private static final String FALSE ="false";
     private static final String PASSWORD_REG = "(\\p{Punct}?\\w\\p{Punct}?){6,45}";
     private static final String POSTCODE_REG = "\\w{0,10}";
     private static final String WORD_REG = "\\w{1,45}";
@@ -18,7 +22,7 @@ public class InputValidatorImpl implements InputValidator {
     @Override
     public boolean validatePassword(String string) {
         if (string.matches(PASSWORD_REG)) {
-            return validateLength(45, string);
+            return validateLength(VARCHAR_45, string);
         } else {
             return false;
         }
@@ -31,7 +35,11 @@ public class InputValidatorImpl implements InputValidator {
 
     @Override
     public boolean validateEmail(String string) {
-        return string.matches(EMAIL_REG);
+        if (string.matches(EMAIL_REG)) {
+            return validateLength(VARCHAR_45, string);
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -47,7 +55,7 @@ public class InputValidatorImpl implements InputValidator {
     @Override
     public boolean validateText(String string) {
         if (string.matches(TEXT_REG)) {
-            return validateLength(65535, string);
+            return validateLength(LONGTEXT_, string);
         } else {
             return false;
         }
@@ -85,6 +93,11 @@ public class InputValidatorImpl implements InputValidator {
     @Override
     public boolean validateLength(int length, String string) {
         return string.length() <= length;
+    }
+
+    @Override
+    public boolean validateBoolean(String string) {
+        return string.equalsIgnoreCase(TRUE)||string.equalsIgnoreCase(FALSE);
     }
 
     private boolean isLeapYear(Integer year) {

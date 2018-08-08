@@ -21,6 +21,7 @@ ${notAuthorised}
 ${userExist}
 ${needLogin}
 ${needRegister}
+${validationError}
 </h4>
 <div class="container container-table">
     <div class="row vertical-center-row">

@@ -17,7 +17,7 @@ public interface MedicineService {
     /**
      * @param content
      */
-    void createOrUpdateMedicine(SessionRequestContent content) throws ServiceException;
+    boolean createOrUpdateMedicine(SessionRequestContent content) throws ServiceException;
 
     /**
      * @param content
