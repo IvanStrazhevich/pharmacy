@@ -45,11 +45,16 @@ public class SaveClientDetailCommand implements RequestCommand<SessionRequestCon
             throw new CommandException("IOException",e);
         }*/
         try {
-            clientService.createClientDetail(content);
+            if(clientService.createClientDetail(content)){
+                return PagePath.CLIENT_DETAIL_PAGE.getPage();
+            } else {
+                clientService.findClientDetail(content);
+                return PagePath.EDIT_USER_DATA_PAGE.getPage();
+            }
         } catch (ServiceException e) {
             throw new CommandException(e);
         }
-        return PagePath.CLIENT_DETAIL_PAGE.getPage();
+
     }
 
     public void setClientService(ClientService clientService) {

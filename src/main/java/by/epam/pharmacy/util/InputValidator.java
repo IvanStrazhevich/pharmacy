@@ -4,6 +4,7 @@ public interface InputValidator {
     boolean validatePassword(String string);
     boolean validateWord(String string);
     boolean validateEmail(String string);
+    boolean validatePostcode(String string);
     boolean validateText(String string);
     boolean validateInteger(String string);
     boolean validateDecimal(String string);

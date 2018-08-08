@@ -5,10 +5,10 @@ import by.epam.pharmacy.exception.ServiceException;
 
 public interface ClientService {
     /**
-     * 
-     * @param content 
+     *
+     * @param content
      */
-    void createClientDetail(SessionRequestContent content) throws ServiceException;
+    boolean createClientDetail(SessionRequestContent content) throws ServiceException;
     /**
      * 
      * @param content 

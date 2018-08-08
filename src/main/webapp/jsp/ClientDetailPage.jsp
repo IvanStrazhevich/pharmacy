@@ -17,6 +17,7 @@
     <c:import url="/WEB-INF/LeftSidePage.jsp"/>
 </div>
 ${result}
+${notAuthorised}
 <br>
 <div>
     <h6>
@@ -31,7 +32,7 @@ ${result}
                 <th><fmt:message key="label.header.country"/></th>
                 <th><fmt:message key="label.header.city"/></th>
                 <th><fmt:message key="label.header.address"/></th>
-                <th></th>
+                <%--<th></th>--%>
             </tr>
             <c:set var="us" value="${user}"></c:set>
             <%--<c:forEach items="${user}" var="us">
@@ -46,13 +47,13 @@ ${result}
                 <td>${us.country}</td>
                 <td>${us.city}</td>
                 <td>${us.address}</td>
-                <td>
+                <%--<td>
                     <form action="EditUserDataPage" method="post">
                         <input type="submit" class="btn btn-primary"
                                value="<fmt:message key="label.button.EditUserPage"/>">
                         <input type="hidden" name="action" value="EditUserDataPage">
                     </form>
-                </td>
+                </td>--%>
             </tr>
             <%--</c:forEach><br>
         --%></table>

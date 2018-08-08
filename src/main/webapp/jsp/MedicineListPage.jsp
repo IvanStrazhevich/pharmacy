@@ -21,6 +21,7 @@ ${medicineAdded}
 ${needLogin}
 ${medicineDeleted}
 ${validationError}
+${notAuthorised}
 </h4>
 <div class="table-responsive">
     <h6>

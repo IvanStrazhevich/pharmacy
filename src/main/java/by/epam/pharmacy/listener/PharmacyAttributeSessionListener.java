@@ -32,6 +32,8 @@ public class PharmacyAttributeSessionListener implements HttpSessionAttributeLis
             logger.debug(session.getAttribute(AttributeName.NEED_LOGIN.getAttribute()));
             session.removeAttribute(AttributeName.NEED_REGISTER.getAttribute());
             logger.debug(session.getAttribute(AttributeName.NEED_REGISTER.getAttribute()));
+            session.removeAttribute(AttributeName.NOT_AUTHORISED.getAttribute());
+            logger.debug(session.getAttribute(AttributeName.NOT_AUTHORISED.getAttribute()));
         } else {
             logger.debug("login listener not worked");
         }
@@ -44,6 +46,8 @@ public class PharmacyAttributeSessionListener implements HttpSessionAttributeLis
             logger.debug(session.getAttribute(AttributeName.LOGIN.getAttribute()));
             session.removeAttribute(AttributeName.ACCESS_LEVEL.getAttribute());
             logger.debug(session.getAttribute(AttributeName.ACCESS_LEVEL.getAttribute()));
+            session.removeAttribute(AttributeName.NOT_AUTHORISED.getAttribute());
+            logger.debug(session.getAttribute(AttributeName.NOT_AUTHORISED.getAttribute()));
             logger.debug(session.getId());
             session.invalidate();
         } else {

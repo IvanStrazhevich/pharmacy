@@ -14,7 +14,7 @@
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <fmt:message key="message.forgotfile" bundle="${rb}"/>
-<p><img src="img/eddie1.gif" alt="Sorry, we alredy fix this" width="500" height="500"></p>
+<p><img src="img/johnny.gif" alt="Sorry, we alredy fix this" width="500" height="500"></p>
 <hr>
 <form action="UploadPage"
       method="post">

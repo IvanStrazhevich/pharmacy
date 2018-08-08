@@ -16,15 +16,14 @@ import java.io.IOException;
  *
  */
 @WebFilter(dispatcherTypes = {
-        DispatcherType.FORWARD,
-        DispatcherType.REQUEST,
+        DispatcherType.FORWARD,/*
+        DispatcherType.REQUEST,*/
         DispatcherType.INCLUDE
 }, urlPatterns = {"/jsp/*"})
 public class LoginForwardFilter implements Filter {
 
     private static Logger logger = LogManager.getLogger();
     private static final String MESSAGE = "message.needLogin";
-    private String indexPath;
 
     /**
      * @param fConfig

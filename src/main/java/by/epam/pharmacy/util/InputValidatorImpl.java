@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 public class InputValidatorImpl implements InputValidator {
     private static Logger logger = LogManager.getLogger();
     private static final String PASSWORD_REG = "(\\p{Punct}?\\w\\p{Punct}?){6,45}";
+    private static final String POSTCODE_REG = "\\w{0,10}";
     private static final String WORD_REG = "\\w{1,45}";
     private static final String PHONE_REG = "\\+\\d{10,15}";
     private static final String EMAIL_REG = "\\w{1,}@\\w{3,}\\.\\w{2,4}";
@@ -16,7 +17,11 @@ public class InputValidatorImpl implements InputValidator {
 
     @Override
     public boolean validatePassword(String string) {
-        return string.matches(PASSWORD_REG);
+        if (string.matches(PASSWORD_REG)) {
+            return validateLength(45, string);
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -35,9 +40,19 @@ public class InputValidatorImpl implements InputValidator {
     }
 
     @Override
-    public boolean validateText(String string) {
-        return string.matches(TEXT_REG);
+    public boolean validatePostcode(String string) {
+        return string.matches(POSTCODE_REG);
     }
+
+    @Override
+    public boolean validateText(String string) {
+        if (string.matches(TEXT_REG)) {
+            return validateLength(65535, string);
+        } else {
+            return false;
+        }
+    }
+
 
     @Override
     public boolean validateInteger(String string) {

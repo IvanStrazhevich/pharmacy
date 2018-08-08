@@ -17,7 +17,7 @@ import java.io.IOException;
         urlPatterns = {"/WelcomePage", "/EditUserDataPage", "/ClientDetailPage", "/LoginPage",
                 "/MedicineListPage", "/EditMedicinePage", "/UserListPage", "/EditAccessLevelPage",
                 "/CheckLogin", "/RegisterUser", "/RegisterPage", "/EditOrderPage",
-                "/RecipeApprovalPage", "/RecipeListPage"})
+                "/RecipeApprovalPage", "/RecipeListPage", "/PaymentPage"})
 /*@MultipartConfig(location = ""//The directory location where files will be stored
         , fileSizeThreshold = 1024 * 1024
         , maxFileSize = 1024 * 1024 * 5
@@ -42,6 +42,7 @@ public class PharmacyServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request,
                          HttpServletResponse response) throws ServletException, IOException {
+        /*response.sendRedirect(request.getContextPath() + PagePath.INDEX_PAGE.getPage());*/
         handleRequest(request, response);
     }
 

@@ -33,7 +33,6 @@ public class ContentTypeFilter implements Filter {
      * @param chain 
      */
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        logger.info("Content type page filter Works");
         response.setContentType("text/html; charset=utf-8");
         request.setCharacterEncoding("utf-8");
         chain.doFilter(request, response);
