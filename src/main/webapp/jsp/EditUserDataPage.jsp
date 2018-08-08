@@ -16,6 +16,9 @@
 <div>
 <c:import url="/WEB-INF/HeaderPage.jsp"/>
 </div>
+<h4>
+${validationError}
+</h4>
 <div class="container-fluid container-table">
     <div class="row">
         <div class="col-md-4 col-md-offset-4">

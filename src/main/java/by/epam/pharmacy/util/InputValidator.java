@@ -1,6 +1,7 @@
 package by.epam.pharmacy.util;
 
 public interface InputValidator {
+    boolean validatePassword(String string);
     boolean validateWord(String string);
     boolean validateEmail(String string);
     boolean validateText(String string);

@@ -16,11 +16,13 @@
 </head>
 <body>
 <c:import url="/WEB-INF/HeaderPage.jsp"/>
-
+<h4>
 ${notAuthorised}
 ${userExist}
 ${needLogin}
 ${needRegister}
+${validationError}
+</h4>
 <div class="container container-table">
     <div class="row vertical-center-row">
         <div class="col-md-4 col-md-offset-4">
@@ -30,7 +32,7 @@ ${needRegister}
 
                     <input class="form-control" type="text" id="login" name="login" size="15" maxlength="45"
                            pattern="\w{1,}@\w{3,}\.\w{2,4}" required
-                           title="Match email format"
+                           title="<fmt:message key="message.loginRule">"
                            placeholder="<fmt:message key="message.enter.login"/>">
                 </div>
 
@@ -38,8 +40,8 @@ ${needRegister}
                     <span class="input-group-addon"><span class="glyphicon glyphicon-eye-close"></span></span>
 
                     <input class="form-control" id="password" type="password" name="password" size="15" maxlength="45"
-                           title="Enter at least 6 symbols"
-                           pattern="\w{6,45}" required placeholder="<fmt:message key="message.enter.password"/>">
+                           title="<fmt:message key="message.passwordRule">"
+                           pattern="(\p{Punct}?\w\p{Punct}?){6,45}" required placeholder="<fmt:message key="message.enter.password"/>">
                 </div>
                 <input type="hidden" name="action" value="RegisterUser">
                 <div class="form-group input-group input-group-lg col-md-8 col-md-offset-2 col-xs-12">

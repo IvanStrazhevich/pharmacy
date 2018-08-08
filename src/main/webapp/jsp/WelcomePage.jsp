@@ -16,11 +16,13 @@
 <div class="container-fluid" style="flex-direction:column; float: left">
     <c:import url="/WEB-INF/LeftSidePage.jsp"/>
 </div>
+<h4>
 ${notAuthorised}
 ${userRegistered}
 ${greeting}
 ${needRegister}
 ${needLogin}
+</h4>
 <div style="float: bottom"><c:import url="/WEB-INF/FooterPage.jsp"/></div>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="js/bootstrap.min.js"></script>

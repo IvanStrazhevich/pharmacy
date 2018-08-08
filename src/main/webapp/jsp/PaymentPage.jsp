@@ -16,10 +16,13 @@
 </head>
 <body>
 <c:import url="/WEB-INF/HeaderPage.jsp"/>
+<h4>
 ${notAuthorised}
 ${userNotRegistered}
 ${needRegister}
 ${needLogin}
+${validationError}
+</h4>
 <div class="container container-table">
     <div class="row vertical-center-row">
         <div class="col-md-4 col-md-offset-4">

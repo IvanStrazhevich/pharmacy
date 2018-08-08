@@ -18,7 +18,9 @@
 <div class="container-fluid" style="flex-direction:column; float: left">
     <c:import url="/WEB-INF/LeftSidePage.jsp"/>
 </div>
+<h4>
 ${recipeDeleted}
+</h4>
 <div class="table-responsive">
     <h6>
         <table class="table table-striped table-hover table-bordered tableUpdated">
@@ -44,12 +46,14 @@ ${recipeDeleted}
                     <td>${rcp.validTill}</td>
                     <td>${rcp.approved}</td>
                     <td>
-                        <form action="RecipeApprovalPage" method="post">
-                            <input type="submit" class="btn btn-primary"
-                                   value="<fmt:message key="label.button.RecipeApproval"/>">
-                            <input type="hidden" name="recipeId" value="${rcp.recipeId}">
-                            <input type="hidden" name="action" value="EditRecipe">
-                        </form>
+                        <c:if test="${rcp.approved =='false'}">
+                            <form action="RecipeApprovalPage" method="post">
+                                <input type="submit" class="btn btn-primary"
+                                       value="<fmt:message key="label.button.RecipeApproval"/>">
+                                <input type="hidden" name="recipeId" value="${rcp.recipeId}">
+                                <input type="hidden" name="action" value="EditRecipe">
+                            </form>
+                        </c:if>
                     </td>
                 </tr>
             </c:forEach><br>

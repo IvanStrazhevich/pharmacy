@@ -106,7 +106,7 @@ ${validationError}
                 </td>
                 <c:if test="${!ord.payed}">
                     <td colspan="4">
-                        <form action="EditOrderPage" method="get">
+                        <form action="EditOrderPage" method="post">
                             <input type="hidden" name="action" value="PayOrder">
                             <input type="hidden" name="orderId" value="${ord.orderId}">
                             <input type="hidden" name="orderSum" value="${ord.orderSum}">
