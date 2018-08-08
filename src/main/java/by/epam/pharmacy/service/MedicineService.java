@@ -17,7 +17,7 @@ public interface MedicineService {
     /**
      * @param content
      */
-    boolean createOrUpdateMedicine(SessionRequestContent content) throws ServiceException;
+    void createOrUpdateMedicine(SessionRequestContent content) throws ServiceException;
 
     /**
      * @param content
@@ -34,5 +34,7 @@ public interface MedicineService {
      * @param content
      */
     void removeMedicineFromAvailableList(SessionRequestContent content) throws ServiceException;
+
+    boolean validateForCreateOrUpdateMedicine(SessionRequestContent content) throws ServiceException;
 }
 

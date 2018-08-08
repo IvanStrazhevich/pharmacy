@@ -14,9 +14,9 @@ import org.apache.logging.log4j.Logger;
  *
  */
 public class SaveClientDetailCommand implements RequestCommand<SessionRequestContent> {
+    private static Logger logger = LogManager.getLogger();
     private static final String UPLOAD_DIR = "uploads";
-    ClientService clientService = new ClientServiceImpl();
-    Logger logger = LogManager.getLogger();
+    private ClientService clientService = new ClientServiceImpl();
 
     /**
      * @param content
@@ -45,7 +45,8 @@ public class SaveClientDetailCommand implements RequestCommand<SessionRequestCon
             throw new CommandException("IOException",e);
         }*/
         try {
-            if(clientService.createClientDetail(content)){
+            if(clientService.validateForCreateClientDetail(content)){
+                clientService.createClientDetail(content);
                 return PagePath.CLIENT_DETAIL_PAGE.getPage();
             } else {
                 clientService.findClientDetail(content);

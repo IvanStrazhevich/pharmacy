@@ -28,42 +28,47 @@ public class PaymentServiceImpl implements PaymentService {
     private InputValidator validator = new InputValidatorImpl();
     private static Logger logger = LogManager.getLogger();
 
+    @Override
+    public boolean validateForCreateOrUpdatePayment(SessionRequestContent content) throws ServiceException {
+        boolean validated = false;
+        if (validator.validateDecimal(content.getRequestParameters().get(AttributeName.ORDER_SUM.getAttribute()))
+                && validator.validateInteger(content.getRequestParameters().get(AttributeName.ORDER_ID.getAttribute()))) {
+            validated = true;
+        } else {
+            content.getRequestAttributes().put(AttributeName.VALIDATION_ERROR.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE_VALIDATION));
+        }
+        return validated;
+
+    }
+
     /**
      * @param content
      * @throws ServiceException
      */
     @Override
-    public boolean createOrUpdatePayment(SessionRequestContent content) throws ServiceException {
-        boolean validated = false;
-        if (validator.validateDecimal(content.getRequestParameters().get(AttributeName.ORDER_SUM.getAttribute()))
-                && validator.validateInteger(content.getRequestParameters().get(AttributeName.ORDER_ID.getAttribute()))) {
-            validated = true;
-            BigDecimal orderSum = new BigDecimal(content.getRequestParameters().get(AttributeName.ORDER_SUM.getAttribute()));
-            int orderId = Integer.valueOf(content.getRequestParameters().get(AttributeName.ORDER_ID.getAttribute()));
-            Payment payment = new Payment();
-            try (PaymentDaoImpl paymentDao = new PaymentDaoImpl()) {
-                payment.setOrderId(orderId);
-                payment.setOrderSum(orderSum);
-                logger.info(paymentDao.findPaymentByOrderId(orderId).getOrderId());
-                logger.info(paymentDao.findPaymentByOrderId(orderId).isPaymentConfirmed());
-                if (paymentDao.findPaymentByOrderId(orderId).getOrderId() == orderId
-                        && !paymentDao.findPaymentByOrderId(orderId).isPaymentConfirmed()) {
-                    int paymentId = paymentDao.findPaymentByOrderId(orderId).getPaymentId();
-                    payment.setPaymentId(paymentId);
-                    paymentDao.update(payment);
-                } else {
-                    paymentDao.create(payment);
-                    int paymentId = paymentDao.findLastInsertId();
-                    payment.setPaymentId(paymentId);
-                }
-            } catch (DaoException e) {
-                throw new ServiceException(e);
+    public void createOrUpdatePayment(SessionRequestContent content) throws ServiceException {
+        BigDecimal orderSum = new BigDecimal(content.getRequestParameters().get(AttributeName.ORDER_SUM.getAttribute()));
+        int orderId = Integer.valueOf(content.getRequestParameters().get(AttributeName.ORDER_ID.getAttribute()));
+        Payment payment = new Payment();
+        try (PaymentDaoImpl paymentDao = new PaymentDaoImpl()) {
+            payment.setOrderId(orderId);
+            payment.setOrderSum(orderSum);
+            logger.info(paymentDao.findPaymentByOrderId(orderId).getOrderId());
+            logger.info(paymentDao.findPaymentByOrderId(orderId).isPaymentConfirmed());
+            if (paymentDao.findPaymentByOrderId(orderId).getOrderId() == orderId
+                    && !paymentDao.findPaymentByOrderId(orderId).isPaymentConfirmed()) {
+                int paymentId = paymentDao.findPaymentByOrderId(orderId).getPaymentId();
+                payment.setPaymentId(paymentId);
+                paymentDao.update(payment);
+            } else {
+                paymentDao.create(payment);
+                int paymentId = paymentDao.findLastInsertId();
+                payment.setPaymentId(paymentId);
             }
-            content.getRequestAttributes().put(AttributeName.PAYMENT.getAttribute(), payment);
-        } else {
-            content.getRequestAttributes().put(AttributeName.VALIDATION_ERROR.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE_VALIDATION));
+        } catch (DaoException e) {
+            throw new ServiceException(e);
         }
-        return validated;
+        content.getRequestAttributes().put(AttributeName.PAYMENT.getAttribute(), payment);
     }
 
     @Override

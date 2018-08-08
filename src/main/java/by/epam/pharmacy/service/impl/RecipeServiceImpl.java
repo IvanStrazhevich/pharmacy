@@ -33,34 +33,41 @@ public class RecipeServiceImpl implements RecipeService {
     private OrderService orderService = new OrderServiceImpl();
     private InputValidator validator = new InputValidatorImpl();
 
-    /**
-     * @param content
-     */
     @Override
-    public void createRecipe(SessionRequestContent content) throws ServiceException {
+    public boolean validateForCreateRecipe(SessionRequestContent content) throws ServiceException {
+        boolean validated = false;
         int orderId = 0;
         if (validator.validateInteger(content.getRequestParameters().get(AttributeName.ORDER_ID.getAttribute()))
                 && validator.validateInteger(content.getRequestParameters().get(AttributeName.MEDICINE_ID.getAttribute()))
                 && validator.validateInteger(content.getRequestParameters().get(AttributeName.MEDICINE_QUANTITY.getAttribute()))
                 && validator.validateDecimal(content.getRequestParameters().get(AttributeName.DOSAGE.getAttribute()))) {
-            orderId = Integer.valueOf(content.getRequestParameters().get(AttributeName.ORDER_ID.getAttribute()));
-            int medicineId = Integer.valueOf(content.getRequestParameters().get(AttributeName.MEDICINE_ID.getAttribute()));
-            int medicineQuantity = Integer.valueOf(content.getRequestParameters().get(AttributeName.MEDICINE_QUANTITY.getAttribute()));
-            BigDecimal dosage = new BigDecimal(content.getRequestParameters().get(AttributeName.DOSAGE.getAttribute()));
-            int clientId = findUserId(orderId);
-            Recipe recipe = new Recipe();
-            recipe.setMedicineId(medicineId);
-            recipe.setMedicineQuantity(medicineQuantity);
-            recipe.setDosage(dosage);
-            recipe.setClientId(clientId);
-            recipe.setDoctorId(userService.findDefaultDoctor().getUserId());
-            logger.info(recipe);
-            createOrUpdateRecipe(recipe);
-            content.getRequestAttributes().put(AttributeName.RECIPE_REQUESTED.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE));
+            validated = true;
         } else {
             content.getRequestAttributes().put(AttributeName.ORDER_ID.getAttribute(), orderId);
             content.getRequestAttributes().put(AttributeName.VALIDATION_ERROR.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE_VALIDATION));
         }
+        return validated;
+    }
+
+    /**
+     * @param content
+     */
+    @Override
+    public void createRecipe(SessionRequestContent content) throws ServiceException {
+        int orderId = Integer.valueOf(content.getRequestParameters().get(AttributeName.ORDER_ID.getAttribute()));
+        int medicineId = Integer.valueOf(content.getRequestParameters().get(AttributeName.MEDICINE_ID.getAttribute()));
+        int medicineQuantity = Integer.valueOf(content.getRequestParameters().get(AttributeName.MEDICINE_QUANTITY.getAttribute()));
+        BigDecimal dosage = new BigDecimal(content.getRequestParameters().get(AttributeName.DOSAGE.getAttribute()));
+        int clientId = findUserId(orderId);
+        Recipe recipe = new Recipe();
+        recipe.setMedicineId(medicineId);
+        recipe.setMedicineQuantity(medicineQuantity);
+        recipe.setDosage(dosage);
+        recipe.setClientId(clientId);
+        recipe.setDoctorId(userService.findDefaultDoctor().getUserId());
+        logger.info(recipe);
+        createOrUpdateRecipe(recipe);
+        content.getRequestAttributes().put(AttributeName.RECIPE_REQUESTED.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE));
     }
 
 
@@ -92,18 +99,28 @@ public class RecipeServiceImpl implements RecipeService {
         }
     }
 
-    /**
-     * @param content
-     */
     @Override
-    public boolean approveRecipe(SessionRequestContent content) throws ServiceException {
+    public boolean validateForApproveRecipe(SessionRequestContent content) throws ServiceException {
         boolean validated = false;
         int recipeId = 0;
         if (validator.validateInteger(content.getRequestParameters().get(AttributeName.RECIPE_ID.getAttribute()))
                 && validator.validateInteger(content.getRequestParameters().get(AttributeName.MEDICINE_QUANTITY.getAttribute()))
                 && validator.validateTimeStamp(content.getRequestParameters().get(AttributeName.VALID_TILL.getAttribute()))) {
             validated = true;
-            recipeId = Integer.valueOf(content.getRequestParameters().get(AttributeName.RECIPE_ID.getAttribute()));
+        } else {
+            content.getRequestAttributes().put(AttributeName.RECIPE_ID.getAttribute(), recipeId);
+            content.getRequestAttributes().put(AttributeName.VALIDATION_ERROR.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE_VALIDATION));
+        }
+        return validated;
+
+    }
+
+    /**
+     * @param content
+     */
+    @Override
+    public void approveRecipe(SessionRequestContent content) throws ServiceException {
+            int recipeId = Integer.valueOf(content.getRequestParameters().get(AttributeName.RECIPE_ID.getAttribute()));
             int medicineQuantity = Integer.valueOf(content.getRequestParameters().get(AttributeName.MEDICINE_QUANTITY.getAttribute()));
             Timestamp validTill = Timestamp.valueOf(content.getRequestParameters().get(AttributeName.VALID_TILL.getAttribute()));
             boolean approved = Boolean.parseBoolean(content.getRequestParameters().get(AttributeName.APPROVED.getAttribute()));
@@ -124,12 +141,7 @@ public class RecipeServiceImpl implements RecipeService {
             } catch (DaoException e) {
                 throw new ServiceException(e);
             }
-        } else {
-            content.getRequestAttributes().put(AttributeName.RECIPE_ID.getAttribute(), recipeId);
-            content.getRequestAttributes().put(AttributeName.VALIDATION_ERROR.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE_VALIDATION));
         }
-        return validated;
-    }
 
     /**
      * @param content

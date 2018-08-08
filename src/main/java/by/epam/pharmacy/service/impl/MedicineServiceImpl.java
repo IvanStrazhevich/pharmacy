@@ -115,18 +115,12 @@ public class MedicineServiceImpl implements MedicineService {
         }
     }
 
-    /**
-     * Creates or updates entry
-     *
-     * @param content
-     * @throws ServiceException
-     */
     @Override
-    public boolean createOrUpdateMedicine(SessionRequestContent content) throws ServiceException {
+    public boolean validateForCreateOrUpdateMedicine(SessionRequestContent content) throws ServiceException {
         boolean validated = false;
         if (content.getRequestParameters().get(AttributeName.MEDICINE_ID.getAttribute()) != null
                 && validator.validateInteger(content.getRequestParameters().get(AttributeName.MEDICINE_ID.getAttribute()))
-                && validator.validateWord(content.getRequestParameters().get(AttributeName.MEDICINE_NAME.getAttribute()))
+                && validator.validateText(content.getRequestParameters().get(AttributeName.MEDICINE_NAME.getAttribute()))
                 && validator.validateLength(VARCHAR_45, content.getRequestParameters().get(AttributeName.MEDICINE_NAME.getAttribute()))
                 && validator.validateText(content.getRequestParameters().get(AttributeName.DESCRIPTION.getAttribute()))
                 && validator.validateDecimal(content.getRequestParameters().get(AttributeName.DOSAGE.getAttribute()))
@@ -135,39 +129,50 @@ public class MedicineServiceImpl implements MedicineService {
                 && validator.validateBoolean(content.getRequestParameters().get(AttributeName.AVAILABLE.getAttribute()))
                 && validator.validateInteger(content.getRequestParameters().get(AttributeName.QUANTITY_AT_STORAGE.getAttribute()))) {
             validated = true;
-            try (MedicineDaoImpl medicineDao = new MedicineDaoImpl()) {
-                ArrayList<Medicine> medicines = new ArrayList<>();
-                Medicine medicine = new Medicine();
-                medicine.setMedicineId(Integer.valueOf(content.getRequestParameters().get(AttributeName.MEDICINE_ID.getAttribute())));
-                medicine.setMedicineName(content.getRequestParameters().get(AttributeName.MEDICINE_NAME.getAttribute()));
-                medicine.setDescription(content.getRequestParameters().get(AttributeName.DESCRIPTION.getAttribute()));
-                medicine.setDosage(new BigDecimal(content.getRequestParameters().get(AttributeName.DOSAGE.getAttribute())));
-                medicine.setRecipeRequired(Boolean.parseBoolean(content.getRequestParameters().get(AttributeName.RECIPE_REQ.getAttribute())));
-                medicine.setPrice(new BigDecimal(content.getRequestParameters().get(AttributeName.PRICE.getAttribute())));
-                medicine.setAvailable(Boolean.parseBoolean(content.getRequestParameters().get(AttributeName.AVAILABLE.getAttribute())));
-                medicine.setQuantityAtStorage(Integer.valueOf(content.getRequestParameters().get(AttributeName.QUANTITY_AT_STORAGE.getAttribute())));
-                logger.info("Medicine: " + medicine);
-                int id = medicine.getMedicineId();
-                logger.info(id);
-                if (id == 0) {
-                    logger.info("not exist, do create");
-                    medicineDao.create(medicine);
-                } else {
-                    logger.info("exist, do update");
-                    medicineDao.update(medicine);
-                }
-                medicines.addAll(medicineDao.findAll());
-                logger.info("Output list: " + medicines);
-                content.getRequestAttributes().put(AttributeName.MEDICINES.getAttribute(),
-                        medicines);
-            } catch (DaoException e) {
-                throw new ServiceException(e);
-            }
         } else {
             content.getRequestAttributes().put(AttributeName.MEDICINE_ID.getAttribute(), content.getRequestParameters().get(AttributeName.MEDICINE_ID.getAttribute()));
             content.getRequestAttributes().put(AttributeName.VALIDATION_ERROR.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE_VALIDATION));
         }
         return validated;
+    }
+
+
+    /**
+     * Creates or updates entry
+     *
+     * @param content
+     * @throws ServiceException
+     */
+    @Override
+    public void createOrUpdateMedicine(SessionRequestContent content) throws ServiceException {
+        try (MedicineDaoImpl medicineDao = new MedicineDaoImpl()) {
+            ArrayList<Medicine> medicines = new ArrayList<>();
+            Medicine medicine = new Medicine();
+            medicine.setMedicineId(Integer.valueOf(content.getRequestParameters().get(AttributeName.MEDICINE_ID.getAttribute())));
+            medicine.setMedicineName(content.getRequestParameters().get(AttributeName.MEDICINE_NAME.getAttribute()));
+            medicine.setDescription(content.getRequestParameters().get(AttributeName.DESCRIPTION.getAttribute()));
+            medicine.setDosage(new BigDecimal(content.getRequestParameters().get(AttributeName.DOSAGE.getAttribute())));
+            medicine.setRecipeRequired(Boolean.parseBoolean(content.getRequestParameters().get(AttributeName.RECIPE_REQ.getAttribute())));
+            medicine.setPrice(new BigDecimal(content.getRequestParameters().get(AttributeName.PRICE.getAttribute())));
+            medicine.setAvailable(Boolean.parseBoolean(content.getRequestParameters().get(AttributeName.AVAILABLE.getAttribute())));
+            medicine.setQuantityAtStorage(Integer.valueOf(content.getRequestParameters().get(AttributeName.QUANTITY_AT_STORAGE.getAttribute())));
+            logger.info("Medicine: " + medicine);
+            int id = medicine.getMedicineId();
+            logger.info(id);
+            if (id == 0) {
+                logger.info("not exist, do create");
+                medicineDao.create(medicine);
+            } else {
+                logger.info("exist, do update");
+                medicineDao.update(medicine);
+            }
+            medicines.addAll(medicineDao.findAll());
+            logger.info("Output list: " + medicines);
+            content.getRequestAttributes().put(AttributeName.MEDICINES.getAttribute(),
+                    medicines);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
     }
 
 }

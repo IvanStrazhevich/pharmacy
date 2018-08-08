@@ -23,7 +23,8 @@ public class PayOrderCommand implements RequestCommand<SessionRequestContent> {
     @Override
     public String execute(SessionRequestContent content) throws CommandException {
         try {
-            if (paymentService.createOrUpdatePayment(content)) {
+            if (paymentService.validateForCreateOrUpdatePayment(content)) {
+                paymentService.createOrUpdatePayment(content);
                 paymentService.proceedToPayment(content);
                 return PagePath.PAYMENT_PAGE.getPage();
             } else {

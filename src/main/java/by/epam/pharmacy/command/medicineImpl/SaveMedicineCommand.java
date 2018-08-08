@@ -20,7 +20,8 @@ public class SaveMedicineCommand implements RequestCommand<SessionRequestContent
     @Override
     public String execute(SessionRequestContent content) throws CommandException {
         try {
-            if (medicineService.createOrUpdateMedicine(content)) {
+            if (medicineService.validateForCreateOrUpdateMedicine(content)) {
+                medicineService.createOrUpdateMedicine(content);
                 return PagePath.MEDICINE_LIST_PAGE.getPage();
             } else {
                 medicineService.findMedicineById(content);

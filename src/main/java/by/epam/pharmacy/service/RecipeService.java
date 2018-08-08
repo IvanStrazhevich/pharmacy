@@ -26,11 +26,15 @@ public interface RecipeService {
      *
      * @param content
      */
-    boolean approveRecipe(SessionRequestContent content) throws ServiceException;
+    void approveRecipe(SessionRequestContent content) throws ServiceException;
 
     /**
      * @param content
      */
     void deleteRecipe(SessionRequestContent content) throws ServiceException;
+
+    boolean validateForCreateRecipe(SessionRequestContent content) throws ServiceException;
+
+    boolean validateForApproveRecipe(SessionRequestContent content) throws ServiceException;
 }
 

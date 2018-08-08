@@ -48,11 +48,13 @@ public class InputValidatorTest {
     public Object[][] inputText() {
         return new Object[][]{
                 {"wedrsfvcn, hytredcvgb! g (sbhnmj) hfrtyuik, \\n mbvfcregf", true},
+                {"Аспирин", true},
+                {"от головы", true},
                 {"s,", true},
                 {"1", true},
                 {"", false},
                 {"a", true},
-                {"/", false}
+                {"/", true}
         };
     }
 

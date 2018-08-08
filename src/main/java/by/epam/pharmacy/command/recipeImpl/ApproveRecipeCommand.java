@@ -22,7 +22,8 @@ public class ApproveRecipeCommand implements RequestCommand<SessionRequestConten
     @Override
     public String execute(SessionRequestContent content) throws CommandException {
         try {
-            if (recipeService.approveRecipe(content)) {
+            if (recipeService.validateForApproveRecipe(content)) {
+                recipeService.approveRecipe(content);
                 recipeService.showRecipes(content);
                 return PagePath.RECIPE_LIST_PAGE.getPage();
             } else {

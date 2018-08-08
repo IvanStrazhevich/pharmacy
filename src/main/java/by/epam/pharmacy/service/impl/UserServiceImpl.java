@@ -102,7 +102,6 @@ public class UserServiceImpl implements UserService {
     public boolean createUser(SessionRequestContent content) throws ServiceException {
         String login = content.getRequestParameters().get(AttributeName.LOGIN.getAttribute());
         String password = content.getRequestParameters().get(AttributeName.PASSWORD.getAttribute());
-
         String shalogin = null;
         String shaPassword = null;
         try (UserDaoImpl userDao = new UserDaoImpl();
@@ -205,6 +204,7 @@ public class UserServiceImpl implements UserService {
         content.getSessionAttributes().put(AttributeName.LOGGED.getAttribute(), null);
         content.getSessionAttributes().put(AttributeName.LOGIN.getAttribute(), null);
         content.getSessionAttributes().put(AttributeName.ACCESS_LEVEL.getAttribute(), null);
+        content.getSessionAttributes().put(AttributeName.NOT_AUTHORISED.getAttribute(), null);
     }
 
 
