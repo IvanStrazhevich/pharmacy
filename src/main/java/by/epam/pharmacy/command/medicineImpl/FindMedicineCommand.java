@@ -1,8 +1,8 @@
 package by.epam.pharmacy.command.medicineImpl;
 
 import by.epam.pharmacy.command.RequestCommand;
-import by.epam.pharmacy.exception.CommandException;
 import by.epam.pharmacy.command.SessionRequestContent;
+import by.epam.pharmacy.exception.CommandException;
 
 /**
  *

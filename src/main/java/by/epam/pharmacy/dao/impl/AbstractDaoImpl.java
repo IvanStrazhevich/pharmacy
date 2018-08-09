@@ -75,6 +75,7 @@ public abstract class AbstractDaoImpl<T> implements AbstractDao<T> {
     /**
      * puts proxy connection back to pool
      */
+    @Override
     public void close() {
         if (proxyConnection != null) {
             logger.info("closing dao");

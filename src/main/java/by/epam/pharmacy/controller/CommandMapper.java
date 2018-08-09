@@ -2,7 +2,8 @@ package by.epam.pharmacy.controller;
 
 import by.epam.pharmacy.command.CommandType;
 import by.epam.pharmacy.command.RequestCommand;
-import by.epam.pharmacy.command.impl.*;
+import by.epam.pharmacy.command.impl.LocaleSwitchCommand;
+import by.epam.pharmacy.command.impl.WelcomePageCommand;
 import by.epam.pharmacy.command.medicineImpl.*;
 import by.epam.pharmacy.command.orderImpl.*;
 import by.epam.pharmacy.command.paymentImpl.MakePaymentCommand;

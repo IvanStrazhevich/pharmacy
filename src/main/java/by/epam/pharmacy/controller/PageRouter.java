@@ -1,6 +1,9 @@
 package by.epam.pharmacy.controller;
 
-import by.epam.pharmacy.command.*;
+import by.epam.pharmacy.command.AttributeName;
+import by.epam.pharmacy.command.PagePath;
+import by.epam.pharmacy.command.RequestCommand;
+import by.epam.pharmacy.command.SessionRequestContent;
 import by.epam.pharmacy.exception.CommandException;
 import by.epam.pharmacy.exception.PharmacyServletException;
 import org.apache.logging.log4j.LogManager;
