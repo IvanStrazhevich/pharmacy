@@ -7,8 +7,8 @@ public class InputValidatorImpl implements InputValidator {
     private static Logger logger = LogManager.getLogger();
     private static final int VARCHAR_45 = 45;
     private static final int LONGTEXT = 65535;
-    private static final String TRUE ="true";
-    private static final String FALSE ="false";
+    private static final String TRUE = "true";
+    private static final String FALSE = "false";
     private static final String PASSWORD_REG = "(\\p{Punct}?\\w\\p{Punct}?){6,45}";
     private static final String POSTCODE_REG = "\\w{0,10}";
     private static final String WORD_REG = "\\w{1,45}";
@@ -19,6 +19,10 @@ public class InputValidatorImpl implements InputValidator {
     private static final String TIMESTAMP_REG = "((1\\d{3})|(20\\d{2}))-((0\\d)|(1[0-2]))-(([0-2]\\d)|(3[0-1])) (([0-1]\\d)|(2[0-3])):([0-5]\\d):([0-5]\\d)";
     private static final String INTEGER_REG = "\\d{1,11}";
 
+    /**
+     * @param string
+     * @return
+     */
     @Override
     public boolean validatePassword(String string) {
         if (string.matches(PASSWORD_REG)) {
@@ -28,11 +32,19 @@ public class InputValidatorImpl implements InputValidator {
         }
     }
 
+    /**
+     * @param string
+     * @return
+     */
     @Override
     public boolean validateWord(String string) {
         return string.matches(WORD_REG);
     }
 
+    /**
+     * @param string
+     * @return
+     */
     @Override
     public boolean validateEmail(String string) {
         if (string.matches(EMAIL_REG)) {
@@ -42,36 +54,56 @@ public class InputValidatorImpl implements InputValidator {
         }
     }
 
+    /**
+     * @param string
+     * @return
+     */
     @Override
     public boolean validatePhone(String string) {
         return string.matches(PHONE_REG);
     }
 
+    /**
+     * @param string
+     * @return
+     */
     @Override
     public boolean validatePostcode(String string) {
         return string.matches(POSTCODE_REG);
     }
 
+    /**
+     * @param string
+     * @return
+     */
     @Override
     public boolean validateText(String string) {
-        if (string.matches(TEXT_REG)) {
-            return validateLength(LONGTEXT, string);
-        } else {
-            return false;
-        }
+        return string.matches(TEXT_REG);
+
     }
 
-
+    /**
+     * @param string
+     * @return
+     */
     @Override
     public boolean validateInteger(String string) {
         return string.matches(INTEGER_REG);
     }
 
+    /**
+     * @param string
+     * @return
+     */
     @Override
     public boolean validateDecimal(String string) {
         return string.matches(DECIMAL_REG);
     }
 
+    /**
+     * @param string
+     * @return
+     */
     @Override
     public boolean validateTimeStamp(String string) {
         boolean isTimastamp = false;
@@ -90,14 +122,23 @@ public class InputValidatorImpl implements InputValidator {
         return isTimastamp;
     }
 
+    /**
+     * @param length
+     * @param string
+     * @return
+     */
     @Override
     public boolean validateLength(int length, String string) {
         return string.length() <= length;
     }
 
+    /**
+     * @param string
+     * @return
+     */
     @Override
     public boolean validateBoolean(String string) {
-        return string.equalsIgnoreCase(TRUE)||string.equalsIgnoreCase(FALSE);
+        return string.equalsIgnoreCase(TRUE) || string.equalsIgnoreCase(FALSE);
     }
 
     private boolean isLeapYear(Integer year) {

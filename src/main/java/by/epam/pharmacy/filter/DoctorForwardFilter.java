@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 
+ *
  */
 @WebFilter(dispatcherTypes = {
         DispatcherType.FORWARD,
@@ -25,26 +25,23 @@ import java.io.IOException;
 public class DoctorForwardFilter implements Filter {
     private static Logger logger = LogManager.getLogger();
     private static final String MESSAGE = "message.not.authorised";
-    private String indexPath;
 
     /**
-     * 
-     * @param fConfig 
+     * @param fConfig
      */
     public void init(FilterConfig fConfig) throws ServletException {
 
     }
 
     /**
-     * 
-     * @param request 
-     * @param response 
-     * @param chain 
+     * @param request
+     * @param response
+     * @param chain
      */
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
-        logger.info("Doctor page filter Works");
+        logger.debug("Doctor page filter Works");
         if (httpRequest.getSession().getAttribute(AttributeName.ACCESS_LEVEL.getAttribute()) == null
                 || !httpRequest.getSession().getAttribute(AttributeName.ACCESS_LEVEL.getAttribute())
                 .equals(AccessLevel.DOCTOR.getLevel())) {
@@ -57,7 +54,7 @@ public class DoctorForwardFilter implements Filter {
     }
 
     /**
-     * 
+     *
      */
     public void destroy() {
     }

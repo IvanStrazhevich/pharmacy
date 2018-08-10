@@ -30,11 +30,16 @@ public interface MedicineService {
     void removeMedicineFromDataBase(SessionRequestContent content) throws ServiceException;
 
     /**
-     * @throws ServiceException
      * @param content
+     * @throws ServiceException
      */
     void removeMedicineFromAvailableList(SessionRequestContent content) throws ServiceException;
 
+    /**
+     * @param content
+     * @return boolean
+     * @throws ServiceException
+     */
     boolean validateForCreateOrUpdateMedicine(SessionRequestContent content) throws ServiceException;
 }
 

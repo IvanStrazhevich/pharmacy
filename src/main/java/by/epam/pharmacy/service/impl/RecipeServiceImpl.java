@@ -25,10 +25,10 @@ import java.util.ArrayList;
  *
  */
 public class RecipeServiceImpl implements RecipeService {
+    private static Logger logger = LogManager.getLogger();
     private static final String MESSAGE = "message.recipeRequested";
     private static final String MESSAGE_DELETED = "message.recipeDeleted";
     private static final String MESSAGE_VALIDATION = "message.validationError";
-    private static Logger logger = LogManager.getLogger();
     private UserService userService = new UserServiceImpl();
     private OrderService orderService = new OrderServiceImpl();
     private InputValidator validator = new InputValidatorImpl();
@@ -203,6 +203,13 @@ public class RecipeServiceImpl implements RecipeService {
      */
     public void setOrderService(OrderService orderService) {
         this.orderService = orderService;
+    }
+
+    /**
+     * @param validator
+     */
+    public void setValidator(InputValidator validator) {
+        this.validator = validator;
     }
 }
 

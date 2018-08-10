@@ -6,45 +6,50 @@ import by.epam.pharmacy.exception.ServiceException;
 
 public interface UserService {
     /**
-     *
      * @param content
      */
     boolean createUser(SessionRequestContent content) throws ServiceException;
+
     /**
-     *
      * @param content
      */
     boolean checkUserExist(SessionRequestContent content) throws ServiceException;
+
     /**
-     * 
-     * @param login 
+     * @param login
      */
     String checkUserAccessLevel(String login) throws ServiceException;
+
     /**
-     *
      * @param content
      */
     boolean checkLogin(SessionRequestContent content) throws ServiceException;
+
     /**
-     * 
-     * @param content 
+     * @param content
      */
     void showUsersAndAccess(SessionRequestContent content) throws ServiceException;
+
     /**
-     * 
-     * @param content 
+     * @param content
      */
     void showUserAccessLvl(SessionRequestContent content) throws ServiceException;
+
     /**
-     * 
-     * @param content 
+     * @param content
      */
     void saveAccessLvl(SessionRequestContent content) throws ServiceException;
+
     /**
-     * 
+     * @return
+     * @throws ServiceException
      */
     User findDefaultDoctor() throws ServiceException;
 
+    /**
+     * @param content
+     * @throws ServiceException
+     */
     void invalidateSession(SessionRequestContent content) throws ServiceException;
 }
 

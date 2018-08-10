@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSessionBindingEvent;
  */
 @WebListener
 public class PharmacyAttributeSessionListener implements HttpSessionAttributeListener {
-    Logger logger = LogManager.getLogger();
+    private static Logger logger = LogManager.getLogger();
 
     /**
      * @param event

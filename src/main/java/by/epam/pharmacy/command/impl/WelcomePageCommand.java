@@ -18,7 +18,6 @@ public class WelcomePageCommand implements RequestCommand<SessionRequestContent>
      */
     @Override
     public String execute(SessionRequestContent content) {
-        String page = null;
         return PagePath.WELCOME_PAGE.getPage();
     }
 }

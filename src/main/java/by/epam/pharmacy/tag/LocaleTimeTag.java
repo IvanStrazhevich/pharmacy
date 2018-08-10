@@ -12,7 +12,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 /**
- * 
+ *
  */
 @SuppressWarnings("serial")
 public class LocaleTimeTag extends TagSupport {
@@ -22,15 +22,14 @@ public class LocaleTimeTag extends TagSupport {
     private String locale;
 
     /**
-     * 
-     * @param locale 
+     * @param locale
      */
     public void setLocale(String locale) {
         this.locale = locale;
     }
 
     /**
-     * 
+     *
      */
     @Override
     public int doStartTag() throws JspException {
@@ -55,7 +54,7 @@ public class LocaleTimeTag extends TagSupport {
     }
 
     /**
-     * 
+     *
      */
     @Override
     public int doEndTag() throws JspException {

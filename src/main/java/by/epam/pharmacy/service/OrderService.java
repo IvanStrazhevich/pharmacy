@@ -6,46 +6,45 @@ import by.epam.pharmacy.exception.ServiceException;
 
 public interface OrderService {
     /**
-     * 
-     * @param content 
+     * @param content
      */
     void addMedicineToOrder(SessionRequestContent content) throws ServiceException;
+
     /**
-     * 
-     * @param content 
+     * @param content
      */
     void showOrder(SessionRequestContent content) throws ServiceException;
+
     /**
-     * 
-     * @param content 
+     * @param content
      */
     void changeQuantity(SessionRequestContent content) throws ServiceException;
+
     /**
-     * 
-     * @param content 
+     * @param content
      */
     boolean removeMedicineFromOrder(SessionRequestContent content) throws ServiceException;
+
     /**
-     * 
-     * @param OrderHasMedicine 
+     * @param OrderHasMedicine
      */
     void updateRecipeAtOrderHasMedicine(OrderHasMedicine OrderHasMedicine) throws ServiceException;
+
     /**
-     * 
-     * @param orderId 
-     * @param medicineId 
+     * @param orderId
+     * @param medicineId
      */
     OrderHasMedicine findOrderHasMedicine(Integer orderId, Integer medicineId) throws ServiceException;
+
     /**
-     * 
-     * @param clientId 
+     * @param clientId
      */
     int findCurrentOrderIdByUserId(Integer clientId) throws ServiceException;
+
     /**
-     * 
-     * @param orderId 
-     * @param medicineId 
-     * @param medicineQuantity 
+     * @param orderId
+     * @param medicineId
+     * @param medicineQuantity
      */
     void changeQuantityFromRecipe(Integer orderId, Integer medicineId, Integer medicineQuantity) throws ServiceException;
 }

@@ -7,33 +7,31 @@ import javax.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
 
 /**
- * 
+ *
  */
 @SuppressWarnings("serial")
 public class GreetingTag extends TagSupport {
-    private String accessLevel;
-    private String login;
     private static final String MESSAGE = "message.welcomePage";
     private static final String MESSAGE_TO_USER = "message.userGreeting";
+    private String accessLevel;
+    private String login;
 
     /**
-     * 
-     * @param accessLevel 
+     * @param accessLevel
      */
     public void setAccessLevel(String accessLevel) {
         this.accessLevel = accessLevel;
     }
 
     /**
-     * 
-     * @param login 
+     * @param login
      */
     public void setLogin(String login) {
         this.login = login;
     }
 
     /**
-     * 
+     *
      */
     @Override
     public int doStartTag() throws JspException {

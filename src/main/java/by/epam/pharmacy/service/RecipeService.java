@@ -33,8 +33,18 @@ public interface RecipeService {
      */
     void deleteRecipe(SessionRequestContent content) throws ServiceException;
 
+    /**
+     * @param content
+     * @return boolean
+     * @throws ServiceException
+     */
     boolean validateForCreateRecipe(SessionRequestContent content) throws ServiceException;
 
+    /**
+     * @param content
+     * @return boolean
+     * @throws ServiceException
+     */
     boolean validateForApproveRecipe(SessionRequestContent content) throws ServiceException;
 }
 

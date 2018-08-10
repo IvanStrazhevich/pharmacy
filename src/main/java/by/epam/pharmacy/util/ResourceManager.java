@@ -9,23 +9,21 @@ public enum ResourceManager {
     private final String resourceName = "message";
 
     /**
-     * 
+     *
      */
     ResourceManager() {
         resourceBundle = ResourceBundle.getBundle(resourceName, Locale.getDefault());
     }
 
     /**
-     * 
-     * @param locale 
+     * @param locale
      */
     public void changeResource(Locale locale) {
         resourceBundle = ResourceBundle.getBundle(resourceName, locale);
     }
 
     /**
-     * 
-     * @param key 
+     * @param key
      */
     public String getString(String key) {
         return resourceBundle.getString(key);

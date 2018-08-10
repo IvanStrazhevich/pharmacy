@@ -20,13 +20,13 @@ import org.apache.logging.log4j.Logger;
 import java.math.BigDecimal;
 
 public class PaymentServiceImpl implements PaymentService {
+    private static Logger logger = LogManager.getLogger();
     private static final String MESSAGE_PAYED = "message.payed";
     private static final String MESSAGE_NOT_PAYED = "message.notPayed";
     private static final String MESSAGE_VALIDATION = "message.validationError";
     private static final int INITIAL_AMOUNT = 0;
     private Encodable encodable = new ShaConverter();
     private InputValidator validator = new InputValidatorImpl();
-    private static Logger logger = LogManager.getLogger();
 
     @Override
     public boolean validateForCreateOrUpdatePayment(SessionRequestContent content) throws ServiceException {

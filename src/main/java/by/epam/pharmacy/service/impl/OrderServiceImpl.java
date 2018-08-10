@@ -24,7 +24,6 @@ import java.util.ArrayList;
  *
  */
 public class OrderServiceImpl implements OrderService {
-
     private static final String MESSAGE_ADDED = "message.medicineAddedToOrder";
     private static final String MESSAGE_ADD = "message.chooseQuantity";
     private static final String MESSAGE_NEED_LOGIN = "message.needLogin";
@@ -123,7 +122,7 @@ public class OrderServiceImpl implements OrderService {
             for (OrderHasMedicine medicine : medicines) {
                 logger.info(medicine.getMedicineSum());
                 BigDecimal medicineSum = medicine.getMedicineSum();
-                orderSum=orderSum.add(medicineSum);
+                orderSum = orderSum.add(medicineSum);
             }
             logger.info(orderSum);
             order.setOrderSum(orderSum);

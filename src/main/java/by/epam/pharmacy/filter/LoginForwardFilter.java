@@ -16,12 +16,10 @@ import java.io.IOException;
  *
  */
 @WebFilter(dispatcherTypes = {
-        DispatcherType.FORWARD,/*
-        DispatcherType.REQUEST,*/
+        DispatcherType.FORWARD,
         DispatcherType.INCLUDE
 }, urlPatterns = {"/jsp/*"})
 public class LoginForwardFilter implements Filter {
-
     private static Logger logger = LogManager.getLogger();
     private static final String MESSAGE = "message.needLogin";
 
@@ -40,7 +38,7 @@ public class LoginForwardFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
-        logger.info("Check Login filter Works");
+        logger.debug("Check Login filter Works");
         String path = ((HttpServletRequest) request).getRequestURI();
         if (path.startsWith(httpRequest.getContextPath() + PagePath.LOGIN_PAGE.getPage())
                 || path.startsWith(httpRequest.getContextPath() + PagePath.REGISTER_PAGE.getPage())

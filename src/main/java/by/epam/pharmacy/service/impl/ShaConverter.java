@@ -8,20 +8,19 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * 
+ *
  */
 public class ShaConverter implements Encodable {
-    private static final String ENCODE="SHA-1";
+    private static final String ENCODE = "SHA-1";
 
     /**
-     * 
+     *
      */
     public ShaConverter() {
     }
 
     /**
-     * 
-     * @param string 
+     * @param string
      */
     @Override
     public String encode(String string) throws ServiceException {

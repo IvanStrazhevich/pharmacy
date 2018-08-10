@@ -14,11 +14,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class PaymentDaoImpl<T> extends AbstractDaoImpl<Payment> implements PaymentDao<Payment> {
+    private static Logger logger = LogManager.getLogger();
     private static final String SET_AMOUNT = "UPDATE client_amount set clam_amount_debit = ?, clam_amount_credit = ? WHERE user_id = ?";
     private static final String SET_ACCOUNT = "UPDATE pharmacy_account set phac_account_debet = ?, phac_account_credit = ? WHERE user_id = ?";
     private static final String SELECT_BY_ID_AMOUNT_PSTM = "select clam_amount_debit, clam_amount_credit from client_amount WHERE user_id = ?";
     private static final String SELECT_BY_ID_ACCOUNT_PSTM = "SELECT phac_account_debet, phac_account_credit FROM pharmacy_account WHERE  user_id =?";
-    private static Logger logger = LogManager.getLogger();
     private static final String SELECT_ALL_PSTM = "select payment_id, pmt_order_id, pmt_ord_sum, pmt_confirmed from `payment`";
     private static final String SELECT_BY_ID_PSTM = "select payment_id, pmt_order_id, pmt_ord_sum, pmt_confirmed from `payment` where payment_id = ?";
     private static final String SELECT_BY_ORDER_ID_PSTM = "select payment_id, pmt_order_id, pmt_ord_sum, pmt_confirmed from `payment` where pmt_order_id = ?";
@@ -84,7 +84,7 @@ public class PaymentDaoImpl<T> extends AbstractDaoImpl<Payment> implements Payme
             try {
                 proxyConnection.setAutoCommit(true);
             } catch (SQLException e) {
-                throw new DaoException("AutoCommit true not settled", e);
+                logger.error("AutoCommit true not settled", e);
             }
         }
         return transfered;

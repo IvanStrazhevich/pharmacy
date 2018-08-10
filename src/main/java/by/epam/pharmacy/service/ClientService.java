@@ -14,6 +14,11 @@ public interface ClientService {
      */
     void findClientDetail(SessionRequestContent content) throws ServiceException;
 
+    /**
+     * @param content
+     * @return boolean
+     * @throws ServiceException
+     */
     boolean validateForCreateClientDetail(SessionRequestContent content) throws ServiceException;
 }
 

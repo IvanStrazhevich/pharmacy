@@ -73,8 +73,11 @@ public class UserDaoTest {
     @Test
     public void testFindEntityById() throws DaoException {
         userDao.create(user);
-        User actual = userDao.findEntityById(userDao.findLastInsertId());
+        int userId = userDao.findLastInsertId();
+        user.setUserId(userId);
+        User actual = userDao.findEntityById(userId);
         Assert.assertEquals(user, actual);
+        userDao.delete(user);
     }
 
     /**
@@ -125,7 +128,8 @@ public class UserDaoTest {
     @Test
     public void testUpdate() throws DaoException {
         userDao.create(user);
-        User expected = userDao.findEntityById(userDao.findLastInsertId());
+        int userId = userDao.findLastInsertId();
+        User expected = userDao.findEntityById(userId);
         expected.setLogin("Mike");
         userDao.update(expected);
         logger.info("exp: " + expected);

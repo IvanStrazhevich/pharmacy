@@ -50,7 +50,6 @@ public class PageRouter {
                 logger.info(page);
                 if (page != null) {
                     content.insertAttributes(request);
-                    logger.info(request.getAttribute(AttributeName.USERS.getAttribute()));
                     if (request.getRequestDispatcher(page) != null) {
                         logger.info("forwarded");
                         request.getRequestDispatcher(page).forward(request, response);

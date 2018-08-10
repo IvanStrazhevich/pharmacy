@@ -27,7 +27,6 @@ public class UserServiceImpl implements UserService {
     private static final String MESSAGE_USER_EXIST = "message.userExist";
     private static final String MESSAGE_USER_REGISTERED = "message.userRegistered";
     private static final String MESSAGE_USER_NOT_REGISTERED = "message.userNotRegistered";
-
     private Encodable encoder = new ShaConverter();
 
     /**
