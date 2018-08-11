@@ -1,6 +1,7 @@
 package by.epam.pharmacy.dao.impl;
 
 import by.epam.pharmacy.connection.ProxyConnection;
+import by.epam.pharmacy.dao.ClientDetailDao;
 import by.epam.pharmacy.entity.ClientDetail;
 import by.epam.pharmacy.exception.DaoException;
 import org.apache.logging.log4j.LogManager;
@@ -14,13 +15,15 @@ import java.util.ArrayList;
 /**
  * ClientDetail implementations for AbstractDao
  */
-public class ClientDetailDaoImpl extends AbstractDaoImpl<ClientDetail> {
+public class ClientDetailDaoImpl extends AbstractDaoImpl<ClientDetail> implements ClientDetailDao<ClientDetail>{
     private static Logger logger = LogManager.getLogger();
-    private static final String SELECT_ALL_PSTM = "select user_id, cl_name, cl_lastname, cl_email, cl_phone, cl_postcode, cl_country, cl_city, cl_address from client_detail";
-    private static final String SELECT_BY_ID_PSTM = "select user_id, cl_name, cl_lastname, cl_email, cl_phone, cl_postcode, cl_country, cl_city, cl_address from client_detail where user_id = ?";
+    private static final String SELECT_ALL_PSTM = "select user_id, cl_name, cl_lastname, cl_email, cl_phone, cl_postcode, cl_country, cl_city, cl_address, cl_photo from client_detail";
+    private static final String SELECT_BY_ID_PSTM = "select user_id, cl_name, cl_lastname, cl_email, cl_phone, cl_postcode, cl_country, cl_city, cl_address, cl_photo from client_detail where user_id = ?";
     private static final String INSERT_PSTM = "insert into client_detail(user_id, cl_name, cl_lastname, cl_email, cl_phone, cl_postcode, cl_country, cl_city, cl_address) values(?,?,?,?,?,?,?,?,?)";
     private static final String DELETE_PSTM = "delete from client_detail where user_id = ?";
     private static final String UPDATE_PSTM = "update client_detail set cl_name = ?, cl_lastname = ?, cl_email = ?, cl_phone = ?, cl_postcode = ?, cl_country = ?, cl_city = ?, cl_address = ? where user_id = ?";
+    private static final String UPDATE_PHOTO_PSTM = "update client_detail set cl_photo = ? where user_id = ?";
+
     private ProxyConnection proxyConnection;
 
     /**
@@ -29,6 +32,22 @@ public class ClientDetailDaoImpl extends AbstractDaoImpl<ClientDetail> {
     public ClientDetailDaoImpl() throws DaoException {
         proxyConnection = super.proxyConnection;
     }
+
+    @Override
+    public boolean updatePhoto(ClientDetail entity) throws DaoException {
+        boolean success = false;
+        try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(UPDATE_PHOTO_PSTM)) {
+            preparedStatement.setString(1, entity.getPhoto());
+            preparedStatement.setInt(2,entity.getClientId());
+            preparedStatement.executeUpdate();
+            success = true;
+        } catch (SQLException e) {
+            throw new DaoException("Exception on update Photo", e);
+        }
+        return success;
+    }
+
+
 
     /**
      * Finds all entries of ClientDetails in database
@@ -52,6 +71,7 @@ public class ClientDetailDaoImpl extends AbstractDaoImpl<ClientDetail> {
                 clientDetail.setCountry(resultSet.getString(7));
                 clientDetail.setCity(resultSet.getString(8));
                 clientDetail.setAddress(resultSet.getString(9));
+                clientDetail.setPhoto(resultSet.getString(10));
                 clientDetailList.add(clientDetail);
             }
         } catch (SQLException e) {
@@ -83,6 +103,7 @@ public class ClientDetailDaoImpl extends AbstractDaoImpl<ClientDetail> {
                 clientDetail.setCountry(resultSet.getString(7));
                 clientDetail.setCity(resultSet.getString(8));
                 clientDetail.setAddress(resultSet.getString(9));
+                clientDetail.setPhoto(resultSet.getString(10));
             }
         } catch (SQLException e) {
             throw new DaoException("Exception on find by id", e);

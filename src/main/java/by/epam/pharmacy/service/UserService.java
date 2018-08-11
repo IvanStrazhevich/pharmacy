@@ -51,5 +51,6 @@ public interface UserService {
      * @throws ServiceException
      */
     void invalidateSession(SessionRequestContent content) throws ServiceException;
+
 }
 

@@ -6,16 +6,14 @@
 <fmt:setBundle basename="message"/>
 <html>
 <head>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/pharmacy.css">
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="css/bootstrap.css" rel="stylesheet">
     <title><fmt:message key="label.button.WelcomePage"/></title>
 </head>
 <body>
 <c:import url="/WEB-INF/HeaderPage.jsp"/>
-<div class="container-fluid" style="flex-direction:column; float: left">
-    <c:import url="/WEB-INF/LeftSidePage.jsp"/>
-</div>
 <h4>
 ${notAuthorised}
 ${userRegistered}

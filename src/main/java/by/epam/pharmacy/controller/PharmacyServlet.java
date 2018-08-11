@@ -4,6 +4,7 @@ package by.epam.pharmacy.controller;
 import by.epam.pharmacy.command.SessionRequestContent;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -14,11 +15,19 @@ import java.io.IOException;
  *
  */
 @WebServlet(name = "PharmacyServlet",
-        urlPatterns = {"/"})
-/*@MultipartConfig(location = ""//The directory location where files will be stored
+        urlPatterns = {"/ErrorPage","/LoginPage","/jsp/RegisterPage",
+                "/EditUserDataPage","/ClientDetailPage",
+                "/WelcomePage", "/MissedFilePage", "/RecipeApprovalPage.",
+                "/RecipeListPage", "/EditMedicinePage",
+                "/EditUserAccessLevelPage", "/UserListPage",
+                "/EditOrderPage", "/FindMedicinePage",
+                "/OrderPage", "/HeaderPage","/FooterPage",
+                "/CheckLogin",
+                "/index", "/MedicineListPage","/PaymentPage"})
+@MultipartConfig(location = ""//The directory location where files will be stored
         , fileSizeThreshold = 1024 * 1024
         , maxFileSize = 1024 * 1024 * 5
-        , maxRequestSize = 1024 * 1024 * 5 * 5)*/
+        , maxRequestSize = 1024 * 1024 * 5 * 5)
 public class PharmacyServlet extends HttpServlet {
     private PageRouter pageRouter = new PageRouter();
 

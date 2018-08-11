@@ -1,5 +1,6 @@
 package by.epam.pharmacy.entity;
 
+
 /**
  * 
  */
@@ -14,6 +15,7 @@ public class ClientDetail extends Entity {
     private String country;
     private String city;
     private String address;
+    private String photo;
 
     /**
      * 
@@ -156,31 +158,33 @@ public class ClientDetail extends Entity {
         this.address = address;
     }
 
-    /**
-     * 
-     * @param o 
-     */
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ClientDetail clientDetail = (ClientDetail) o;
+        ClientDetail that = (ClientDetail) o;
 
-        if (clientId != clientDetail.clientId) return false;
-        if (name != null ? !name.equals(clientDetail.name) : clientDetail.name != null) return false;
-        if (lastname != null ? !lastname.equals(clientDetail.lastname) : clientDetail.lastname != null) return false;
-        if (email != null ? !email.equals(clientDetail.email) : clientDetail.email != null) return false;
-        if (phone != null ? !phone.equals(clientDetail.phone) : clientDetail.phone != null) return false;
-        if (postcode != null ? !postcode.equals(clientDetail.postcode) : clientDetail.postcode != null) return false;
-        if (country != null ? !country.equals(clientDetail.country) : clientDetail.country != null) return false;
-        if (city != null ? !city.equals(clientDetail.city) : clientDetail.city != null) return false;
-        return address != null ? address.equals(clientDetail.address) : clientDetail.address == null;
+        if (clientId != that.clientId) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (lastname != null ? !lastname.equals(that.lastname) : that.lastname != null) return false;
+        if (email != null ? !email.equals(that.email) : that.email != null) return false;
+        if (phone != null ? !phone.equals(that.phone) : that.phone != null) return false;
+        if (postcode != null ? !postcode.equals(that.postcode) : that.postcode != null) return false;
+        if (country != null ? !country.equals(that.country) : that.country != null) return false;
+        if (city != null ? !city.equals(that.city) : that.city != null) return false;
+        if (address != null ? !address.equals(that.address) : that.address != null) return false;
+        return photo != null ? photo.equals(that.photo) : that.photo == null;
     }
 
-    /**
-     * 
-     */
     @Override
     public int hashCode() {
         int result = clientId;
@@ -192,12 +196,10 @@ public class ClientDetail extends Entity {
         result = 31 * result + (country != null ? country.hashCode() : 0);
         result = 31 * result + (city != null ? city.hashCode() : 0);
         result = 31 * result + (address != null ? address.hashCode() : 0);
+        result = 31 * result + (photo != null ? photo.hashCode() : 0);
         return result;
     }
 
-    /**
-     * 
-     */
     @Override
     public String toString() {
         return "ClientDetail{" +
@@ -210,6 +212,7 @@ public class ClientDetail extends Entity {
                 ", country='" + country + '\'' +
                 ", city='" + city + '\'' +
                 ", address='" + address + '\'' +
+                ", photo=" + photo +
                 '}';
     }
 }

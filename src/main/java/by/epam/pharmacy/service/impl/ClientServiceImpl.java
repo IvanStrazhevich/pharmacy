@@ -16,6 +16,11 @@ import by.epam.pharmacy.util.ResourceManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Part;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -23,16 +28,67 @@ import java.util.ArrayList;
  */
 public class ClientServiceImpl implements ClientService {
     private static Logger logger = LogManager.getLogger();
+    private static final String UPLOAD_DIR = "upload";
     private static final String MESSAGE_VALIDATION = "message.validationError";
     private static final int VARCHAR45 = 45;
     private Encodable encoder = new ShaConverter();
     private InputValidator validator = new InputValidatorImpl();
 
+    public void findClientDetailFromPhotoUpload(HttpServletRequest request) throws ServiceException {
+        try (ClientDetailDaoImpl clientDetailDao = new ClientDetailDaoImpl()) {
+            if (request.getSession().getAttribute(AttributeName.LOGIN.getAttribute()) != null) {
+                int clientId = findClientId(request.getSession().getAttribute(AttributeName.LOGIN.getAttribute()).toString());
+                ClientDetail clientDetail = clientDetailDao.findEntityById(clientId);
+                logger.info(clientDetail);
+                request.getSession().setAttribute(AttributeName.USER.getAttribute(), clientDetail);
+            }
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public void downloadPhoto(HttpServletRequest request) throws ServiceException {
+        String applicationPath = request.getServletContext().getRealPath("");
+        int clientId = findClientId(request.getSession().getAttribute(AttributeName.LOGIN.getAttribute()).toString());
+        String userUploadDir = UPLOAD_DIR + request.getSession().getAttribute(AttributeName.LOGIN.getAttribute()).toString();
+        String uploadFilePath = applicationPath + userUploadDir;
+        String filename = null;
+        File fileSaveDir = new File(uploadFilePath);
+        if (!fileSaveDir.exists()) {
+            fileSaveDir.mkdirs();
+        }
+        try (ClientDetailDaoImpl clientDetailDao = new ClientDetailDaoImpl()) {
+            ClientDetail clientDetail = new ClientDetail();
+            if (null != request.getParts()) {
+                for (Part part : request.getParts()) {
+                    if (part.getSubmittedFileName() != null) {
+                        part.write(uploadFilePath + File.separator + part.getSubmittedFileName());
+                        filename = part.getSubmittedFileName();
+                    }
+                }
+            }
+            String photo = /*getClass().getResource("").getPath() + */userUploadDir + File.separator + filename;
+            request.getSession().removeAttribute(AttributeName.PHOTO.getAttribute());
+            logger.info(photo);
+            clientDetail.setPhoto(photo);
+            clientDetail.setClientId(clientId);
+            logger.info(clientDetail);
+            clientDetailDao.updatePhoto(clientDetail);
+        } catch (ServletException e) {
+            throw new ServiceException("ServletException while download", e);
+        } catch (IOException e) {
+            throw new ServiceException("IOException", e);
+        } catch (DaoException e) {
+            throw new ServiceException("Dao exception at save", e);
+        }
+
+    }
 
     /**
      * @param login
      */
-    private int findClientId(String login) throws ServiceException {
+    public int findClientId(String login) throws ServiceException {
         try (UserDaoImpl userDao = new UserDaoImpl()) {
             String shaLogin = encoder.encode(login);
             User user = userDao.findUserByLogin(shaLogin);

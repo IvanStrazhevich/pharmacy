@@ -23,27 +23,6 @@ public class SaveClientDetailCommand implements RequestCommand<SessionRequestCon
      */
     @Override
     public String execute(SessionRequestContent content) throws CommandException {
-        /*String applicationPath = request.getServletContext().getRealPath("");
-        String uploadFilePath = applicationPath + UPLOAD_DIR;
-        String filename = null;
-        File fileSaveDir = new File(uploadFilePath);
-        if (!fileSaveDir.exists()) {
-            fileSaveDir.mkdirs();
-        }
-        try{
-        if (null != request.getParts()) {
-            for (Part part : request.getParts()) {
-                if (null != part.getSubmittedFileName()) {
-                    part.write(uploadFilePath + File.separator + part.getSubmittedFileName());
-                    filename = part.getSubmittedFileName();
-                }
-            }
-        }
-        } catch (ServletException e) {
-            throw new CommandException("ServletException",e);
-        } catch (IOException e) {
-            throw new CommandException("IOException",e);
-        }*/
         String page = null;
         try {
             if (clientService.validateForCreateClientDetail(content)) {

@@ -22,7 +22,7 @@ public enum AttributeName {
     MEDICINE_DELETED("medicineDeleted"), ORDER_SUM("orderSum"),
     PAYMENT("payment"), ACCOUNT("account"), PAYMENT_ID("paymentId"),
     ACCOUNT_DEBIT("accountDebit"), ACCOUNT_CREDIT("accountCredit"), PAYED("payed"),
-    VALIDATION_ERROR("validationError");
+    VALIDATION_ERROR("validationError"), PHOTO("photo");
 
     private String attribute;
 

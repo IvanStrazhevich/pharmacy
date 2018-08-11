@@ -12,7 +12,7 @@ public enum CommandType {
     REMOVE_MEDICINE_FROM_BASE("RemoveMedicineFromBase"),
     FIND_MEDICINE("FindMedicine"), EDIT_ORDER("EditOrder"), ADD_MEDICINE_TO_ORDER("AddMedicineToOrder"),
     CHANGE_QUANTITY("ChangeQuantity"), DEMAND_RECIPE("DemandRecipe"), DELETE_RECIPE("DeleteRecipe"),
-    REMOVE_FROM_AVAILABLE("RemoveFromAvailable");
+    REMOVE_FROM_AVAILABLE("RemoveFromAvailable"), UPLOAD_PHOTO("UploadPhoto");
     private String command;
 
     /**

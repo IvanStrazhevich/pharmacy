@@ -48,7 +48,9 @@ public class PharmacyAttributeSessionListener implements HttpSessionAttributeLis
             logger.debug(session.getAttribute(AttributeName.ACCESS_LEVEL.getAttribute()));
             session.removeAttribute(AttributeName.NOT_AUTHORISED.getAttribute());
             logger.debug(session.getAttribute(AttributeName.NOT_AUTHORISED.getAttribute()));
+            session.removeAttribute(AttributeName.PHOTO.getAttribute());
             logger.debug(session.getId());
+
             session.invalidate();
         } else {
             logger.debug("logout listener not worked" + event.getSession().getAttribute(AttributeName.LOGOUT.getAttribute()));

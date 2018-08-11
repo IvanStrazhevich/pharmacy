@@ -8,7 +8,7 @@
 <head>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/pharmacy.css" rel="stylesheet">
     <title><fmt:message key="label.button.EditUserPage"/></title>
 </head>
@@ -35,7 +35,7 @@ ${validationError}
                 <div class="form-group input-group input-group-lg col-md-8 col-md-offset-2 col-xs-12">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-upload"></span></span>
 
-                    <input type="hidden" name="action" value="UploadResult">
+                    <input type="hidden" name="action" value="UploadPhoto">
                     <input class="form-control btn btn-success" type="submit"
                            value="<fmt:message key="label.button.uploadfile"/>">
                 </div>

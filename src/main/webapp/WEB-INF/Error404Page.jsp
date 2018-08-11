@@ -6,7 +6,7 @@
 <fmt:setBundle basename="message"/>
 <html>
 <head>
-    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/pharmacy.css">
 
     <title><fmt:message key="label.button.ErrorPage"/>
@@ -14,7 +14,7 @@
 </head>
 <body>
 <fmt:message key="message.pagenotfound"/>
-<p><img src="img/eddie.gif" alt="Sorry, we alredy fix this" width="1000" height="500"></p>
+<p><img src="img/eddie.gif" alt="Sorry, we are already fixing this" width="1000" height="600"></p>
 <div>
     <form action="WelcomePage" method="post">
         <input type="hidden" name="action" value="WelcomePage">

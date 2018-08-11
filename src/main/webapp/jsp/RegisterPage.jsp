@@ -6,9 +6,10 @@
 <fmt:setBundle basename="message"/>
 <html>
 <head>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/pharmacy.css">
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/pharmacy.css" rel="stylesheet">
     <title><fmt:message key="label.button.RegisterPage"/>
         <hr>

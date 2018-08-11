@@ -1,9 +1,6 @@
 package by.epam.pharmacy.controller;
 
-import by.epam.pharmacy.command.AttributeName;
-import by.epam.pharmacy.command.PagePath;
-import by.epam.pharmacy.command.RequestCommand;
-import by.epam.pharmacy.command.SessionRequestContent;
+import by.epam.pharmacy.command.*;
 import by.epam.pharmacy.exception.CommandException;
 import by.epam.pharmacy.exception.PharmacyServletException;
 import org.apache.logging.log4j.LogManager;
@@ -41,22 +38,29 @@ public class PageRouter {
      */
     void redirectToPage(HttpServletRequest request, HttpServletResponse response, SessionRequestContent content) throws IOException, ServletException {
         String action = content.getRequestParameters().get(AttributeName.ACTION.getAttribute());
+        String page = null;
         if (action != null) {
             RequestCommand requestCommand = servletMap.get(action);
             logger.debug(action);
-            String page = null;
             try {
-                page = requestCommand.execute(content);
-                logger.info(page);
-                if (page != null) {
-                    content.insertAttributes(request);
+                if (action.equals(CommandType.UPLOAD_PHOTO.getCommand())) {
+                    page = requestCommand.execute(request);
                     if (request.getRequestDispatcher(page) != null) {
-                        logger.info("forwarded");
                         request.getRequestDispatcher(page).forward(request, response);
                     }
                 } else {
-                    if (request.getRequestDispatcher(PagePath.ERROR_PAGE.getPage()) != null) {
-                        response.sendRedirect(request.getContextPath() + PagePath.ERROR_PAGE.getPage());
+                    page = requestCommand.execute(content);
+                    logger.info(page);
+                    if (page != null) {
+                        content.insertAttributes(request);
+                        if (request.getRequestDispatcher(page) != null) {
+                            logger.info("forwarded");
+                            request.getRequestDispatcher(page).forward(request, response);
+                        }
+                    } else {
+                        if (request.getRequestDispatcher(PagePath.ERROR_PAGE.getPage()) != null) {
+                            response.sendRedirect(request.getContextPath() + PagePath.ERROR_PAGE.getPage());
+                        }
                     }
                 }
             } catch (CommandException e) {

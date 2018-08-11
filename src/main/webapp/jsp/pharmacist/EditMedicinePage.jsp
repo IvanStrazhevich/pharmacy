@@ -8,8 +8,7 @@
 <head>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta charset="utf-8">
-    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
     <title><fmt:message key="label.button.EditMedicine"/></title>
 </head>
 <body>
@@ -48,21 +47,21 @@
                         <td>${med.medicineId}</td>
                     </c:if>
                     <td><input type="text" name="medicineName" value="${med.medicineName}"
-                               placeholder="${med.medicineName}" maxlength="45" size="10"></td>
+                               pattern=".{1,45}" placeholder="${med.medicineName}" maxlength="45" size="10"></td>
                     <td><input type="text" name="description" value="${med.description}"
-                               placeholder="${med.description}" maxlength="65000" size="15">
+                               pattern=".{1,65535}" placeholder="${med.description}" maxlength="65535" size="15">
                     </td>
                     <td><input type="text" name="dosage" value="${med.dosage}" placeholder="${med.dosage}" maxlength="5"
-                               size="5"></td>
+                               pattern="\d{1,6}(\.\d{0,2})?" size="5"></td>
                     <td><input type="text" name="recipeRequired" value="${med.recipeRequired}"
-                               placeholder="${med.recipeRequired}" maxlength="5" size="5"></td>
+                               pattern="\w{1,5}" placeholder="${med.recipeRequired}" maxlength="5" size="5"></td>
                     <td><input type="text" name="price" value="${med.price}" placeholder="${med.price}" maxlength="8"
-                               size="10">
+                               pattern="\d{1,6}(\.\d{0,2})?" size="10">
                     </td>
                     <td><input type="text" name="available" value="${med.available}" placeholder="${med.available}"
-                               maxlength="5" size="5"></td>
-                    <td><input type="text" name="quantityAtStorage" value="${med.quantityAtStorage}"
-                               placeholder="${med.quantityAtStorage}" maxlength="11" size="5"></td>
+                               pattern="\w{1,5}" maxlength="5" size="5"></td>
+                    <td><input type="number" name="quantityAtStorage" value="${med.quantityAtStorage}"
+                               pattern="\d{1,11}" placeholder="${med.quantityAtStorage}" maxlength="11" size="5"></td>
                     <td>
                         <input type="submit" class="form-group btn btn-success"
                                value="<fmt:message key="label.button.confirm"/>">

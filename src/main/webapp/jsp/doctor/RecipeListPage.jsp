@@ -8,8 +8,8 @@
 <head>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="css/bootstrap.css" rel="stylesheet">
     <link rel="stylesheet" href=“css/normalize.css">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/pharmacy.css">
     <title><fmt:message key="label.button.RecipeListPage"/></title>
 </head>
@@ -62,6 +62,6 @@ ${recipeDeleted}
 </div>
 <div style="float: bottom"><c:import url="/WEB-INF/FooterPage.jsp"/></div>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
-<script src="js/bootstrap.min.js"></script>
+<script src="WEB-INF/js/bootstrap.min.js"></script>
 </body>
 </html>

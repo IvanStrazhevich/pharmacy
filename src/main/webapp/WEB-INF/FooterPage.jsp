@@ -5,7 +5,7 @@
 <fmt:setBundle basename="message"/>
 <html>
 <head>
-    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/pharmacy.css">
     <title><fmt:message key="label.button.FooterPage"/></title>
 </head>

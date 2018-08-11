@@ -47,6 +47,7 @@ public class UserServiceImpl implements UserService {
                 content.getSessionAttributes().put(AttributeName.LOGGED.getAttribute(), AttributeName.LOGGED.getAttribute());
                 content.getSessionAttributes().put(AttributeName.ACCESS_LEVEL.getAttribute(), checkUserAccessLevel(login));
                 content.getSessionAttributes().put(AttributeName.LOGIN.getAttribute(), login);
+                content.getSessionAttributes().put(AttributeName.PHOTO.getAttribute(), null);
                 content.getRequestAttributes().put(AttributeName.GREETING.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE_SUCCESS));
                 content.getSessionAttributes().put(AttributeName.NEED_REGISTER.getAttribute(), null);
                 content.getSessionAttributes().put(AttributeName.NEED_LOGIN.getAttribute(), null);
@@ -57,6 +58,8 @@ public class UserServiceImpl implements UserService {
         }
         return logged;
     }
+
+
 
     /**
      * @param login

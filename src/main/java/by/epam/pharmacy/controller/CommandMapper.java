@@ -58,6 +58,7 @@ public class CommandMapper {
         servletMap.put(CommandType.PAY_ORDER.getCommand(), new PayOrderCommand());
         servletMap.put(CommandType.MAKE_PAYMENT.getCommand(), new MakePaymentCommand());
         servletMap.put(CommandType.REMOVE_FROM_AVAILABLE.getCommand(), new RemoveFromAvailableList());
+        servletMap.put(CommandType.UPLOAD_PHOTO.getCommand(), new UploadPhoto());
     }
 
     /**

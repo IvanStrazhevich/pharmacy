@@ -31,8 +31,9 @@ public class RequestFilter implements Filter {
         String action = httpRequest.getParameter("action");
         String path = httpRequest.getRequestURI();
         logger.info(path);
-        if (httpRequest.getMethod().equals("GET")
+        if (httpRequest.getMethod().equals("GET") && action != null
                 && !path.startsWith(httpRequest.getContextPath() + PagePath.INDEX_PAGE.getPage())
+                && !path.startsWith(httpRequest.getContextPath() + PagePath.ERROR_PAGE.getPage())
                 && !path.equals(START_POINT)) {
             logger.info(action);
             for (CommandType command : CommandType.values()) {

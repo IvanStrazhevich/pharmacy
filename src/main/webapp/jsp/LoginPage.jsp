@@ -8,7 +8,7 @@
 <head>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/pharmacy.css" rel="stylesheet">
     <title><fmt:message key="label.button.LoginPage"/>
         <hr>
@@ -38,7 +38,7 @@ ${validationError}
                     <span class="input-group-addon"><span class="glyphicon glyphicon-eye-close"></span></span>
                     <input class="form-control" id="password" type="password" name="password" size="15" maxlength="45"
                            title="Enter at least 6 symbols"
-                           pattern="\w{6,45}" required placeholder="<fmt:message key="message.enter.password"/>">
+                           pattern="(\w){6,45}" required placeholder="<fmt:message key="message.enter.password"/>">
                 </div>
                 <input type="hidden" name="action" value="CheckLogin">
                 <div class="form-group input-group input-group-lg col-md-8 col-md-offset-2 col-xs-12">
