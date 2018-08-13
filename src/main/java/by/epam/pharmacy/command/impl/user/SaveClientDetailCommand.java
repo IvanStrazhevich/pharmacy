@@ -29,7 +29,6 @@ public class SaveClientDetailCommand implements RequestCommand<SessionRequestCon
                 clientService.createClientDetail(content);
                 page = PagePath.CLIENT_DETAIL_PAGE.getPage();
             } else {
-                clientService.findClientDetail(content);
                 page = PagePath.EDIT_USER_DATA_PAGE.getPage();
             }
         } catch (ServiceException e) {

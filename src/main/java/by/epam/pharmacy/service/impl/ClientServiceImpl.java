@@ -30,6 +30,7 @@ public class ClientServiceImpl implements ClientService {
     private static Logger logger = LogManager.getLogger();
     private static final String UPLOAD_DIR = "upload/avatars/";
     private static final String MESSAGE_VALIDATION = "message.validationError";
+    private static final String SEPARATOR = " ";
     private static final int VARCHAR45 = 45;
     private Encodable encoder = new ShaConverter();
     private InputValidator validator = new InputValidatorImpl();
@@ -119,21 +120,44 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public boolean validateForCreateClientDetail(SessionRequestContent content) throws ServiceException {
         boolean validated = false;
-        if (validator.validateWord(content.getRequestParameters().get(AttributeName.NAME.getAttribute()))
-                && validator.validateWord(content.getRequestParameters().get(AttributeName.LASTNAME.getAttribute()))
-                && validator.validateEmail(content.getRequestParameters().get(AttributeName.EMAIL.getAttribute()))
-                && validator.validatePhone(content.getRequestParameters().get(AttributeName.PHONE.getAttribute()))
-                && validator.validatePostcode(content.getRequestParameters().get(AttributeName.POSTCODE.getAttribute()))
-                && validator.validateWord(content.getRequestParameters().get(AttributeName.COUNTRY.getAttribute()))
-                && validator.validateWord(content.getRequestParameters().get(AttributeName.CITY.getAttribute()))
-                && validator.validateText(content.getRequestParameters().get(AttributeName.ADDRESS.getAttribute()))
-                && validator.validateLength(VARCHAR45, content.getRequestParameters().get(AttributeName.ADDRESS.getAttribute()))) {
-            validated = true;
+        StringBuffer validationMessage = new StringBuffer(ResourceManager.INSTANCE.getString(MESSAGE_VALIDATION));
+        ClientDetail clientDetailTemp = new ClientDetail();
+        clientDetailTemp.setClientId(findClientId(content.getSessionAttributes().get(AttributeName.LOGIN.getAttribute()).toString()));
+        clientDetailTemp.setName(content.getRequestParameters().get(AttributeName.NAME.getAttribute()));
+        clientDetailTemp.setLastname(content.getRequestParameters().get(AttributeName.LASTNAME.getAttribute()));
+        clientDetailTemp.setEmail(content.getRequestParameters().get(AttributeName.EMAIL.getAttribute()));
+        clientDetailTemp.setPhone(content.getRequestParameters().get(AttributeName.PHONE.getAttribute()));
+        clientDetailTemp.setPostcode(content.getRequestParameters().get(AttributeName.POSTCODE.getAttribute()));
+        clientDetailTemp.setCountry(content.getRequestParameters().get(AttributeName.COUNTRY.getAttribute()));
+        clientDetailTemp.setCity(content.getRequestParameters().get(AttributeName.CITY.getAttribute()));
+        clientDetailTemp.setAddress(content.getRequestParameters().get(AttributeName.ADDRESS.getAttribute()));
+        if (!validator.validateWord(content.getRequestParameters().get(AttributeName.NAME.getAttribute()))) {
+            validationMessage.append(AttributeName.NAME.getAttribute() + SEPARATOR);
+        } else if (!validator.validateWord(content.getRequestParameters().get(AttributeName.LASTNAME.getAttribute()))) {
+            validationMessage.append(AttributeName.LASTNAME.getAttribute() + SEPARATOR);
+        } else if (!validator.validateEmail(content.getRequestParameters().get(AttributeName.EMAIL.getAttribute()))) {
+            validationMessage.append(AttributeName.EMAIL.getAttribute() + SEPARATOR);
+        } else if (!validator.validatePhone(content.getRequestParameters().get(AttributeName.PHONE.getAttribute()))) {
+            validationMessage.append(AttributeName.PHONE.getAttribute() + SEPARATOR);
+        } else if (!validator.validatePostcode(content.getRequestParameters().get(AttributeName.POSTCODE.getAttribute()))) {
+            validationMessage.append(AttributeName.POSTCODE.getAttribute() + SEPARATOR);
+        } else if (!validator.validateText(content.getRequestParameters().get(AttributeName.COUNTRY.getAttribute()))
+                || !validator.validateLength(VARCHAR45, content.getRequestParameters().get(AttributeName.CITY.getAttribute()))) {
+            validationMessage.append(AttributeName.COUNTRY.getAttribute() + SEPARATOR);
+        } else if (!validator.validateText(content.getRequestParameters().get(AttributeName.CITY.getAttribute()))
+                || !validator.validateLength(VARCHAR45, content.getRequestParameters().get(AttributeName.COUNTRY.getAttribute()))) {
+            validationMessage.append(AttributeName.CITY.getAttribute() + SEPARATOR);
+        } else if (!validator.validateText(content.getRequestParameters().get(AttributeName.ADDRESS.getAttribute()))
+                || !validator.validateLength(VARCHAR45, content.getRequestParameters().get(AttributeName.ADDRESS.getAttribute()))) {
+            validationMessage.append(AttributeName.ADDRESS.getAttribute());
         } else {
-            content.getRequestAttributes().put(AttributeName.VALIDATION_ERROR.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE_VALIDATION));
+            validated = true;
         }
+        content.getRequestAttributes().put(AttributeName.USER.getAttribute(), clientDetailTemp);
+        content.getRequestAttributes().put(AttributeName.VALIDATION_ERROR.getAttribute(), (validationMessage.toString()));
         return validated;
     }
+
 
     /**
      * @param content

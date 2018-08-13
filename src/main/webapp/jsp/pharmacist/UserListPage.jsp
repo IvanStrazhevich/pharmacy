@@ -34,7 +34,7 @@
                     <td>${us.clientDetail.name}</td>
                     <td>${us.clientDetail.lastname}</td>
                     <td>
-                        <form action="EditAccessLevelPage" method="post">
+                        <form action="EditUserAccessLevelPage" method="post">
                             <input type="submit" class="btn btn-primary"
                                    value="<fmt:message key="label.button.EditUserAccessLevel"/>">
                             <input type="hidden" name="action" value="EditAccessLevel">

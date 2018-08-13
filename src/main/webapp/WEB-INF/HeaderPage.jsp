@@ -31,44 +31,6 @@
                        value="<fmt:message key="label.button.Logout"/>">
             </div>
         </form>
-        <form class="navbar-form navbar-right" action="WelcomePage" method="post">
-            <input type="hidden" name="action" value="SetLocale">
-            <input type="hidden" name="lang" value="be_BY"></input>
-            <div class="form-group input-group input-group-lg col-md-8 col-md-offset-0 col-xs-12">
-                <input type="submit" class="form-control btn btn-primary" value="<fmt:message key="label.button.be"/>">
-            </div>
-        </form>
-        <form class="navbar-form navbar-right" action="WelcomePage" method="post">
-            <input type="hidden" name="action" value="SetLocale">
-            <input type="hidden" name="lang" value="ru_RU"></input>
-            <div class="form-group input-group input-group-lg col-md-0 col-md-offset-0 col-xs-12">
-                <input type="submit" class="form-control btn btn-primary" value="<fmt:message key="label.button.ru"/>">
-            </div>
-        </form>
-        <form class="navbar-form navbar-right" action="WelcomePage" method="post">
-            <input type="hidden" name="action" value="SetLocale">
-            <input type="hidden" name="lang" value="en_US"></input>
-            <div class="form-group input-group input-group-lg col-md-8 col-md-offset-0 col-xs-12">
-                <input type="submit" class="form-control btn btn-primary" value="<fmt:message key="label.button.en"/>">
-            </div>
-        </form>
-
-        <%--<form class="navbar-form navbar-left" action="WelcomePage" method="post">
-            <input type="hidden" name="action" value="SetLocale">
-            <div>
-                <select class="form-control btn-primary" name="lang">
-                    <option value="be_BY"><fmt:message key="label.button.be"/></option>
-                    <option value="ru_RU"><fmt:message key="label.button.ru"/></option>
-                    <option value="en_US"><fmt:message key="label.button.en"/></option>
-                </select>
-            </div>
-            <div class="form-group input-group input-group-lg col-md-8 col-md-offset-0 col-xs-12">
-                <input type="submit" class="form-control btn btn-primary"
-                       value="<fmt:message key="label.button.language"/> ">
-            </div>
-        </form>
---%>
-
         <c:if test="${logged==null}">
             <form class="navbar-form navbar-right" action="LoginPage" method="post">
                 <input type="hidden" name="action" value="LoginPage">
@@ -86,7 +48,14 @@
             </form>
         </c:if>
         <c:if test="${logged!=null}">
-            <p class="navbar-text btn-success" style="background: #5cb85c">
+            <form class="navbar-form navbar-right" action="EditUserDataPage" method="post">
+                <input type="hidden" name="action" value="EditUserDataPage">
+                <div class="form-group input-group input-group-lg col-md-8 col-md-offset-0 col-xs-12">
+                    <input class=" form-control btn btn-success" type="submit"
+                           value="<fmt:message key="label.button.EditUserPage"/>">
+                </div>
+            </form>
+            <p class="navbar-right navbar-text btn-success" style="background: #5cb85c">
                 <pht:hello accessLevel="${sessionScope.accessLevel}" login="${login}" photo="${photo}"/>
             </p>
         </c:if>
@@ -111,15 +80,7 @@
                 </form>
             </c:if>
             <c:if test="${logged!=null}">
-
-                <form class="navbar-form navbar-left" action="EditUserDataPage" method="post">
-                    <input type="hidden" name="action" value="EditUserDataPage">
-                    <div class="form-group input-group input-group-lg col-md-8 col-md-offset-0 col-xs-12">
-                        <input class=" form-control btn btn-success" type="submit"
-                               value="<fmt:message key="label.button.EditUserPage"/>">
-                    </div>
-                </form>
-                <c:if test="${accessLevel!='pharmacist'}">
+                <c:if test="${sessionScope.accessLevel!='pharmacist'}">
                     <form class="navbar-form navbar-left" action="EditOrderPage" method="post">
                         <input type="hidden" name="action" value="EditOrder">
                         <div class="form-group input-group input-group-lg col-md-8 col-md-offset-0 col-xs-12">

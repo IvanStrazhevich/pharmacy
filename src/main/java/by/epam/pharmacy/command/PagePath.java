@@ -16,7 +16,7 @@ public enum PagePath {
     EDIT_ORDER_PAGE("/jsp/EditOrderPage.jsp"),
     FIND_MEDICINE_PAGE("/jsp/FindMedicinePage.jsp"),
     ORDER_PAGE("/jsp/OrderPage.jsp"),
-    HEADER_PAGE("WEB-INF/HeaderPage.jsp"),
+    HEADER_PAGE("/HeaderPage.jsp"),
     FOOTER_PAGE("/FooterPage.jsp"),
     INDEX_PAGE("/index.jsp"), MEDICINE_LIST_PAGE("/jsp/MedicineListPage.jsp"),
     PAYMENT_PAGE("/jsp/PaymentPage.jsp");

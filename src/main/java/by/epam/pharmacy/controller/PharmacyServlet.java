@@ -15,9 +15,9 @@ import java.io.IOException;
  *
  */
 @WebServlet(name = "PharmacyServlet",
-        urlPatterns = {"/ErrorPage","/LoginPage","/jsp/RegisterPage",
+        urlPatterns = {"/ErrorPage","/LoginPage","/RegisterPage",
                 "/EditUserDataPage","/ClientDetailPage",
-                "/WelcomePage", "/MissedFilePage", "/RecipeApprovalPage.",
+                "/WelcomePage", "/MissedFilePage", "/RecipeApprovalPage",
                 "/RecipeListPage", "/EditMedicinePage",
                 "/EditUserAccessLevelPage", "/UserListPage",
                 "/EditOrderPage", "/FindMedicinePage",
@@ -26,7 +26,7 @@ import java.io.IOException;
                 "/index", "/MedicineListPage","/PaymentPage"})
 @MultipartConfig(location = ""//The directory location where files will be stored
         , fileSizeThreshold = 1024 * 1024
-        , maxFileSize = 1024 * 1024 * 5
+        , maxFileSize = 1024 * 1024 * 10
         , maxRequestSize = 1024 * 1024 * 5 * 5)
 public class PharmacyServlet extends HttpServlet {
     private PageRouter pageRouter = new PageRouter();

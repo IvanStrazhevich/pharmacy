@@ -47,46 +47,46 @@ ${validationError}
                     <span class="input-group-addon"><span class="glyphicon glyphicon-inbox"></span></span>
 
                     <input class="form-control" id="email" type="email" name="email" value="${us.email}"
-                           placeholder="<fmt:message key="message.enter.email"/>" maxlength="45">
+                           pattern="\w{1,}@\w{3,}\.\w{2,4}" required placeholder="<fmt:message key="message.enter.email"/>" maxlength="45">
                 </div>
                 <div class="form-group input-group input-group-lg">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
 
                     <input class="form-control" id="name" type="text" name="name" value="${us.name}"
-                           placeholder="<fmt:message key="message.enter.name"/>"
+                           pattern=".{1,45}" required placeholder="<fmt:message key="message.enter.name"/>"
                            maxlength="45">
                 </div>
                 <div class="form-group input-group input-group-lg">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
 
                     <input class="form-control" id="lastname" type="text" name="lastname" value="${us.lastname}"
-                           placeholder="<fmt:message key="message.enter.lastname"/>" maxlength="45">
+                           pattern=".{1,45}" required placeholder="<fmt:message key="message.enter.lastname"/>" maxlength="45">
                 </div>
                 <div class="form-group input-group input-group-lg">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-phone"></span></span>
 
                     <input class="form-control" id="phone" type="text" name="phone" value="${us.phone}"
                            placeholder="<fmt:message key="message.enter.phone"/>"
-                           maxlength="15">
+                           pattern="\+?\d{10,15}" required maxlength="15">
                 </div>
                 <div class="form-group input-group input-group-lg">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-home"></span></span>
 
                     <input class="form-control" id="postcode" type="text" name="postcode" value="${us.postcode}"
-                           placeholder="<fmt:message key="message.enter.postcode"/>" maxlength="10">
+                           pattern="(\w-?){1,10}" required placeholder="<fmt:message key="message.enter.postcode"/>" maxlength="10">
                 </div>
                 <div class="form-group input-group input-group-lg">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-home"></span></span>
 
                     <input class="form-control" id="country" type="text" name="country" value="${us.country}"
-                           placeholder="<fmt:message key="message.enter.country"/>"
+                           pattern=".{1,45}" required placeholder="<fmt:message key="message.enter.country"/>"
                            maxlength="45">
                 </div>
                 <div class="form-group input-group input-group-lg">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-home"></span></span>
 
                     <input class="form-control" id="city" type="text" name="city" value="${us.city}"
-                           placeholder="<fmt:message key="message.enter.city"/>"
+                           pattern=".{1,45}" required placeholder="<fmt:message key="message.enter.city"/>"
                            maxlength="45">
 
                 </div>
@@ -94,7 +94,7 @@ ${validationError}
                     <span class="input-group-addon"><span class="glyphicon glyphicon-home"></span></span>
 
                     <input class="form-control" id="address" type="text" name="address" value="${us.address}"
-                           placeholder="<fmt:message key="message.enter.address"/>"
+                           pattern=".{1,45}" required placeholder="<fmt:message key="message.enter.address"/>"
                            maxlength="45">
                 </div>
                 <div class="form-group input-group input-group-lg col-md-8 col-md-offset-2 col-xs-12">

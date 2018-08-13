@@ -46,7 +46,7 @@ public class GreetingTag extends TagSupport {
                 } else {
                     greeting = ResourceManager.INSTANCE.getString(MESSAGE) + login + "<br>"
                             + ResourceManager.INSTANCE.getString(MESSAGE_TO_USER) + " " + accessLevel
-                            + "<p><img src=\"" + photo + "\" alt=\"Sorry, we are already fixing this\" width=\"60\" height=\"60\" class=\"img-fluid rounded-circle\"></p>";
+                            + "<p><img src=\"" + photo + "\" alt=\"Sorry, we are already fixing this\" width=\"60\" height=\"60\" class=\"img-fluid rounded-circle; navbar-right\"></p>";
                 }
             }
             pageContext.getOut().write(greeting);
