@@ -142,9 +142,11 @@ public class ClientServiceImpl implements ClientService {
         clientDetailTemp.setCountry(content.getRequestParameters().get(AttributeName.COUNTRY.getAttribute()));
         clientDetailTemp.setCity(content.getRequestParameters().get(AttributeName.CITY.getAttribute()));
         clientDetailTemp.setAddress(content.getRequestParameters().get(AttributeName.ADDRESS.getAttribute()));
-        if (!validator.validateWord(content.getRequestParameters().get(AttributeName.NAME.getAttribute()))) {
+        if (!validator.validateText(content.getRequestParameters().get(AttributeName.NAME.getAttribute()))
+                || !validator.validateLength(VARCHAR45, content.getRequestParameters().get(AttributeName.NAME.getAttribute()))) {
             validationMessage.append(AttributeName.NAME.getAttribute() + SEPARATOR);
-        } else if (!validator.validateWord(content.getRequestParameters().get(AttributeName.LASTNAME.getAttribute()))) {
+        } else if (!validator.validateWord(content.getRequestParameters().get(AttributeName.LASTNAME.getAttribute()))
+                || !validator.validateLength(VARCHAR45, content.getRequestParameters().get(AttributeName.LASTNAME.getAttribute()))) {
             validationMessage.append(AttributeName.LASTNAME.getAttribute() + SEPARATOR);
         } else if (!validator.validateEmail(content.getRequestParameters().get(AttributeName.EMAIL.getAttribute()))) {
             validationMessage.append(AttributeName.EMAIL.getAttribute() + SEPARATOR);
