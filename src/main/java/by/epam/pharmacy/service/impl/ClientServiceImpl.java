@@ -27,6 +27,9 @@ import java.util.ArrayList;
  *
  */
 public class ClientServiceImpl implements ClientService {
+    private static final String MESSAGE_FILE_VALIDATION = "message.fileTooLarge";
+    private static final String MAX_FILE_SIZE_TEXT = "10 MB";
+    private static final long MAX_FILE_SIZE = 1024*1024*10;
     private static Logger logger = LogManager.getLogger();
     private static final String UPLOAD_DIR = "upload/avatars/";
     private static final String MESSAGE_VALIDATION = "message.validationError";
@@ -50,6 +53,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public void uploadPhoto(HttpServletRequest request) throws ServiceException {
+        StringBuffer validationMessage = new StringBuffer(ResourceManager.INSTANCE.getString(MESSAGE_FILE_VALIDATION));
         String applicationPath = request.getServletContext().getRealPath("");
         int clientId = findClientId(request.getSession().getAttribute(AttributeName.LOGIN.getAttribute()).toString());
         String userUploadDir = UPLOAD_DIR + request.getSession().getAttribute(AttributeName.LOGIN.getAttribute()).toString();
@@ -70,12 +74,19 @@ public class ClientServiceImpl implements ClientService {
                 }
             }
             String photo = /*getClass().getResource("").getPath() + */userUploadDir + File.separator + filename;
-            request.getSession().removeAttribute(AttributeName.PHOTO.getAttribute());
-            logger.info(photo);
-            clientDetail.setPhoto(photo);
-            clientDetail.setClientId(clientId);
-            logger.info(clientDetail);
-            clientDetailDao.updatePhoto(clientDetail);
+            File file = new File(applicationPath + userUploadDir + File.separator + filename);
+            logger.info(file.length());
+            if (file.length() <= MAX_FILE_SIZE) {
+                request.getSession().removeAttribute(AttributeName.PHOTO.getAttribute());
+                logger.info(photo);
+                clientDetail.setPhoto(photo);
+                clientDetail.setClientId(clientId);
+                logger.info(clientDetail);
+                clientDetailDao.updatePhoto(clientDetail);
+            } else {
+                request.setAttribute(AttributeName.VALIDATION_ERROR.getAttribute(), (validationMessage.append(MAX_FILE_SIZE_TEXT)));
+            }
+
         } catch (ServletException e) {
             throw new ServiceException("ServletException while download", e);
         } catch (IOException e) {
@@ -162,7 +173,7 @@ public class ClientServiceImpl implements ClientService {
     /**
      * @param content
      */
-    public void createClientDetail(SessionRequestContent content) throws ServiceException {
+    public void createOrUpdateClientDetails(SessionRequestContent content) throws ServiceException {
         try (ClientDetailDaoImpl clientDetailDao = new ClientDetailDaoImpl()) {
             ArrayList<ClientDetail> details = new ArrayList<>();
             ClientDetail clientDetail = new ClientDetail();

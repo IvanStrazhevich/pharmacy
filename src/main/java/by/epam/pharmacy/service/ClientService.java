@@ -9,7 +9,7 @@ public interface ClientService {
     /**
      * @param content
      */
-    void createClientDetail(SessionRequestContent content) throws ServiceException;
+    void createOrUpdateClientDetails(SessionRequestContent content) throws ServiceException;
 
     /**
      * @param content

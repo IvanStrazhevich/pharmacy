@@ -26,7 +26,7 @@ public class SaveClientDetailCommand implements RequestCommand<SessionRequestCon
         String page = null;
         try {
             if (clientService.validateForCreateClientDetail(content)) {
-                clientService.createClientDetail(content);
+                clientService.createOrUpdateClientDetails(content);
                 page = PagePath.CLIENT_DETAIL_PAGE.getPage();
             } else {
                 page = PagePath.EDIT_USER_DATA_PAGE.getPage();

@@ -48,7 +48,6 @@ public class PharmacyServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request,
                          HttpServletResponse response) throws ServletException, IOException {
-        /*response.sendRedirect(request.getContextPath() + PagePath.INDEX_PAGE.getPage());*/
         handleRequest(request, response);
     }
 
