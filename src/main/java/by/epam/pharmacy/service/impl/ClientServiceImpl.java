@@ -28,7 +28,7 @@ import java.util.ArrayList;
  */
 public class ClientServiceImpl implements ClientService {
     private static Logger logger = LogManager.getLogger();
-    private static final String UPLOAD_DIR = "upload";
+    private static final String UPLOAD_DIR = "upload/avatars/";
     private static final String MESSAGE_VALIDATION = "message.validationError";
     private static final int VARCHAR45 = 45;
     private Encodable encoder = new ShaConverter();
@@ -48,7 +48,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public void downloadPhoto(HttpServletRequest request) throws ServiceException {
+    public void uploadPhoto(HttpServletRequest request) throws ServiceException {
         String applicationPath = request.getServletContext().getRealPath("");
         int clientId = findClientId(request.getSession().getAttribute(AttributeName.LOGIN.getAttribute()).toString());
         String userUploadDir = UPLOAD_DIR + request.getSession().getAttribute(AttributeName.LOGIN.getAttribute()).toString();

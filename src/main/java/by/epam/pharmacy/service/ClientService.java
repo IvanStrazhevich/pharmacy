@@ -23,7 +23,7 @@ public interface ClientService {
      */
     boolean validateForCreateClientDetail(SessionRequestContent content) throws ServiceException;
 
-    void downloadPhoto(HttpServletRequest request) throws ServiceException;
+    void uploadPhoto(HttpServletRequest request) throws ServiceException;
 
     void findClientDetailFromPhotoUpload(HttpServletRequest request) throws ServiceException;
     public int findClientId(String login) throws ServiceException;
