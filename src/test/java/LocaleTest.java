@@ -16,9 +16,9 @@ import java.util.ResourceBundle;
 public class LocaleTest {
     private StringBuffer stringBuffer;
     private static Logger logger = LogManager.getLogger();
-    private static final String CORRECT_LINE = "Вітаем!\nСпіс лекаў\n" +
-            "Welcome!\nMedicine List\n" +
-            "Добро пожаловать!\nСписок препаратов\n";
+    private static final String CORRECT_LINE = "Вітаем! \nСпіс лекаў\n" +
+            "Hello there! \nMedicine List\n" +
+            "Добро пожаловать! \nПрепараты\n";
 
     /**
      * 
