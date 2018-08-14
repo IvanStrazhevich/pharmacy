@@ -27,7 +27,7 @@ ${validationError}
 <div class="container container-table">
     <div class="row vertical-center-row">
         <div class="col-md-4 col-md-offset-4">
-            <form accept-charset="utf-8" action="RegisterUser" method=post>
+            <form accept-charset="utf-8" action="WelcomePage" method=post>
                 <div class="form-group input-group input-group-lg">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
 
@@ -42,7 +42,7 @@ ${validationError}
 
                     <input class="form-control" id="password" type="password" name="password" size="15" maxlength="45"
                            title="<fmt:message key="message.passwordRule"/>"
-                           pattern="(\p{Punct}?\w\p{Punct}?){6,45}" required placeholder="<fmt:message key="message.enter.password"/>">
+                           pattern="(\w){6,45}" required placeholder="<fmt:message key="message.enter.password"/>">
                 </div>
                 <input type="hidden" name="action" value="RegisterUser">
                 <div class="form-group input-group input-group-lg col-md-8 col-md-offset-2 col-xs-12">

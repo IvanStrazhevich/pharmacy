@@ -17,11 +17,11 @@
 <body>
 <c:import url="/WEB-INF/HeaderPage.jsp"/>
 <h4>
-${notAuthorised}
-${userNotRegistered}
-${needRegister}
-${needLogin}
-${validationError}
+    ${notAuthorised}
+    ${userNotRegistered}
+    ${needRegister}
+    ${needLogin}
+    ${validationError}
 </h4>
 <div class="container container-table">
     <div class="row vertical-center-row">
@@ -29,18 +29,20 @@ ${validationError}
             <c:set value="${payment}" var="pmt"/>
             <c:set value="${account}" var="acc"/>
             <form action="EditOrderPage" method=post>
+
+                <label for="credit"> <fmt:message key="label.creditpayment"/></label>
                 <div class="form-group input-group input-group-lg">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-credit-card"></span></span>
-
-                    <input class="form-control" type="number" name="accountCredit" size="11" maxlength="11"
+                    <input id="credit" class="form-control" type="number" name="accountCredit" size="11" maxlength="11"
                            required pattern="\d+(\.\d+)?" min="${acc.accountCredit}" max="${acc.accountCredit}"
                            title="Enter digits" placeholder="${acc.accountCredit}"
                            value="${acc.accountCredit}">
                 </div>
 
+                <label for="debit"> <fmt:message key="label.debitpayment"/></label>
                 <div class="form-group input-group input-group-lg">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
-                    <input class="form-control" type="number" name="accountDebit" size="11" maxlength="11"
+                    <input id="debit" class="form-control" type="number" name="accountDebit" size="11" maxlength="11"
                            required pattern="\d+(\.\d+)?" min="${acc.accountDebit}" max="${acc.accountDebit}"
                            title="Enter digits" placeholder="${acc.accountDebit}" value="${acc.accountDebit}">
                 </div>
