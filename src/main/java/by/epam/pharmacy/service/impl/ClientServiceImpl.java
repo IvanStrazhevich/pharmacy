@@ -44,7 +44,7 @@ public class ClientServiceImpl implements ClientService {
             if (request.getSession().getAttribute(AttributeName.LOGIN.getAttribute()) != null) {
                 int clientId = findClientId(request.getSession().getAttribute(AttributeName.LOGIN.getAttribute()).toString());
                 ClientDetail clientDetail = clientDetailDao.findEntityById(clientId);
-                logger.info(clientDetail);
+                logger.debug(clientDetail);
                 request.getSession().setAttribute(AttributeName.USER.getAttribute(), clientDetail);
             }
         } catch (DaoException e) {
@@ -54,7 +54,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public void uploadPhoto(HttpServletRequest request) throws ServiceException {
-        StringBuffer validationMessage = new StringBuffer(ResourceManager.INSTANCE.getString(MESSAGE_FILE_VALIDATION));
+        StringBuffer validationMessage = new StringBuffer();
         String applicationPath = request.getServletContext().getRealPath("");
         int clientId = findClientId(request.getSession().getAttribute(AttributeName.LOGIN.getAttribute()).toString());
         String userUploadDir = UPLOAD_DIR + request.getSession().getAttribute(AttributeName.LOGIN.getAttribute()).toString();
@@ -75,27 +75,28 @@ public class ClientServiceImpl implements ClientService {
                 }
             }
             String photo = /*getClass().getResource("").getPath() + */userUploadDir + File.separator + filename;
-            logger.info(photo);
+            logger.debug(photo);
             File file = new File(applicationPath + userUploadDir + File.separator + filename);
             if (file != null) {
-                logger.info(file.length());
+                logger.debug(file.length());
                 if (file.length() <= MAX_FILE_SIZE) {
                     request.getSession().removeAttribute(AttributeName.PHOTO.getAttribute());
-                    logger.info(photo);
+                    logger.debug(photo);
                     clientDetail.setPhoto(photo);
                     clientDetail.setClientId(clientId);
-                    logger.info(clientDetail);
+                    logger.debug(clientDetail);
                     clientDetailDao.updatePhoto(clientDetail);
                 } else {
-                    request.setAttribute(AttributeName.VALIDATION_ERROR.getAttribute(), (validationMessage.append(MAX_FILE_SIZE_TEXT)));
+                    request.setAttribute(AttributeName.VALIDATION_ERROR.getAttribute(), (validationMessage.append(ResourceManager.INSTANCE.getString(MESSAGE_FILE_VALIDATION)+MAX_FILE_SIZE_TEXT)));
                 }
             } else {
-                request.setAttribute(AttributeName.VALIDATION_ERROR.getAttribute(), (validationMessage.append(MESSAGE_NO_FILE_FOUND)));
+                request.setAttribute(AttributeName.VALIDATION_ERROR.getAttribute(), (validationMessage.append(ResourceManager.INSTANCE.getString(MESSAGE_NO_FILE_FOUND))));
             }
         } catch (ServletException e) {
             throw new ServiceException("ServletException while download", e);
         } catch (IOException e) {
-            logger.info("IO HAPPANNED");
+            logger.debug("IO HAPPANNED");
+            request.setAttribute(AttributeName.VALIDATION_ERROR.getAttribute(), (validationMessage.append(ResourceManager.INSTANCE.getString(MESSAGE_NO_FILE_FOUND))));
             throw new ServiceException("IOException", e);
         } catch (DaoException e) {
             throw new ServiceException("Dao exception at save", e);
@@ -110,7 +111,7 @@ public class ClientServiceImpl implements ClientService {
         try (UserDaoImpl userDao = new UserDaoImpl()) {
             String shaLogin = encoder.encode(login);
             User user = userDao.findUserByLogin(shaLogin);
-            logger.info("User id is " + user.getUserId());
+            logger.debug("User id is " + user.getUserId());
             return user.getUserId();
         } catch (DaoException e) {
             throw new ServiceException(e);
@@ -125,7 +126,7 @@ public class ClientServiceImpl implements ClientService {
             if (content.getSessionAttributes().get(AttributeName.LOGIN.getAttribute()) != null) {
                 int clientId = findClientId(content.getSessionAttributes().get(AttributeName.LOGIN.getAttribute()).toString());
                 ClientDetail clientDetail = clientDetailDao.findEntityById(clientId);
-                logger.info(clientDetail);
+                logger.debug(clientDetail);
                 content.getRequestAttributes().put(AttributeName.USER.getAttribute(),
                         clientDetail);
             }
@@ -194,19 +195,19 @@ public class ClientServiceImpl implements ClientService {
             clientDetail.setCity(content.getRequestParameters().get(AttributeName.CITY.getAttribute()));
             clientDetail.setAddress(content.getRequestParameters().get(AttributeName.ADDRESS.getAttribute()));
             clientDetail.setClientId(findClientId(content.getSessionAttributes().get(AttributeName.LOGIN.getAttribute()).toString()));
-            logger.info("Client detail: " + clientDetail);
+            logger.debug("Client detail: " + clientDetail);
             int id = clientDetail.getClientId();
-            logger.info(clientDetail.getClientId());
-            logger.info("if exist: " + clientDetailDao.findEntityById(clientDetail.getClientId()));
+            logger.debug(clientDetail.getClientId());
+            logger.debug("if exist: " + clientDetailDao.findEntityById(clientDetail.getClientId()));
             if (clientDetailDao.findEntityById(id).getClientId() == 0) {
-                logger.info("not exist, do create");
+                logger.debug("not exist, do create");
                 clientDetailDao.create(clientDetail);
             } else {
-                logger.info("exist, do update");
+                logger.debug("exist, do update");
                 clientDetailDao.update(clientDetail);
             }
             details.add(clientDetailDao.findEntityById(clientDetail.getClientId()));
-            logger.info("Output list: " + details);
+            logger.debug("Output list: " + details);
             content.getRequestAttributes().put(AttributeName.USER.getAttribute(),
                     clientDetailDao.findEntityById(clientDetail.getClientId()));
         } catch (DaoException e) {

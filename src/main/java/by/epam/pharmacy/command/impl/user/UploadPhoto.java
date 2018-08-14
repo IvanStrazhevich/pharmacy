@@ -26,14 +26,15 @@ public class UploadPhoto implements RequestCommand<HttpServletRequest> {
         } catch (ServiceException e) {
             logger.info("IO caught");
             throw new CommandException(e);
+        } finally {
+            try {
+                clientService.findClientDetailFromPhotoUpload(request);
+            } catch (ServiceException e) {
+                throw new CommandException(e);
+            }
+            logger.info("Continue after IO");
+            return PagePath.EDIT_USER_DATA_PAGE.getPage();
         }
-        try {
-            clientService.findClientDetailFromPhotoUpload(request);
-        } catch (ServiceException e) {
-            throw new CommandException(e);
-        }
-        logger.info("Continue after IO");
-        return PagePath.EDIT_USER_DATA_PAGE.getPage();
     }
 
     public void setClientService(ClientService clientService) {
