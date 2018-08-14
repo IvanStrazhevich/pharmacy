@@ -4,6 +4,12 @@ import by.epam.pharmacy.command.SessionRequestContent;
 import by.epam.pharmacy.exception.ServiceException;
 
 public interface MedicineService {
+
+    /**
+     * @param content
+     */
+    void findAllMedicinesLimit(SessionRequestContent content) throws ServiceException;
+
     /**
      * @param content
      */

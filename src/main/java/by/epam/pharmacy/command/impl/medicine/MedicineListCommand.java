@@ -20,7 +20,7 @@ public class MedicineListCommand implements RequestCommand<SessionRequestContent
     @Override
     public String execute(SessionRequestContent content) throws CommandException {
         try {
-            medicineService.findAllMedicines(content);
+            medicineService.findAllMedicinesLimit(content);
         } catch (ServiceException e) {
             throw new CommandException(e);
         }

@@ -5,21 +5,29 @@ import by.epam.pharmacy.exception.DaoException;
 
 import java.util.ArrayList;
 
-public interface MedicineDao<T> extends AbstractDao<T>{
+public interface MedicineDao<T> extends AbstractDao<T> {
     /**
-     * 
-     * @param name 
+     * @param name
      */
     ArrayList<Medicine> findMedicineByName(String name) throws DaoException;
+
     /**
-     * 
-     * @param entity 
+     * @param entity
      */
-    boolean setUnavailableByName (Medicine entity) throws DaoException;
+    boolean setUnavailableByName(Medicine entity) throws DaoException;
+
     /**
-     * 
-     * @param id 
+     * @param id
      */
-    boolean setUnavailableById(Integer id) throws  DaoException;
+    boolean setUnavailableById(Integer id) throws DaoException;
+
+    /**
+     *
+     * @param shift
+     * @param rawNumber
+     * @return
+     * @throws DaoException
+     */
+    ArrayList<Medicine> findAllLimit(int shift, int rawNumber) throws DaoException;
 }
 

@@ -17,6 +17,7 @@ import java.util.ArrayList;
  */
 public class MedicineDaoImpl extends AbstractDaoImpl<Medicine> implements MedicineDao<Medicine> {
     private static Logger logger = LogManager.getLogger();
+    private static final String SELECT_ALL_LIMIT_PSTM = "select  mdc_id, mdc_name, mdc_description, mdc_dosage, mdc_recipe_required, mdc_price, mdc_available, mdc_quantity from medicine order BY mdc_name limit ?,?";
     private static final String SELECT_ALL_PSTM = "select  mdc_id, mdc_name, mdc_description, mdc_dosage, mdc_recipe_required, mdc_price, mdc_available, mdc_quantity from medicine order BY mdc_name";
     private static final String SELECT_BY_ID_PSTM = "select mdc_id, mdc_name, mdc_description, mdc_dosage, mdc_recipe_required, mdc_price, mdc_available, mdc_quantity from medicine where mdc_id = ?";
     private static final String SELECT_BY_NAME_PSTM = "select mdc_id, mdc_name, mdc_description, mdc_dosage, mdc_recipe_required, mdc_price, mdc_available, mdc_quantity from medicine where mdc_name = ?";
@@ -27,10 +28,31 @@ public class MedicineDaoImpl extends AbstractDaoImpl<Medicine> implements Medici
     private ProxyConnection proxyConnection;
 
     /**
-     * 
+     *
      */
     public MedicineDaoImpl() throws DaoException {
         proxyConnection = super.proxyConnection;
+    }
+
+    /**
+     * @param shift
+     * @param rawNumber
+     * @return
+     * @throws DaoException
+     */
+    @Override
+    public ArrayList<Medicine> findAllLimit(int shift, int rawNumber) throws DaoException {
+        ArrayList<Medicine> medicineList = new ArrayList<>();
+        try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_ALL_LIMIT_PSTM)) {
+            preparedStatement.setInt(1, shift);
+            preparedStatement.setInt(2, rawNumber);
+            preparedStatement.execute();
+            ResultSet resultSet = preparedStatement.getResultSet();
+            fillMedicine(medicineList, resultSet);
+        } catch (SQLException e) {
+            throw new DaoException("Exception on find all limit", e);
+        }
+        return medicineList;
     }
 
     /**
@@ -75,9 +97,8 @@ public class MedicineDaoImpl extends AbstractDaoImpl<Medicine> implements Medici
     }
 
     /**
-     * 
-     * @param medicineList 
-     * @param resultSet 
+     * @param medicineList
+     * @param resultSet
      */
     private void fillMedicine(ArrayList<Medicine> medicineList, ResultSet resultSet) throws SQLException {
         while (resultSet.next()) {
@@ -108,15 +129,15 @@ public class MedicineDaoImpl extends AbstractDaoImpl<Medicine> implements Medici
             preparedStatement.setInt(1, id);
             preparedStatement.execute();
             ResultSet resultSet = preparedStatement.getResultSet();
-            while (resultSet.next()){
-            medicine.setMedicineId(resultSet.getInt(1));
-            medicine.setMedicineName(resultSet.getString(2));
-            medicine.setDescription(resultSet.getString(3));
-            medicine.setDosage(resultSet.getBigDecimal(4));
-            medicine.setRecipeRequired(resultSet.getBoolean(5));
-            medicine.setPrice(resultSet.getBigDecimal(6));
-            medicine.setAvailable(resultSet.getBoolean(7));
-            medicine.setQuantityAtStorage(resultSet.getInt(8));
+            while (resultSet.next()) {
+                medicine.setMedicineId(resultSet.getInt(1));
+                medicine.setMedicineName(resultSet.getString(2));
+                medicine.setDescription(resultSet.getString(3));
+                medicine.setDosage(resultSet.getBigDecimal(4));
+                medicine.setRecipeRequired(resultSet.getBoolean(5));
+                medicine.setPrice(resultSet.getBigDecimal(6));
+                medicine.setAvailable(resultSet.getBoolean(7));
+                medicine.setQuantityAtStorage(resultSet.getInt(8));
             }
         } catch (SQLException e) {
             throw new DaoException("Exception on find Medicine by id", e);
@@ -125,17 +146,15 @@ public class MedicineDaoImpl extends AbstractDaoImpl<Medicine> implements Medici
     }
 
     /**
-     *
      * @param id
      */
     @Override
     public boolean deleteById(int id) throws DaoException {
-        return deleteById(id,DELETE_PSTM);
+        return deleteById(id, DELETE_PSTM);
     }
 
     /**
-     * 
-     * @param entity 
+     * @param entity
      */
     @Override
     public boolean delete(Medicine entity) throws DaoException {
@@ -166,7 +185,7 @@ public class MedicineDaoImpl extends AbstractDaoImpl<Medicine> implements Medici
             preparedStatement.executeUpdate();
             success = true;
         } catch (SQLException e) {
-            throw new DaoException( "Exception on set unavailable By Id", e);
+            throw new DaoException("Exception on set unavailable By Id", e);
         }
         return success;
     }

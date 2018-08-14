@@ -27,6 +27,26 @@ public class MedicineServiceImpl implements MedicineService {
     private InputValidator validator = new InputValidatorImpl();
     private static Logger logger = LogManager.getLogger();
 
+
+    /**
+     * Finds all entries limited by 5 on page put ArrayList result in request
+     *
+     * @param content
+     */
+    @Override
+    public void findAllMedicinesLimit(SessionRequestContent content) throws ServiceException {
+        int rawQuantity = Integer.valueOf(content.getRequestParameters().get(
+                AttributeName.RAW_NUMBER.getAttribute()));
+        int shift = Integer.valueOf(content.getRequestParameters().get(
+                AttributeName.SHIFT.getAttribute()));
+        try (MedicineDaoImpl medicineDao = new MedicineDaoImpl()) {
+            ArrayList<Medicine> medicines = medicineDao.findAllLimit(shift, rawQuantity);
+            content.getRequestAttributes().put(AttributeName.MEDICINES.getAttribute(), medicines);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
     /**
      * Finds all entries put ArrayList result in request
      *

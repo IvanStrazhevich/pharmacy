@@ -15,15 +15,12 @@
 </head>
 <body>
 <c:import url="/WEB-INF/HeaderPage.jsp"/>
-<div class="container-fluid" style="flex-direction:column; float: left ">
-    <c:import url="/WEB-INF/LeftSidePage.jsp"/>
-</div>
 <h4>
-${medicineAdded}
-${needLogin}
-${medicineDeleted}
-${validationError}
-${notAuthorised}
+    ${medicineAdded}
+    ${needLogin}
+    ${medicineDeleted}
+    ${validationError}
+    ${notAuthorised}
 </h4>
 <div class="table-responsive">
     <h6>
@@ -39,12 +36,14 @@ ${notAuthorised}
                 <th><fmt:message key="label.header.quantityAvailable"/></th>
                 <th><fmt:message key="label.header.choose"/></th>
                 <c:if test="${accessLevel!='pharmacist'}">
-                <th colspan="3"></th>
+                    <th colspan="3"></th>
                 </c:if>
             </tr>
+            <c:set var="rawNumber" value="${rawNumber}"/>
+            <c:set var="raw" value="${shift}"/>
             <c:forEach items="${medicines}" var="meds">
                 <tr>
-                    <td>${meds.medicineId}</td>
+                    <td>${raw=raw+1}</td>
                     <td>${meds.medicineName}</td>
                     <td>${meds.description}</td>
                     <td>${meds.dosage}</td>
@@ -82,6 +81,45 @@ ${notAuthorised}
                 </tr>
             </c:forEach><br>
         </table>
+        <c:if test="${shift!=0}">
+            <form class="navbar-form navbar-left" action="MedicineListPage" method="post">
+                <input type="hidden" name="action" value="MedicineList"/>
+                <input type="hidden" name="rawNumber" value="${rawNumber}">
+                <c:choose>
+                    <c:when test="${shift-rawNumber>=0}">
+                        <input type="hidden" name="shift" value="${shift-rawNumber}">
+                    </c:when>
+                    <c:otherwise>
+                        <input type="hidden" name="shift" value="${0}">
+                    </c:otherwise>
+                </c:choose>
+                <div class="form-group input-group input-group-lg col-md-4 col-md-offset-0 col-xs-2">
+                    <input class=" form-control btn btn-info" type="submit"
+                           value="<fmt:message key="label.button.previous"/>">
+                </div>
+            </form>
+        </c:if>
+
+        <c:if test="${raw-shift>rawNumber-1}">
+            <form class="navbar-form navbar-left" action="MedicineListPage" method="post">
+                <input type="hidden" name="action" value="MedicineList"/>
+                <input type="hidden" name="shift" value="${raw}"/>
+                <select class="btn btn-info" name="rawNumber">
+                    <option value="5" <c:if test="${rawNumber==5}"> selected </c:if>>
+                        <fmt:message
+                                key="label.button.5raws"/></option>
+                    <option value="10" <c:if test="${rawNumber==10}"> selected </c:if>>
+                        <fmt:message key="label.button.10raws"/></option>
+                    <option value="15"<c:if test="${rawNumber==15}"> selected </c:if>>
+                        <fmt:message
+                                key="label.button.15raws"/></option>
+                </select>
+                <div class="form-group input-group input-group-lg col-md-4 col-md-offset-0 col-xs-2">
+                    <input class=" form-control btn btn-info" type="submit"
+                           value="<fmt:message key="label.button.next"/>">
+                </div>
+            </form>
+        </c:if>
     </h6>
 </div>
 <div style="float: bottom"><c:import url="/WEB-INF/FooterPage.jsp"/></div>

@@ -64,7 +64,9 @@
 <nav class="navbar" style="background: #5cb85c; padding: 0px; margin: 0px">
     <div class="container-fluid container-table">
             <form class="navbar-form navbar-left" action="MedicineListPage" method="post">
-                <input type="hidden" name="action" value="MedicineList">
+                <input type="hidden" name="action" value="MedicineList"/>
+                <input type="hidden" name="shift" value="0"/>
+                <input type="hidden" name="rawNumber" value="5">
                 <div class="form-group input-group input-group-lg col-md-4 col-md-offset-0 col-xs-2">
                     <input class=" form-control btn btn-success" type="submit"
                            value="<fmt:message key="label.button.MedicineListPage"/>">
