@@ -3,34 +3,31 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <fmt:setLocale value="${lang}" scope="session"/>
-<fmt:setBundle basename="message" var="rb"/>
+<fmt:setBundle basename="message"/>
 <html>
 <head>
     <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="css/pharmacy.css">
-    <title><fmt:message key="label.button.ErrorPage" bundle="${rb}"/></title>
+    <title><fmt:message key="label.button.MissedFilePage"/></title>
 </head>
-<body class="body">
+<body>
+<fmt:message key="message.forgotfile"/>
+<p><img src="img/johnny.gif" alt="Sorry, we are already fixing this" width="1000" height="600"></p>
+<div>
+    <form action="WelcomePage" method="post">
+        <input type="hidden" name="action" value="WelcomePage">
+        <div class="form-group input-group input-group-lg col-md-8 col-md-offset-0 col-xs-12">
+            <input class="form-control btn btn-info" type="submit" value="<fmt:message key="label.button.WelcomePage"/>">
+        </div>
+    </form>
+    <form action="WelcomePage" method="post">
+        <input type="hidden" name="action" value="InvalidateSession">
+        <div class="form-group input-group input-group-lg col-md-8 col-md-offset-0 col-xs-12">
+            <input class="form-control btn btn-danger" type="submit" value="<fmt:message key="label.button.Logout"/>">
+        </div>
+    </form>
+</div>
+
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="js/bootstrap.min.js"></script>
-<fmt:message key="message.forgotfile" bundle="${rb}"/>
-<p><img src="img/johnny.gif" alt="Sorry, we alredy fix this" width="500" height="500"></p>
-<hr>
-<form action="UploadPage"
-      method="post">
-    <input type="submit" value="<fmt:message key="label.button.EditUserPage" bundle="${rb}"/>">
-    <input type="hidden" name="action" value="UploadPage">
-</form>
-<fmt:message key="message.youcanswitch" bundle="${rb}"/>
-<hr>
-<form action="WelcomePage"
-      method="post">
-    <input type="hidden" name="action" value="WelcomePage">
-    <input type="submit" value="<fmt:message key="label.button.WelcomePage" bundle="${rb}"/>">
-</form>
-<form action="WelcomePage" method="post">
-    <input type="hidden" name="action" value="InvalidateSession">
-    <input type="submit" name="action" value="<fmt:message key="label.button.Logout" bundle="${rb}"/>">
-</form>
 </body>
 </html>

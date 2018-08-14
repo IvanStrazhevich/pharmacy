@@ -29,10 +29,11 @@ import java.util.ArrayList;
 public class ClientServiceImpl implements ClientService {
     private static final String MESSAGE_FILE_VALIDATION = "message.fileTooLarge";
     private static final String MAX_FILE_SIZE_TEXT = "10 MB";
-    private static final long MAX_FILE_SIZE = 1024*1024*10;
+    private static final long MAX_FILE_SIZE = 1024 * 1024 * 10;
     private static Logger logger = LogManager.getLogger();
     private static final String UPLOAD_DIR = "upload/avatars/";
     private static final String MESSAGE_VALIDATION = "message.validationError";
+    private static final String MESSAGE_NO_FILE_FOUND = "message.forgotfile";
     private static final String SEPARATOR = " ";
     private static final int VARCHAR45 = 45;
     private Encodable encoder = new ShaConverter();
@@ -67,29 +68,34 @@ public class ClientServiceImpl implements ClientService {
             ClientDetail clientDetail = new ClientDetail();
             if (null != request.getParts()) {
                 for (Part part : request.getParts()) {
-                    if (part.getSubmittedFileName() != null) {
+                    if (null != part.getSubmittedFileName()) {
                         part.write(uploadFilePath + File.separator + part.getSubmittedFileName());
                         filename = part.getSubmittedFileName();
                     }
                 }
             }
             String photo = /*getClass().getResource("").getPath() + */userUploadDir + File.separator + filename;
+            logger.info(photo);
             File file = new File(applicationPath + userUploadDir + File.separator + filename);
-            logger.info(file.length());
-            if (file.length() <= MAX_FILE_SIZE) {
-                request.getSession().removeAttribute(AttributeName.PHOTO.getAttribute());
-                logger.info(photo);
-                clientDetail.setPhoto(photo);
-                clientDetail.setClientId(clientId);
-                logger.info(clientDetail);
-                clientDetailDao.updatePhoto(clientDetail);
+            if (file != null) {
+                logger.info(file.length());
+                if (file.length() <= MAX_FILE_SIZE) {
+                    request.getSession().removeAttribute(AttributeName.PHOTO.getAttribute());
+                    logger.info(photo);
+                    clientDetail.setPhoto(photo);
+                    clientDetail.setClientId(clientId);
+                    logger.info(clientDetail);
+                    clientDetailDao.updatePhoto(clientDetail);
+                } else {
+                    request.setAttribute(AttributeName.VALIDATION_ERROR.getAttribute(), (validationMessage.append(MAX_FILE_SIZE_TEXT)));
+                }
             } else {
-                request.setAttribute(AttributeName.VALIDATION_ERROR.getAttribute(), (validationMessage.append(MAX_FILE_SIZE_TEXT)));
+                request.setAttribute(AttributeName.VALIDATION_ERROR.getAttribute(), (validationMessage.append(MESSAGE_NO_FILE_FOUND)));
             }
-
         } catch (ServletException e) {
             throw new ServiceException("ServletException while download", e);
         } catch (IOException e) {
+            logger.info("IO HAPPANNED");
             throw new ServiceException("IOException", e);
         } catch (DaoException e) {
             throw new ServiceException("Dao exception at save", e);

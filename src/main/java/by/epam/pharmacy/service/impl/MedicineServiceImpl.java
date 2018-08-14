@@ -138,22 +138,41 @@ public class MedicineServiceImpl implements MedicineService {
     @Override
     public boolean validateForCreateOrUpdateMedicine(SessionRequestContent content) throws ServiceException {
         boolean validated = false;
-        if (content.getRequestParameters().get(AttributeName.MEDICINE_ID.getAttribute()) != null
-                && validator.validateInteger(content.getRequestParameters().get(AttributeName.MEDICINE_ID.getAttribute()))
-                && validator.validateText(content.getRequestParameters().get(AttributeName.MEDICINE_NAME.getAttribute()))
-                && validator.validateLength(VARCHAR_45, content.getRequestParameters().get(AttributeName.MEDICINE_NAME.getAttribute()))
-                && validator.validateText(content.getRequestParameters().get(AttributeName.DESCRIPTION.getAttribute()))
-                && validator.validateDecimal(content.getRequestParameters().get(AttributeName.DOSAGE.getAttribute()))
-                && validator.validateBoolean(content.getRequestParameters().get(AttributeName.RECIPE_REQ.getAttribute()))
-                && validator.validateDecimal(content.getRequestParameters().get(AttributeName.PRICE.getAttribute()))
-                && validator.validateBoolean(content.getRequestParameters().get(AttributeName.AVAILABLE.getAttribute()))
-                && validator.validateInteger(content.getRequestParameters().get(AttributeName.QUANTITY_AT_STORAGE.getAttribute()))) {
-            validated = true;
-        } else {
-            content.getRequestAttributes().put(AttributeName.MEDICINE_ID.getAttribute(), content.getRequestParameters().get(AttributeName.MEDICINE_ID.getAttribute()));
-            content.getRequestAttributes().put(AttributeName.VALIDATION_ERROR.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE_VALIDATION));
+        StringBuffer validationMessage = new StringBuffer(ResourceManager.INSTANCE.getString(MESSAGE_VALIDATION));
+        Medicine medicineTemp = new Medicine();
+        if (content.getRequestParameters().get(AttributeName.MEDICINE_ID.getAttribute()) != null) {
+            medicineTemp.setMedicineId(Integer.valueOf(content.getRequestParameters().get(AttributeName.MEDICINE_ID.getAttribute())));
         }
+        medicineTemp.setMedicineName(content.getRequestParameters().get(AttributeName.MEDICINE_NAME.getAttribute()));
+        medicineTemp.setDescription(content.getRequestParameters().get(AttributeName.DESCRIPTION.getAttribute()));
+        medicineTemp.setDosage(new BigDecimal(content.getRequestParameters().get(AttributeName.DOSAGE.getAttribute())));
+        medicineTemp.setRecipeRequired(Boolean.parseBoolean(content.getRequestParameters().get(AttributeName.RECIPE_REQ.getAttribute())));
+        medicineTemp.setPrice(new BigDecimal(content.getRequestParameters().get(AttributeName.PRICE.getAttribute())));
+        medicineTemp.setAvailable(Boolean.parseBoolean(content.getRequestParameters().get(AttributeName.AVAILABLE.getAttribute())));
+        medicineTemp.setQuantityAtStorage(Integer.valueOf(content.getRequestParameters().get(AttributeName.QUANTITY_AT_STORAGE.getAttribute())));
+
+        if (!validator.validateText(content.getRequestParameters().get(AttributeName.MEDICINE_NAME.getAttribute()))
+                || !validator.validateLength(VARCHAR_45, content.getRequestParameters().get(AttributeName.MEDICINE_NAME.getAttribute()))) {
+            validationMessage.append(AttributeName.MEDICINE_NAME.getAttribute());
+        } else if (!validator.validateText(content.getRequestParameters().get(AttributeName.DESCRIPTION.getAttribute()))) {
+            validationMessage.append((AttributeName.DESCRIPTION.getAttribute()));
+        } else if (!validator.validateDecimal(content.getRequestParameters().get(AttributeName.DOSAGE.getAttribute()))) {
+            validationMessage.append(AttributeName.DOSAGE.getAttribute());
+        } else if (!validator.validateBoolean(content.getRequestParameters().get(AttributeName.RECIPE_REQ.getAttribute()))) {
+            validationMessage.append(AttributeName.RECIPE_REQ.getAttribute());
+        } else if (!validator.validateDecimal(content.getRequestParameters().get(AttributeName.PRICE.getAttribute()))) {
+            validationMessage.append(AttributeName.PRICE.getAttribute());
+        } else if (!validator.validateBoolean(content.getRequestParameters().get(AttributeName.AVAILABLE.getAttribute()))) {
+            validationMessage.append(AttributeName.AVAILABLE.getAttribute());
+        } else if (!validator.validateInteger(content.getRequestParameters().get(AttributeName.QUANTITY_AT_STORAGE.getAttribute()))) {
+            validationMessage.append(AttributeName.QUANTITY_AT_STORAGE.getAttribute());
+        } else {
+            validated = true;
+        }
+        content.getRequestAttributes().put(AttributeName.MEDICINE.getAttribute(), medicineTemp);
+        content.getRequestAttributes().put(AttributeName.VALIDATION_ERROR.getAttribute(), (validationMessage.toString()));
         return validated;
+
     }
 
 

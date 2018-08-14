@@ -7,7 +7,7 @@ public enum PagePath {
     EDIT_USER_DATA_PAGE("/jsp/EditUserDataPage.jsp"),
     CLIENT_DETAIL_PAGE("/jsp/ClientDetailPage.jsp"),
     WELCOME_PAGE("/jsp/WelcomePage.jsp"),
-    MISSED_FILE_PAGE("/jsp/MissedFilePage.jsp"),
+    MISSED_FILE_PAGE("/MissedFilePage.jsp"),
     RECIPE_APPROVAL_PAGE("/jsp/doctor/RecipeApprovalPage.jsp"),
     RECIPE_LIST_PAGE("/jsp/doctor/RecipeListPage.jsp"),
     EDIT_MEDICINE("/jsp/pharmacist/EditMedicinePage.jsp"),

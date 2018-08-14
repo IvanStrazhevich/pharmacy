@@ -66,6 +66,8 @@
                         <input type="submit" class="form-group btn btn-success"
                                value="<fmt:message key="label.button.confirm"/>">
                         <c:if test="${med.medicineId!=null}">
+                        <input type="hidden" name="shift" value="0"/>
+                        <input type="hidden" name="rawNumber" value="5">
                         <input type="hidden" name="medicineId" value="${med.medicineId}"></c:if>
                         <input type="hidden" name="action" value="SaveMedicine">
                 </form>
@@ -76,6 +78,8 @@
                         <form action="MedicineListPage" method="post">
                             <input type="submit" class=" form-control btn btn-danger"
                                    value="<fmt:message key="label.button.delete"/>">
+                            <input type="hidden" name="shift" value="0"/>
+                            <input type="hidden" name="rawNumber" value="5">
                             <input type="hidden" name="medicineId" value="${med.medicineId}">
                             <input type="hidden" name="action" value="RemoveMedicineFromBase">
                         </form>
@@ -84,6 +88,8 @@
                         <form action="MedicineListPage" method="post">
                             <input type="submit" class=" form-control btn btn-warning"
                                    value="<fmt:message key="label.button.remove"/>">
+                            <input type="hidden" name="shift" value="0"/>
+                            <input type="hidden" name="rawNumber" value="5">
                             <input type="hidden" name="medicineId" value="${med.medicineId}">
                             <input type="hidden" name="action" value="RemoveFromAvailable">
                         </form>

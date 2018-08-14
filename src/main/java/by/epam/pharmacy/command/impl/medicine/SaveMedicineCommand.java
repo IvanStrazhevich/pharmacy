@@ -23,9 +23,9 @@ public class SaveMedicineCommand implements RequestCommand<SessionRequestContent
         try {
             if (medicineService.validateForCreateOrUpdateMedicine(content)) {
                 medicineService.createOrUpdateMedicine(content);
+                medicineService.findAllMedicinesLimit(content);
                 page = PagePath.MEDICINE_LIST_PAGE.getPage();
             } else {
-                medicineService.findMedicineById(content);
                 page = PagePath.EDIT_MEDICINE.getPage();
             }
         } catch (ServiceException e) {

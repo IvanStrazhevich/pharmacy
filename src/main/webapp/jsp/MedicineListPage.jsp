@@ -19,7 +19,6 @@
     ${medicineAdded}
     ${needLogin}
     ${medicineDeleted}
-    ${validationError}
     ${notAuthorised}
 </h4>
 <div class="table-responsive">
@@ -99,7 +98,6 @@
                 </div>
             </form>
         </c:if>
-
         <c:if test="${raw-shift>rawNumber-1}">
             <form class="navbar-form navbar-left" action="MedicineListPage" method="post">
                 <input type="hidden" name="action" value="MedicineList"/>

@@ -42,13 +42,29 @@ public class PageRouter {
         if (action != null) {
             RequestCommand requestCommand = servletMap.get(action);
             logger.debug(action);
-            try {
-                if (action.equals(CommandType.UPLOAD_PHOTO.getCommand())) {
+            if (action.equals(CommandType.UPLOAD_PHOTO.getCommand())) {
+                try {
                     page = requestCommand.execute(request);
-                    if (request.getRequestDispatcher(page) != null) {
-                        request.getRequestDispatcher(page).forward(request, response);
+                    logger.info(page);
+                    if (page != null) {
+                        if (request.getRequestDispatcher(page) != null) {
+                            logger.info("upload forwarded");
+                            request.getRequestDispatcher(page).forward(request, response);
+                        }
+                    } else {
+                        if (request.getRequestDispatcher(PagePath.MISSED_FILE_PAGE.getPage()) != null) {
+                            response.sendRedirect(request.getContextPath() + PagePath.MISSED_FILE_PAGE.getPage());
+                        }
                     }
-                } else {
+                } catch (CommandException e) {
+                    logger.error(e.getCause());
+                    if (request.getRequestDispatcher(PagePath.MISSED_FILE_PAGE.getPage()) != null) {
+                        logger.info(request.getRequestDispatcher(PagePath.MISSED_FILE_PAGE.getPage()));
+                        response.sendRedirect(request.getContextPath() + PagePath.MISSED_FILE_PAGE.getPage());
+                    }
+                }
+            } else {
+                try {
                     page = requestCommand.execute(content);
                     logger.info(page);
                     if (page != null) {
@@ -62,11 +78,11 @@ public class PageRouter {
                             response.sendRedirect(request.getContextPath() + PagePath.ERROR_PAGE.getPage());
                         }
                     }
-                }
-            } catch (CommandException e) {
-                logger.error(e.getCause());
-                if (request.getRequestDispatcher(PagePath.ERROR_PAGE.getPage()) != null) {
-                    response.sendRedirect(request.getContextPath() + PagePath.ERROR_PAGE.getPage());
+                } catch (CommandException e) {
+                    logger.error(e.getCause());
+                    if (request.getRequestDispatcher(PagePath.ERROR_PAGE.getPage()) != null) {
+                        response.sendRedirect(request.getContextPath() + PagePath.ERROR_PAGE.getPage());
+                    }
                 }
             }
         }
