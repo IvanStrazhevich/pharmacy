@@ -46,8 +46,7 @@ public class UserDaoImpl extends AbstractDaoImpl<User> implements UserDao<User> 
     public ArrayList<User> findAll() throws DaoException {
         ArrayList<User> userList = new ArrayList<>();
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_ALL_PSTM)) {
-            preparedStatement.execute();
-            ResultSet resultSet = preparedStatement.getResultSet();
+            ResultSet resultSet = preparedStatement.executeQuery();
             fillUsers(userList, resultSet);
         } catch (SQLException e) {
             throw new DaoException("Exception on User find all", e);
@@ -68,8 +67,7 @@ public class UserDaoImpl extends AbstractDaoImpl<User> implements UserDao<User> 
         User user = new User();
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_BY_ID_PSTM)) {
             preparedStatement.setInt(1, id);
-            preparedStatement.execute();
-            ResultSet resultSet = preparedStatement.getResultSet();
+            ResultSet resultSet = preparedStatement.executeQuery();
             fillUser(user, resultSet);
         } catch (SQLException e) {
             throw new DaoException("Exception on User find by id", e);
@@ -88,8 +86,7 @@ public class UserDaoImpl extends AbstractDaoImpl<User> implements UserDao<User> 
         User user = new User();
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_BY_LOGIN_PSTM)) {
             preparedStatement.setString(1, login);
-            preparedStatement.execute();
-            ResultSet resultSet = preparedStatement.getResultSet();
+            ResultSet resultSet = preparedStatement.executeQuery();
             fillUser(user, resultSet);
         } catch (SQLException e) {
             throw new DaoException("Exception on User find by login", e);
@@ -117,7 +114,7 @@ public class UserDaoImpl extends AbstractDaoImpl<User> implements UserDao<User> 
         boolean success = false;
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(DELETE_PSTM)) {
             preparedStatement.setInt(1, entity.getUserId());
-            preparedStatement.execute();
+            preparedStatement.executeUpdate();
             success = true;
         } catch (SQLException e) {
             throw new DaoException("Exception on User deleteById", e);
@@ -138,7 +135,7 @@ public class UserDaoImpl extends AbstractDaoImpl<User> implements UserDao<User> 
             preparedStatement.setString(1, entity.getLogin());
             preparedStatement.setString(2, entity.getPassword());
             preparedStatement.setString(3, entity.getAccessLevel());
-            preparedStatement.execute();
+            preparedStatement.executeUpdate();
             success = true;
         } catch (SQLException e) {
             throw new DaoException("Exception on User create", e);
@@ -176,8 +173,7 @@ public class UserDaoImpl extends AbstractDaoImpl<User> implements UserDao<User> 
     public ArrayList<User> findUserWithNames() throws DaoException {
         ArrayList<User> users = new ArrayList<>();
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(FIND_ALL_WITH_NAMES)) {
-            preparedStatement.execute();
-            ResultSet resultSet = preparedStatement.getResultSet();
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 User user = new User();
                 ClientDetail clientDetail = new ClientDetail();
@@ -204,8 +200,7 @@ public class UserDaoImpl extends AbstractDaoImpl<User> implements UserDao<User> 
         ArrayList<User> users = new ArrayList<>();
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_BY_ACCESS_PSTM)) {
             preparedStatement.setString(1, accessLevel);
-            preparedStatement.execute();
-            ResultSet resultSet = preparedStatement.getResultSet();
+            ResultSet resultSet = preparedStatement.executeQuery();
             fillUsers(users, resultSet);
         } catch (SQLException e) {
             throw new DaoException("Exception on FindUsersByAccessLevel",e);

@@ -41,8 +41,7 @@ public abstract class AbstractDaoImpl<T> implements AbstractDao<T> {
     public int findLastInsertId() throws DaoException {
         int id = 0;
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_LAST_INSERT_ID_PSTM)) {
-            preparedStatement.execute();
-            ResultSet resultSet = preparedStatement.getResultSet();
+            ResultSet resultSet=preparedStatement.executeQuery();
             resultSet.next();
             id = resultSet.getInt(1);
         } catch (SQLException e) {
@@ -63,7 +62,7 @@ public abstract class AbstractDaoImpl<T> implements AbstractDao<T> {
         boolean success = false;
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(statement)) {
             preparedStatement.setInt(1, id);
-            preparedStatement.execute();
+            preparedStatement.executeUpdate();
             success = true;
         } catch (SQLException e) {
             throw new DaoException("Exception on deleteById", e);

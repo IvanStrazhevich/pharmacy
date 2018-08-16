@@ -179,7 +179,7 @@ public class PaymentDaoImpl<T> extends AbstractDaoImpl<Payment> implements Payme
         boolean success = false;
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(DELETE_PSTM)) {
             preparedStatement.setInt(1, entity.getPaymentId());
-            preparedStatement.execute();
+            preparedStatement.executeUpdate();
             success = true;
         } catch (SQLException e) {
             throw new DaoException("Exception on Payment deleteById", e);
@@ -197,7 +197,7 @@ public class PaymentDaoImpl<T> extends AbstractDaoImpl<Payment> implements Payme
         boolean success = false;
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(DELETE_BY_ORDER_ID_PSTM)) {
             preparedStatement.setInt(1, orderId);
-            preparedStatement.execute();
+            preparedStatement.executeUpdate();
             success = true;
         } catch (SQLException e) {
             throw new DaoException("Exception on Payment deleteByOrderId", e);
@@ -211,14 +211,11 @@ public class PaymentDaoImpl<T> extends AbstractDaoImpl<Payment> implements Payme
     @Override
     public boolean create(Payment entity) throws DaoException {
         boolean success = false;
-        logger.info(entity);
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(INSERT_PSTM)) {
             preparedStatement.setInt(1, entity.getOrderId());
             preparedStatement.setBigDecimal(2, entity.getOrderSum());
             preparedStatement.setBoolean(3, entity.isPaymentConfirmed());
-            logger.info(preparedStatement);
-            logger.info(entity);
-            preparedStatement.execute();
+            preparedStatement.executeUpdate();
             success = true;
         } catch (SQLException e) {
             throw new DaoException("Exception on Payment create", e);
@@ -232,15 +229,12 @@ public class PaymentDaoImpl<T> extends AbstractDaoImpl<Payment> implements Payme
     @Override
     public boolean update(Payment entity) throws DaoException {
         boolean success = false;
-        logger.info(entity);
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(UPDATE_PSTM)) {
             preparedStatement.setInt(1, entity.getOrderId());
             preparedStatement.setBigDecimal(2, entity.getOrderSum());
             preparedStatement.setBoolean(3, entity.isPaymentConfirmed());
             preparedStatement.setInt(4, entity.getPaymentId());
-            logger.info(preparedStatement);
-            logger.info(entity);
-            preparedStatement.execute();
+            preparedStatement.executeUpdate();
             success = true;
         } catch (SQLException e) {
             throw new DaoException("Exception on Payment create", e);

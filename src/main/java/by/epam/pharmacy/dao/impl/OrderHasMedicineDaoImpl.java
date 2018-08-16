@@ -48,8 +48,7 @@ public class OrderHasMedicineDaoImpl extends AbstractDaoImpl<OrderHasMedicine> i
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_BY_ORDER_MEDICINE_PSTM)) {
             preparedStatement.setInt(1, orderId);
             preparedStatement.setInt(2, medicineId);
-            preparedStatement.execute();
-            ResultSet resultSet = preparedStatement.getResultSet();
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 orderHasMedicine.setOrderId(resultSet.getInt(1));
                 orderHasMedicine.setMedicineId(resultSet.getInt(2));
@@ -71,8 +70,7 @@ public class OrderHasMedicineDaoImpl extends AbstractDaoImpl<OrderHasMedicine> i
     public ArrayList<OrderHasMedicine> findAll() throws DaoException {
         ArrayList<OrderHasMedicine> ordersHasMedicinesList = new ArrayList<>();
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_ALL_PSTM)) {
-            preparedStatement.execute();
-            ResultSet resultSet = preparedStatement.getResultSet();
+            ResultSet resultSet = preparedStatement.executeQuery();
             fillMedicinesInOrder(ordersHasMedicinesList, resultSet);
         } catch (SQLException e) {
             throw new DaoException("Exception on find all", e);
@@ -90,8 +88,7 @@ public class OrderHasMedicineDaoImpl extends AbstractDaoImpl<OrderHasMedicine> i
         ArrayList<OrderHasMedicine> ordersHasMedicinesList = new ArrayList<>();
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_BY_ORDER_ID_PSTM)) {
             preparedStatement.setInt(1, orderId);
-            preparedStatement.execute();
-            ResultSet resultSet = preparedStatement.getResultSet();
+            ResultSet resultSet = preparedStatement.executeQuery();
             fillMedicinesInOrder(ordersHasMedicinesList, resultSet);
         } catch (SQLException e) {
             throw new DaoException("Exception on find all", e);
@@ -108,9 +105,7 @@ public class OrderHasMedicineDaoImpl extends AbstractDaoImpl<OrderHasMedicine> i
         OrderHasMedicine orderHasMedicine = new OrderHasMedicine();
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_BY_MEDICINE_ID_PSTM)) {
             preparedStatement.setInt(1, medicineId);
-            preparedStatement.execute();
-            logger.info(preparedStatement);
-            ResultSet resultSet = preparedStatement.getResultSet();
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
             orderHasMedicine.setOrderId(resultSet.getInt(1));
             orderHasMedicine.setMedicineId(resultSet.getInt(2));
@@ -139,7 +134,7 @@ public class OrderHasMedicineDaoImpl extends AbstractDaoImpl<OrderHasMedicine> i
             preparedStatement.setInt(1, orderId);
             preparedStatement.setInt(2, medicineId);
             logger.info(preparedStatement);
-            preparedStatement.execute();
+            preparedStatement.executeUpdate();
             success = true;
         } catch (SQLException e) {
             throw new DaoException("Exception on delete all", e);
@@ -157,7 +152,7 @@ public class OrderHasMedicineDaoImpl extends AbstractDaoImpl<OrderHasMedicine> i
         boolean success = false;
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(DELETE_ALL_MEDS_FROM_ORDER_PSTM)) {
             preparedStatement.setInt(1, orderId);
-            preparedStatement.execute();
+            preparedStatement.executeUpdate();
             success = true;
         } catch (SQLException e) {
             throw new DaoException("Exception on delete all", e);

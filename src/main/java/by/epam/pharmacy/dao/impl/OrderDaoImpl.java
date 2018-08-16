@@ -44,8 +44,7 @@ public class OrderDaoImpl extends AbstractDaoImpl<Order> implements OrderDao<Ord
     public ArrayList<Order> findAll() throws DaoException {
         ArrayList<Order> userList = new ArrayList<>();
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_ALL_PSTM)) {
-            preparedStatement.execute();
-            ResultSet resultSet = preparedStatement.getResultSet();
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Order order = new Order();
                 order.setOrderId(resultSet.getInt(1));
@@ -71,8 +70,7 @@ public class OrderDaoImpl extends AbstractDaoImpl<Order> implements OrderDao<Ord
         Order order = new Order();
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_BY_ID_PSTM)) {
             preparedStatement.setInt(1, id);
-            preparedStatement.execute();
-            ResultSet resultSet = preparedStatement.getResultSet();
+            ResultSet resultSet = preparedStatement.executeQuery();
             fillOrder(order, resultSet);
         } catch (SQLException e) {
             throw new DaoException("Exception on Order find by id", e);
@@ -101,7 +99,7 @@ public class OrderDaoImpl extends AbstractDaoImpl<Order> implements OrderDao<Ord
         boolean success = false;
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(DELETE_PSTM)) {
             preparedStatement.setInt(1, entity.getOrderId());
-            preparedStatement.execute();
+            preparedStatement.executeUpdate();
             success = true;
         } catch (SQLException e) {
             throw new DaoException("Exception on Order deleteById", e);
@@ -124,7 +122,7 @@ public class OrderDaoImpl extends AbstractDaoImpl<Order> implements OrderDao<Ord
             preparedStatement.setBigDecimal(3, entity.getOrderSum());
             logger.info(preparedStatement);
             logger.info(entity);
-            preparedStatement.execute();
+            preparedStatement.executeUpdate();
             success = true;
         } catch (SQLException e) {
             throw new DaoException("Exception on Order create", e);
@@ -164,8 +162,7 @@ public class OrderDaoImpl extends AbstractDaoImpl<Order> implements OrderDao<Ord
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_BY_USER_PSTM)) {
             logger.info(id);
             preparedStatement.setInt(1, id);
-            preparedStatement.execute();
-            ResultSet resultSet = preparedStatement.getResultSet();
+            ResultSet resultSet = preparedStatement.executeQuery();
             fillOrder(order, resultSet);
             logger.info(order);
         } catch (SQLException e) {
@@ -184,8 +181,7 @@ public class OrderDaoImpl extends AbstractDaoImpl<Order> implements OrderDao<Ord
         Order order = new Order();
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_BY_ORDER_ID_PSTM)) {
             preparedStatement.setInt(1, orderId);
-            preparedStatement.execute();
-            ResultSet resultSet = preparedStatement.getResultSet();
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Medicine medicine = new Medicine();
                 OrderHasMedicine orderHasMedicine = new OrderHasMedicine();

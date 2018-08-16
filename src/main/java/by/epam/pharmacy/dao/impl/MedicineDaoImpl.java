@@ -47,8 +47,7 @@ public class MedicineDaoImpl extends AbstractDaoImpl<Medicine> implements Medici
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_ALL_LIMIT_PSTM)) {
             preparedStatement.setInt(1, shift);
             preparedStatement.setInt(2, rawNumber);
-            preparedStatement.execute();
-            ResultSet resultSet = preparedStatement.getResultSet();
+            ResultSet resultSet = preparedStatement.executeQuery();
             fillMedicine(medicineList, resultSet);
         } catch (SQLException e) {
             throw new DaoException("Exception on find all limit", e);
@@ -66,8 +65,7 @@ public class MedicineDaoImpl extends AbstractDaoImpl<Medicine> implements Medici
     public ArrayList<Medicine> findAll() throws DaoException {
         ArrayList<Medicine> medicineList = new ArrayList<>();
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_ALL_PSTM)) {
-            preparedStatement.execute();
-            ResultSet resultSet = preparedStatement.getResultSet();
+            ResultSet resultSet = preparedStatement.executeQuery();
             fillMedicine(medicineList, resultSet);
         } catch (SQLException e) {
             throw new DaoException("Exception on find all", e);
@@ -85,11 +83,9 @@ public class MedicineDaoImpl extends AbstractDaoImpl<Medicine> implements Medici
     @Override
     public ArrayList<Medicine> findMedicineByName(String name) throws DaoException {
         ArrayList<Medicine> medicineList = new ArrayList<>();
-
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_BY_NAME_PSTM)) {
             preparedStatement.setString(1, name);
-            preparedStatement.execute();
-            ResultSet resultSet = preparedStatement.getResultSet();
+            ResultSet resultSet = preparedStatement.executeQuery();
             fillMedicine(medicineList, resultSet);
         } catch (SQLException e) {
             throw new DaoException("Exception on find bu id", e);
@@ -128,8 +124,7 @@ public class MedicineDaoImpl extends AbstractDaoImpl<Medicine> implements Medici
         Medicine medicine = new Medicine();
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_BY_ID_PSTM)) {
             preparedStatement.setInt(1, id);
-            preparedStatement.execute();
-            ResultSet resultSet = preparedStatement.getResultSet();
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 medicine.setMedicineId(resultSet.getInt(1));
                 medicine.setMedicineName(resultSet.getString(2));
@@ -162,7 +157,7 @@ public class MedicineDaoImpl extends AbstractDaoImpl<Medicine> implements Medici
         boolean success = false;
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(DELETE_PSTM)) {
             preparedStatement.setInt(1, entity.getMedicineId());
-            preparedStatement.execute();
+            preparedStatement.executeUpdate();
             success = true;
         } catch (SQLException e) {
             throw new DaoException("Exception on delete entity", e);
@@ -204,7 +199,7 @@ public class MedicineDaoImpl extends AbstractDaoImpl<Medicine> implements Medici
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(UPDATE_MEDICINE_SET_MDC_AVAILABLE)) {
             preparedStatement.setBoolean(1, false);
             preparedStatement.setInt(2, entity.getMedicineId());
-            preparedStatement.execute();
+            preparedStatement.executeUpdate();
             success = true;
         } catch (SQLException e) {
             throw new DaoException("Exception on set unavailable By Name", e);
@@ -230,7 +225,7 @@ public class MedicineDaoImpl extends AbstractDaoImpl<Medicine> implements Medici
             preparedStatement.setBigDecimal(5, entity.getPrice());
             preparedStatement.setBoolean(6, entity.isAvailable());
             preparedStatement.setInt(7, entity.getQuantityAtStorage());
-            preparedStatement.execute();
+            preparedStatement.executeUpdate();
             success = true;
         } catch (SQLException e) {
             throw new DaoException("Exception on create medicine", e);

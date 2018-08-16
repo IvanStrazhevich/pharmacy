@@ -64,8 +64,7 @@ public class ClientDetailDaoImpl extends AbstractDaoImpl<ClientDetail> implement
     public ArrayList<ClientDetail> findAll() throws DaoException {
         ArrayList<ClientDetail> clientDetailList = new ArrayList<>();
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_ALL_PSTM)) {
-            preparedStatement.execute();
-            ResultSet resultSet = preparedStatement.getResultSet();
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 ClientDetail clientDetail = new ClientDetail();
                 clientDetail.setClientId(resultSet.getInt(1));
@@ -97,8 +96,7 @@ public class ClientDetailDaoImpl extends AbstractDaoImpl<ClientDetail> implement
         ClientDetail clientDetail = new ClientDetail();
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_BY_ID_PSTM)) {
             preparedStatement.setInt(1, id);
-            logger.info(preparedStatement.execute());
-            ResultSet resultSet = preparedStatement.getResultSet();
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 clientDetail.setClientId(resultSet.getInt(1));
                 clientDetail.setName(resultSet.getString(2));
@@ -159,7 +157,7 @@ public class ClientDetailDaoImpl extends AbstractDaoImpl<ClientDetail> implement
             preparedStatement.setString(7, entity.getCountry());
             preparedStatement.setString(8, entity.getCity());
             preparedStatement.setString(9, entity.getAddress());
-            preparedStatement.execute();
+            preparedStatement.executeUpdate();
             success = true;
         } catch (SQLException e) {
             throw new DaoException("Exception on create", e);

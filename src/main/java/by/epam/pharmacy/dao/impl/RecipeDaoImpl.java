@@ -45,8 +45,7 @@ public class RecipeDaoImpl extends AbstractDaoImpl<Recipe> implements RecipeDao<
     public ArrayList<Recipe> findAll() throws DaoException {
         ArrayList<Recipe> recipes = new ArrayList<>();
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_ALL_PSTM)) {
-            preparedStatement.execute();
-            ResultSet resultSet = preparedStatement.getResultSet();
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Recipe recipe = new Recipe();
                 recipe.setRecipeId(resultSet.getInt(1));
@@ -74,8 +73,7 @@ public class RecipeDaoImpl extends AbstractDaoImpl<Recipe> implements RecipeDao<
     public ArrayList<Recipe> findAllWithDetails() throws DaoException {
         ArrayList<Recipe> recipes = new ArrayList<>();
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_ALL_WITH_DETAILS_PSTM)) {
-            preparedStatement.execute();
-            ResultSet resultSet = preparedStatement.getResultSet();
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Recipe recipe = new Recipe();
                 ClientDetail clientDetail = new ClientDetail();
@@ -114,8 +112,7 @@ public class RecipeDaoImpl extends AbstractDaoImpl<Recipe> implements RecipeDao<
         Recipe recipe = new Recipe();
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_BY_ID_PSTM)) {
             preparedStatement.setInt(1, id);
-            preparedStatement.execute();
-            ResultSet resultSet = preparedStatement.getResultSet();
+            ResultSet resultSet = preparedStatement.executeQuery();
             fillRecipe(recipe, resultSet);
         } catch (SQLException e) {
             throw new DaoException("Exception on Recipe find by id", e);
@@ -133,8 +130,7 @@ public class RecipeDaoImpl extends AbstractDaoImpl<Recipe> implements RecipeDao<
         Recipe recipe = new Recipe();
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_BY_ID_WITH_DETAILS_PSTM)) {
             preparedStatement.setInt(1, recipeId);
-            preparedStatement.execute();
-            ResultSet resultSet = preparedStatement.getResultSet();
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 ClientDetail clientDetail = new ClientDetail();
                 Medicine medicine = new Medicine();
@@ -180,7 +176,7 @@ public class RecipeDaoImpl extends AbstractDaoImpl<Recipe> implements RecipeDao<
         boolean success = false;
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(DELETE_PSTM)) {
             preparedStatement.setInt(1, entity.getRecipeId());
-            preparedStatement.execute();
+            preparedStatement.executeUpdate();
             success = true;
         } catch (SQLException e) {
             throw new DaoException("Exception on Recipe deleteById", e);
@@ -205,7 +201,7 @@ public class RecipeDaoImpl extends AbstractDaoImpl<Recipe> implements RecipeDao<
             preparedStatement.setTimestamp(6, entity.getValidTill());
             preparedStatement.setBoolean(7, entity.isApproved());
             logger.info(preparedStatement);
-            preparedStatement.execute();
+            preparedStatement.executeUpdate();
             success = true;
         } catch (SQLException e) {
             throw new DaoException("Exception on Recipe create", e);
@@ -252,8 +248,7 @@ public class RecipeDaoImpl extends AbstractDaoImpl<Recipe> implements RecipeDao<
             preparedStatement.setInt(1, clientId);
             preparedStatement.setInt(2, medicineId);
             preparedStatement.setInt(3, medicineQuantity);
-            preparedStatement.execute();
-            ResultSet resultSet = preparedStatement.getResultSet();
+            ResultSet resultSet = preparedStatement.executeQuery();
             fillRecipe(recipe, resultSet);
         } catch (SQLException e) {
             throw new DaoException("Exception on Recipe find by Client Med Quant", e);

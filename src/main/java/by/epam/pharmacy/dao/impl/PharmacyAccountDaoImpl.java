@@ -29,8 +29,7 @@ public class PharmacyAccountDaoImpl extends AbstractDaoImpl<PharmacyAccount> imp
     public ArrayList<PharmacyAccount> findAll() throws DaoException {
         ArrayList<PharmacyAccount> accounts = new ArrayList<>();
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_ALL_PSTM)) {
-            preparedStatement.execute();
-            ResultSet resultSet = preparedStatement.getResultSet();
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 PharmacyAccount account = new PharmacyAccount();
                 account.setClientId(resultSet.getInt(1));
@@ -52,8 +51,7 @@ public class PharmacyAccountDaoImpl extends AbstractDaoImpl<PharmacyAccount> imp
         PharmacyAccount account = new PharmacyAccount();
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_BY_ID_PSTM)) {
             preparedStatement.setInt(1, id);
-            logger.info(preparedStatement.execute());
-            ResultSet resultSet = preparedStatement.getResultSet();
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 account.setClientId(resultSet.getInt(1));
                 account.setAccountDebit(resultSet.getBigDecimal(2));
@@ -93,7 +91,7 @@ public class PharmacyAccountDaoImpl extends AbstractDaoImpl<PharmacyAccount> imp
             preparedStatement.setInt(1, entity.getClientId());
             preparedStatement.setBigDecimal(2, entity.getAccountDebit());
             preparedStatement.setBigDecimal(3, entity.getAccountCredit());
-            preparedStatement.execute();
+            preparedStatement.executeUpdate();
             success = true;
         } catch (SQLException e) {
             throw new DaoException("Exception on create Pharmacy Account", e);

@@ -33,8 +33,7 @@ public class AmountDaoImpl extends AbstractDaoImpl<ClientAmount> implements Amou
     public ArrayList<ClientAmount> findAll() throws DaoException {
         ArrayList<ClientAmount> amounts = new ArrayList<>();
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_ALL_PSTM)) {
-            preparedStatement.execute();
-            ResultSet resultSet = preparedStatement.getResultSet();
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 ClientAmount amount = new ClientAmount();
                 amount.setClientId(resultSet.getInt(1));
@@ -56,8 +55,7 @@ public class AmountDaoImpl extends AbstractDaoImpl<ClientAmount> implements Amou
         ClientAmount amount = new ClientAmount();
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_BY_ID_PSTM)) {
             preparedStatement.setInt(1, id);
-            logger.info(preparedStatement.execute());
-            ResultSet resultSet = preparedStatement.getResultSet();
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 amount.setClientId(resultSet.getInt(1));
                 amount.setAmountDebit(resultSet.getBigDecimal(2));
@@ -83,8 +81,8 @@ public class AmountDaoImpl extends AbstractDaoImpl<ClientAmount> implements Amou
      */
     @Override
     public boolean delete(ClientAmount entity) throws DaoException {
-    int id = entity.getClientId();
-    return deleteById(id, DELETE_PSTM);
+        int id = entity.getClientId();
+        return deleteById(id, DELETE_PSTM);
     }
 
     /**
@@ -98,7 +96,7 @@ public class AmountDaoImpl extends AbstractDaoImpl<ClientAmount> implements Amou
             preparedStatement.setBigDecimal(2, entity.getAmountDebit());
             preparedStatement.setBigDecimal(3, entity.getAmountCredit());
             logger.info(preparedStatement);
-            preparedStatement.execute();
+            preparedStatement.executeUpdate();
             success = true;
         } catch (SQLException e) {
             throw new DaoException("Exception on create Amount", e);
@@ -124,6 +122,7 @@ public class AmountDaoImpl extends AbstractDaoImpl<ClientAmount> implements Amou
         }
         return success;
     }
+
     /**
      * Fill an Amount
      */
