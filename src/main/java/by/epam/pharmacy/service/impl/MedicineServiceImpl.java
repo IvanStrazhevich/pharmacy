@@ -49,7 +49,6 @@ public class MedicineServiceImpl implements MedicineService {
 
     /**
      * Finds all entries put ArrayList result in request
-     *
      * @param content
      * @throws ServiceException
      */
@@ -85,7 +84,6 @@ public class MedicineServiceImpl implements MedicineService {
 
     /**
      * Finds entry by id put in result in request
-     *
      * @param content
      * @throws ServiceException
      */
@@ -105,7 +103,6 @@ public class MedicineServiceImpl implements MedicineService {
 
     /**
      * Removes entry from database forever by its id
-     *
      * @param content
      * @throws ServiceException
      */
@@ -122,6 +119,11 @@ public class MedicineServiceImpl implements MedicineService {
         }
     }
 
+    /**
+     * Set available to medicine by its id
+     * @param content
+     * @throws ServiceException
+     */
     @Override
     public void removeMedicineFromAvailableList(SessionRequestContent content) throws ServiceException {
         try (MedicineDaoImpl medicineDao = new MedicineDaoImpl()) {
@@ -135,6 +137,12 @@ public class MedicineServiceImpl implements MedicineService {
         }
     }
 
+    /**
+     * Validate incoming params
+     * @param content from request
+     * @return boolean
+     * @throws ServiceException
+     */
     @Override
     public boolean validateForCreateOrUpdateMedicine(SessionRequestContent content) throws ServiceException {
         boolean validated = false;
@@ -178,7 +186,6 @@ public class MedicineServiceImpl implements MedicineService {
 
     /**
      * Creates or updates entry
-     *
      * @param content
      * @throws ServiceException
      */

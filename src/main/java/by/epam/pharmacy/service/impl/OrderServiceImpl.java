@@ -30,8 +30,9 @@ public class OrderServiceImpl implements OrderService {
     private static Logger logger = LogManager.getLogger();
     private Encodable encodable = new ShaConverter();
 
-
     /**
+     * Add medicine to order
+     *
      * @param content
      */
     @Override
@@ -60,6 +61,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
+     * Update Recipe id at OrderHasMedicine
+     *
      * @param orderHasMedicine
      */
     @Override
@@ -72,8 +75,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
+     * Find OrderHasMedicine by params
+     *
      * @param orderId
      * @param medicineId
+     * @return OrderHasMedicine
      */
     public OrderHasMedicine findOrderHasMedicine(Integer orderId, Integer medicineId) throws ServiceException {
         OrderHasMedicine orderHasMedicine = new OrderHasMedicine();
@@ -86,7 +92,10 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
+     * Remove medicine from order
+     *
      * @param content
+     * @return true if succeed
      */
     @Override
     public boolean removeMedicineFromOrder(SessionRequestContent content) throws ServiceException {
@@ -108,6 +117,8 @@ public class OrderServiceImpl implements OrderService {
 
 
     /**
+     * Retrieve Order info
+     *
      * @param content
      */
     @Override
@@ -135,6 +146,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
+     * Change quantity of medicine
+     *
      * @param content
      */
     @Override
@@ -147,9 +160,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
+     * Find Id of Order by param
+     *
      * @param clientId
+     * @return id of order
      */
-    public int findCurrentOrderIdByUserId(Integer clientId) throws ServiceException {
+    public int findCurrentOrderIdByUserId(int clientId) throws ServiceException {
         try (OrderDaoImpl orderDao = new OrderDaoImpl()) {
             return orderDao.findCurrentOrderByUserId(clientId).getOrderId();
         } catch (DaoException e) {
@@ -158,20 +174,17 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * @param orderId
-     * @param medicineId
-     * @param medicineQuantity
+     * Change quantity of medicine on params
+     *
+     * @param orderId          id of order
+     * @param medicineId       id of medicine
+     * @param medicineQuantity id of quantity
      */
     public void changeQuantityFromRecipe(Integer orderId, Integer medicineId, Integer medicineQuantity) throws ServiceException {
         updateQuantityByOrderMedicineQuantity(orderId, medicineId, medicineQuantity);
 
     }
 
-    /**
-     * @param orderId
-     * @param medicineId
-     * @param medicineQuantity
-     */
     private void updateQuantityByOrderMedicineQuantity(Integer orderId, Integer medicineId, Integer medicineQuantity) throws ServiceException {
         try (OrderHasMedicineDaoImpl orderHasMedicineDao = new OrderHasMedicineDaoImpl()) {
             OrderHasMedicine orderHasMedicine = orderHasMedicineDao.findOrderHasMedicineByOrderIdMedicineId(orderId, medicineId);
@@ -182,10 +195,6 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-
-    /**
-     * @param orderHasMedicine
-     */
     private boolean updateQuantityByOrderMedicineQuantity(OrderHasMedicine orderHasMedicine) throws ServiceException {
         boolean success = false;
         try (OrderHasMedicineDaoImpl orderHasMedicineDao = new OrderHasMedicineDaoImpl()) {
@@ -202,11 +211,6 @@ public class OrderServiceImpl implements OrderService {
         return success;
     }
 
-    /**
-     * @param medicineId
-     * @param medicineQuantity
-     * @param medicineQuantityDB
-     */
     private void recountStorageQuantity(int medicineId, int medicineQuantity, int medicineQuantityDB) throws ServiceException {
         try (MedicineDaoImpl medicineDao = new MedicineDaoImpl()) {
             Medicine medicine = new Medicine();
@@ -218,10 +222,6 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-    /**
-     * @param quantity
-     * @param medicineId
-     */
     private BigDecimal countMedicineSum(int quantity, int medicineId) throws ServiceException {
         try (MedicineDaoImpl medicineDao = new MedicineDaoImpl()) {
             logger.debug(medicineId);
@@ -234,10 +234,6 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
-    /**
-     * @param medicineId
-     * @param medicineQuantity
-     */
     private void updateStorageQuantity(int medicineId, int medicineQuantity) throws ServiceException {
         try (MedicineDaoImpl medicineDao = new MedicineDaoImpl()) {
             Medicine medicine = new Medicine();
@@ -249,11 +245,7 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-    /**
-     * @param userId
-     * @param medicineId
-     */
-    private Integer createOrder(int userId, int medicineId) throws ServiceException {
+    private int createOrder(int userId, int medicineId) throws ServiceException {
         Order order = new Order();
         order.setClientId(userId);
         order.setOrderSum(BigDecimal.valueOf(0));
@@ -264,10 +256,7 @@ public class OrderServiceImpl implements OrderService {
         return orderId;
     }
 
-    /**
-     * @param order
-     */
-    private Integer createOrUpdateOrder(Order order) throws ServiceException {
+    private int createOrUpdateOrder(Order order) throws ServiceException {
         try (OrderDaoImpl orderDao = new OrderDaoImpl()) {
             if (orderDao.findCurrentOrderByUserId(order.getClientId()).getOrderId() != 0
                     && !orderDao.findCurrentOrderByUserId(order.getClientId()).isPayed()) {
@@ -287,11 +276,6 @@ public class OrderServiceImpl implements OrderService {
         return order.getOrderId();
     }
 
-    /**
-     * @param medicineId
-     * @param orderId
-     * @param medicineQuantity
-     */
     private boolean createOrUpdateMedicineInOrder(int medicineId, int orderId, int medicineQuantity) throws ServiceException {
         boolean success = false;
         try (OrderHasMedicineDaoImpl orderHasMedicineDao = new OrderHasMedicineDaoImpl()) {
@@ -325,10 +309,7 @@ public class OrderServiceImpl implements OrderService {
         return success;
     }
 
-    /**
-     * @param clientLogin
-     */
-    private Integer findUserId(String clientLogin) throws ServiceException {
+    private int findUserId(String clientLogin) throws ServiceException {
         logger.debug(clientLogin);
         clientLogin = encodable.encode(clientLogin);
         try (UserDaoImpl userDao = new UserDaoImpl()) {
@@ -340,6 +321,8 @@ public class OrderServiceImpl implements OrderService {
 
 
     /**
+     * Set encoding imlementation
+     *
      * @param encodable
      */
     public void setEncodable(Encodable encodable) {

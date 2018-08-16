@@ -5,35 +5,43 @@ import by.epam.pharmacy.exception.ServiceException;
 
 public interface RecipeService {
     /**
-     * 
-     * @param content 
+     * Create or update Recipe
+     *
+     * @param content
      */
-    void createRecipe(SessionRequestContent content) throws ServiceException;
+    void createOrUpdateRecipe(SessionRequestContent content) throws ServiceException;
 
     /**
-     * 
-     * @param content 
+     * Retrieve Recipe records
+     *
+     * @param content
      */
     void showRecipes(SessionRequestContent content) throws ServiceException;
 
     /**
-     * 
-     * @param content 
+     * Retrieve single Recipe record
+     *
+     * @param content
      */
     void showRecipe(SessionRequestContent content) throws ServiceException;
 
     /**
+     * Provide approval of recipe
      *
      * @param content
      */
     void approveRecipe(SessionRequestContent content) throws ServiceException;
 
     /**
+     * Delete recipe from database
+     *
      * @param content
      */
     void deleteRecipe(SessionRequestContent content) throws ServiceException;
 
     /**
+     * Validate incoming data for creation of recipe
+     *
      * @param content
      * @return boolean
      * @throws ServiceException
@@ -41,6 +49,8 @@ public interface RecipeService {
     boolean validateForCreateRecipe(SessionRequestContent content) throws ServiceException;
 
     /**
+     * Validate incoming data for approval
+     *
      * @param content
      * @return boolean
      * @throws ServiceException

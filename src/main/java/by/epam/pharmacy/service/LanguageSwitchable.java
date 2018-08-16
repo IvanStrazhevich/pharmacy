@@ -2,8 +2,10 @@ package by.epam.pharmacy.service;
 
 public interface LanguageSwitchable<T> {
     /**
-     * @param request
+     * Changes default locale for app and client side
+     *
+     * @param t request or content
      */
-    void langSwitch(T request);
+    void langSwitch(T t);
 }
 

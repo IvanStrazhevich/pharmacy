@@ -28,6 +28,14 @@ public class PaymentServiceImpl implements PaymentService {
     private Encodable encodable = new ShaConverter();
     private InputValidator validator = new InputValidatorImpl();
 
+
+    /**
+     * Validate incoming params
+     *
+     * @param content
+     * @return
+     * @throws ServiceException
+     */
     @Override
     public boolean validateForCreateOrUpdatePayment(SessionRequestContent content) throws ServiceException {
         boolean validated = false;
@@ -42,6 +50,8 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     /**
+     * Create or Update Payment record
+     *
      * @param content
      * @throws ServiceException
      */
@@ -71,6 +81,12 @@ public class PaymentServiceImpl implements PaymentService {
         content.getRequestAttributes().put(AttributeName.PAYMENT.getAttribute(), payment);
     }
 
+    /**
+     * Prepare payment info create account and amount record for client if not exist
+     *
+     * @param content
+     * @throws ServiceException
+     */
     @Override
     public void proceedToPayment(SessionRequestContent content) throws ServiceException {
         BigDecimal orderSum = new BigDecimal(content.getRequestParameters().get(AttributeName.ORDER_SUM.getAttribute()));
@@ -106,6 +122,13 @@ public class PaymentServiceImpl implements PaymentService {
 
     }
 
+
+    /**
+     * Make transaction payment
+     *
+     * @param content
+     * @throws ServiceException
+     */
     @Override
     public void makePayment(SessionRequestContent content) throws ServiceException {
         boolean made = false;

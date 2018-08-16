@@ -39,6 +39,11 @@ public class ClientServiceImpl implements ClientService {
     private Encodable encoder = new ShaConverter();
     private InputValidator validator = new InputValidatorImpl();
 
+
+    /**
+     * Find client detail record on params from request
+     * @param request
+     */
     public void findClientDetailFromPhotoUpload(HttpServletRequest request) throws ServiceException {
         try (ClientDetailDaoImpl clientDetailDao = new ClientDetailDaoImpl()) {
             if (request.getSession().getAttribute(AttributeName.LOGIN.getAttribute()) != null) {
@@ -52,6 +57,11 @@ public class ClientServiceImpl implements ClientService {
         }
     }
 
+    /**
+     * Upload photo to application
+     * @param request
+     * @throws ServiceException
+     */
     @Override
     public void uploadPhoto(HttpServletRequest request) throws ServiceException {
         StringBuffer validationMessage = new StringBuffer();
@@ -119,7 +129,8 @@ public class ClientServiceImpl implements ClientService {
     }
 
     /**
-     * @param content
+     * Find client detail record
+     * @param content from request
      */
     public void findClientDetail(SessionRequestContent content) throws ServiceException {
         try (ClientDetailDaoImpl clientDetailDao = new ClientDetailDaoImpl()) {
@@ -135,6 +146,12 @@ public class ClientServiceImpl implements ClientService {
         }
     }
 
+    /**
+     * Validate incoming params
+     * @param content from request
+     * @return true if validated
+     * @throws ServiceException
+     */
     @Override
     public boolean validateForCreateClientDetail(SessionRequestContent content) throws ServiceException {
         boolean validated = false;
@@ -178,9 +195,9 @@ public class ClientServiceImpl implements ClientService {
         return validated;
     }
 
-
     /**
-     * @param content
+     * Create or update Client Detail
+     * @param content from request
      */
     public void createOrUpdateClientDetails(SessionRequestContent content) throws ServiceException {
         try (ClientDetailDaoImpl clientDetailDao = new ClientDetailDaoImpl()) {
@@ -216,6 +233,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     /**
+     * Setteles encoder implementation
      * @param encoder
      */
     public void setEncoder(Encodable encoder) {

@@ -15,11 +15,7 @@ import java.util.Locale;
  */
 public class LanguageSwitcher<T> implements LanguageSwitchable<HttpServletRequest> {
     private static Logger logger = LogManager.getLogger();
-     /**
-      * 
-      * @param lang 
-      * @param request 
-      */
+
      private void langDef(String lang, HttpServletRequest request) {
         switch (lang) {
             case "be_BY":
@@ -51,10 +47,11 @@ public class LanguageSwitcher<T> implements LanguageSwitchable<HttpServletReques
                 request.getSession().setAttribute(AttributeName.LANG.getAttribute(), "be_BY");
         }
     }
-     /**
-      * 
-      * @param request 
-      */
+
+    /**
+     * Changes default locale for app and client side
+     * @param request
+     */
      @Override
      public void langSwitch(HttpServletRequest request) {
         String lang = null;

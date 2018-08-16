@@ -30,6 +30,8 @@ public class UserServiceImpl implements UserService {
     private Encodable encoder = new ShaConverter();
 
     /**
+     * Check if user with such login exist and authorize
+     *
      * @param content
      */
     public boolean checkLogin(SessionRequestContent content) throws ServiceException {
@@ -60,9 +62,11 @@ public class UserServiceImpl implements UserService {
     }
 
 
-
     /**
+     * Find user access level by login
+     *
      * @param login
+     * @return access level record
      */
     public String checkUserAccessLevel(String login) throws ServiceException {
         try (UserDaoImpl userDao = new UserDaoImpl()) {
@@ -76,11 +80,13 @@ public class UserServiceImpl implements UserService {
 
 
     /**
+     * Check if user already exists
+     *
      * @param content
+     * @return true is so false if not
      */
     public boolean checkUserExist(SessionRequestContent content) throws ServiceException {
         String login = content.getRequestParameters().get(AttributeName.LOGIN.getAttribute());
-        String password = content.getRequestParameters().get(AttributeName.PASSWORD.getAttribute());
 
         boolean exist = false;
         ArrayList<User> list = new ArrayList();
@@ -99,6 +105,8 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
+     * Create user record
+     *
      * @param content
      */
     public boolean createUser(SessionRequestContent content) throws ServiceException {
@@ -135,6 +143,8 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
+     * Show users with names and access
+     *
      * @param content
      */
     public void showUsersAndAccess(SessionRequestContent content) throws ServiceException {
@@ -148,6 +158,8 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
+     * Show user access level
+     *
      * @param content
      */
     @Override
@@ -167,6 +179,8 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
+     * Save access level
+     *
      * @param content
      */
     @Override
@@ -185,7 +199,10 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
+     * Find defoult doctor for recipe
      *
+     * @return User
+     * @throws ServiceException
      */
     public User findDefaultDoctor() throws ServiceException {
         User user = new User();
@@ -199,6 +216,7 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
+     * Invalidate session clears all session attributes
      *
      */
     public void invalidateSession(SessionRequestContent content) throws ServiceException {
@@ -222,6 +240,7 @@ public class UserServiceImpl implements UserService {
 
 
     /**
+     * Set encoder implementation
      * @param encoder
      */
     public void setEncoder(Encodable encoder) {

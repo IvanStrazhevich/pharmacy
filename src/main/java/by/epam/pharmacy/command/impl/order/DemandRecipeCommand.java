@@ -24,7 +24,7 @@ public class DemandRecipeCommand implements RequestCommand<SessionRequestContent
     public String execute(SessionRequestContent content) throws CommandException {
         try {
             if (recipeService.validateForCreateRecipe(content)) {
-                recipeService.createRecipe(content);
+                recipeService.createOrUpdateRecipe(content);
             }
             orderService.showOrder(content);
         } catch (ServiceException e) {

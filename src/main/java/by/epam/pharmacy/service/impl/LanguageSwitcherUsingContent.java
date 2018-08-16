@@ -14,11 +14,7 @@ import java.util.Locale;
  */
 public class LanguageSwitcherUsingContent implements LanguageSwitchable<SessionRequestContent> {
     private static Logger logger = LogManager.getLogger();
-    /**
-     * 
-     * @param lang 
-     * @param content 
-     */
+
     private void langDef(String lang, SessionRequestContent content) {
         switch (lang) {
             case "be_BY":
@@ -47,24 +43,24 @@ public class LanguageSwitcherUsingContent implements LanguageSwitchable<SessionR
         }
     }
     /**
-     * 
-     * @param sessionRequestContent 
+     * Changes default locale for app and client side
+     * @param content
      */
     @Override
-    public void langSwitch(SessionRequestContent sessionRequestContent) {
+    public void langSwitch(SessionRequestContent content) {
         String lang = null;
-        if (null != sessionRequestContent.getRequestParameters().get(AttributeName.LANG.getAttribute())) {
-            logger.info(sessionRequestContent.getRequestParameters().get(AttributeName.LANG.getAttribute()));
-            lang = sessionRequestContent.getRequestParameters().get(AttributeName.LANG.getAttribute()).toString();
-            langDef(lang, sessionRequestContent);
-        } else if (null != sessionRequestContent.getSessionAttributes().get(AttributeName.LANG.getAttribute())) {
-            logger.info(sessionRequestContent.getSessionAttributes().get(AttributeName.LANG.getAttribute()));
-            lang = sessionRequestContent.getSessionAttributes().get(AttributeName.LANG.getAttribute()).toString();
-            langDef(lang, sessionRequestContent);
+        if (null != content.getRequestParameters().get(AttributeName.LANG.getAttribute())) {
+            logger.info(content.getRequestParameters().get(AttributeName.LANG.getAttribute()));
+            lang = content.getRequestParameters().get(AttributeName.LANG.getAttribute()).toString();
+            langDef(lang, content);
+        } else if (null != content.getSessionAttributes().get(AttributeName.LANG.getAttribute())) {
+            logger.info(content.getSessionAttributes().get(AttributeName.LANG.getAttribute()));
+            lang = content.getSessionAttributes().get(AttributeName.LANG.getAttribute()).toString();
+            langDef(lang, content);
         } else {
             logger.info("no such session attribute, set default be_BY");
             ResourceManager.INSTANCE.changeResource(new Locale("be", "BY"));
-            sessionRequestContent.getSessionAttributes().put(AttributeName.LANG.getAttribute(), "be_BY");
+            content.getSessionAttributes().put(AttributeName.LANG.getAttribute(), "be_BY");
         }
     }
 }

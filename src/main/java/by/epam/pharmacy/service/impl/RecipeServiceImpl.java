@@ -33,6 +33,14 @@ public class RecipeServiceImpl implements RecipeService {
     private OrderService orderService = new OrderServiceImpl();
     private InputValidator validator = new InputValidatorImpl();
 
+
+    /**
+     * Validate incoming data for creation of recipe
+     *
+     * @param content
+     * @return boolean
+     * @throws ServiceException
+     */
     @Override
     public boolean validateForCreateRecipe(SessionRequestContent content) throws ServiceException {
         boolean validated = false;
@@ -50,10 +58,12 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     /**
+     * Create or update Recipe
+     *
      * @param content
      */
     @Override
-    public void createRecipe(SessionRequestContent content) throws ServiceException {
+    public void createOrUpdateRecipe(SessionRequestContent content) throws ServiceException {
         int orderId = Integer.valueOf(content.getRequestParameters().get(AttributeName.ORDER_ID.getAttribute()));
         int medicineId = Integer.valueOf(content.getRequestParameters().get(AttributeName.MEDICINE_ID.getAttribute()));
         int medicineQuantity = Integer.valueOf(content.getRequestParameters().get(AttributeName.MEDICINE_QUANTITY.getAttribute()));
@@ -72,6 +82,8 @@ public class RecipeServiceImpl implements RecipeService {
 
 
     /**
+     * Retrieve Recipe records
+     *
      * @param content
      */
     public void showRecipes(SessionRequestContent content) throws ServiceException {
@@ -85,6 +97,8 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     /**
+     * Retrieve single Recipe record
+     *
      * @param content
      */
     @Override
@@ -99,6 +113,13 @@ public class RecipeServiceImpl implements RecipeService {
         }
     }
 
+    /**
+     * Validate incoming data for approval
+     *
+     * @param content
+     * @return boolean
+     * @throws ServiceException
+     */
     @Override
     public boolean validateForApproveRecipe(SessionRequestContent content) throws ServiceException {
         boolean validated = false;
@@ -116,35 +137,39 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     /**
+     * Provide approval of recipe
+     *
      * @param content
      */
     @Override
     public void approveRecipe(SessionRequestContent content) throws ServiceException {
-            int recipeId = Integer.valueOf(content.getRequestParameters().get(AttributeName.RECIPE_ID.getAttribute()));
-            int medicineQuantity = Integer.valueOf(content.getRequestParameters().get(AttributeName.MEDICINE_QUANTITY.getAttribute()));
-            int clientId = Integer.valueOf(content.getRequestParameters().get(AttributeName.USER_ID.getAttribute()));
-            Timestamp validTill = Timestamp.valueOf(content.getRequestParameters().get(AttributeName.VALID_TILL.getAttribute()));
-            boolean approved = Boolean.parseBoolean(content.getRequestParameters().get(AttributeName.APPROVED.getAttribute()));
-            try (RecipeDaoImpl recipeDao = new RecipeDaoImpl()) {
-                Recipe recipeDB = recipeDao.findEntityById(recipeId);
-                recipeDB.setClientId(clientId);
-                recipeDB.setMedicineQuantity(medicineQuantity);
-                recipeDB.setValidTill(validTill);
-                recipeDB.setApproved(approved);
-                recipeDao.update(recipeDB);
-                int medicineId = recipeDB.getMedicineId();
-                int orderId = orderService.findCurrentOrderIdByUserId(clientId);
-                OrderHasMedicine orderHasMedicine = orderService.findOrderHasMedicine(orderId, medicineId);
-                orderHasMedicine.setRecipeId(recipeDB.getRecipeId());
-                orderHasMedicine.setMedicineQuantity(medicineQuantity);
-                orderService.updateRecipeAtOrderHasMedicine(orderHasMedicine);
-                orderService.changeQuantityFromRecipe(orderId, medicineId, medicineQuantity);
-            } catch (DaoException e) {
-                throw new ServiceException(e);
-            }
+        int recipeId = Integer.valueOf(content.getRequestParameters().get(AttributeName.RECIPE_ID.getAttribute()));
+        int medicineQuantity = Integer.valueOf(content.getRequestParameters().get(AttributeName.MEDICINE_QUANTITY.getAttribute()));
+        int clientId = Integer.valueOf(content.getRequestParameters().get(AttributeName.USER_ID.getAttribute()));
+        Timestamp validTill = Timestamp.valueOf(content.getRequestParameters().get(AttributeName.VALID_TILL.getAttribute()));
+        boolean approved = Boolean.parseBoolean(content.getRequestParameters().get(AttributeName.APPROVED.getAttribute()));
+        try (RecipeDaoImpl recipeDao = new RecipeDaoImpl()) {
+            Recipe recipeDB = recipeDao.findEntityById(recipeId);
+            recipeDB.setClientId(clientId);
+            recipeDB.setMedicineQuantity(medicineQuantity);
+            recipeDB.setValidTill(validTill);
+            recipeDB.setApproved(approved);
+            recipeDao.update(recipeDB);
+            int medicineId = recipeDB.getMedicineId();
+            int orderId = orderService.findCurrentOrderIdByUserId(clientId);
+            OrderHasMedicine orderHasMedicine = orderService.findOrderHasMedicine(orderId, medicineId);
+            orderHasMedicine.setRecipeId(recipeDB.getRecipeId());
+            orderHasMedicine.setMedicineQuantity(medicineQuantity);
+            orderService.updateRecipeAtOrderHasMedicine(orderHasMedicine);
+            orderService.changeQuantityFromRecipe(orderId, medicineId, medicineQuantity);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
         }
+    }
 
     /**
+     * Delete recipe from database
+     *
      * @param content
      */
     @Override
@@ -158,9 +183,6 @@ public class RecipeServiceImpl implements RecipeService {
         }
     }
 
-    /**
-     * @param recipe
-     */
     private void createOrUpdateRecipe(Recipe recipe) throws ServiceException {
         int clientId = recipe.getClientId();
         int medicineId = recipe.getMedicineId();
@@ -181,9 +203,6 @@ public class RecipeServiceImpl implements RecipeService {
         }
     }
 
-    /**
-     * @param orderId
-     */
     private int findUserId(Integer orderId) throws ServiceException {
         try (OrderDaoImpl orderDao = new OrderDaoImpl()) {
             return orderDao.findEntityById(orderId).getClientId();

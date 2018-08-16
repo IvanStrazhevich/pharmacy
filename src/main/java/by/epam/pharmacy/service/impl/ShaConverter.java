@@ -13,14 +13,14 @@ import java.security.NoSuchAlgorithmException;
 public class ShaConverter implements Encodable {
     private static final String ENCODE = "SHA-1";
 
-    /**
-     *
-     */
     public ShaConverter() {
     }
 
     /**
+     * Encode incoming string value in SHA-1
      * @param string
+     * @return encoded String representation of param
+     * @throws ServiceException
      */
     @Override
     public String encode(String string) throws ServiceException {
