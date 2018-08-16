@@ -6,19 +6,25 @@ import java.util.ArrayList;
 
 public interface RecipeDao<T> extends AbstractDao<T> {
     /**
-     * 
-     * @param clientId 
-     * @param medicineId 
-     * @param medicineQuantity 
+     * Find Recipe by params
+     * @param clientId         id of client
+     * @param medicineId       id of medicine
+     * @param medicineQuantity quantity of medicine
+     * @throws DaoException
      */
     T findRecipeByClientMedicineQuantity(Integer clientId, Integer medicineId, Integer medicineQuantity) throws DaoException;
+
     /**
-     * 
+     * Find all recipes with details provided
+     * @return ArrayList of recipes
+     * @throws DaoException
      */
     ArrayList<T> findAllWithDetails() throws DaoException;
+
     /**
-     * 
-     * @param recipeId 
+     * Find recipe with details by its id
+     * @param recipeId
+     * @throws DaoException
      */
     T findEntityByIdWithDetails(Integer recipeId) throws DaoException;
 }

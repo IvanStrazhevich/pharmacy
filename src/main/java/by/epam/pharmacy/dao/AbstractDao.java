@@ -32,6 +32,7 @@ public interface AbstractDao<T> extends AutoCloseable {
     boolean deleteById(int id, String statement) throws DaoException;
 
     /**
+     * Delete element from database
      * @param id of type int
      * @return true if deleted successfully false if not
      */

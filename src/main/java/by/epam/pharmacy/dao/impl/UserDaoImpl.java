@@ -58,7 +58,6 @@ public class UserDaoImpl extends AbstractDaoImpl<User> implements UserDao<User> 
 
     /**
      * Finds User by its id
-     *
      * @param id type Integer
      * @return User
      * @throws DaoException
@@ -81,7 +80,6 @@ public class UserDaoImpl extends AbstractDaoImpl<User> implements UserDao<User> 
 
     /**
      * Finds User by its login
-     *
      * @param login type String
      * @return User
      * @throws DaoException
@@ -128,6 +126,7 @@ public class UserDaoImpl extends AbstractDaoImpl<User> implements UserDao<User> 
     }
 
     /**
+     * Persists to database
      * @param entity of type User
      * @return true if statement create item successfully
      * @throws DaoException
@@ -148,6 +147,7 @@ public class UserDaoImpl extends AbstractDaoImpl<User> implements UserDao<User> 
     }
 
     /**
+     * Updates record in database
      * @param entity of type User
      * @return true if statement update item successfully
      * @throws DaoException
@@ -169,7 +169,8 @@ public class UserDaoImpl extends AbstractDaoImpl<User> implements UserDao<User> 
     }
 
     /**
-     * 
+     * Find all users with names
+     * @return ArrayList of Users
      */
     @Override
     public ArrayList<User> findUserWithNames() throws DaoException {
@@ -194,8 +195,9 @@ public class UserDaoImpl extends AbstractDaoImpl<User> implements UserDao<User> 
     }
 
     /**
-     * 
-     * @param accessLevel 
+     * Find users by access level
+     * @param accessLevel
+     * @return ArrayList of Users
      */
     @Override
     public ArrayList<User> findUsersByAccessLevel(String accessLevel) throws DaoException {
@@ -211,11 +213,6 @@ public class UserDaoImpl extends AbstractDaoImpl<User> implements UserDao<User> 
         return users;
     }
 
-    /**
-     * 
-     * @param users 
-     * @param resultSet 
-     */
     private void fillUsers(ArrayList<User> users, ResultSet resultSet) throws SQLException {
         while (resultSet.next()) {
             User user = new User();
@@ -227,11 +224,6 @@ public class UserDaoImpl extends AbstractDaoImpl<User> implements UserDao<User> 
         }
     }
 
-    /**
-     * 
-     * @param user 
-     * @param resultSet 
-     */
     private void fillUser(User user, ResultSet resultSet) throws SQLException {
         while (resultSet.next()) {
             user.setUserId(resultSet.getInt(1));

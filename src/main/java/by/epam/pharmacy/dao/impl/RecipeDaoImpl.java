@@ -37,8 +37,7 @@ public class RecipeDaoImpl extends AbstractDaoImpl<Recipe> implements RecipeDao<
         proxyConnection = super.proxyConnection;
     }
     /**
-     * Finds Users all existed
-     *
+     * Find Recipes all existed
      * @return ArrayList<Recipe>
      * @throws DaoException
      */
@@ -67,7 +66,9 @@ public class RecipeDaoImpl extends AbstractDaoImpl<Recipe> implements RecipeDao<
     }
 
     /**
-     * 
+     * Find all recipes with details provided
+     * @return ArrayList of recipes
+     * @throws DaoException
      */
     @Override
     public ArrayList<Recipe> findAllWithDetails() throws DaoException {
@@ -103,9 +104,8 @@ public class RecipeDaoImpl extends AbstractDaoImpl<Recipe> implements RecipeDao<
 
 
     /**
-     * Finds User by its id
-     *
-     * @param id type Integer
+     * Finds Recipe by its id
+     * @param id type int
      * @return Recipe
      * @throws DaoException
      */
@@ -124,8 +124,9 @@ public class RecipeDaoImpl extends AbstractDaoImpl<Recipe> implements RecipeDao<
     }
 
     /**
-     * 
-     * @param recipeId 
+     * Find recipe with details by its id
+     * @param recipeId
+     * @throws DaoException
      */
     @Override
     public Recipe findEntityByIdWithDetails(Integer recipeId) throws DaoException {
@@ -148,6 +149,7 @@ public class RecipeDaoImpl extends AbstractDaoImpl<Recipe> implements RecipeDao<
                 clientDetail.setName(resultSet.getString(9));
                 clientDetail.setLastname(resultSet.getString(10));
                 medicine.setMedicineName(resultSet.getString(11));
+                medicine.setMedicineId(resultSet.getInt(3));
                 recipe.setClientDetail(clientDetail);
                 recipe.setMedicine(medicine);
             }
@@ -236,12 +238,12 @@ public class RecipeDaoImpl extends AbstractDaoImpl<Recipe> implements RecipeDao<
         return success;
     }
 
-
     /**
-     * 
-     * @param clientId 
-     * @param medicineId 
-     * @param medicineQuantity 
+     * Find Recipe by params
+     * @param clientId         id of client
+     * @param medicineId       id of medicine
+     * @param medicineQuantity quantity of medicine
+     * @throws DaoException
      */
     @Override
     public Recipe findRecipeByClientMedicineQuantity(Integer clientId, Integer medicineId, Integer medicineQuantity) throws DaoException {
@@ -260,11 +262,6 @@ public class RecipeDaoImpl extends AbstractDaoImpl<Recipe> implements RecipeDao<
 
     }
 
-    /**
-     * 
-     * @param recipe 
-     * @param resultSet 
-     */
     private void fillRecipe(Recipe recipe, ResultSet resultSet) throws SQLException {
         while (resultSet.next()) {
             recipe.setRecipeId(resultSet.getInt(1));

@@ -35,6 +35,14 @@ public class PaymentDaoImpl<T> extends AbstractDaoImpl<Payment> implements Payme
         proxyConnection = super.proxyConnection;
     }
 
+    /**
+     * Make payment transaction
+     * @param accountDebit sum to pay from debit amount
+     * @param accountCredit sum to pay as credit
+     * @param userId user payed
+     * @return true if payment succeed
+     * @throws DaoException
+     */
     @Override
     public boolean makePayment(BigDecimal accountDebit, BigDecimal accountCredit, int userId) throws DaoException {
         boolean transfered = false;
@@ -132,8 +140,9 @@ public class PaymentDaoImpl<T> extends AbstractDaoImpl<Payment> implements Payme
     }
 
     /**
-     * @param orderId
-     * @return
+     * Find payment details for order by param
+     * @param orderId id of order type int
+     * @return Payment record
      * @throws DaoException
      */
     @Override
@@ -151,7 +160,9 @@ public class PaymentDaoImpl<T> extends AbstractDaoImpl<Payment> implements Payme
     }
 
     /**
-     * @param id
+     * Delete element from database
+     * @param id of type int
+     * @return true if deleted successfully false if not
      */
     @Override
     public boolean deleteById(int id) throws DaoException {
@@ -159,6 +170,8 @@ public class PaymentDaoImpl<T> extends AbstractDaoImpl<Payment> implements Payme
     }
 
     /**
+     * Delete element if it is
+     * @return true if deleted successfully false if not
      * @param entity
      */
     @Override
