@@ -60,6 +60,7 @@ ${validationError}
                                    value="<fmt:message key="label.button.approve"/>">
                             <input type="hidden" name="medicineId" value="${rcp.medicineId}">
                             <input type="hidden" name="recipeId" value="${rcp.recipeId}">
+                            <input type="hidden" name="userId" value="${rcp.clientId}">
                             <input type="hidden" name="action" value="ApproveRecipe">
                         </td>
                 </form>
