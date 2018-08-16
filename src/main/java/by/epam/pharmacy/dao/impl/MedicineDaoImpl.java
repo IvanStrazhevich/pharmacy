@@ -35,9 +35,10 @@ public class MedicineDaoImpl extends AbstractDaoImpl<Medicine> implements Medici
     }
 
     /**
-     * @param shift
-     * @param rawNumber
-     * @return
+     * Find all elements followed record number shift no more then rawNumber
+     * @param shift record number followed to select from database
+     * @param rawNumber quantity of elements needed to show
+     * @return ArrayList of Medicines
      * @throws DaoException
      */
     @Override

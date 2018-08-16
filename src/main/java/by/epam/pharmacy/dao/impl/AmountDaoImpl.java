@@ -124,9 +124,11 @@ public class AmountDaoImpl extends AbstractDaoImpl<ClientAmount> implements Amou
         }
         return success;
     }
-
+    /**
+     * Fill an Amount
+     */
     @Override
-    public boolean fillAccount() {
+    public boolean fillAmount() {
         return false;
     }
 }

@@ -20,7 +20,7 @@ public class ConnectionPool {
     private static final int CONNECTIONS_NORM = 10;
     private static final int NORMALIZATION_LIMIT_FOR_CONNECTIONS = 15;
     private static ConnectionPool instance;
-    private ConnectionCreator connectionCreator = new ConnectionCreator();
+    private ConnectionBuilder connectionBuilder = new ConnectionBuilder();
     private LinkedBlockingDeque<ProxyConnection> connectionPoolFree = new LinkedBlockingDeque<>();
     private LinkedList<ProxyConnection> connectionInUse = new LinkedList<>();
 
@@ -29,9 +29,9 @@ public class ConnectionPool {
      * 
      */
     private ConnectionPool() {
-        int poolSize = connectionCreator.definePoolSize();
+        int poolSize = connectionBuilder.definePoolSize();
         for (int i = 0; i < poolSize; i++) {
-            ProxyConnection proxyConnection = connectionCreator.createConnection();
+            ProxyConnection proxyConnection = connectionBuilder.createConnection();
             connectionPoolFree.add(proxyConnection);
         }
     }
@@ -85,7 +85,7 @@ public class ConnectionPool {
         try {
             if (connectionPoolFree.size() < MIN_CONNECTIONS && connectionInUse.size() < MAX_CONNECTIONS) {
                 logger.info("Connection adding");
-                connectionPoolFree.add(connectionCreator.createConnection());
+                connectionPoolFree.add(connectionBuilder.createConnection());
             } else if (connectionPoolFree.size() > NORMALIZATION_LIMIT_FOR_CONNECTIONS) {
                 optimizePool();
             }

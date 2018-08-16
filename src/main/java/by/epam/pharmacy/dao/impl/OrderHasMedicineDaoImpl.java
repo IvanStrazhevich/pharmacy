@@ -37,9 +37,10 @@ public class OrderHasMedicineDaoImpl extends AbstractDaoImpl<OrderHasMedicine> i
     }
 
     /**
-     * 
-     * @param orderId 
-     * @param medicineId 
+     * Find medicine from Order according params
+     * @param orderId id of Order
+     * @param medicineId id of Medicine
+     * @return OrderHasMedicine record
      */
     @Override
     public OrderHasMedicine findOrderHasMedicineByOrderIdMedicineId(Integer orderId, Integer medicineId) throws DaoException {
@@ -124,11 +125,12 @@ public class OrderHasMedicineDaoImpl extends AbstractDaoImpl<OrderHasMedicine> i
         return orderHasMedicine;
     }
 
+
     /**
-     * @param orderId
-     * @param medicineId
-     * @return
-     * @throws DaoException
+     * Delete medicine from Order according params
+     * @param orderId id of Order
+     * @param medicineId id of Medicine
+     * @return true if deleted false if exception thrown
      */
     @Override
     public boolean deleteMedicineFromOrder(Integer orderId, Integer medicineId) throws DaoException {
@@ -253,8 +255,9 @@ public class OrderHasMedicineDaoImpl extends AbstractDaoImpl<OrderHasMedicine> i
     }
 
     /**
-     * 
-     * @param entity 
+     * Update recipe id in record
+     * @param entity
+     * @return true if updated false if exception thrown
      */
     public boolean updateRecipe(OrderHasMedicine entity) throws DaoException {
         boolean success = false;

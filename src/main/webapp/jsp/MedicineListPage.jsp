@@ -61,6 +61,8 @@
                                     <input type="submit" class="btn btn-primary"
                                            value="<fmt:message key="label.button.addMedicine"/>">
                                     <input type="hidden" name="medicineId" value="${meds.medicineId}">
+                                    <input type="hidden" name="shift" value="${shift}">
+                                    <input type="hidden" name="rawNumber" value="${rawNumber}">
                                     <input type="hidden" name="action" value="AddMedicineToOrder">
                                 </td>
                             </form>

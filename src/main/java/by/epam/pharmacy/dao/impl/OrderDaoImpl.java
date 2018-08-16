@@ -153,9 +153,10 @@ public class OrderDaoImpl extends AbstractDaoImpl<Order> implements OrderDao<Ord
         }
         return success;
     }
-
     /**
-     * @param id
+     * Find for current client current Order that is not payed yet
+     * @param id is a client id of type int
+     * @return Order record
      */
     @Override
     public Order findCurrentOrderByUserId(int id) throws DaoException {
@@ -172,12 +173,14 @@ public class OrderDaoImpl extends AbstractDaoImpl<Order> implements OrderDao<Ord
         }
         return order;
     }
-
     /**
+     * Find Order and join all info for this Order's medicines, recipes, sum, client
      * @param orderId
+     * @return T of type Order record
      */
+
     @Override
-    public Order showOrderWithMedicineByOrderId(Integer orderId) throws DaoException {
+    public Order showOrderWithMedicineByOrderId(int orderId) throws DaoException {
         Order order = new Order();
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_BY_ORDER_ID_PSTM)) {
             preparedStatement.setInt(1, orderId);

@@ -43,9 +43,9 @@ public class OrderServiceImpl implements OrderService {
                 int medicineQuantity = Integer.valueOf(content.getRequestParameters().get(AttributeName.MEDICINE_QUANTITY.getAttribute()));
                 String clientLogin = content.getSessionAttributes().get(AttributeName.LOGIN.getAttribute()).toString();
                 int userId = findUserId(clientLogin);
-                logger.info(userId);
+                logger.debug(userId);
                 int orderId = createOrder(userId, medicineId);
-                logger.info("adding medicine to order" + orderId);
+                logger.debug("adding medicine to order" + orderId);
                 createOrUpdateMedicineInOrder(medicineId, orderId, medicineQuantity);
                 content.getRequestAttributes().put(AttributeName.MEDICINE_ADDED.getAttribute(),
                         ResourceManager.INSTANCE.getString(MESSAGE_ADDED));
@@ -96,7 +96,7 @@ public class OrderServiceImpl implements OrderService {
         try (OrderHasMedicineDaoImpl orderHasMedicineDao = new OrderHasMedicineDaoImpl()) {
             OrderHasMedicine orderHasMedicineDB = orderHasMedicineDao.findOrderHasMedicineByOrderIdMedicineId(orderId, medicineId);
             if (orderHasMedicineDao.deleteMedicineFromOrder(orderId, medicineId)) {
-                logger.info("deleted");
+                logger.debug("deleted");
                 recountStorageQuantity(medicineId, 0, orderHasMedicineDB.getMedicineQuantity());
                 success = true;
             }
@@ -120,13 +120,13 @@ public class OrderServiceImpl implements OrderService {
             ArrayList<OrderHasMedicine> medicines = order.getOrderHasMedicines();
             BigDecimal orderSum = new BigDecimal(0);
             for (OrderHasMedicine medicine : medicines) {
-                logger.info(medicine.getMedicineSum());
+                logger.debug(medicine.getMedicineSum());
                 BigDecimal medicineSum = medicine.getMedicineSum();
                 orderSum = orderSum.add(medicineSum);
             }
-            logger.info(orderSum);
+            logger.debug(orderSum);
             order.setOrderSum(orderSum);
-            logger.info(order);
+            logger.debug(order);
             orderDao.update(order);
             content.getRequestAttributes().put(AttributeName.ORDER.getAttribute(), order);
         } catch (DaoException e) {
@@ -191,7 +191,7 @@ public class OrderServiceImpl implements OrderService {
         try (OrderHasMedicineDaoImpl orderHasMedicineDao = new OrderHasMedicineDaoImpl()) {
             OrderHasMedicine orderHasMedicineDB = orderHasMedicineDao.findOrderHasMedicineByOrderIdMedicineId(orderHasMedicine.getOrderId(), orderHasMedicine.getMedicineId());
             orderHasMedicine.setMedicineSum(countMedicineSum(orderHasMedicine.getMedicineQuantity(), orderHasMedicine.getMedicineId()));
-            logger.info(orderHasMedicine);
+            logger.debug(orderHasMedicine);
             if (orderHasMedicineDao.update(orderHasMedicine)) {
                 recountStorageQuantity(orderHasMedicine.getMedicineId(), orderHasMedicine.getMedicineQuantity(), orderHasMedicineDB.getMedicineQuantity());
                 success = true;
@@ -224,9 +224,9 @@ public class OrderServiceImpl implements OrderService {
      */
     private BigDecimal countMedicineSum(int quantity, int medicineId) throws ServiceException {
         try (MedicineDaoImpl medicineDao = new MedicineDaoImpl()) {
-            logger.info(medicineId);
+            logger.debug(medicineId);
             BigDecimal price = medicineDao.findEntityById(medicineId).getPrice();
-            logger.info(price);
+            logger.debug(price);
             return price.multiply(new BigDecimal(quantity));
         } catch (DaoException e) {
             throw new ServiceException(e);
@@ -257,10 +257,10 @@ public class OrderServiceImpl implements OrderService {
         Order order = new Order();
         order.setClientId(userId);
         order.setOrderSum(BigDecimal.valueOf(0));
-        logger.info("Creating order");
-        logger.info(order);
+        logger.debug("Creating order");
+        logger.debug(order);
         int orderId = createOrUpdateOrder(order);
-        logger.info(orderId);
+        logger.debug(orderId);
         return orderId;
     }
 
@@ -271,14 +271,14 @@ public class OrderServiceImpl implements OrderService {
         try (OrderDaoImpl orderDao = new OrderDaoImpl()) {
             if (orderDao.findCurrentOrderByUserId(order.getClientId()).getOrderId() != 0
                     && !orderDao.findCurrentOrderByUserId(order.getClientId()).isPayed()) {
-                logger.info("order updated");
+                logger.debug("order updated");
                 orderDao.update(order);
                 order.setOrderId(orderDao.findCurrentOrderByUserId(order.getClientId()).getOrderId());
             } else {
                 if (orderDao.create(order)) {
-                    logger.info(" order created");
+                    logger.debug(" order created");
                     order.setOrderId(orderDao.findLastInsertId());
-                    logger.info(order.getOrderId());
+                    logger.debug(order.getOrderId());
                 }
             }
         } catch (DaoException e) {
@@ -300,10 +300,9 @@ public class OrderServiceImpl implements OrderService {
             orderHasMedicine.setOrderId(orderId);
             orderHasMedicine.setMedicineQuantity(medicineQuantity);
             orderHasMedicine.setMedicineSum(countMedicineSum(medicineQuantity, medicineId));
-            logger.info(orderHasMedicine);
+            logger.debug(orderHasMedicine);
             if (orderHasMedicineDao.findOrderHasMedicineByOrderIdMedicineId(orderId, medicineId).getMedicineId() == medicineId
                     && orderHasMedicineDao.findOrderHasMedicineByOrderIdMedicineId(orderId, medicineId).getOrderId() == orderId) {
-                logger.info("updates cause id = " + medicineId + " " + orderHasMedicineDao.findOrderHasMedicineByMedicineId(medicineId).getMedicineId());
                 OrderHasMedicine orderHasMedicineFromDB
                         = orderHasMedicineDao.findOrderHasMedicineByOrderIdMedicineId(orderId, medicineId);
                 orderHasMedicine.setMedicineQuantity(orderHasMedicine.getMedicineQuantity()
@@ -315,7 +314,6 @@ public class OrderServiceImpl implements OrderService {
                     success = true;
                 }
             } else {
-                logger.info("creates cause id is not equals " + medicineId + " " + orderHasMedicineDao.findOrderHasMedicineByMedicineId(medicineId).getMedicineId());
                 if (orderHasMedicineDao.create(orderHasMedicine)) {
                     updateStorageQuantity(medicineId, medicineQuantity);
                     success = true;
@@ -331,7 +329,7 @@ public class OrderServiceImpl implements OrderService {
      * @param clientLogin
      */
     private Integer findUserId(String clientLogin) throws ServiceException {
-        logger.info(clientLogin);
+        logger.debug(clientLogin);
         clientLogin = encodable.encode(clientLogin);
         try (UserDaoImpl userDao = new UserDaoImpl()) {
             return userDao.findUserByLogin(clientLogin).getUserId();

@@ -38,7 +38,7 @@ public abstract class AbstractDaoImpl<T> implements AbstractDao<T> {
      * @throws DaoException
      */
     @Override
-    public Integer findLastInsertId() throws DaoException {
+    public int findLastInsertId() throws DaoException {
         int id = 0;
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_LAST_INSERT_ID_PSTM)) {
             preparedStatement.execute();
@@ -53,7 +53,6 @@ public abstract class AbstractDaoImpl<T> implements AbstractDao<T> {
 
     /**
      * Delete entity by it's id
-     *
      * @param id
      * @param statement
      * @return true if deleted, false if exception

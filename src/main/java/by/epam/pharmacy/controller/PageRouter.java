@@ -19,9 +19,6 @@ public class PageRouter {
     private HashMap<String, RequestCommand> servletMap;
     private static Logger logger = LogManager.getLogger();
 
-    /**
-     *
-     */
     PageRouter() {
         try {
             servletMap = CommandMapper.getInstance().getServletMap();
@@ -32,6 +29,7 @@ public class PageRouter {
     }
 
     /**
+     * Depend on CommandType defines param type for RequestCommand, then forwards or redirects to page
      * @param request
      * @param response
      * @param content
@@ -45,10 +43,10 @@ public class PageRouter {
             if (action.equals(CommandType.UPLOAD_PHOTO.getCommand())) {
                 try {
                     page = requestCommand.execute(request);
-                    logger.info(page);
+                    logger.debug(page);
                     if (page != null) {
                         if (request.getRequestDispatcher(page) != null) {
-                            logger.info("upload forwarded");
+                            logger.debug("upload forwarded");
                             request.getRequestDispatcher(page).forward(request, response);
                         }
                     } else {
@@ -59,18 +57,18 @@ public class PageRouter {
                 } catch (CommandException e) {
                     logger.error(e.getCause());
                     if (request.getRequestDispatcher(PagePath.MISSED_FILE_PAGE.getPage()) != null) {
-                        logger.info(request.getRequestDispatcher(PagePath.MISSED_FILE_PAGE.getPage()));
+                        logger.debug(request.getRequestDispatcher(PagePath.MISSED_FILE_PAGE.getPage()));
                         response.sendRedirect(request.getContextPath() + PagePath.MISSED_FILE_PAGE.getPage());
                     }
                 }
             } else {
                 try {
                     page = requestCommand.execute(content);
-                    logger.info(page);
+                    logger.debug(page);
                     if (page != null) {
                         content.insertAttributes(request);
                         if (request.getRequestDispatcher(page) != null) {
-                            logger.info("forwarded");
+                            logger.debug("forwarded");
                             request.getRequestDispatcher(page).forward(request, response);
                         }
                     } else {

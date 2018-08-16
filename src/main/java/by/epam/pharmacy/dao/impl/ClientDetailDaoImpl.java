@@ -32,6 +32,12 @@ public class ClientDetailDaoImpl extends AbstractDaoImpl<ClientDetail> implement
     public ClientDetailDaoImpl() throws DaoException {
         proxyConnection = super.proxyConnection;
     }
+    /**
+     * Updates photo uri for entity
+     * @param entity
+     * @return true if photo updated false if exception thrown
+     * @throws DaoException
+     */
 
     @Override
     public boolean updatePhoto(ClientDetail entity) throws DaoException {

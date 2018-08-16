@@ -25,7 +25,8 @@ public class CommandMapper {
     private HashMap<String, RequestCommand> servletMap = new HashMap<>();
 
     /**
-     *
+     * Initializes servlet's HashMap with action command type as key, RequestCommand implementation as value
+     * @see RequestCommand
      */
     private CommandMapper() {
         servletMap.put(CommandType.LOGIN_PAGE.getCommand(), new LoginPageCommand());
@@ -62,7 +63,7 @@ public class CommandMapper {
     }
 
     /**
-     *
+     * @return instance of CommandMapper
      */
     static CommandMapper getInstance() throws PharmacyServletException {
         if (instance == null) {
@@ -72,7 +73,7 @@ public class CommandMapper {
     }
 
     /**
-     *
+     * @return servlet's map
      */
     HashMap<String, RequestCommand> getServletMap() {
         return servletMap;

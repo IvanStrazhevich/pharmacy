@@ -9,14 +9,14 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 /**
- * 
+ * Creates connection to database
  */
-public class ConnectionCreator {
+public class ConnectionBuilder {
     private static Logger logger = LogManager.getLogger();
     private Properties properties = new Properties();
 
     /**
-     * 
+     * Defines connection pool size according properties
      */
     int definePoolSize() {
         try {
@@ -29,7 +29,7 @@ public class ConnectionCreator {
     }
 
     /**
-     * 
+     * Creates connection according properties
      */
     ProxyConnection createConnection() {
         ProxyConnection proxyConnection = new ProxyConnection();

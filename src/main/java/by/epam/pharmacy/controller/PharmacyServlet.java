@@ -31,10 +31,6 @@ import java.io.IOException;
 public class PharmacyServlet extends HttpServlet {
     private PageRouter pageRouter = new PageRouter();
 
-    /**
-     * @param request
-     * @param response
-     */
     private void handleRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         SessionRequestContent content = new SessionRequestContent();
         content.extractValues(request);
@@ -44,6 +40,7 @@ public class PharmacyServlet extends HttpServlet {
     /**
      * @param request
      * @param response
+     * @see HttpServlet
      */
     @Override
     protected void doGet(HttpServletRequest request,
@@ -54,6 +51,7 @@ public class PharmacyServlet extends HttpServlet {
     /**
      * @param request
      * @param response
+     * @see HttpServlet
      */
     @Override
     protected void doPost(HttpServletRequest request,

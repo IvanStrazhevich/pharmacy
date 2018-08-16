@@ -11,7 +11,7 @@ public class InputValidatorImpl implements InputValidator {
     private static final String PASSWORD_REG = "(\\p{Punct}?\\w\\p{Punct}?){6,45}";
     private static final String POSTCODE_REG = "(\\w-?){0,10}";
     private static final String WORD_REG = "\\w{1,45}";
-    private static final String PHONE_REG = "\\+?\\d{10,15}";
+    private static final String PHONE_REG = "\\+?\\d{7,15}";
     private static final String EMAIL_REG = "\\w+@\\w{3,}\\.\\w{2,4}";
     private static final String TEXT_REG = ".{1,65535}";
     private static final String DECIMAL_REG = "\\d{1,6}(\\.\\d{0,2})?";
