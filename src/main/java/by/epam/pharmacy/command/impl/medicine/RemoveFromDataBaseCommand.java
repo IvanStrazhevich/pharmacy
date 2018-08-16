@@ -21,7 +21,7 @@ public class RemoveFromDataBaseCommand implements RequestCommand<SessionRequestC
     public String execute(SessionRequestContent content) throws CommandException {
         try {
             medicineService.removeMedicineFromDataBase(content);
-            medicineService.findAllMedicines(content);
+            medicineService.findAllMedicinesLimit(content);
         } catch (ServiceException e) {
             throw new CommandException(e);
         }

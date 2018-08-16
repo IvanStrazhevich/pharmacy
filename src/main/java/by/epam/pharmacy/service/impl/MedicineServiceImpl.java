@@ -49,6 +49,7 @@ public class MedicineServiceImpl implements MedicineService {
 
     /**
      * Finds all entries put ArrayList result in request
+     *
      * @param content
      * @throws ServiceException
      */
@@ -84,6 +85,7 @@ public class MedicineServiceImpl implements MedicineService {
 
     /**
      * Finds entry by id put in result in request
+     *
      * @param content
      * @throws ServiceException
      */
@@ -103,6 +105,7 @@ public class MedicineServiceImpl implements MedicineService {
 
     /**
      * Removes entry from database forever by its id
+     *
      * @param content
      * @throws ServiceException
      */
@@ -121,6 +124,7 @@ public class MedicineServiceImpl implements MedicineService {
 
     /**
      * Set available to medicine by its id
+     *
      * @param content
      * @throws ServiceException
      */
@@ -139,6 +143,7 @@ public class MedicineServiceImpl implements MedicineService {
 
     /**
      * Validate incoming params
+     *
      * @param content from request
      * @return boolean
      * @throws ServiceException
@@ -153,12 +158,17 @@ public class MedicineServiceImpl implements MedicineService {
         }
         medicineTemp.setMedicineName(content.getRequestParameters().get(AttributeName.MEDICINE_NAME.getAttribute()));
         medicineTemp.setDescription(content.getRequestParameters().get(AttributeName.DESCRIPTION.getAttribute()));
-        medicineTemp.setDosage(new BigDecimal(content.getRequestParameters().get(AttributeName.DOSAGE.getAttribute())));
+        if (!content.getRequestParameters().get(AttributeName.DOSAGE.getAttribute()).equals("")) {
+            medicineTemp.setDosage(new BigDecimal(content.getRequestParameters().get(AttributeName.DOSAGE.getAttribute())));
+        }
         medicineTemp.setRecipeRequired(Boolean.parseBoolean(content.getRequestParameters().get(AttributeName.RECIPE_REQ.getAttribute())));
-        medicineTemp.setPrice(new BigDecimal(content.getRequestParameters().get(AttributeName.PRICE.getAttribute())));
+        if (!content.getRequestParameters().get(AttributeName.PRICE.getAttribute()).equals("")) {
+            medicineTemp.setPrice(new BigDecimal(content.getRequestParameters().get(AttributeName.PRICE.getAttribute())));
+        }
         medicineTemp.setAvailable(Boolean.parseBoolean(content.getRequestParameters().get(AttributeName.AVAILABLE.getAttribute())));
-        medicineTemp.setQuantityAtStorage(Integer.valueOf(content.getRequestParameters().get(AttributeName.QUANTITY_AT_STORAGE.getAttribute())));
-
+        if (!content.getRequestParameters().get(AttributeName.QUANTITY_AT_STORAGE.getAttribute()).equals("")) {
+            medicineTemp.setQuantityAtStorage(Integer.valueOf(content.getRequestParameters().get(AttributeName.QUANTITY_AT_STORAGE.getAttribute())));
+        }
         if (!validator.validateText(content.getRequestParameters().get(AttributeName.MEDICINE_NAME.getAttribute()))
                 || !validator.validateLength(VARCHAR_45, content.getRequestParameters().get(AttributeName.MEDICINE_NAME.getAttribute()))) {
             validationMessage.append(AttributeName.MEDICINE_NAME.getAttribute());
@@ -186,6 +196,7 @@ public class MedicineServiceImpl implements MedicineService {
 
     /**
      * Creates or updates entry
+     *
      * @param content
      * @throws ServiceException
      */

@@ -18,7 +18,7 @@ public class RemoveFromAvailableList implements RequestCommand<SessionRequestCon
     public String execute(SessionRequestContent content) throws CommandException {
         try {
             medicineService.removeMedicineFromAvailableList(content);
-            medicineService.findAllMedicines(content);
+            medicineService.findAllMedicinesLimit(content);
         } catch (ServiceException e) {
             throw new CommandException(e);
         }

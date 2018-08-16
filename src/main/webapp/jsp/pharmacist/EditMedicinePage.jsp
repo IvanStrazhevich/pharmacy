@@ -13,9 +13,6 @@
 </head>
 <body>
 <c:import url="/WEB-INF/HeaderPage.jsp"/>
-<div class="container-fluid" style="flex-direction:column; float: left">
-    <c:import url="/WEB-INF/LeftSidePage.jsp"/>
-</div>
 <h4>
     ${validationError}
 </h4>
@@ -46,21 +43,21 @@
                     <c:if test="${medicine!=null}">
                         <td>${med.medicineId}</td>
                     </c:if>
-                    <td><input type="text" name="medicineName" value="${med.medicineName}"
+                    <td><input type="text" name="medicineName" value="${med.medicineName}" required
                                pattern=".{1,45}" placeholder="${med.medicineName}" maxlength="45" size="10"></td>
-                    <td><input type="text" name="description" value="${med.description}"
+                    <td><input type="text" name="description" value="${med.description}" required
                                pattern=".{1,65535}" placeholder="${med.description}" maxlength="65535" size="15">
                     </td>
                     <td><input type="text" name="dosage" value="${med.dosage}" placeholder="${med.dosage}" maxlength="5"
-                               pattern="\d{1,6}(\.\d{0,2})?" size="5"></td>
-                    <td><input type="text" name="recipeRequired" value="${med.recipeRequired}"
+                               pattern="\d{1,6}(\.\d{0,2})?" size="5" required></td>
+                    <td><input type="text" name="recipeRequired" value="${med.recipeRequired}" required
                                pattern="\w{1,5}" placeholder="${med.recipeRequired}" maxlength="5" size="5"></td>
                     <td><input type="text" name="price" value="${med.price}" placeholder="${med.price}" maxlength="8"
-                               pattern="\d{1,6}(\.\d{0,2})?" size="10">
+                               pattern="\d{1,6}(\.\d{0,2})?" size="10" required>
                     </td>
                     <td><input type="text" name="available" value="${med.available}" placeholder="${med.available}"
-                               pattern="\w{1,5}" maxlength="5" size="5"></td>
-                    <td><input type="number" name="quantityAtStorage" value="${med.quantityAtStorage}"
+                               pattern="\w{1,5}" maxlength="5" size="5" required></td>
+                    <td><input type="number" name="quantityAtStorage" value="${med.quantityAtStorage}" required
                                pattern="\d{1,11}" placeholder="${med.quantityAtStorage}" maxlength="11" size="5"></td>
                     <td>
                         <input type="submit" class="form-group btn btn-success"
