@@ -13,11 +13,8 @@
 </head>
 <body>
 <c:import url="/WEB-INF/HeaderPage.jsp"/>
-<div class="container-fluid" style="flex-direction:column; float: left">
-    <c:import url="/WEB-INF/LeftSidePage.jsp"/>
-</div>
 <h4>
-${validationError}
+    ${validationError}
 </h4>
 <div class="table-responsive">
     <h6>
@@ -42,27 +39,28 @@ ${validationError}
                     <td>${rcp.clientDetail.lastname}</td>
                     <td><input type="number" value="${rcp.medicineQuantity}" min="0" max="${rcp.medicineQuantity}"
                                name="medicineQuantity" required></td>
-                    <td><input type="number" value="${rcp.dosage}" min="0" max="${rcp.dosage}" name="dosage" required></td>
+                    <td><input type="number" value="${rcp.dosage}" min="0" max="${rcp.dosage}" name="dosage" required>
+                    </td>
                     <td><input type="text" name="validTill" value="${rcp.validTill}" placeholder="yyyy-mm-dd hh:mm:ss"
                                maxlength="19" required title="yyyy-mm-dd hh:mm:ss"
                                pattern="((1\d{3})|(20\d{2}))-((0\d)|(1[0-2]))-(([0-2]\d)|(3[0-1])) (([0-1]\d)|(2[0-3])):([0-5]\d):([0-5]\d)"
                                minlength="19"></td>
-                        <td>
-                            <select class="btn btn-primary" name="approved">
-                                <option value="true" <c:if test="${rcp.approved =='true'}"> selected </c:if>>
-                                    <fmt:message key="label.button.approved"/></option>
-                                <option value="false" <c:if test="${rcp.approved =='false'}"> selected </c:if>>
-                                    <fmt:message key="label.button.notApproved"/></option>
-                            </select>
-                        </td>
-                        <td>
-                            <input type="submit" class="btn btn-primary"
-                                   value="<fmt:message key="label.button.approve"/>">
-                            <input type="hidden" name="medicineId" value="${rcp.medicineId}">
-                            <input type="hidden" name="recipeId" value="${rcp.recipeId}">
-                            <input type="hidden" name="userId" value="${rcp.clientId}">
-                            <input type="hidden" name="action" value="ApproveRecipe">
-                        </td>
+                    <td>
+                        <select class="btn btn-primary" name="approved">
+                            <option value="true" <c:if test="${rcp.approved =='true'}"> selected </c:if>>
+                                <fmt:message key="label.button.approved"/></option>
+                            <option value="false" <c:if test="${rcp.approved =='false'}"> selected </c:if>>
+                                <fmt:message key="label.button.notApproved"/></option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="submit" class="btn btn-primary"
+                               value="<fmt:message key="label.button.approve"/>">
+                        <input type="hidden" name="medicineId" value="${rcp.medicineId}">
+                        <input type="hidden" name="recipeId" value="${rcp.recipeId}">
+                        <input type="hidden" name="userId" value="${rcp.clientId}">
+                        <input type="hidden" name="action" value="ApproveRecipe">
+                    </td>
                 </form>
                 <form action="RecipeListPage" method="post">
                     <td><input type="submit" class="btn btn-danger"

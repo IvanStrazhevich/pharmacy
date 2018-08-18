@@ -25,7 +25,6 @@ ${validationError}
 <div class="container container-table">
     <div class="row vertical-center-row">
         <div class="col-md-4 col-md-offset-4">
-
             <form action="CheckLogin" method=post>
                 <div class="form-group input-group input-group-lg">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>

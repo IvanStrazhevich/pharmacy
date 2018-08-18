@@ -14,10 +14,10 @@
 </head>
 <body>
 <div>
-<c:import url="/WEB-INF/HeaderPage.jsp"/>
+    <c:import url="/WEB-INF/HeaderPage.jsp"/>
 </div>
 <h4>
-${validationError}
+    ${validationError}
 </h4>
 <div class="container-fluid container-table">
     <div class="row">
@@ -46,8 +46,12 @@ ${validationError}
                 <div class="form-group input-group input-group-lg">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-inbox"></span></span>
 
-                    <input class="form-control" id="email" type="email" name="email" value="${us.email}"
-                           pattern="\w{1,}@\w{3,}\.\w{2,4}"  title="match email format"
+                    <input class="form-control" id="email" type="email" name="email"
+                    <c:choose>
+                    <c:when test="${us.email!=null}"> value="${us.email}" </c:when>
+                    <c:otherwise> value="${sessionScope.login}"</c:otherwise>
+                    </c:choose>
+                           pattern="\w{1,}@\w{3,}\.\w{2,4}" title="match email format"
                            required placeholder="<fmt:message key="message.enter.email"/>" maxlength="45">
                 </div>
                 <div class="form-group input-group input-group-lg">
@@ -69,14 +73,15 @@ ${validationError}
 
                     <input class="form-control" id="phone" type="text" name="phone" value="${us.phone}"
                            placeholder="<fmt:message key="message.enter.phone"/>"
-                           pattern="\+?\d{7,15}" title="+ contry code, operator/city code, phone number. 7 to 15 digit symbos"
+                           pattern="\+?\d{7,15}"
+                           title="+ contry code, operator/city code, phone number. 7 to 15 digit symbos"
                            required maxlength="15">
                 </div>
                 <div class="form-group input-group input-group-lg">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-home"></span></span>
 
                     <input class="form-control" id="postcode" type="text" name="postcode" value="${us.postcode}"
-                           pattern="(\w-?){1,10}" title="Digits, letters, '-' symbols, up to 10"required
+                           pattern="(\w-?){1,10}" title="Digits, letters, '-' symbols, up to 10" required
                            placeholder="<fmt:message key="message.enter.postcode"/>" maxlength="10">
                 </div>
                 <div class="form-group input-group input-group-lg">

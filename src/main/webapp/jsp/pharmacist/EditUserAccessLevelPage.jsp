@@ -12,10 +12,6 @@
 </head>
 <body>
 <c:import url="/WEB-INF/HeaderPage.jsp"/>
-<div class="container-fluid" style="flex-direction:column; float: left">
-    <c:import url="/WEB-INF/LeftSidePage.jsp"/>
-</div>
-
 <div class="table-responsive">
     <h6>
         <table style="background: whitesmoke" class="table table-striped table-hover table-bordered tableUpdated">
