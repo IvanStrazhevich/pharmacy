@@ -1,4 +1,4 @@
-<%@page contentType="text/html" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -34,8 +34,6 @@ ${notAuthorised}
                 <%--<th></th>--%>
             </tr>
             <c:set var="us" value="${user}"></c:set>
-            <%--<c:forEach items="${user}" var="us">
-            --%>
             <tr>
                 <td>${us.clientId}</td>
                 <td>${us.name}</td>
@@ -46,16 +44,8 @@ ${notAuthorised}
                 <td>${us.country}</td>
                 <td>${us.city}</td>
                 <td>${us.address}</td>
-                <%--<td>
-                    <form action="EditUserDataPage" method="post">
-                        <input type="submit" class="btn btn-primary"
-                               value="<fmt:message key="label.button.EditUserPage"/>">
-                        <input type="hidden" name="action" value="EditUserDataPage">
-                    </form>
-                </td>--%>
             </tr>
-            <%--</c:forEach><br>
-        --%></table>
+        </table>
     </h6>
 </div>
 <div style="float: bottom"><c:import url="/WEB-INF/FooterPage.jsp"/></div>

@@ -54,7 +54,7 @@ ${validationError}
                         <td>
                             <input type="number" name="medicineQuantity" value="${ohm.medicineQuantity}"
                                    min="0" max="${ohm.medicine.quantityAtStorage + ohm.medicineQuantity}"
-                                   maxlength="11">
+                                   maxlength="5">
                         </td>
                         <c:if test="${!ord.payed}">
                             <td>

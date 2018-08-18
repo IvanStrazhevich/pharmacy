@@ -41,10 +41,10 @@ ${validationError}
                     <td>${rcp.clientDetail.name}</td>
                     <td>${rcp.clientDetail.lastname}</td>
                     <td><input type="number" value="${rcp.medicineQuantity}" min="0" max="${rcp.medicineQuantity}"
-                               name="medicineQuantity"></td>
-                    <td><input type="number" value="${rcp.dosage}" min="0" max="${rcp.dosage}" name="dosage"></td>
+                               name="medicineQuantity" required></td>
+                    <td><input type="number" value="${rcp.dosage}" min="0" max="${rcp.dosage}" name="dosage" required></td>
                     <td><input type="text" name="validTill" value="${rcp.validTill}" placeholder="yyyy-mm-dd hh:mm:ss"
-                               maxlength="19"
+                               maxlength="19" required title="yyyy-mm-dd hh:mm:ss"
                                pattern="((1\d{3})|(20\d{2}))-((0\d)|(1[0-2]))-(([0-2]\d)|(3[0-1])) (([0-1]\d)|(2[0-3])):([0-5]\d):([0-5]\d)"
                                minlength="19"></td>
                         <td>

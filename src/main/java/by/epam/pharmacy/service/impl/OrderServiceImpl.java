@@ -227,7 +227,8 @@ public class OrderServiceImpl implements OrderService {
             logger.debug(medicineId);
             BigDecimal price = medicineDao.findEntityById(medicineId).getPrice();
             logger.debug(price);
-            return price.multiply(new BigDecimal(quantity));
+            BigDecimal quantityDecimal = BigDecimal.valueOf(quantity);
+            return price.multiply(quantityDecimal);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
