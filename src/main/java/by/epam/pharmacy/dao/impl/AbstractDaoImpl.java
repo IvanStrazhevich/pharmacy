@@ -62,7 +62,9 @@ public abstract class AbstractDaoImpl<T> implements AbstractDao<T> {
         boolean success = false;
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(statement)) {
             preparedStatement.setInt(1, id);
-            preparedStatement.executeUpdate();
+            if(preparedStatement.executeUpdate()<1){
+             return false;
+            }
             success = true;
         } catch (SQLException e) {
             throw new DaoException("Exception on deleteById", e);

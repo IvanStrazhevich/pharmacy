@@ -56,10 +56,7 @@ public class PageRouter {
                     }
                 } catch (CommandException e) {
                     logger.error(e.getCause());
-                    if (request.getRequestDispatcher(PagePath.MISSED_FILE_PAGE.getPage()) != null) {
-                        logger.debug(request.getRequestDispatcher(PagePath.MISSED_FILE_PAGE.getPage()));
-                        response.sendRedirect(request.getContextPath() + PagePath.MISSED_FILE_PAGE.getPage());
-                    }
+                    throw new ServletException(e);
                 }
             } else {
                 try {
@@ -78,9 +75,7 @@ public class PageRouter {
                     }
                 } catch (CommandException e) {
                     logger.error(e.getCause());
-                    if (request.getRequestDispatcher(PagePath.ERROR_PAGE.getPage()) != null) {
-                        response.sendRedirect(request.getContextPath() + PagePath.ERROR_PAGE.getPage());
-                    }
+                    throw new ServletException(e);
                 }
             }
         }

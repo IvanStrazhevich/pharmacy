@@ -14,108 +14,110 @@
 <body>
 <c:import url="/WEB-INF/HeaderPage.jsp"/>
 <h4>
-${recipeRequested}
-${payed}
-${validationError}
+    ${recipeRequested}
+    ${payed}
+    ${validationError}
 </h4>
 <c:if test="${!ord.payed && payed==null}">
-<div class="table-responsive">
-    <h6>
-        <table class="table table-striped table-bordered tableUpdated table-responsive">
-            <c:set value="${order}" var="ord"/>
-            <tr>
-                <th><fmt:message key="label.header.id"/></th>
-                <th><fmt:message key="label.header.medicineName"/></th>
-                <th><fmt:message key="label.header.dosage"/></th>
-                <th><fmt:message key="label.header.recipeRequaered"/></th>
-                <th><fmt:message key="label.header.recipeId"/></th>
-                <th><fmt:message key="label.header.approved"/></th>
-                <th><fmt:message key="label.header.orderSummary"/></th>
-                <th><fmt:message key="label.header.quantity"/></th>
-                <c:if test="${!ord.payed}">
-                    <th colspan="4"></th>
-                </c:if>
-            </tr>
-            <c:forEach items="${ord.orderHasMedicines}" var="ohm">
-                <tr>
-                    <td>${ord.orderId}</td>
-                    <td>${ohm.medicine.medicineName}</td>
-                    <td>${ohm.medicine.dosage}</td>
-                    <td>${ohm.medicine.recipeRequired}</td>
-                    <td>${ohm.recipeId}</td>
-                    <td>${ohm.recipe.approved}</td>
-                    <td>${ohm.medicineSum}</td>
-
-                    <form action="EditOrderPage" method="post">
-
-                        <td>
-                            <input type="number" name="medicineQuantity" value="${ohm.medicineQuantity}"
-                                   min="0" max="${ohm.medicine.quantityAtStorage + ohm.medicineQuantity}"
-                                   maxlength="5">
-                        </td>
+    <div class="table-responsive">
+        <h6>
+            <table class="table table-striped table-bordered tableUpdated table-responsive">
+                <c:set value="${order}" var="ord"/>
+                <c:if test="${ord.orderSum!=0}">
+                    <tr>
+                        <th><fmt:message key="label.header.id"/></th>
+                        <th><fmt:message key="label.header.medicineName"/></th>
+                        <th><fmt:message key="label.header.dosage"/></th>
+                        <th><fmt:message key="label.header.recipeRequaered"/></th>
+                        <th><fmt:message key="label.header.recipeId"/></th>
+                        <th><fmt:message key="label.header.approved"/></th>
+                        <th><fmt:message key="label.header.orderSummary"/></th>
+                        <th><fmt:message key="label.header.quantity"/></th>
                         <c:if test="${!ord.payed}">
-                            <td>
-                                <input type="submit" class="btn btn-success"
-                                       value="<fmt:message key="label.button.changeQuantity"/>">
-                                <input type="hidden" name="medicineId" value="${ohm.medicineId}">
-                                <input type="hidden" name="orderId" value="${ord.orderId}">
-                                <input type="hidden" name="action" value="ChangeQuantity">
-                            </td>
+                            <th colspan="4"></th>
                         </c:if>
-                    </form>
+                    </tr>
+                    <c:forEach items="${ord.orderHasMedicines}" var="ohm">
+                        <tr>
+                            <td>${ord.orderId}</td>
+                            <td>${ohm.medicine.medicineName}</td>
+                            <td>${ohm.medicine.dosage}</td>
+                            <td>${ohm.medicine.recipeRequired}</td>
+                            <td>${ohm.recipeId}</td>
+                            <td>${ohm.recipe.approved}</td>
+                            <td>${ohm.medicineSum}</td>
 
-                    <c:if test="${!ord.payed}">
-                        <td colspan="2">
                             <form action="EditOrderPage" method="post">
-                                <input type="submit" class="btn btn-danger"
-                                       value="<fmt:message key="label.button.delete"/>">
-                                <input type="hidden" name="medicineId" value="${ohm.medicineId}">
-                                <input type="hidden" name="orderId" value="${ord.orderId}">
-                                <input type="hidden" name="action" value="RemoveMedicineFromOrder">
+
+                                <td>
+                                    <input type="number" name="medicineQuantity" value="${ohm.medicineQuantity}"
+                                           min="0" max="${ohm.medicine.quantityAtStorage + ohm.medicineQuantity}"
+                                           maxlength="5">
+                                </td>
+                                <c:if test="${!ord.payed}">
+                                    <td>
+                                        <input type="submit" class="btn btn-success"
+                                               value="<fmt:message key="label.button.changeQuantity"/>">
+                                        <input type="hidden" name="medicineId" value="${ohm.medicineId}">
+                                        <input type="hidden" name="orderId" value="${ord.orderId}">
+                                        <input type="hidden" name="action" value="ChangeQuantity">
+                                    </td>
+                                </c:if>
                             </form>
-                        </td>
-                        <c:if test="${(ohm.medicine.recipeRequired==true
+
+                            <c:if test="${!ord.payed}">
+                                <td colspan="2">
+                                    <form action="EditOrderPage" method="post">
+                                        <input type="submit" class="btn btn-danger"
+                                               value="<fmt:message key="label.button.delete"/>">
+                                        <input type="hidden" name="medicineId" value="${ohm.medicineId}">
+                                        <input type="hidden" name="orderId" value="${ord.orderId}">
+                                        <input type="hidden" name="action" value="RemoveMedicineFromOrder">
+                                    </form>
+                                </td>
+                                <c:if test="${(ohm.medicine.recipeRequired==true
                 && ohm.recipe.approved==false)
                 || (ohm.medicine.recipeRequired==true
                 && ohm.recipe.medicineQuantity < ohm.medicineQuantity)}">
-                            <td>
-                                <form action="EditOrderPage" method="post">
-                                    <input type="submit" class="btn btn-warning"
-                                           value="<fmt:message key="label.button.demandRecipe"/>">
-                                    <input type="hidden" name="dosage" value="${ohm.medicine.dosage}">
+                                    <td>
+                                        <form action="EditOrderPage" method="post">
+                                            <input type="submit" class="btn btn-warning"
+                                                   value="<fmt:message key="label.button.demandRecipe"/>">
+                                            <input type="hidden" name="dosage" value="${ohm.medicine.dosage}">
+                                            <input type="hidden" name="orderId" value="${ord.orderId}">
+                                            <input type="hidden" name="medicineId" value="${ohm.medicineId}">
+                                            <input type="hidden" name="medicineQuantity"
+                                                   value="${ohm.medicineQuantity}">
+                                            <input type="hidden" name="action" value="DemandRecipe">
+                                        </form>
+                                    </td>
+                                </c:if>
+                            </c:if>
+
+                        </tr>
+                    </c:forEach>
+                    <tr>
+                        <td><fmt:message key="label.header.orderSummary"/></td>
+                        <td colspan="6"></td>
+                        <td>
+                                ${ord.orderSum}
+                        </td>
+                        <c:if test="${!ord.payed}">
+                            <td colspan="4">
+                                <form action="PaymentPage" method="post">
+                                    <input type="hidden" name="action" value="PayOrder">
                                     <input type="hidden" name="orderId" value="${ord.orderId}">
-                                    <input type="hidden" name="medicineId" value="${ohm.medicineId}">
-                                    <input type="hidden" name="medicineQuantity" value="${ohm.medicineQuantity}">
-                                    <input type="hidden" name="action" value="DemandRecipe">
+                                    <input type="hidden" name="orderSum" value="${ord.orderSum}">
+                                    <input type="submit" class="btn btn-info"
+                                           value="<fmt:message key="label.button.payOrder"/>">
                                 </form>
                             </td>
                         </c:if>
-                    </c:if>
-
-                </tr>
-            </c:forEach>
-            <tr>
-
-                <td><fmt:message key="label.header.orderSummary"/></td>
-                <td colspan="6"></td>
-                <td>
-                    ${ord.orderSum}
-                </td>
-                <c:if test="${!ord.payed}">
-                    <td colspan="4">
-                        <form action="PaymentPage" method="post">
-                            <input type="hidden" name="action" value="PayOrder">
-                            <input type="hidden" name="orderId" value="${ord.orderId}">
-                            <input type="hidden" name="orderSum" value="${ord.orderSum}">
-                            <input type="submit" class="btn btn-info"
-                                   value="<fmt:message key="label.button.payOrder"/>">
-                        </form>
-                    </td>
+                    </tr>
                 </c:if>
-            </tr>
-        </table>
-    </h6>
-</div>
+            </table>
+        </h6>
+    </div>
 </c:if>
 <div style="float: bottom"><c:import url="/WEB-INF/FooterPage.jsp"/></div>
 <script src="http://code.jquery.com/jquery-latest.js"></script>

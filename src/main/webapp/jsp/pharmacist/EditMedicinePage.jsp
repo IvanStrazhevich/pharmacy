@@ -71,6 +71,7 @@
                 </td>
 
                 <c:if test="${accessLevel=='pharmacist'&& med.medicineId!=0}">
+                    <%-- Temporary removed dew to bug fixing process
                     <td>
                         <form action="MedicineListPage" method="post">
                             <input type="submit" class=" form-control btn btn-danger"
@@ -80,7 +81,7 @@
                             <input type="hidden" name="medicineId" value="${med.medicineId}">
                             <input type="hidden" name="action" value="RemoveMedicineFromBase">
                         </form>
-                    </td>
+                    </td>--%>
                     <td>
                         <form action="MedicineListPage" method="post">
                             <input type="submit" class=" form-control btn btn-warning"

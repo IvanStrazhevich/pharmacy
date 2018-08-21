@@ -21,6 +21,7 @@ import java.util.ArrayList;
  */
 public class MedicineServiceImpl implements MedicineService {
     private static final String MESSAGE_DELETED = "message.medicineDeleted";
+    private static final String MESSAGE_NOT_DELETED = "message.medicineNotDeleted";
     private static final String MESSAGE_NOT_AVAILABLE = "message.medicineNotAvailable";
     private static final String MESSAGE_VALIDATION = "message.validationError";
     private static final int VARCHAR_45 = 45;
@@ -114,8 +115,11 @@ public class MedicineServiceImpl implements MedicineService {
         try (MedicineDaoImpl medicineDao = new MedicineDaoImpl()) {
             if (content.getRequestParameters().get(AttributeName.MEDICINE_ID.getAttribute()) != null) {
                 int medId = Integer.valueOf(content.getRequestParameters().get(AttributeName.MEDICINE_ID.getAttribute()).toString());
-                medicineDao.deleteById(medId);
-                content.getRequestAttributes().put(AttributeName.MEDICINE_DELETED.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE_DELETED));
+                if (medicineDao.deleteById(medId)) {
+                    content.getRequestAttributes().put(AttributeName.MEDICINE_DELETED.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE_DELETED));
+                } else {
+                    content.getRequestAttributes().put(AttributeName.MEDICINE_DELETED.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE_NOT_DELETED));
+                }
             }
         } catch (DaoException e) {
             throw new ServiceException(e);

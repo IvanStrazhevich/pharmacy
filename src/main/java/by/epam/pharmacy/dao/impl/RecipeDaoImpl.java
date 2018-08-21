@@ -15,13 +15,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- * 
+ *
  */
 public class RecipeDaoImpl extends AbstractDaoImpl<Recipe> implements RecipeDao<Recipe> {
     private static Logger logger = LogManager.getLogger();
-    private static final String SELECT_ALL_PSTM = "select rec_id, rec_doctor_user_id, rec_medicine_mdc_id, rec_client_user_id, rec_meds_quantity, rec_dosage, rec_date_valid_till, res_approved from recipe";
-    private static final String SELECT_ALL_WITH_DETAILS_PSTM = "select r.rec_id, r.rec_doctor_user_id, r.rec_medicine_mdc_id, r.rec_client_user_id, r.rec_meds_quantity, r.rec_dosage, r.rec_date_valid_till, r.res_approved, cd.cl_name, cd.cl_lastname, m.mdc_name from recipe as r LEFT JOIN medicine as m on r.rec_medicine_mdc_id=m.mdc_id LEFT JOIN client_detail cd ON r.rec_client_user_id = cd.user_id";
-    private static final String SELECT_BY_ID_WITH_DETAILS_PSTM = "select r.rec_id, r.rec_doctor_user_id, r.rec_medicine_mdc_id, r.rec_client_user_id, r.rec_meds_quantity, r.rec_dosage, r.rec_date_valid_till, r.res_approved, cd.cl_name, cd.cl_lastname, m.mdc_name from recipe as r LEFT JOIN medicine as m on r.rec_medicine_mdc_id=m.mdc_id LEFT JOIN client_detail cd ON r.rec_client_user_id = cd.user_id WHERE r.rec_id = ?";
+    private static final String SELECT_ALL_PSTM = "select rec_id, rec_doctor_user_id, rec_medicine_mdc_id, rec_client_user_id, rec_meds_quantity, rec_dosage, rec_date_valid_till, res_approved from recipe order by res_approved";
+    private static final String SELECT_ALL_WITH_DETAILS_PSTM = "select r.rec_id, r.rec_doctor_user_id, r.rec_medicine_mdc_id, r.rec_client_user_id, r.rec_meds_quantity, r.rec_dosage, r.rec_date_valid_till, r.res_approved, cd.cl_name, cd.cl_lastname, m.mdc_name from recipe as r LEFT JOIN medicine as m on r.rec_medicine_mdc_id=m.mdc_id LEFT JOIN client_detail as cd ON r.rec_client_user_id = cd.user_id order by r.res_approved";
+    private static final String SELECT_BY_ID_WITH_DETAILS_PSTM = "select r.rec_id, r.rec_doctor_user_id, r.rec_medicine_mdc_id, r.rec_client_user_id, r.rec_meds_quantity, r.rec_dosage, r.rec_date_valid_till, r.res_approved, cd.cl_name, cd.cl_lastname, m.mdc_name from recipe as r LEFT JOIN medicine as m on r.rec_medicine_mdc_id=m.mdc_id LEFT JOIN client_detail as cd ON r.rec_client_user_id = cd.user_id WHERE r.rec_id = ?";
     private static final String SELECT_BY_ID_PSTM = "select rec_id, rec_doctor_user_id, rec_medicine_mdc_id, rec_client_user_id, rec_meds_quantity, rec_dosage, rec_date_valid_till, res_approved  from recipe where rec_id = ?";
     private static final String SELECT_BY_CLIENT_MED_QUANT_PSTM = "select rec_id, rec_doctor_user_id, rec_medicine_mdc_id, rec_client_user_id, rec_meds_quantity, rec_dosage, rec_date_valid_till, res_approved  from recipe where rec_client_user_id=? and rec_medicine_mdc_id = ? and rec_meds_quantity=?";
     private static final String INSERT_PSTM = "insert into recipe(rec_doctor_user_id, rec_medicine_mdc_id, rec_client_user_id, rec_meds_quantity, rec_dosage, rec_date_valid_till, res_approved ) values(?,?,?,?,?,?,?)";
@@ -29,15 +29,13 @@ public class RecipeDaoImpl extends AbstractDaoImpl<Recipe> implements RecipeDao<
     private static final String UPDATE_PSTM = "update recipe set rec_doctor_user_id=?, rec_medicine_mdc_id=?, rec_client_user_id=?, rec_meds_quantity=?, rec_dosage=?, rec_date_valid_till=?, res_approved=?  where rec_id = ?";
     private ProxyConnection proxyConnection;
 
-
-    /**
-     * 
-     */
     public RecipeDaoImpl() throws DaoException {
         proxyConnection = super.proxyConnection;
     }
+
     /**
      * Find Recipes all existed
+     *
      * @return ArrayList<Recipe>
      * @throws DaoException
      */
@@ -66,6 +64,7 @@ public class RecipeDaoImpl extends AbstractDaoImpl<Recipe> implements RecipeDao<
 
     /**
      * Find all recipes with details provided
+     *
      * @return ArrayList of recipes
      * @throws DaoException
      */
@@ -103,6 +102,7 @@ public class RecipeDaoImpl extends AbstractDaoImpl<Recipe> implements RecipeDao<
 
     /**
      * Finds Recipe by its id
+     *
      * @param id type int
      * @return Recipe
      * @throws DaoException
@@ -122,6 +122,7 @@ public class RecipeDaoImpl extends AbstractDaoImpl<Recipe> implements RecipeDao<
 
     /**
      * Find recipe with details by its id
+     *
      * @param recipeId
      * @throws DaoException
      */
@@ -197,7 +198,7 @@ public class RecipeDaoImpl extends AbstractDaoImpl<Recipe> implements RecipeDao<
             preparedStatement.setInt(2, entity.getMedicineId());
             preparedStatement.setInt(3, entity.getClientId());
             preparedStatement.setInt(4, entity.getMedicineQuantity());
-            preparedStatement.setBigDecimal(5,entity.getDosage());
+            preparedStatement.setBigDecimal(5, entity.getDosage());
             preparedStatement.setTimestamp(6, entity.getValidTill());
             preparedStatement.setBoolean(7, entity.isApproved());
             logger.info(preparedStatement);
@@ -222,10 +223,10 @@ public class RecipeDaoImpl extends AbstractDaoImpl<Recipe> implements RecipeDao<
             preparedStatement.setInt(2, entity.getMedicineId());
             preparedStatement.setInt(3, entity.getClientId());
             preparedStatement.setInt(4, entity.getMedicineQuantity());
-            preparedStatement.setBigDecimal(5,entity.getDosage());
+            preparedStatement.setBigDecimal(5, entity.getDosage());
             preparedStatement.setTimestamp(6, entity.getValidTill());
             preparedStatement.setBoolean(7, entity.isApproved());
-            preparedStatement.setInt(8,entity.getRecipeId());
+            preparedStatement.setInt(8, entity.getRecipeId());
             preparedStatement.executeUpdate();
             success = true;
         } catch (SQLException e) {
@@ -236,6 +237,7 @@ public class RecipeDaoImpl extends AbstractDaoImpl<Recipe> implements RecipeDao<
 
     /**
      * Find Recipe by params
+     *
      * @param clientId         id of client
      * @param medicineId       id of medicine
      * @param medicineQuantity quantity of medicine

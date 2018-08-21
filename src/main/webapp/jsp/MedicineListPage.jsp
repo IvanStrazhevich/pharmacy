@@ -52,20 +52,22 @@
                     <td>${meds.quantityAtStorage}</td>
                     <c:choose>
                         <c:when test="${sessionScope.accessLevel!='pharmacist'}">
-                            <form action="MedicineListPage" method="post">
-                                <td>
-                                    <input type="number" name="medicineQuantity" min="1"
-                                           max="${meds.quantityAtStorage}">
-                                </td>
-                                <td>
-                                    <input type="submit" class="btn btn-primary"
-                                           value="<fmt:message key="label.button.addMedicine"/>">
-                                    <input type="hidden" name="medicineId" value="${meds.medicineId}">
-                                    <input type="hidden" name="shift" value="${shift}">
-                                    <input type="hidden" name="rawNumber" value="${rawNumber}">
-                                    <input type="hidden" name="action" value="AddMedicineToOrder">
-                                </td>
-                            </form>
+                            <c:if test="${meds.available}">
+                                <form action="MedicineListPage" method="post">
+                                    <td>
+                                        <input type="number" name="medicineQuantity" min="1"
+                                               max="${meds.quantityAtStorage}">
+                                    </td>
+                                    <td>
+                                        <input type="submit" class="btn btn-primary"
+                                               value="<fmt:message key="label.button.addMedicine"/>">
+                                        <input type="hidden" name="medicineId" value="${meds.medicineId}">
+                                        <input type="hidden" name="shift" value="${shift}">
+                                        <input type="hidden" name="rawNumber" value="${rawNumber}">
+                                        <input type="hidden" name="action" value="AddMedicineToOrder">
+                                    </td>
+                                </form>
+                            </c:if>
                         </c:when>
                         <c:otherwise>
                             <td>

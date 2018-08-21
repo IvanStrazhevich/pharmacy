@@ -24,10 +24,6 @@ public class ConnectionPool {
     private LinkedBlockingDeque<ProxyConnection> connectionPoolFree = new LinkedBlockingDeque<>();
     private LinkedList<ProxyConnection> connectionInUse = new LinkedList<>();
 
-
-    /**
-     * 
-     */
     private ConnectionPool() {
         int poolSize = connectionBuilder.definePoolSize();
         for (int i = 0; i < poolSize; i++) {
@@ -37,7 +33,7 @@ public class ConnectionPool {
     }
 
     /**
-     * 
+     * Return the instance of pool
      */
     public static ConnectionPool getInstance() {
         if (null == instance) {
