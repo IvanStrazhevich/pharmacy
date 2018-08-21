@@ -21,6 +21,7 @@
                 <th><fmt:message key="label.header.accessLevel"/></th>
                 <th><fmt:message key="label.header.name"/></th>
                 <th><fmt:message key="label.header.lastname"/></th>
+                <th><fmt:message key="label.header.email"/></th>
                 <th></th>
             </tr>
             <c:forEach items="${users}" var="us">
@@ -29,6 +30,8 @@
                     <td>${us.accessLevel}</td>
                     <td>${us.clientDetail.name}</td>
                     <td>${us.clientDetail.lastname}</td>
+                    <td>${us.clientDetail.email}</td>
+                    <c:if test="${us.clientDetail.email != sessionScope.login}">
                     <td>
                         <form action="EditUserAccessLevelPage" method="post">
                             <input type="submit" class="btn btn-primary"
@@ -37,6 +40,7 @@
                             <input type="hidden" value="${us.userId}" name="userId">
                         </form>
                     </td>
+                    </c:if>
                 </tr>
             </c:forEach>
         </table>

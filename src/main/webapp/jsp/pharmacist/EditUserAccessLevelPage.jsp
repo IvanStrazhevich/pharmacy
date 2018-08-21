@@ -19,6 +19,7 @@
                 <th><fmt:message key="label.header.id"/></th>
                 <th><fmt:message key="label.header.name"/></th>
                 <th><fmt:message key="label.header.lastname"/></th>
+                <th><fmt:message key="label.header.email"/></th>
                 <th><fmt:message key="label.header.accessLevel"/></th>
                 <th></th>
             </tr>
@@ -27,6 +28,8 @@
                 <td>${us.userId}</td>
                 <td>${us.clientDetail.name}</td>
                 <td>${us.clientDetail.lastname}</td>
+                <td>${us.clientDetail.email}</td>
+                <c:if test="${us.clientDetail.email != sessionScope.login}">
                 <form action="UserListPage" method="post">
                     <td>
                         <select class="btn btn-primary" name="accessLevel">
@@ -47,6 +50,7 @@
                         <input name="userId" type="hidden" value="${us.userId}">
                 </form>
                 </td>
+                </c:if>
             </tr>
             <br>
         </table>

@@ -26,7 +26,7 @@ public class UserDaoImpl extends AbstractDaoImpl<User> implements UserDao<User> 
     private static final String DELETE_PSTM = "delete from user where user_id = ?";
     private static final String UPDATE_PSTM = "update user set user_login = ?, user_password = ?, user_access_level = ? where user_id = ?";
     private static final String FIND_ALL_WITH_NAMES
-            = "select u.user_id, u.user_access_level, cd.cl_name, cd.cl_lastname  FROM client_detail as cd LEFT OUTER JOIN `user` as u ON cd.user_id = u.user_id";
+            = "select u.user_id, u.user_access_level, cd.cl_name, cd.cl_lastname, cd.cl_email  FROM client_detail as cd LEFT OUTER JOIN `user` as u ON cd.user_id = u.user_id";
     private ProxyConnection proxyConnection;
 
     /**
@@ -166,7 +166,7 @@ public class UserDaoImpl extends AbstractDaoImpl<User> implements UserDao<User> 
     }
 
     /**
-     * Find all users with names
+     * Find all users with names and email
      * @return ArrayList of Users
      */
     @Override
@@ -181,6 +181,7 @@ public class UserDaoImpl extends AbstractDaoImpl<User> implements UserDao<User> 
                 user.setAccessLevel(resultSet.getString(2));
                 clientDetail.setName(resultSet.getString(3));
                 clientDetail.setLastname(resultSet.getString(4));
+                clientDetail.setEmail(resultSet.getString(5));
                 user.setClientDetail(clientDetail);
                 users.add(user);
             }
