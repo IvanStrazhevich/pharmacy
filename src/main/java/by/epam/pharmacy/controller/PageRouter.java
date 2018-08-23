@@ -30,6 +30,7 @@ public class PageRouter {
 
     /**
      * Depend on CommandType defines param type for RequestCommand, then forwards or redirects to page
+     *
      * @param request
      * @param response
      * @param content

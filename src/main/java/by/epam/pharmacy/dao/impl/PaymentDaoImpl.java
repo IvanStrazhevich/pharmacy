@@ -37,9 +37,10 @@ public class PaymentDaoImpl<T> extends AbstractDaoImpl<Payment> implements Payme
 
     /**
      * Make payment transaction
-     * @param accountDebit sum to pay from debit amount
+     *
+     * @param accountDebit  sum to pay from debit amount
      * @param accountCredit sum to pay as credit
-     * @param userId user payed
+     * @param userId        user payed
      * @return true if payment succeed
      * @throws DaoException
      */
@@ -141,6 +142,7 @@ public class PaymentDaoImpl<T> extends AbstractDaoImpl<Payment> implements Payme
 
     /**
      * Find payment details for order by param
+     *
      * @param orderId id of order type int
      * @return Payment record
      * @throws DaoException
@@ -161,6 +163,7 @@ public class PaymentDaoImpl<T> extends AbstractDaoImpl<Payment> implements Payme
 
     /**
      * Delete element from database
+     *
      * @param id of type int
      * @return true if deleted successfully false if not
      */
@@ -171,8 +174,9 @@ public class PaymentDaoImpl<T> extends AbstractDaoImpl<Payment> implements Payme
 
     /**
      * Delete element if it is
-     * @return true if deleted successfully false if not
+     *
      * @param entity
+     * @return true if deleted successfully false if not
      */
     @Override
     public boolean delete(Payment entity) throws DaoException {

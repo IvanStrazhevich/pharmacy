@@ -23,21 +23,24 @@ public class OrderDaoImpl extends AbstractDaoImpl<Order> implements OrderDao<Ord
     private static final String SELECT_ALL_PSTM = "select order_id, ord_user_id, ord_payed, ord_med_sum from `order`";
     private static final String SELECT_BY_ID_PSTM = "select order_id, ord_user_id, ord_payed, ord_med_sum from `order` where order_id = ?";
     private static final String SELECT_BY_USER_PSTM = "select order_id, ord_user_id, ord_payed, ord_med_sum from `order` where ord_user_id = ?";
-    private static final String SELECT_BY_ORDER_ID_PSTM = "select ohm.order_order_id, m.mdc_name, ohm.ohm_med_quantity, ohm.ohm_med_sum, ohm.recipe_rec_id, m.mdc_dosage, m.mdc_recipe_required, m.mdc_id, m.mdc_price, r.res_approved, r.rec_meds_quantity, m.mdc_quantity, o.ord_user_id, o.ord_payed from order_has_medicine as ohm LEFT JOIN `medicine` as m on medicine_mdc_id=mdc_id LEFT JOIN `order`as o on ohm.order_order_id = o.order_id LEFT JOIN `recipe` as r on ohm.recipe_rec_id = r.rec_id where ohm.order_order_id = ? order BY m.mdc_name";
+    private static final String SELECT_BY_ORDER_ID_PSTM = "select ohm.order_order_id, m.mdc_name, ohm.ohm_med_quantity, ohm.ohm_med_sum, " +
+            "ohm.recipe_rec_id, m.mdc_dosage, m.mdc_recipe_required, m.mdc_id, m.mdc_price, r.res_approved, r.rec_meds_quantity, m.mdc_quantity, " +
+            "o.ord_user_id, o.ord_payed from order_has_medicine as ohm LEFT JOIN `medicine` as m on medicine_mdc_id=mdc_id " +
+            "LEFT JOIN `order`as o on ohm.order_order_id = o.order_id LEFT JOIN `recipe` as r on ohm.recipe_rec_id = r.rec_id where ohm.order_order_id = ? " +
+            "order BY m.mdc_name";
     private static final String INSERT_PSTM = "insert into `order` (ord_user_id, ord_payed, ord_med_sum) values(?,?,?)";
     private static final String DELETE_PSTM = "delete from `order` where order_id = ?";
     private static final String UPDATE_PSTM = "update `order` set ord_user_id=?, ord_payed=?, ord_med_sum=? where order_id = ?";
     private ProxyConnection proxyConnection;
 
-    /**
-     *
-     */
     public OrderDaoImpl() throws DaoException {
         proxyConnection = super.proxyConnection;
     }
 
     /**
-     * @return
+     * Finds all records
+     *
+     * @return ArrayList of type Order
      * @throws DaoException
      */
     @Override
@@ -61,8 +64,10 @@ public class OrderDaoImpl extends AbstractDaoImpl<Order> implements OrderDao<Ord
 
 
     /**
-     * @param id
-     * @return
+     * Find record using id as param
+     *
+     * @param id type of int
+     * @return Order type entity
      * @throws DaoException
      */
     @Override
@@ -80,8 +85,10 @@ public class OrderDaoImpl extends AbstractDaoImpl<Order> implements OrderDao<Ord
 
 
     /**
-     * @param id
-     * @return
+     * Delete order record using id of entity as param
+     *
+     * @param id type int
+     * @return true if succeed false if not
      * @throws DaoException
      */
     @Override
@@ -90,8 +97,10 @@ public class OrderDaoImpl extends AbstractDaoImpl<Order> implements OrderDao<Ord
     }
 
     /**
+     * Delete order record using entity as param
+     *
      * @param entity
-     * @return
+     * @return true if succeed false if not
      * @throws DaoException
      */
     @Override
@@ -108,8 +117,10 @@ public class OrderDaoImpl extends AbstractDaoImpl<Order> implements OrderDao<Ord
     }
 
     /**
+     * Create order record
+     *
      * @param entity
-     * @return
+     * @return true if succeed false if not
      * @throws DaoException
      */
     @Override
@@ -131,8 +142,10 @@ public class OrderDaoImpl extends AbstractDaoImpl<Order> implements OrderDao<Ord
     }
 
     /**
+     * Update order record
+     *
      * @param entity
-     * @return
+     * @return true if succeed false if not
      * @throws DaoException
      */
     @Override
@@ -151,8 +164,10 @@ public class OrderDaoImpl extends AbstractDaoImpl<Order> implements OrderDao<Ord
         }
         return success;
     }
+
     /**
      * Find for current client current Order that is not payed yet
+     *
      * @param id is a client id of type int
      * @return Order record
      */
@@ -170,8 +185,10 @@ public class OrderDaoImpl extends AbstractDaoImpl<Order> implements OrderDao<Ord
         }
         return order;
     }
+
     /**
      * Find Order and join all info for this Order's medicines, recipes, sum, client
+     *
      * @param orderId
      * @return T of type Order record
      */
@@ -211,10 +228,6 @@ public class OrderDaoImpl extends AbstractDaoImpl<Order> implements OrderDao<Ord
         return order;
     }
 
-    /**
-     * @param order
-     * @param resultSet
-     */
     private void fillOrder(Order order, ResultSet resultSet) throws SQLException {
         while (resultSet.next()) {
             order.setOrderId(resultSet.getInt(1));

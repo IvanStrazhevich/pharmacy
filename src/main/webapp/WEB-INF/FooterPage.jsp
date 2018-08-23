@@ -1,7 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="pharmacyCustomTaglib" prefix="pht" %>
-<fmt:setLocale value="${lang}" scope="session"/>
+<fmt:setLocale value="${sessionScope.lang}" scope="session"/>
 <fmt:setBundle basename="message"/>
 <html>
 <head>
@@ -11,7 +11,7 @@
 </head>
 <body>
 
-<span style="float: top"> <pht:info-time locale="${lang}"/></span>
+<span style="float: top"> <pht:info-time locale="${sessionScope.lang}"/></span>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="js/bootstrap.min.js"></script>
 
