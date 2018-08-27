@@ -40,11 +40,11 @@
     </div>
 </nav>
 <h4>
-    ${notAuthorised}
+    <c:out value="${notAuthorised}
     ${userRegistered}
     ${greeting}
     ${needRegister}
-    ${needLogin}
+    ${needLogin}"/>
 </h4>
 <div style="float: bottom"><c:import url="/WEB-INF/FooterPage.jsp"/></div>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
