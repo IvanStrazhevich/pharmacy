@@ -16,7 +16,6 @@
     <div class="container-fluid">
         <form class="navbar-form navbar-left" action="WelcomePage"
               method="post">
-
             <input type="hidden" name="action" value="WelcomePage">
             <div class="form-group input-group input-group-lg col-md-8 col-md-offset-0 col-xs-12">
                 <input class="form-control btn btn-success" type="submit"

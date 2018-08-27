@@ -39,4 +39,6 @@ public interface PaymentService {
      * @throws ServiceException
      */
     boolean validateForCreateOrUpdatePayment(SessionRequestContent content) throws ServiceException;
+
+    boolean checkIfRepeat(SessionRequestContent content) throws ServiceException;
 }

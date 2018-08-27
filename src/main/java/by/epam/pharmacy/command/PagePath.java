@@ -21,7 +21,7 @@ public enum PagePath {
     PAYMENT_PAGE("/jsp/PaymentPage.jsp"),
     HEADER_PAGE("/HeaderPage.jsp"),
     FOOTER_PAGE("/FooterPage.jsp"),
-    INDEX_PAGE("/index.jsp"),
+    INDEX_PAGE("/pharmacy/index.jsp"),
     MISSED_FILE_PAGE("/MissedFilePage.jsp"),
     ERROR_PAGE("/ErrorPage.jsp");
 

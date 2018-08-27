@@ -4,7 +4,7 @@ package by.epam.pharmacy.command;
  * Have all request attributes, that used at application
  */
 public enum AttributeName {
-    ACTION("action"), RAW_NUMBER("rawNumber"), SHIFT("shift"), LANG("lang"),
+    ACTION("action"), RAW_NUMBER("rawNumber"), SHIFT("shift"), LANG("lang"), SUBMITTED("submitted"),
     //User attributes
     USER("user"), NEED_LOGIN("needLogin"), NEED_REGISTER("needRegister"), LOGGED("logged"),
     NOT_AUTHORISED("notAuthorised"), USER_EXIST("userExist"), USER_REGISTERED("userRegistered"),

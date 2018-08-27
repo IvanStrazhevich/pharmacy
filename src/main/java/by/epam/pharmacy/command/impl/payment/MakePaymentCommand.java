@@ -16,12 +16,18 @@ public class MakePaymentCommand implements RequestCommand<SessionRequestContent>
      */
     @Override
     public String execute(SessionRequestContent content) throws CommandException {
+        String page = null;
         try {
-            paymentService.makePayment(content);
+            if (!paymentService.checkIfRepeat(content)) {
+                paymentService.makePayment(content);
+                page = PagePath.EDIT_ORDER_PAGE.getPage();
+            } else {
+                page = PagePath.INDEX_PAGE.getPage();
+            }
         } catch (ServiceException e) {
             throw new CommandException(e);
         }
-        return PagePath.EDIT_ORDER_PAGE.getPage();
+        return page;
     }
 
     public void setPaymentService(PaymentService paymentService) {

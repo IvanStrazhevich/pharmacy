@@ -63,11 +63,16 @@ public class PageRouter {
                 try {
                     page = requestCommand.execute(content);
                     logger.debug(page);
-                    if (page != null) {
+                    if (page != null && !page.equals(PagePath.INDEX_PAGE.getPage())) {
                         content.insertAttributes(request);
                         if (request.getRequestDispatcher(page) != null) {
                             logger.debug("forwarded");
                             request.getRequestDispatcher(page).forward(request, response);
+                        }
+                    } else if(page != null && page.equals(PagePath.INDEX_PAGE.getPage())) {
+                        content.insertAttributes(request);
+                        if(request.getRequestDispatcher(page)!= null){
+                            response.sendRedirect(page);
                         }
                     } else {
                         if (request.getRequestDispatcher(PagePath.ERROR_PAGE.getPage()) != null) {

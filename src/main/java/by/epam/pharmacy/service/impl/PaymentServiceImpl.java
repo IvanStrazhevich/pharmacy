@@ -122,6 +122,18 @@ public class PaymentServiceImpl implements PaymentService {
 
     }
 
+    @Override
+    public boolean checkIfRepeat(SessionRequestContent content) throws ServiceException {
+        boolean repeated = false;
+        if (content.getSessionAttributes().get(AttributeName.SUBMITTED.getAttribute()) == null) {
+            repeated = false;
+        } else {
+            content.getSessionAttributes().put(AttributeName.SUBMITTED.getAttribute(), null);
+            repeated = true;
+        }
+        return repeated;
+    }
+
 
     /**
      * Make transaction payment
@@ -160,7 +172,9 @@ public class PaymentServiceImpl implements PaymentService {
         } else {
             content.getRequestAttributes().put(AttributeName.PAYED.getAttribute(), ResourceManager.INSTANCE.getString(MESSAGE_NOT_PAYED));
         }
+        content.getSessionAttributes().put(AttributeName.SUBMITTED.getAttribute(), AttributeName.SUBMITTED.getAttribute());
     }
+
 
     private PharmacyAccount checkAmount(BigDecimal orderSum, int userId) throws ServiceException {
         PharmacyAccount pharmacyAccountTemp = new PharmacyAccount();
