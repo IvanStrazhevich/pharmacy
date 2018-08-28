@@ -2,7 +2,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="pharmacyCustomTaglib" prefix="pht" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<fmt:setLocale value="${lang}" scope="session"/>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<fmt:setLocale value="${fn:escapeXml(sessionScope.lang)}" scope="session"/>
 <fmt:setBundle basename="message"/>
 <html>
 <head>
@@ -16,10 +17,10 @@
 <body>
 <c:import url="/WEB-INF/HeaderPage.jsp"/>
 <h4>
-    ${medicineAdded}
-    ${needLogin}
-    ${medicineDeleted}
-    ${notAuthorised}
+    ${fn:escapeXml(medicineAdded)}
+    ${fn:escapeXml(needLogin)}
+    ${fn:escapeXml(medicineDeleted)}
+    ${fn:escapeXml(notAuthorised)}
 </h4>
 <div class="table-responsive">
     <h6>
@@ -34,36 +35,36 @@
                 <th><fmt:message key="label.header.available"/></th>
                 <th><fmt:message key="label.header.quantityAvailable"/></th>
                 <th><fmt:message key="label.header.choose"/></th>
-                <c:if test="${accessLevel!='pharmacist'}">
+                <c:if test="${fn:escapeXml(accessLevel)!='pharmacist'}">
                     <th colspan="3"></th>
                 </c:if>
             </tr>
-            <c:set var="rawNumber" value="${rawNumber}"/>
-            <c:set var="raw" value="${shift}"/>
+            <c:set var="rawNumber" value="${fn:escapeXml(rawNumber)}"/>
+            <c:set var="raw" value="${fn:escapeXml(shift)}"/>
             <c:forEach items="${medicines}" var="meds">
                 <tr>
-                    <td>${raw=raw+1}</td>
-                    <td>${meds.medicineName}</td>
-                    <td>${meds.description}</td>
-                    <td>${meds.dosage}</td>
-                    <td>${meds.recipeRequired}</td>
-                    <td>${meds.price}</td>
-                    <td>${meds.available}</td>
-                    <td>${meds.quantityAtStorage}</td>
+                    <td>${fn:escapeXml(raw=raw+1)}</td>
+                    <td>${fn:escapeXml(meds.medicineName)}</td>
+                    <td>${fn:escapeXml(meds.description)}</td>
+                    <td>${fn:escapeXml(meds.dosage)}</td>
+                    <td>${fn:escapeXml(meds.recipeRequired)}</td>
+                    <td>${fn:escapeXml(meds.price)}</td>
+                    <td>${fn:escapeXml(meds.available)}</td>
+                    <td>${fn:escapeXml(meds.quantityAtStorage)}</td>
                     <c:choose>
                         <c:when test="${sessionScope.accessLevel!='pharmacist'}">
                             <c:if test="${meds.available}">
                                 <form action="MedicineListPage" method="post">
                                     <td>
                                         <input type="number" name="medicineQuantity" min="1"
-                                               max="${meds.quantityAtStorage}">
+                                               max="${fn:escapeXml(meds.quantityAtStorage)}">
                                     </td>
                                     <td>
                                         <input type="submit" class="btn btn-primary"
                                                value="<fmt:message key="label.button.addMedicine"/>">
-                                        <input type="hidden" name="medicineId" value="${meds.medicineId}">
-                                        <input type="hidden" name="shift" value="${shift}">
-                                        <input type="hidden" name="rawNumber" value="${rawNumber}">
+                                        <input type="hidden" name="medicineId" value="${fn:escapeXml(meds.medicineId)}">
+                                        <input type="hidden" name="shift" value="${fn:escapeXml(shift)}">
+                                        <input type="hidden" name="rawNumber" value="${fn:escapeXml(rawNumber)}">
                                         <input type="hidden" name="action" value="AddMedicineToOrder">
                                     </td>
                                 </form>
@@ -74,7 +75,7 @@
                                 <form action="EditMedicinePage" method="post">
                                     <input type="submit" class="btn btn-primary"
                                            value="<fmt:message key="label.button.EditMedicine"/>">
-                                    <input type="hidden" name="medicineId" value="${meds.medicineId}">
+                                    <input type="hidden" name="medicineId" value="${fn:escapeXml(meds.medicineId)}">
                                     <input type="hidden" name="action" value="EditMedicine">
                                 </form>
                             </td>
@@ -87,10 +88,10 @@
         <c:if test="${shift!=0}">
             <form class="navbar-form navbar-left" action="MedicineListPage" method="post">
                 <input type="hidden" name="action" value="MedicineList"/>
-                <input type="hidden" name="rawNumber" value="${rawNumber}">
+                <input type="hidden" name="rawNumber" value="${fn:escapeXml(rawNumber)}">
                 <c:choose>
-                    <c:when test="${shift-rawNumber>=0}">
-                        <input type="hidden" name="shift" value="${shift-rawNumber}">
+                    <c:when test="${fn:escapeXml(shift-rawNumber>=0)}">
+                        <input type="hidden" name="shift" value="${fn:escapeXml(shift-rawNumber)}">
                     </c:when>
                     <c:otherwise>
                         <input type="hidden" name="shift" value="${0}">
@@ -105,14 +106,14 @@
         <c:if test="${raw-shift>rawNumber-1}">
             <form class="navbar-form navbar-left" action="MedicineListPage" method="post">
                 <input type="hidden" name="action" value="MedicineList"/>
-                <input type="hidden" name="shift" value="${raw}"/>
+                <input type="hidden" name="shift" value="${fn:escapeXml(raw)}"/>
                 <select class="btn btn-info" name="rawNumber">
-                    <option value="5" <c:if test="${rawNumber==5}"> selected </c:if>>
+                    <option value="5" <c:if test="${fn:escapeXml(rawNumber==5)}"> selected </c:if>>
                         <fmt:message
                                 key="label.button.5raws"/></option>
-                    <option value="10" <c:if test="${rawNumber==10}"> selected </c:if>>
+                    <option value="10" <c:if test="${fn:escapeXml(rawNumber==10)}"> selected </c:if>>
                         <fmt:message key="label.button.10raws"/></option>
-                    <option value="15"<c:if test="${rawNumber==15}"> selected </c:if>>
+                    <option value="15"<c:if test="${fn:escapeXml(rawNumber==15)}"> selected </c:if>>
                         <fmt:message
                                 key="label.button.15raws"/></option>
                 </select>

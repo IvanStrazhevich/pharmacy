@@ -2,7 +2,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="pharmacyCustomTaglib" prefix="pht" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<fmt:setLocale value="${lang}" scope="session"/>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<fmt:setLocale value="${fn:escapeXml(sessionScope.lang)}" scope="session"/>
 <fmt:setBundle basename="message"/>
 <html>
 <head>
@@ -16,7 +17,7 @@
 <body>
 <c:import url="/WEB-INF/HeaderPage.jsp"/>
 <h4>
-    ${recipeDeleted}
+    ${fn:escapeXml(recipeDeleted)}
 </h4>
 <div class="table-responsive">
     <h6>
@@ -34,16 +35,16 @@
             </tr>
             <c:forEach items="${recipes}" var="rcp">
                 <tr>
-                    <td>${rcp.recipeId}</td>
-                    <td>${rcp.medicine.medicineName}</td>
-                    <td>${rcp.clientDetail.name}</td>
-                    <td>${rcp.clientDetail.lastname}</td>
-                    <td>${rcp.medicineQuantity}</td>
-                    <td>${rcp.dosage}</td>
-                    <td>${rcp.validTill}</td>
-                    <td>${rcp.approved}</td>
+                    <td>${fn:escapeXml(rcp.recipeId)}</td>
+                    <td>${fn:escapeXml(rcp.medicine.medicineName)}</td>
+                    <td>${fn:escapeXml(rcp.clientDetail.name)}</td>
+                    <td>${fn:escapeXml(rcp.clientDetail.lastname)}</td>
+                    <td>${fn:escapeXml(rcp.medicineQuantity)}</td>
+                    <td>${fn:escapeXml(rcp.dosage)}</td>
+                    <td>${fn:escapeXml(rcp.validTill)}</td>
+                    <td>${fn:escapeXml(rcp.approved)}</td>
                     <td>
-                        <c:if test="${rcp.approved =='false'}">
+                        <c:if test="${fn:escapeXml(rcp.approved) =='false'}">
                             <form action="RecipeApprovalPage" method="post">
                                 <input type="submit" class="btn btn-primary"
                                        value="<fmt:message key="label.button.RecipeApproval"/>">

@@ -1,8 +1,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
-<fmt:setLocale value="${lang}" scope="session"/>
+<fmt:setLocale value="${fn:escapeXml(sessionScope.lang)}" scope="session"/>
 <fmt:setBundle basename="message"/>
 <html>
 <head>
@@ -18,11 +19,11 @@
 <body>
 <c:import url="/WEB-INF/HeaderPage.jsp"/>
 <h4>
-${notAuthorised}
-${userExist}
-${needLogin}
-${needRegister}
-${validationError}
+${fn:escapeXml(notAuthorised)}
+${fn:escapeXml(userExist)}
+${fn:escapeXml(needLogin)}
+${fn:escapeXml(needRegister)}
+${fn:escapeXml(validationError)}
 </h4>
 <div class="container container-table">
     <div class="row vertical-center-row">

@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="pharmacyCustomTaglib" prefix="pht" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <fmt:setLocale value="${lang}" scope="session"/>
 <fmt:setBundle basename="message"/>
 <html>
@@ -14,9 +15,9 @@
 <body>
 <c:import url="/WEB-INF/HeaderPage.jsp"/>
 <h4>
-    ${recipeRequested}
-    ${payed}
-    ${validationError}
+    ${fn:escapeXml(recipeRequested)}
+    ${fn:escapeXml(payed)}
+    ${fn:escapeXml(validationError)}
 </h4>
 <c:if test="${!ord.payed && payed==null}">
     <div class="table-responsive">
@@ -33,25 +34,27 @@
                         <th><fmt:message key="label.header.approved"/></th>
                         <th><fmt:message key="label.header.orderSummary"/></th>
                         <th><fmt:message key="label.header.quantity"/></th>
-                        <c:if test="${!ord.payed}">
+                        <c:if test="${!fn:escapeXml(ord.payed)}">
                             <th colspan="4"></th>
                         </c:if>
                     </tr>
                     <c:forEach items="${ord.orderHasMedicines}" var="ohm">
                         <tr>
-                            <td>${ord.orderId}</td>
-                            <td>${ohm.medicine.medicineName}</td>
-                            <td>${ohm.medicine.dosage}</td>
-                            <td>${ohm.medicine.recipeRequired}</td>
-                            <td>${ohm.recipeId}</td>
-                            <td>${ohm.recipe.approved}</td>
-                            <td>${ohm.medicineSum}</td>
+                            <td>${fn:escapeXml(ord.orderId)}</td>
+                            <td>${fn:escapeXml(ohm.medicine.medicineName)}</td>
+                            <td>${fn:escapeXml(ohm.medicine.dosage)}</td>
+                            <td>${fn:escapeXml(ohm.medicine.recipeRequired)}</td>
+                            <td>${fn:escapeXml(ohm.recipeId)}</td>
+                            <td>${fn:escapeXml(ohm.recipe.approved)}</td>
+                            <td>${fn:escapeXml(ohm.medicineSum)}</td>
 
                             <form action="EditOrderPage" method="post">
 
                                 <td>
-                                    <input type="number" name="medicineQuantity" value="${ohm.medicineQuantity}"
-                                           min="0" max="${ohm.medicine.quantityAtStorage + ohm.medicineQuantity}"
+                                    <input type="number" name="medicineQuantity"
+                                           value="${fn:escapeXml(ohm.medicineQuantity)}"
+                                           min="0"
+                                           max="${fn:escapeXml(ohm.medicine.quantityAtStorage + ohm.medicineQuantity)}"
                                            maxlength="5">
                                 </td>
                                 <c:if test="${!ord.payed}">
@@ -70,24 +73,24 @@
                                     <form action="EditOrderPage" method="post">
                                         <input type="submit" class="btn btn-danger"
                                                value="<fmt:message key="label.button.delete"/>">
-                                        <input type="hidden" name="medicineId" value="${ohm.medicineId}">
-                                        <input type="hidden" name="orderId" value="${ord.orderId}">
+                                        <input type="hidden" name="medicineId" value="${fn:escapeXml(ohm.medicineId)}">
+                                        <input type="hidden" name="orderId" value="${fn:escapeXml(ord.orderId)}">
                                         <input type="hidden" name="action" value="RemoveMedicineFromOrder">
                                     </form>
                                 </td>
-                                <c:if test="${(ohm.medicine.recipeRequired==true
-                && ohm.recipe.approved==false)
-                || (ohm.medicine.recipeRequired==true
-                && ohm.recipe.medicineQuantity < ohm.medicineQuantity)}">
+                                <c:if test="${(fn:escapeXml(ohm.medicine.recipeRequired)==true
+                && fn:escapeXml(ohm.recipe.approved)==false)
+                || (fn:escapeXml(ohm.medicine.recipeRequired)==true
+                && fn:escapeXml(ohm.recipe.medicineQuantity) < fn:escapeXml(ohm.medicineQuantity))}">
                                     <td>
                                         <form action="EditOrderPage" method="post">
                                             <input type="submit" class="btn btn-warning"
                                                    value="<fmt:message key="label.button.demandRecipe"/>">
-                                            <input type="hidden" name="dosage" value="${ohm.medicine.dosage}">
-                                            <input type="hidden" name="orderId" value="${ord.orderId}">
-                                            <input type="hidden" name="medicineId" value="${ohm.medicineId}">
+                                            <input type="hidden" name="dosage" value="${fn:escapeXml(ohm.medicine.dosage)}">
+                                            <input type="hidden" name="orderId" value="${fn:escapeXml(ord.orderId)}">
+                                            <input type="hidden" name="medicineId" value="${fn:escapeXml(ohm.medicineId)}">
                                             <input type="hidden" name="medicineQuantity"
-                                                   value="${ohm.medicineQuantity}">
+                                                   value="${fn:escapeXml(ohm.medicineQuantity)}">
                                             <input type="hidden" name="action" value="DemandRecipe">
                                         </form>
                                     </td>
@@ -100,14 +103,14 @@
                         <td><fmt:message key="label.header.orderSummary"/></td>
                         <td colspan="6"></td>
                         <td>
-                                ${ord.orderSum}
+                                ${fn:escapeXml(ord.orderSum)}
                         </td>
-                        <c:if test="${!ord.payed}">
+                        <c:if test="${!fn:escapeXml(ord.payed)}">
                             <td colspan="4">
                                 <form action="PaymentPage" method="post">
                                     <input type="hidden" name="action" value="PayOrder">
-                                    <input type="hidden" name="orderId" value="${ord.orderId}">
-                                    <input type="hidden" name="orderSum" value="${ord.orderSum}">
+                                    <input type="hidden" name="orderId" value="${fn:escapeXml(ord.orderId)}">
+                                    <input type="hidden" name="orderSum" value="${fn:escapeXml(ord.orderSum)}">
                                     <input type="submit" class="btn btn-info"
                                            value="<fmt:message key="label.button.payOrder"/>">
                                 </form>

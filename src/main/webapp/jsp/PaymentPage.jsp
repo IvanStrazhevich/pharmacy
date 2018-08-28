@@ -1,8 +1,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
-<fmt:setLocale value="${lang}" scope="session"/>
+<fmt:setLocale value="${fn:escapeXml(sessionScope.lang)}" scope="session"/>
 <fmt:setBundle basename="message"/>
 <html>
 <head>
@@ -17,11 +18,11 @@
 <body>
 <c:import url="/WEB-INF/HeaderPage.jsp"/>
 <h4>
-    ${notAuthorised}
-    ${userNotRegistered}
-    ${needRegister}
-    ${needLogin}
-    ${validationError}
+    ${fn:escapeXml(notAuthorised)}
+    ${fn:escapeXml(userNotRegistered)}
+    ${fn:escapeXml(needRegister)}
+    ${fn:escapeXml(needLogin)}
+    ${fn:escapeXml(validationError)}
 </h4>
 <div class="container container-table">
     <div class="row vertical-center-row">
@@ -34,20 +35,20 @@
                 <div class="form-group input-group input-group-lg">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-credit-card"></span></span>
                     <input id="credit" class="form-control" type="number" name="accountCredit" size="11" maxlength="11"
-                           required pattern="\d+(\.\d+)?" min="${acc.accountCredit}" max="${acc.accountCredit}"
-                           title="Enter digits" placeholder="${acc.accountCredit}"
-                           value="${acc.accountCredit}">
+                           required pattern="\d+(\.\d+)?" min="${fn:escapeXml(acc.accountCredit)}" max="${fn:escapeXml(acc.accountCredit)}"
+                           title="Enter digits" placeholder="${fn:escapeXml(acc.accountCredit)}"
+                           value="${fn:escapeXml(acc.accountCredit)}">
                 </div>
 
                 <label for="debit"> <fmt:message key="label.debitpayment"/></label>
                 <div class="form-group input-group input-group-lg">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
                     <input id="debit" class="form-control" type="number" name="accountDebit" size="11" maxlength="11"
-                           required pattern="\d+(\.\d+)?" min="${acc.accountDebit}" max="${acc.accountDebit}"
-                           title="Enter digits" placeholder="${acc.accountDebit}" value="${acc.accountDebit}">
+                           required pattern="\d+(\.\d+)?" min="${fn:escapeXml(acc.accountDebit)}" max="${fn:escapeXml(acc.accountDebit)}"
+                           title="Enter digits" placeholder="${fn:escapeXml(acc.accountDebit)}" value="${fn:escapeXml(acc.accountDebit)}">
                 </div>
                 <input type="hidden" name="action" value="MakePayment">
-                <input type="hidden" name="paymentId" value="${pmt.paymentId}">
+                <input type="hidden" name="paymentId" value="${fn:escapeXml(pmt.paymentId)}">
                 <div class="form-group input-group input-group-lg col-md-8 col-md-offset-2 col-xs-12">
                     <input class=" form-control btn btn-info" type="submit"
                            value="<fmt:message key="label.button.payOrder"/>">

@@ -2,7 +2,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="pharmacyCustomTaglib" prefix="pht" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<fmt:setLocale value="${sessionScope.lang}" scope="session"/>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<fmt:setLocale value="${fn:escapeXml(sessionScope.lang)}" scope="session"/>
 <fmt:setBundle basename="message"/>
 <html>
 <head>
@@ -22,7 +23,7 @@
                        value="<fmt:message key="label.button.WelcomePage"/>">
             </div>
         </form>
-        <c:if test="${logged!=null}">
+        <c:if test="${fn:escapeXml(logged!=null)}">
             <form action="WelcomePage" class="navbar-form navbar-right" method="post">
                 <input type="hidden" name="action" value="InvalidateSession">
                 <div class="form-group input-group input-group-lg col-md-8 col-md-offset-0 col-xs-12">
@@ -31,7 +32,7 @@
                 </div>
             </form>
         </c:if>
-        <c:if test="${logged==null}">
+        <c:if test="${fn:escapeXml(logged==null)}">
             <form class="navbar-form navbar-right" action="LoginPage" method="post">
                 <input type="hidden" name="action" value="LoginPage">
                 <div class="form-group input-group input-group-lg col-md-8 col-md-offset-0 col-xs-12">
@@ -47,7 +48,7 @@
                 </div>
             </form>
         </c:if>
-        <c:if test="${logged!=null}">
+        <c:if test="${fn:escapeXml(logged!=null)}">
             <form class="navbar-form navbar-right" action="EditUserDataPage" method="post">
                 <input type="hidden" name="action" value="EditUserDataPage">
                 <div class="form-group input-group input-group-lg col-md-8 col-md-offset-0 col-xs-12">
@@ -56,7 +57,7 @@
                 </div>
             </form>
             <p class="navbar-right navbar-text btn-success" style="background: #5cb85c">
-                <pht:hello accessLevel="${sessionScope.accessLevel}" login="${login}" photo="${photo}"/>
+                <pht:hello accessLevel="${fn:escapeXml(sessionScope.accessLevel)}" login="${fn:escapeXml(login)}" photo="${fn:escapeXml(photo)}"/>
             </p>
         </c:if>
     </div>
@@ -72,7 +73,7 @@
                        value="<fmt:message key="label.button.MedicineListPage"/>">
             </div>
         </form>
-        <c:if test="${sessionScope.accessLevel=='doctor'}">
+        <c:if test="${fn:escapeXml(sessionScope.accessLevel=='doctor')}">
             <form class="navbar-form navbar-left" action="RecipeListPage" method="post">
                 <input type="hidden" name="action" value="RecipeList">
                 <div class="form-group input-group input-group-lg col-md-8 col-md-offset-0 col-xs-12">
@@ -81,8 +82,8 @@
                 </div>
             </form>
         </c:if>
-        <c:if test="${logged!=null}">
-            <c:if test="${sessionScope.accessLevel!='pharmacist'}">
+        <c:if test="${fn:escapeXml(logged!=null)}">
+            <c:if test="${fn:escapeXml(sessionScope.accessLevel!='pharmacist')}">
                 <form class="navbar-form navbar-left" action="EditOrderPage" method="post">
                     <input type="hidden" name="action" value="EditOrder">
                     <div class="form-group input-group input-group-lg col-md-8 col-md-offset-0 col-xs-12">
@@ -92,7 +93,7 @@
                 </form>
             </c:if>
         </c:if>
-        <c:if test="${sessionScope.accessLevel=='pharmacist'}">
+        <c:if test="${fn:escapeXml(sessionScope.accessLevel=='pharmacist')}">
             <form class="navbar-form navbar-left" action="EditMedicinePage" method="post">
                 <input type="hidden" name="medicineId" value="0">
                 <input type="hidden" name="action" value="EditMedicine">

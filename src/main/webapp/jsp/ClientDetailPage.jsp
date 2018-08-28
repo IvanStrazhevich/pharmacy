@@ -1,8 +1,9 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
-<fmt:setLocale value="${lang}" scope="session"/>
+<fmt:setLocale value="${fn:escapeXml(sessionScope.lang)}" scope="session"/>
 <fmt:setBundle basename="message"/>
 <html>
 <head>
@@ -12,8 +13,8 @@
 </head>
 <body>
 <c:import url="/WEB-INF/HeaderPage.jsp"/>
-${result}
-${notAuthorised}
+${fn:escapeXml(result)}
+${fn:escapeXml(notAuthorised)}
 <br>
 <div>
     <h6>
@@ -32,15 +33,15 @@ ${notAuthorised}
             </tr>
             <c:set var="us" value="${user}"></c:set>
             <tr>
-                <td>${us.clientId}</td>
-                <td>${us.name}</td>
-                <td>${us.lastname}</td>
-                <td>${us.email}</td>
-                <td>${us.phone}</td>
-                <td>${us.postcode}</td>
-                <td>${us.country}</td>
-                <td>${us.city}</td>
-                <td>${us.address}</td>
+                <td>${fn:escapeXml(us.clientId)}</td>
+                <td>${fn:escapeXml(us.name)}</td>
+                <td>${fn:escapeXml(us.lastname)}</td>
+                <td>${fn:escapeXml(us.email)}</td>
+                <td>${fn:escapeXml(us.phone)}</td>
+                <td>${fn:escapeXml(us.postcode)}</td>
+                <td>${fn:escapeXml(us.country)}</td>
+                <td>${fn:escapeXml(us.city)}</td>
+                <td>${fn:escapeXml(us.address)}</td>
             </tr>
         </table>
     </h6>

@@ -2,7 +2,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="pharmacyCustomTaglib" prefix="pht" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<fmt:setLocale value="${sessionScope.lang}" scope="session"/>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<fmt:setLocale value="${fn:escapeXml(sessionScope.lang)}" scope="session"/>
 <fmt:setBundle basename="message"/>
 <html>
 <head>
@@ -40,11 +41,11 @@
     </div>
 </nav>
 <h4>
-    <c:out value="${notAuthorised}
-    ${userRegistered}
-    ${greeting}
-    ${needRegister}
-    ${needLogin}"/>
+    ${fn:escapeXml(notAuthorised)}
+    ${fn:escapeXml(userRegistered)}
+    ${fn:escapeXml(greeting)}
+    ${fn:escapeXml(needRegister)}
+    ${fn:escapeXml(needLogin)}
 </h4>
 <div style="float: bottom"><c:import url="/WEB-INF/FooterPage.jsp"/></div>
 <script src="http://code.jquery.com/jquery-latest.js"></script>

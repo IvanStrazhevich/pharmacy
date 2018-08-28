@@ -2,7 +2,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="pharmacyCustomTaglib" prefix="pht" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<fmt:setLocale value="${lang}" scope="session"/>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<fmt:setLocale value="${fn:escapeXml(sessionScope.lang)}" scope="session"/>
 <fmt:setBundle basename="message"/>
 <html>
 <head>
@@ -25,20 +26,20 @@
             </tr>
             <c:set value="${user}" var="us"></c:set>
             <tr>
-                <td>${us.userId}</td>
-                <td>${us.clientDetail.name}</td>
-                <td>${us.clientDetail.lastname}</td>
-                <td>${us.clientDetail.email}</td>
-                <c:if test="${us.clientDetail.email != sessionScope.login}">
+                <td>${fn:escapeXml(us.userId)}</td>
+                <td>${fn:escapeXml(us.clientDetail.name)}</td>
+                <td>${fn:escapeXml(us.clientDetail.lastname)}</td>
+                <td>${fn:escapeXml(us.clientDetail.email)}</td>
+                <c:if test="${fn:escapeXml(us.clientDetail.email) != fn:escapeXml(sessionScope.login)}">
                 <form action="UserListPage" method="post">
                     <td>
                         <select class="btn btn-primary" name="accessLevel">
-                            <option value="client" <c:if test="${us.accessLevel=='client'}"> selected </c:if>>
+                            <option value="client" <c:if test="${fn:escapeXml(us.accessLevel)=='client'}"> selected </c:if>>
                                 <fmt:message
                                         key="label.button.accessClient"/></option>
-                            <option value="pharmacist" <c:if test="${us.accessLevel=='pharmacist'}"> selected </c:if>>
+                            <option value="pharmacist" <c:if test="${fn:escapeXml(us.accessLevel)=='pharmacist'}"> selected </c:if>>
                                 <fmt:message key="label.button.accessPharmacist"/></option>
-                            <option value="doctor"<c:if test="${us.accessLevel=='doctor'}"> selected </c:if>>
+                            <option value="doctor"<c:if test="${fn:escapeXml(us.accessLevel)=='doctor'}"> selected </c:if>>
                                 <fmt:message
                                         key="label.button.accessDoctor"/></option>
                         </select>

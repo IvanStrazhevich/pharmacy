@@ -1,8 +1,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
-<fmt:setLocale value="${lang}" scope="session"/>
+<fmt:setLocale value="${fn:escapeXml(sessionScope.lang)}" scope="session"/>
 <fmt:setBundle basename="message"/>
 <html>
 <head>
@@ -17,7 +18,7 @@
     <c:import url="/WEB-INF/HeaderPage.jsp"/>
 </div>
 <h4>
-    ${validationError}
+    ${fn:escapeXml(validationError)}
 </h4>
 <div class="container-fluid container-table">
     <div class="row">
@@ -48,8 +49,8 @@
 
                     <input class="form-control" id="email" type="email" name="email"
                     <c:choose>
-                    <c:when test="${us.email!=null}"> value="${us.email}" </c:when>
-                    <c:otherwise> value="${sessionScope.login}"</c:otherwise>
+                    <c:when test="${fn:escapeXml(us.email)!=null}"> value="${fn:escapeXml(us.email)}" </c:when>
+                    <c:otherwise> value="${fn:escapeXml(sessionScope.login)}"</c:otherwise>
                     </c:choose>
                            pattern="\w{1,}@\w{3,}\.\w{2,4}" title="match email format"
                            required placeholder="<fmt:message key="message.enter.email"/>" maxlength="45">
@@ -57,21 +58,21 @@
                 <div class="form-group input-group input-group-lg">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
 
-                    <input class="form-control" id="name" type="text" name="name" value="${us.name}"
+                    <input class="form-control" id="name" type="text" name="name" value="${fn:escapeXml(us.name)}"
                            pattern=".{1,45}" required placeholder="<fmt:message key="message.enter.name"/>"
                            maxlength="45" title="Any symbols, up to 45">
                 </div>
                 <div class="form-group input-group input-group-lg">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
 
-                    <input class="form-control" id="lastname" type="text" name="lastname" value="${us.lastname}"
+                    <input class="form-control" id="lastname" type="text" name="lastname" value="${fn:escapeXml(us.lastname)}"
                            pattern=".{1,45}" required title="Any symbols, up to 45"
                            placeholder="<fmt:message key="message.enter.lastname"/>" maxlength="45">
                 </div>
                 <div class="form-group input-group input-group-lg">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-phone"></span></span>
 
-                    <input class="form-control" id="phone" type="text" name="phone" value="${us.phone}"
+                    <input class="form-control" id="phone" type="text" name="phone" value="${fn:escapeXml(us.phone)}"
                            placeholder="<fmt:message key="message.enter.phone"/>"
                            pattern="\+?\d{7,15}"
                            title="+ contry code, operator/city code, phone number. 7 to 15 digit symbos"
@@ -80,21 +81,21 @@
                 <div class="form-group input-group input-group-lg">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-home"></span></span>
 
-                    <input class="form-control" id="postcode" type="text" name="postcode" value="${us.postcode}"
+                    <input class="form-control" id="postcode" type="text" name="postcode" value="${fn:escapeXml(us.postcode)}"
                            pattern="(\w-?){1,10}" title="Digits, letters, '-' symbols, up to 10" required
                            placeholder="<fmt:message key="message.enter.postcode"/>" maxlength="10">
                 </div>
                 <div class="form-group input-group input-group-lg">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-home"></span></span>
 
-                    <input class="form-control" id="country" type="text" name="country" value="${us.country}"
+                    <input class="form-control" id="country" type="text" name="country" value="${fn:escapeXml(us.country)}"
                            pattern=".{1,45}" required placeholder="<fmt:message key="message.enter.country"/>"
                            maxlength="45" title="Any symbols, up to 45">
                 </div>
                 <div class="form-group input-group input-group-lg">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-home"></span></span>
 
-                    <input class="form-control" id="city" type="text" name="city" value="${us.city}"
+                    <input class="form-control" id="city" type="text" name="city" value="${fn:escapeXml(us.city)}"
                            pattern=".{1,45}" required placeholder="<fmt:message key="message.enter.city"/>"
                            maxlength="45" title="Any symbols, up to 45">
 
@@ -102,7 +103,7 @@
                 <div class="form-group input-group input-group-lg">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-home"></span></span>
 
-                    <input class="form-control" id="address" type="text" name="address" value="${us.address}"
+                    <input class="form-control" id="address" type="text" name="address" value="${fn:escapeXml(us.address)}"
                            pattern=".{1,45}" required placeholder="<fmt:message key="message.enter.address"/>"
                            maxlength="45" title="Any symbols, up to 45">
                 </div>

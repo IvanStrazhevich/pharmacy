@@ -49,6 +49,7 @@ public class GreetingTag extends TagSupport {
                             + "<p><img src=\"" + photo + "\" alt=\"Sorry, we are already fixing this\" width=\"60\" height=\"60\" class=\"img-fluid rounded-circle; navbar-right\"></p>";
                 }
             }
+
             pageContext.getOut().write(greeting);
 
         } catch (IOException e) {
