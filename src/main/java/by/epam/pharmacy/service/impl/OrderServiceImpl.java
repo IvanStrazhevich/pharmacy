@@ -216,10 +216,20 @@ public class OrderServiceImpl implements OrderService {
             Medicine medicine = new Medicine();
             medicine = medicineDao.findEntityById(medicineId);
             medicine.setQuantityAtStorage(medicine.getQuantityAtStorage() + medicineQuantityDB - medicineQuantity);
+            setAvailability(medicine);
             medicineDao.update(medicine);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
+    }
+
+    private void setAvailability(Medicine medicine) {
+        if (medicine.getQuantityAtStorage() == 0) {
+            medicine.setAvailable(false);
+        } else {
+            medicine.setAvailable(true);
+        }
+
     }
 
     private BigDecimal countMedicineSum(int quantity, int medicineId) throws ServiceException {
@@ -240,6 +250,7 @@ public class OrderServiceImpl implements OrderService {
             Medicine medicine = new Medicine();
             medicine = medicineDao.findEntityById(medicineId);
             medicine.setQuantityAtStorage(medicine.getQuantityAtStorage() - medicineQuantity);
+            setAvailability(medicine);
             medicineDao.update(medicine);
         } catch (DaoException e) {
             throw new ServiceException(e);
